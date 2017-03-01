@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 
 import { UsuariosService } from '../services/usuarios.service';
+
+import { MaterializeAction } from 'angular2-materialize';
+
+declare var Materialize:any;
 
 @Component({
   selector: 'app-usuarios',
@@ -9,6 +13,7 @@ import { UsuariosService } from '../services/usuarios.service';
 })
 export class UsuariosComponent implements OnInit {
 
+	modalActions = new EventEmitter<string|MaterializeAction>();
 	users: any[] = [];
 	emailNovoUsuario: string;
 	nomeNovoUsuario: string;
@@ -19,6 +24,11 @@ export class UsuariosComponent implements OnInit {
 		this.usuariosService.getUsers().subscribe((data) => {
 			this.users = data;
 		});
+	}
+
+	ngAfterViewChecked() {
+		if(Materialize.updateTextFields)
+			Materialize.updateTextFields();
 	}
 
 	novoUsuario(event) {
@@ -37,6 +47,8 @@ export class UsuariosComponent implements OnInit {
 			this.users.push(user);
 			this.emailNovoUsuario = undefined;
 			this.nomeNovoUsuario = undefined;
+
+			this.closeModal();
 		});
 	}
 
@@ -48,7 +60,20 @@ export class UsuariosComponent implements OnInit {
 		});
 	}
 
-	editUser(id: string) {
+	editUser(user: any) {
+		this.openModal();
+
+		console.log(user)
 		
+		this.emailNovoUsuario = user.local.email;
+		this.nomeNovoUsuario = user.nome;
+	}
+
+	openModal() {
+		this.modalActions.emit({action:"modal",params:['open']});
+	}
+
+	closeModal() {
+		this.modalActions.emit({action:"modal",params:['close']});
 	}
 }

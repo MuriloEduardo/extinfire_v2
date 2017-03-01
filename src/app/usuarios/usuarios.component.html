@@ -1,23 +1,75 @@
-<h2>
-  usuarios works!
-</h2>
-<div>
+<div class="section"></div>
+<div class="card-panel right-align">
+	<a class="waves-effect waves-light btn red darken-1 modal-trigger" (click)="openModal()"><i class="material-icons right">&#xE146;</i>Novo Usuário</a>
+</div>
+<div class="divider"></div>
+<div class="row">
+	<div class="col s12" *ngIf="!users.length">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum usuário aqui <br><small>Clique em Novo Usuário</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+	<div class="col s12" *ngIf="users.length">
+		<ul class="collection with-header">
+			<li class="collection-header"><h4>Usuários</h4></li>
+			<li class="collection-item avatar" *ngFor="let user of users">
+				<div class="left">
+					<div class="firs-letter-users circle red darken-1">
+						{{ user.nome.charAt(0) }}
+					</div>
+					<span class="title"><strong>{{ user.nome }}</strong></span>
+					<p>{{ user.local.email }}</p>
+				</div>
+				<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteUser(user._id)">Excluir</a>
+				<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editUser(user)">Editar</a>
+				<div class="secondary-content">
+					<!-- Switch -->
+					<div class="switch">
+						<label>
+							Usuário
+							<input type="checkbox">
+							<span class="lever"></span>
+							Admnistrador
+						</label>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<!-- Modal Structure -->
+<div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
 	<form (submit)="novoUsuario($event)">
-		<label for="nome_novo_usuario">Nome do novo usuario</label>
-		<input type="text" placeholder="Exemplo da Silva" id="nome_novo_usuario" required [(ngModel)]="nomeNovoUsuario" name="nome_novo_usuario">
-		<label for="email_novo_usuario">Email do novo usuario</label>
-		<input type="email" placeholder="emplo@gmail.com" id="email_novo_usuario" required [(ngModel)]="emailNovoUsuario" name="email_novo_usuario">
-		<input type="submit" value="Salvar e Cadastrar">
+		<div class="modal-content">
+			<div class="row">
+				<div class="col s12">
+					<h4>Adicionar Novo Usuário</h4>
+					<p>Ele o ajudará a adminstrar este sistema</p>
+					<div class="section"></div>
+					<div class="row">
+						<div class="col s12">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE853;</i>
+								<input id="nomeNovoUsuario" type="text" class="validate" [(ngModel)]="nomeNovoUsuario" name="nomeNovoUsuario" required="" aria-required="true">
+								<label for="nomeNovoUsuario" data-error="Inválido" data-success="Válido">Nome</label>
+							</div>
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="emailNovoUsuario" type="email" class="validate" [(ngModel)]="emailNovoUsuario" name="emailNovoUsuario"  required="" aria-required="true">
+								<label for="emailNovoUsuario" data-error="Inválido" data-success="Válido">Email</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
+			<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" (click)="closeModal()">Cancelar</a>
+		</div>
 	</form>
 </div>
-<ul>
-	<li *ngFor="let user of users">
-		<span>{{ user.nome }}</span>
-		<button (click)="deleteUser(user._id)">
-			<i class="material-icons">&#xE92B;</i>
-		</button>
-		<button (click)="editUser(user._id)">
-			<i class="material-icons">&#xE22B;</i>
-		</button>
-	</li>
-</ul>

@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { MaterializeModule } from 'angular2-materialize';
+
 import { AppRoutingModule } from './app.routing.module';
 
 import { AppComponent } from './app.component';
@@ -16,6 +18,9 @@ import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 
 import { UsuariosService } from './services/usuarios.service';
+import { ProdutosService } from './services/produtos.service';
+import { ClientesService } from './services/clientes.service';
+import { ServicosService } from './services/servicos.service';
 
 @NgModule({
   declarations: [
@@ -33,10 +38,14 @@ import { UsuariosService } from './services/usuarios.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MaterializeModule
   ],
   providers: [
-    UsuariosService
+    UsuariosService,
+    ProdutosService,
+    ClientesService,
+    ServicosService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,3 +1,197 @@
-<p>
-  clientes works!
-</p>
+<div class="section"></div>
+<div class="card-panel right-align">
+	<a class="waves-effect waves-light btn red darken-1 modal-trigger" (click)="openModal()"><i class="material-icons right">&#xE146;</i>Novo Cliente</a>
+</div>
+<div class="divider"></div>
+<div class="row">
+	<div class="col s12" *ngIf="!clientes.length">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum cliente aqui <br><small>Clique em Novo Cliente</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+	<div *ngIf="clientes.length">
+		<div class="col s3" *ngFor="let cliente of clientes">
+		  <div class="card">
+		    <div class="card-image">
+		      <img src="http://materializecss.com/images/sample-1.jpg">
+		    </div>
+		    <div class="card-content">
+		    	<span class="card-title truncate"><strong>{{ cliente.nome }}</strong></span>
+		      	<p>
+		      		<strong>Cidade:</strong>
+		      		<span>R$ {{ cliente.cidade }}</span>
+		      	</p>
+		      	<p>
+		      		<strong>Estado:</strong>
+		      		<span>{{ cliente.estado }}</span>
+		      	</p>
+		    </div>
+		    <div class="card-action right-align">
+				<a class="waves-effect waves-light btn grey darken-4" (click)="deletecliente(cliente._id)">Excluir</a>
+				<a class="waves-effect waves-light btn red darken-1" (click)="editcliente(cliente)">Editar</a>
+	        </div>
+		  </div>
+		</div>
+	</div>
+</div>
+<!-- Modal Structure -->
+<div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+	<form (submit)="novoCliente($event)">
+		<div class="modal-content">
+			<div class="row">
+				<div class="col s12">
+					<h4>Adicionar Novo Cliente</h4>
+					<p>Para quem que você prestará seus serviços</p>
+					<div class="section"></div>
+					<!-- Nome -->
+					<div class="row">
+						<div class="col-s12">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE853;</i>
+								<input id="nome" type="text" class="validate" [(ngModel)]="nome" name="nome" required="" aria-required="true">
+								<label for="nome" data-error="Inválido" data-success="Válido">Nome do cliente</label>
+							</div>
+						</div>
+					</div>
+					<!-- Representante -->
+					<div class="row">
+						<div class="col-s6">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE853;</i>
+								<input id="representante" type="text" class="validate" [(ngModel)]="representante" name="representante" required="" aria-required="true">
+								<label for="representante" data-error="Inválido" data-success="Válido">Representante</label>
+							</div>
+						</div>
+						<!-- Comprador -->
+						<div class="col-s6">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE853;</i>
+								<input id="comprador" type="text" class="validate" [(ngModel)]="comprador" name="comprador" required="" aria-required="true">
+								<label for="comprador" data-error="Inválido" data-success="Válido">Comprador</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- CNPJ -->
+						<div class="col s6">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="cnpj" type="text" class="validate" [(ngModel)]="cnpj" name="cnpj"  required="" aria-required="true">
+								<label for="cnpj" data-error="Inválido" data-success="Válido">CNPJ</label>
+							</div>
+						</div>
+						<!-- Insc Estadual -->
+						<div class="col s6">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="insc_estadual" type="text" class="validate" [(ngModel)]="insc_estadual" name="insc_estadual"  required="" aria-required="true">
+								<label for="insc_estadual" data-error="Inválido" data-success="Válido">Inscrição Estadual</label>
+							</div>
+						</div>
+					</div>
+					<!-- Contato -->
+					<div class="row">
+						<!-- Fone -->
+						<div class="col s4">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="fone" type="text" class="validate" [(ngModel)]="fone" name="fone"  required="" aria-required="true">
+								<label for="fone" data-error="Inválido" data-success="Válido">Fone</label>
+							</div>
+						</div>
+						<!-- Celular -->
+						<div class="col s4">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="celular" type="text" class="validate" [(ngModel)]="celular" name="celular"  required="" aria-required="true">
+								<label for="celular" data-error="Inválido" data-success="Válido">Celular</label>
+							</div>
+						</div>
+						<!-- Email -->
+						<div class="col s4">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="email" type="email" class="validate" [(ngModel)]="email" name="email"  required="" aria-required="true">
+								<label for="email" data-error="Inválido" data-success="Válido">Email</label>
+							</div>
+						</div>
+					</div>
+					<!-- Endereço -->
+					<div class="row">
+						<!-- CEP -->
+						<div class="col s12">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="cep" type="text" class="validate" [(ngModel)]="cep" name="cep"  required="" aria-required="true">
+								<label for="cep" data-error="Inválido" data-success="Válido">CEP</label>
+							</div>
+						</div>
+						<!-- Logradouro -->
+						<div class="col s12">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="logradouro" type="text" class="validate" [(ngModel)]="logradouro" name="logradouro"  required="" aria-required="true">
+								<label for="logradouro" data-error="Inválido" data-success="Válido">Logradouro</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- Numero -->
+						<div class="col s4">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="numero" type="text" class="validate" [(ngModel)]="numero" name="numero"  required="" aria-required="true">
+								<label for="numero" data-error="Inválido" data-success="Válido">Número</label>
+							</div>
+						</div>
+						<!-- Complemento -->
+						<div class="col s4">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="complemento" type="text" class="validate" [(ngModel)]="complemento" name="complemento"  required="" aria-required="true">
+								<label for="complemento" data-error="Inválido" data-success="Válido">Complemento</label>
+							</div>
+						</div>
+						<!-- Bairro -->
+						<div class="col s4">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="bairro" type="text" class="validate" [(ngModel)]="bairro" name="bairro"  required="" aria-required="true">
+								<label for="bairro" data-error="Inválido" data-success="Válido">Bairro</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!-- Cidade -->
+						<div class="col s4">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<input id="cidade" type="text" class="validate" [(ngModel)]="cidade" name="cidade"  required="" aria-required="true">
+								<label for="cidade" data-error="Inválido" data-success="Válido">Cidade</label>
+							</div>
+						</div>
+						<!-- Estado -->
+						<div class="col s4">
+							<div class="input-field">
+								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
+								<select id="estado" class="validate" [(ngModel)]="estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
+								  <option value="" disabled selected>Estado</option>
+								  <option *ngFor="let option of selectEstadoOptions" [value]="option.value">{{option.name}}</option>
+								</select>
+								<label for="estado" data-error="Inválido" data-success="Válido"></label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
+			<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" (click)="closeModal()">Cancelar</a>
+		</div>
+	</form>
+</div>
