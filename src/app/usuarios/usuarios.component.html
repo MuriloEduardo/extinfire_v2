@@ -1,0 +1,23 @@
+<h2>
+  usuarios works!
+</h2>
+<div>
+	<form (submit)="novoUsuario($event)">
+		<label for="nome_novo_usuario">Nome do novo usuario</label>
+		<input type="text" placeholder="Exemplo da Silva" id="nome_novo_usuario" required [(ngModel)]="nomeNovoUsuario" name="nome_novo_usuario">
+		<label for="email_novo_usuario">Email do novo usuario</label>
+		<input type="email" placeholder="emplo@gmail.com" id="email_novo_usuario" required [(ngModel)]="emailNovoUsuario" name="email_novo_usuario">
+		<input type="submit" value="Salvar e Cadastrar">
+	</form>
+</div>
+<ul>
+	<li *ngFor="let user of users">
+		<span>{{ user.nome }}</span>
+		<button (click)="deleteUser(user._id)">
+			<i class="material-icons">&#xE92B;</i>
+		</button>
+		<button (click)="editUser(user._id)">
+			<i class="material-icons">&#xE22B;</i>
+		</button>
+	</li>
+</ul>
