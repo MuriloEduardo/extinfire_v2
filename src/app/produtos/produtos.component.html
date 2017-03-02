@@ -42,7 +42,14 @@
 					<div class="row">
 						<div class="col-s12">
 							<div class="input-field">
-								<i class="material-icons prefix red-text text-darken-1">&#xE853;</i>
+								<input id="imageProduto" type="file" class="validate" (change)="fileEvent($event)" name="imageProduto">
+								<label for="imageProduto" data-error="Inválido" data-success="Válido">Imagem do produto</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-s12">
+							<div class="input-field">
 								<input id="nomeNovoProduto" type="text" class="validate" [(ngModel)]="nome" name="nomeNovoProduto" required="" aria-required="true">
 								<label for="nomeNovoProduto" data-error="Inválido" data-success="Válido">Nome do produto</label>
 							</div>
@@ -51,15 +58,13 @@
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="valorVendaProduto" type="number" step="0.01" min="0.01" max="9999" class="validate" [(ngModel)]="valor_venda" name="valorVendaProduto"  required="" aria-required="true">
+								<input id="valorVendaProduto" type="number" step="0.01" min="0.01" max="9999" class="validate" [(ngModel)]="valor_venda" name="valorVendaProduto" >
 								<label for="valorVendaProduto" data-error="Inválido" data-success="Válido">Valor de venda do produto</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="valorCustoProduto" type="number" step="0.01" min="0.01" max="9999" class="validate" [(ngModel)]="valor_custo" name="valorCustoProduto"  required="" aria-required="true">
+								<input id="valorCustoProduto" type="number" step="0.01" min="0.01" max="9999" class="validate" [(ngModel)]="valor_custo" name="valorCustoProduto" >
 								<label for="valorCustoProduto" data-error="Inválido" data-success="Válido">Valor de custo do produto</label>
 							</div>
 						</div>
@@ -67,15 +72,13 @@
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="qntdeMinProduto" type="number" class="validate" min="0" [(ngModel)]="qntde_minima" name="qntdeMinProduto"  required="" aria-required="true">
+								<input id="qntdeMinProduto" type="number" class="validate" min="0" [(ngModel)]="qntde_minima" name="qntdeMinProduto" >
 								<label for="qntdeMinProduto" data-error="Inválido" data-success="Válido">Quantidade mínima</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="qntdeAtualProduto" type="number" class="validate" min="0" [(ngModel)]="qntde_atual" name="qntdeAtualProduto"  required="" aria-required="true">
+								<input id="qntdeAtualProduto" type="number" class="validate" min="0" [(ngModel)]="qntde_atual" name="qntdeAtualProduto" >
 								<label for="qntdeAtualProduto" data-error="Inválido" data-success="Válido">Quantidade atual deste produto</label>
 							</div>
 						</div>

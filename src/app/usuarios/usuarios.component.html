@@ -37,6 +37,9 @@
 						</label>
 					</div>
 				</div>
+				<div class="secondary-content" *ngIf="!user.local.senha">
+					<div class="chip">Sem Senha Cadastrada</div>
+				</div>
 			</li>
 		</ul>
 	</div>
@@ -53,12 +56,10 @@
 					<div class="row">
 						<div class="col s12">
 							<div class="input-field">
-								<i class="material-icons prefix red-text text-darken-1">&#xE853;</i>
 								<input id="nomeNovoUsuario" type="text" class="validate" [(ngModel)]="nomeNovoUsuario" name="nomeNovoUsuario" required="" aria-required="true">
 								<label for="nomeNovoUsuario" data-error="Inválido" data-success="Válido">Nome</label>
 							</div>
 							<div class="input-field">
-								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
 								<input id="emailNovoUsuario" type="email" class="validate" [(ngModel)]="emailNovoUsuario" name="emailNovoUsuario"  required="" aria-required="true">
 								<label for="emailNovoUsuario" data-error="Inválido" data-success="Válido">Email</label>
 							</div>

@@ -15,6 +15,7 @@ export class ProdutosComponent implements OnInit {
 
 	modalActions = new EventEmitter<string|MaterializeAction>();
 	produtos: any[] = [];
+	imageProduto: any;
 	nome: string;
 	valor_custo: number;
 	valor_venda: number;
@@ -34,8 +35,15 @@ export class ProdutosComponent implements OnInit {
 			Materialize.updateTextFields();
 	}
 
+	fileEvent(fileInput: any) {
+		console.log(fileInput.target.files)
+
+	}
+
 	novoProduto(event) {
 		event.preventDefault();
+
+		console.log(event.target)
 		
 		if(!this.nome) return false;
 

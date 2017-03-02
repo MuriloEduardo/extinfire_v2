@@ -21,7 +21,18 @@ export class ServicosComponent implements OnInit {
 	clientes: any[] = [];
 	produtos: any[] = [];
 
-	cliente: any;
+	servico: any = {
+		cliente: {},
+		itens: [{
+			produto: {},
+			qntde: undefined,
+			validade: undefined,
+			total: undefined
+		}],
+		valorTotal: undefined,
+		observacao: undefined,
+		tipo: false
+	};
 
 	emailNovoUsuario: string;
 	nomeNovoUsuario: string;
@@ -50,10 +61,28 @@ export class ServicosComponent implements OnInit {
 	}
 
 	setCliente(cliente: any) {
-		this.cliente = cliente;
+		this.servico.cliente = cliente;
 	}
 
-	setProduto(produto: any) {
+	setProduto(index: number, last?: number, produto?: any) {
+
+		console.log(index)
+
+		if(!this.servico.itens[index].qntde)
+			this.servico.itens[index].qntde = 1;
+
+		this.servico.itens[index].total = this.servico.itens[index].qntde * this.servico.itens[index].produto.valor_venda;
+		this.servico.itens[index].validade = new Date();
+
+		for (let j=0;j<this.servico.itens.length;++j) {
+			this.servico.valorTotal = this.servico.itens.length * this.servico.itens[j].total;
+		}
+
+		if(produto&&last) {
+			this.servico.itens.push({
+				produto: {}
+			});
+		}
 	}
 
 	novoServico(event) {
