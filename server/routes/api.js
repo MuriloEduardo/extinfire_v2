@@ -2,14 +2,14 @@ let express = require('express');
 let router = express.Router();
 let jwt = require('jwt-simple');
 let config = require('../config/database');
-
 let User = require('../models/user');
-
-let Empresa = require('../models/empresa');;
-let Servico = require('../models/servico');;
-let Produto = require('../models/produto');;
-let Cliente = require('../models/cliente');;
-let Logs = require('../models/logs');;
+let Empresa = require('../models/empresa');
+let Servico = require('../models/servico');
+let Produto = require('../models/produto');
+let Cliente = require('../models/cliente');
+let Logs = require('../models/logs');
+let multer = require('multer');
+let upload = multer({ dest: 'server/uploads/' });
 
 ////////////// PRODUTOS ///////////////////////////////
 //////////////////////////////////////////////////////
@@ -31,7 +31,9 @@ router.get('/produto/:id', (req, res, next) => {
 });
 
 // Create Produto
-router.post('/produto', (req, res, next) => {
+router.post('/produto', upload.any(), (req, res, next) => {
+
+	console.log(req.files)
 	let dadosProduto = req.body;
 	if(!dadosProduto) {
 		res.json({"error": "dados incompletos"});
