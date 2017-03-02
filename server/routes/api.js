@@ -94,7 +94,7 @@ router.get('/clientes', (req, res, next) => {
 });
 
 // Get Cliente
-router.put('/cliente/:id', (req, res, next) => {
+router.get('/cliente/:id', (req, res, next) => {
 	Cliente.findOne({_id: req.params.id}, function(err, cliente){
 		if(err) res.send(err);
 		res.json(cliente);
@@ -162,6 +162,87 @@ router.put('/cliente/:id', (req, res, next) => {
 		}
 	});
 });
+
+////////////// SERVIÇOS ///////////////////////////////
+//////////////////////////////////////////////////////
+
+// Get All Servico
+router.get('/servicos', (req, res, next) => {
+	Servico.find({}, function(err, servicos){
+		if(err) res.send(err);
+		res.json(servicos);
+	});
+});
+
+// Get Servico
+router.get('/servico/:id', (req, res, next) => {
+	Servico.findOne({_id: req.params.id}, function(err, servico){
+		if(err) res.send(err);
+		res.json(servico);
+	});
+});
+
+// Create Servico
+/*router.post('/servico', (req, res, next) => {
+	let dadosServico = req.body;
+	if(!dadosServico) {
+		res.json({"error": "dados incompletos"});
+	} else {
+		let novoCliente = new Servico();
+
+		novoCliente.nome = dadosCliente.nome;
+		novoCliente.representante = dadosCliente.representante;
+		novoCliente.cnpj = dadosCliente.cnpj;
+		novoCliente.insc_estadual = dadosCliente.insc_estadual;
+		novoCliente.comprador = dadosCliente.comprador;
+		novoCliente.contato = {
+			fone: dadosCliente.fone,
+			celular: dadosCliente.celular,
+			email: dadosCliente.email
+		};
+		novoCliente.endereco = {
+			logradouro: dadosCliente.endereco.logradouro,
+			numero: dadosCliente.endereco.numero,
+			complemento: dadosCliente.endereco.complemento,
+			bairro: dadosCliente.endereco.bairro,
+			cidade: dadosCliente.endereco.cidade,
+			estado: dadosCliente.endereco.estado,
+			cep: dadosCliente.endereco.cep
+		};
+
+		novoCliente.save((err, data) => {
+			if(err) res.send(err);
+			res.json(data);
+		});
+	}
+});*/
+
+// Delete Servico
+router.delete('/servico/:id', (req, res, next) => {
+	Servico.remove({_id: req.params.id}, function(err, servico){
+		if(err) res.send(err);
+		res.json(servico);
+	});
+});
+
+// Update Servico
+/*router.put('/servico/:id', (req, res, next) => {
+	let dadosCliente = req.body;
+	Cliente.findOne({_id: req.params.id}, function(err, cliente){
+		if(err) res.send(err);
+
+		if(!dadosCliente) {
+			res.json({"error": "dados incompletos"});
+		} else {
+			cliente = dadosCliente;
+
+			cliente.save((err, data) => {
+				if(err) res.send(err);
+				res.json(data);
+			});
+		}
+	});
+});*/
 
 ////////////// EMPRESA ///////////////////////////////
 /////////////////////////////////////////////////////
