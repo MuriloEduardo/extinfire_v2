@@ -14,6 +14,7 @@ declare let Materialize:any;
 export class ClientesComponent implements OnInit {
 
 	modalActions = new EventEmitter<string|MaterializeAction>();
+	loadContent: boolean = false;
 
 	clientes: any[] = [];
 	selectEstadoOptions: any[] = [
@@ -48,6 +49,7 @@ export class ClientesComponent implements OnInit {
 	ngOnInit() {
 		this.clientesService.getClientes().subscribe((data) => {
 			this.clientes = data;
+			this.loadContent = true;
 		});
 	}
 
@@ -85,6 +87,8 @@ export class ClientesComponent implements OnInit {
 		
 		this.clientesService.addCliente(newCliente).subscribe(cliente => {
 			this.clientes.push(cliente);
+
+			console.log(cliente)
 			
 			this.nome = undefined;
 			this.representante = undefined;

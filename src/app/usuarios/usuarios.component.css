@@ -4,12 +4,6 @@
 	font-size: 20px;
 	line-height: 42px;
 }
-.collection .collection-item.avatar .secondary-content {
-	position: static;
-	top: initial;
-	right: initial;
-	margin-left: 6px;
-}
 .collection .collection-item.avatar .secondary-content .switch {
 	margin: 7px;
 }

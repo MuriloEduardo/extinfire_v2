@@ -1,11 +1,3 @@
-#loader {
-position: absolute;
-top :0;
-left: 0;
-right: 0;
-bottom: 0;
-margin: auto;
-}
 .page-flexbox-wrapper {
 	display: flex;
 	min-height: 100vh;
@@ -17,13 +9,11 @@ margin: auto;
 .side-nav {
 	width: 240px!important;
 }
-header,
 main,
 footer {
 	padding-left: 240px;
 }
 @media only screen and (max-width : 992px) {
-	header,
 	main,
 	footer {
 		padding-left: 0;
@@ -32,7 +22,6 @@ footer {
 .modal .modal-footer .btn {
 	margin-left: 6px!important;
 }
-
 
 input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
 	border-bottom: 1px solid #212121!important;
@@ -54,5 +43,20 @@ input:not([type]):focus:not([readonly]) + label, input[type=text]:focus:not([rea
 }
 
 .card .card-action {
-	padding: 16px !important;
+	padding: 16px 12px !important;
+}
+
+#loader {
+	position: absolute;
+	top :0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+}
+.collection .collection-item.avatar .secondary-content {
+	position: static!important;
+	top: initial!important;
+	right: initial!important;
+	margin-left: 6px;
 }

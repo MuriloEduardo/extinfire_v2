@@ -14,28 +14,20 @@
 		</div>
 	</div>
 	<div *ngIf="produtos.length">
-		<div class="col s3" *ngFor="let produto of produtos">
-		  <div class="card">
-		    <div class="card-image">
-		      <img src="http://materializecss.com/images/sample-1.jpg">
-		    </div>
-		    <div class="card-content">
-		    	<span class="card-title truncate"><strong>{{ produto.nome }}</strong></span>
-		      	<p>
-		      		<strong>Preço:</strong>
-		      		<span>R$ {{ produto.valor_venda | number:'.2-2' }}</span>
-		      	</p>
-		      	<p>
-		      		<strong>Estoque:</strong>
-		      		<span>{{ produto.qntde_atual }}</span>
-		      	</p>
-		    </div>
-		    <div class="card-action right-align">
-				<a class="waves-effect waves-light btn grey darken-4" (click)="deleteProduto(produto._id)">Excluir</a>
-				<a class="waves-effect waves-light btn red darken-1" (click)="editProduto(produto)">Editar</a>
-	        </div>
-		  </div>
-		</div>
+		<ul class="collection with-header">
+			<li class="collection-header"><h4>Produtos</h4></li>
+			<li class="collection-item avatar" *ngFor="let produto of produtos">
+				<div class="left">
+					<div class="firs-letter-users circle red darken-1">
+						<img src="http://materializecss.com/images/sample-1.jpg">
+					</div>
+					<span class="title"><strong>{{ produto.nome }}</strong></span>
+					<p>{{ produto.valor_venda | number:'.2-2' }}<br/>{{ produto.qntde_atual }}</p>
+				</div>
+				<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteProduto(produto._id)">Excluir</a>
+				<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editProduto(produto)">Editar</a>
+			</li>
+		</ul>
 	</div>
 </div>
 <!-- Modal Structure -->

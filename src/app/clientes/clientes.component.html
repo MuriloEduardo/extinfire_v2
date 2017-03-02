@@ -14,28 +14,20 @@
 		</div>
 	</div>
 	<div *ngIf="clientes.length">
-		<div class="col s3" *ngFor="let cliente of clientes">
-		  <div class="card">
-		    <div class="card-image">
-		      <img src="http://materializecss.com/images/sample-1.jpg">
-		    </div>
-		    <div class="card-content">
-		    	<span class="card-title truncate"><strong>{{ cliente.nome }}</strong></span>
-		      	<p>
-		      		<strong>Cidade:</strong>
-		      		<span>R$ {{ cliente.cidade }}</span>
-		      	</p>
-		      	<p>
-		      		<strong>Estado:</strong>
-		      		<span>{{ cliente.estado }}</span>
-		      	</p>
-		    </div>
-		    <div class="card-action right-align">
-				<a class="waves-effect waves-light btn grey darken-4" (click)="deletecliente(cliente._id)">Excluir</a>
-				<a class="waves-effect waves-light btn red darken-1" (click)="editcliente(cliente)">Editar</a>
-	        </div>
-		  </div>
-		</div>
+		<ul class="collection with-header">
+			<li class="collection-header"><h4>Clientes</h4></li>
+			<li class="collection-item avatar" *ngFor="let cliente of clientes">
+				<div class="left">
+					<div class="firs-letter-users circle red darken-1">
+						<img src="http://materializecss.com/images/sample-1.jpg">
+					</div>
+					<span class="title"><strong>{{ cliente.nome }}</strong></span>
+					<p>{{ cliente.endereco.cidade }}<br/>{{ cliente.endereco.estado }}</p>
+				</div>
+				<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteCliente(cliente._id)">Excluir</a>
+				<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editCliente(cliente)">Editar</a>
+			</li>
+		</ul>
 	</div>
 </div>
 <!-- Modal Structure -->
@@ -62,7 +54,7 @@
 						<div class="col-s6">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE853;</i>
-								<input id="representante" type="text" class="validate" [(ngModel)]="representante" name="representante" required="" aria-required="true">
+								<input id="representante" type="text" class="validate" [(ngModel)]="representante" name="representante">
 								<label for="representante" data-error="Inválido" data-success="Válido">Representante</label>
 							</div>
 						</div>
@@ -70,7 +62,7 @@
 						<div class="col-s6">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE853;</i>
-								<input id="comprador" type="text" class="validate" [(ngModel)]="comprador" name="comprador" required="" aria-required="true">
+								<input id="comprador" type="text" class="validate" [(ngModel)]="comprador" name="comprador">
 								<label for="comprador" data-error="Inválido" data-success="Válido">Comprador</label>
 							</div>
 						</div>
@@ -80,7 +72,7 @@
 						<div class="col s6">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="cnpj" type="text" class="validate" [(ngModel)]="cnpj" name="cnpj"  required="" aria-required="true">
+								<input id="cnpj" type="text" class="validate" [(ngModel)]="cnpj" name="cnpj" >
 								<label for="cnpj" data-error="Inválido" data-success="Válido">CNPJ</label>
 							</div>
 						</div>
@@ -88,7 +80,7 @@
 						<div class="col s6">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="insc_estadual" type="text" class="validate" [(ngModel)]="insc_estadual" name="insc_estadual"  required="" aria-required="true">
+								<input id="insc_estadual" type="text" class="validate" [(ngModel)]="insc_estadual" name="insc_estadual" >
 								<label for="insc_estadual" data-error="Inválido" data-success="Válido">Inscrição Estadual</label>
 							</div>
 						</div>
@@ -99,7 +91,7 @@
 						<div class="col s4">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="fone" type="text" class="validate" [(ngModel)]="fone" name="fone"  required="" aria-required="true">
+								<input id="fone" type="text" class="validate" [(ngModel)]="fone" name="fone" >
 								<label for="fone" data-error="Inválido" data-success="Válido">Fone</label>
 							</div>
 						</div>
@@ -107,7 +99,7 @@
 						<div class="col s4">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="celular" type="text" class="validate" [(ngModel)]="celular" name="celular"  required="" aria-required="true">
+								<input id="celular" type="text" class="validate" [(ngModel)]="celular" name="celular" >
 								<label for="celular" data-error="Inválido" data-success="Válido">Celular</label>
 							</div>
 						</div>
@@ -115,7 +107,7 @@
 						<div class="col s4">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="email" type="email" class="validate" [(ngModel)]="email" name="email"  required="" aria-required="true">
+								<input id="email" type="email" class="validate" [(ngModel)]="email" name="email" >
 								<label for="email" data-error="Inválido" data-success="Válido">Email</label>
 							</div>
 						</div>
@@ -126,7 +118,7 @@
 						<div class="col s12">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="cep" type="text" class="validate" [(ngModel)]="cep" name="cep"  required="" aria-required="true">
+								<input id="cep" type="text" class="validate" [(ngModel)]="cep" name="cep" >
 								<label for="cep" data-error="Inválido" data-success="Válido">CEP</label>
 							</div>
 						</div>
@@ -134,7 +126,7 @@
 						<div class="col s12">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="logradouro" type="text" class="validate" [(ngModel)]="logradouro" name="logradouro"  required="" aria-required="true">
+								<input id="logradouro" type="text" class="validate" [(ngModel)]="logradouro" name="logradouro" >
 								<label for="logradouro" data-error="Inválido" data-success="Válido">Logradouro</label>
 							</div>
 						</div>
@@ -144,7 +136,7 @@
 						<div class="col s4">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="numero" type="text" class="validate" [(ngModel)]="numero" name="numero"  required="" aria-required="true">
+								<input id="numero" type="text" class="validate" [(ngModel)]="numero" name="numero" >
 								<label for="numero" data-error="Inválido" data-success="Válido">Número</label>
 							</div>
 						</div>
@@ -152,7 +144,7 @@
 						<div class="col s4">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="complemento" type="text" class="validate" [(ngModel)]="complemento" name="complemento"  required="" aria-required="true">
+								<input id="complemento" type="text" class="validate" [(ngModel)]="complemento" name="complemento" >
 								<label for="complemento" data-error="Inválido" data-success="Válido">Complemento</label>
 							</div>
 						</div>
@@ -160,7 +152,7 @@
 						<div class="col s4">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="bairro" type="text" class="validate" [(ngModel)]="bairro" name="bairro"  required="" aria-required="true">
+								<input id="bairro" type="text" class="validate" [(ngModel)]="bairro" name="bairro" >
 								<label for="bairro" data-error="Inválido" data-success="Válido">Bairro</label>
 							</div>
 						</div>
@@ -170,7 +162,7 @@
 						<div class="col s4">
 							<div class="input-field">
 								<i class="material-icons prefix red-text text-darken-1">&#xE0BE;</i>
-								<input id="cidade" type="text" class="validate" [(ngModel)]="cidade" name="cidade"  required="" aria-required="true">
+								<input id="cidade" type="text" class="validate" [(ngModel)]="cidade" name="cidade" >
 								<label for="cidade" data-error="Inválido" data-success="Válido">Cidade</label>
 							</div>
 						</div>
