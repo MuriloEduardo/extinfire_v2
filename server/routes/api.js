@@ -185,39 +185,50 @@ router.get('/servico/:id', (req, res, next) => {
 });
 
 // Create Servico
-/*router.post('/servico', (req, res, next) => {
+router.post('/servico', (req, res, next) => {
 	let dadosServico = req.body;
 	if(!dadosServico) {
 		res.json({"error": "dados incompletos"});
 	} else {
-		let novoCliente = new Servico();
 
-		novoCliente.nome = dadosCliente.nome;
-		novoCliente.representante = dadosCliente.representante;
-		novoCliente.cnpj = dadosCliente.cnpj;
-		novoCliente.insc_estadual = dadosCliente.insc_estadual;
-		novoCliente.comprador = dadosCliente.comprador;
-		novoCliente.contato = {
-			fone: dadosCliente.fone,
-			celular: dadosCliente.celular,
-			email: dadosCliente.email
-		};
-		novoCliente.endereco = {
-			logradouro: dadosCliente.endereco.logradouro,
-			numero: dadosCliente.endereco.numero,
-			complemento: dadosCliente.endereco.complemento,
-			bairro: dadosCliente.endereco.bairro,
-			cidade: dadosCliente.endereco.cidade,
-			estado: dadosCliente.endereco.estado,
-			cep: dadosCliente.endereco.cep
-		};
+		let novoServico = new Servico();
 
-		novoCliente.save((err, data) => {
-			if(err) res.send(err);
+		novoServico.cliente = dadosServico.cliente;
+		novoServico.itens = dadosServico.itens;
+		novoServico.tipo = dadosServico.tipo;
+		novoServico.observacao = dadosServico.observacao;
+		novoServico.valor_total = dadosServico.valorTotal;
+
+		novoServico.save((err, data) => {
+			if(err) throw err;
+
+			// Dar baixa no estoque
+			// @param boolean
+			if(dadosServico.tipo) {
+				let idProutosItens = [];
+				for (let i = 0; i < dadosServico.itens.length; i++) {
+					idProutosItens.push(dadosServico.itens[i].produto._id);
+				}
+				Produto.find({_id: { $in: idProutosItens }}, (err, produtos) => {
+					if(err) throw err;
+
+					for (let o = 0; o < dadosServico.itens.length; o++) {
+						for (let u = 0; u < produtos.length; u++) {
+							if(dadosServico.itens[o].produto._id == produtos[u]._id) {
+								produtos[u].qntde_atual = produtos[u].qntde_atual - dadosServico.itens[o].qntde;
+
+								Produto.findOneAndUpdate({_id: produtos[u]._id}, produtos[u], {upsert: true}, (err, data) => {
+									if(err) throw err;
+								});
+							}
+						}
+					}
+				});
+			}
 			res.json(data);
 		});
 	}
-});*/
+});
 
 // Delete Servico
 router.delete('/servico/:id', (req, res, next) => {
@@ -310,7 +321,10 @@ router.post('/user', (req, res, next) => {
 	} else {
 		let novoUser = new User();
 		novoUser.nome = dadosUser.nome;
-		novoUser.local = {email: dadosUser.local.email};
+		novoUser.local = {
+			email: dadosUser.local.email,
+			senha: novoUser.generateHash(req.body.local.senha)
+		};
 
 		novoUser.save((err, data) => {
 			if(err) res.send(err);
@@ -338,7 +352,10 @@ router.put('/user/:id', (req, res, next) => {
 		} else {
 
 			user.nome = dadosUser.nome;
-			user.local = {email: dadosUser.local.email};
+			user.tipo = dadosUser.tipo;
+			user.local = {
+				email: dadosUser.local.email
+			};
 
 			user.save((err, data) => {
 				if(err) res.send(err);

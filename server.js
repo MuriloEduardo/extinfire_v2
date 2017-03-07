@@ -24,8 +24,10 @@ app.use(bodyParser.json());
 
 let port = process.env.PORT || 8080;
 
+let auth = require('./server/routes/auth');
 let api = require('./server/routes/api');
 app.use('/api', api);
+app.use('/auth', auth);
 
 app.listen(port);
 console.log('Magic happens on port ' + port);

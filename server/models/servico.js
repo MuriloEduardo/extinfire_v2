@@ -1,18 +1,12 @@
 let mongoose = require('mongoose');
 
 let servicoSchema = mongoose.Schema({
-	cliente: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Cliente'
-	},
+	cliente: {},
 	itens: [{
-		produto: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Produto'
-		},
+		produto: {},
 		qntde: Number,
-		valor_unitario: Number,
-		valor_totla: Number
+		valor_total: Number,
+		validade: { type: Date }
 	}],
 	tipo: String,
 	observacao: String,
