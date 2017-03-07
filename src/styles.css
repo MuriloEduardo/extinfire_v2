@@ -9,12 +9,12 @@
 .side-nav {
 	width: 240px!important;
 }
-main,
+main.wrapper,
 footer {
 	padding-left: 240px;
 }
 @media only screen and (max-width : 992px) {
-	main,
+	main.wrapper,
 	footer {
 		padding-left: 0;
 	}

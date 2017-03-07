@@ -16,11 +16,15 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
+import { LoginComponent } from './login/login.component';
 
 import { UsuariosService } from './services/usuarios.service';
 import { ProdutosService } from './services/produtos.service';
 import { ClientesService } from './services/clientes.service';
 import { ServicosService } from './services/servicos.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +36,8 @@ import { ServicosService } from './services/servicos.service';
     ClientesComponent,
     UsuariosComponent,
     LogsComponent,
-    FinanceiroComponent
+    FinanceiroComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,9 @@ import { ServicosService } from './services/servicos.service';
     UsuariosService,
     ProdutosService,
     ClientesService,
-    ServicosService
+    ServicosService,
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

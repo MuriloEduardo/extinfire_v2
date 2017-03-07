@@ -19,31 +19,20 @@
 			<li class="collection-item avatar" *ngFor="let servico of servicos">
 				<div class="left">
 					<div class="firs-letter-users circle red darken-1">
-						{{ servico.nome.charAt(0) }}
+						<img src="http://materializecss.com/images/sample-1.jpg">
 					</div>
-					<span class="title"><strong>{{ servico.nome }}</strong></span>
-					<p>fjsdofijosidfjosidfj</p>
+					<span class="title"><strong>{{ servico.cliente.nome }}</strong></span>
+					<p>{{ servico.valor_total }}</p>
 				</div>
 				<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteUser(user._id)">Excluir</a>
 				<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editUser(user)">Editar</a>
-				<div class="secondary-content">
-					<!-- Switch -->
-					<div class="switch">
-						<label>
-							Usuário
-							<input type="checkbox">
-							<span class="lever"></span>
-							Admnistrador
-						</label>
-					</div>
-				</div>
 			</li>
 		</ul>
 	</div>
 </div>
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
-	<form (submit)="novoUsuario($event)">
+	<form (submit)="novoServico($event)">
 		<div class="modal-content">
 			<div class="row">
 				<div class="col s12">
@@ -73,7 +62,7 @@
 							<thead>
 								<tr>
 									<th data-field="item">Produtos / Serviços</th>
-									<th data-field="qntde">Quant.</th>
+									<th data-field="qntde">Quant.</th> 
 									<th data-field="valor_venda">Valor Unitário</th>
 									<th data-field="total">Total</th>
 									<th data-field="validade">Validade</th>
@@ -82,10 +71,19 @@
 							</thead>
 
 							<tbody>
-								<tr *ngFor="let item of servico.itens; let i = index; let last = last">
+								<tr *ngFor="let item of servico.itens; let i = index; let last = last;let first = first">
 									<td>
 										<div class="input-field">
-											<select id="item" class="validate" materialize="material_select" [materializeSelectOptions]="produtos" [(ngModel)]="servico.itens[i].produto" name="item" (change)="setProduto(i, last, servico.itens[i].produto)">
+											<select 
+											id="item" 
+											class="validate" 
+											materialize="material_select" 
+											[materializeSelectOptions]="produtos" 
+											[(ngModel)]="servico.itens[i].produto" 
+											name="item{{i}}" 
+											(change)="setProduto(i, last, servico.itens[i].produto)"
+											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+											>
 											  <option value="" disabled selected>Selecione o produto</option>
 											  <option *ngFor="let produto of produtos" [ngValue]="produto">{{produto.nome}}</option>
 											</select>
@@ -93,27 +91,48 @@
 									</td>
 									<td>
 										<div class="input-field">
-											<input id="qntde" type="number" min="1" class="validate" [(ngModel)]="servico.itens[i].qntde" name="qntde" required="" aria-required="true" (change)="setProduto(i)">
+											<input id="qntde" type="number" min="1" class="validate" [(ngModel)]="servico.itens[i].qntde" name="qntde{{i}}" [attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
 											<label for="qntde">Quantidade</label>
 										</div>
 									</td>
 									<td>
 										<div class="input-field">
-											<input id="valor_venda" type="text" class="validate" [(ngModel)]="servico.itens[i].produto.valor_venda" name="valor_venda" required="" aria-required="true">
+											<input 
+											id="valor_venda" 
+											type="text" 
+											class="validate" [(ngModel)]="servico.itens[i]?.produto.valor_venda" 
+											name="valor_venda{{i}}" 
+											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+											>
 											<label for="valor_venda">Valor unitário</label>
 										</div>
 									</td>
 									<td>
 										<div class="input-field">
-											<input id="total" type="text" class="validate" [(ngModel)]="servico.itens[i].total" name="total" readonly="" required="" aria-required="true">
+											<input 
+											id="total" 
+											type="text" 
+											class="validate" 
+											[(ngModel)]="servico.itens[i].total" 
+											name="total{{i}}" 
+											readonly="" 
+											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+											>
 											<label for="total">Valor total</label>
 										</div>
 									</td>
 									<td>
 										<div class="input-field">
 											<label for="validade">Validade deste serviço</label>
-											<input id="validade" materialize="pickadate" [materializeParams]="[{ selectMonths: true }]"
-											type="text" [(ngModel)]="servico.itens[i].validade" name="validade" required="" aria-required="true">
+											<input 
+											id="validade" 
+											materialize="pickadate" 
+											[materializeParams]="[{ selectMonths: true }]"
+											type="text" 
+											[(ngModel)]="servico.itens[i].validade" 
+											name="validade{{i}}" 
+											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+											>
 										</div>
 									</td>
 									<td>
@@ -125,7 +144,13 @@
 						<div class="row valign-wrapper">
 							<div class="col s8">
 								<div class="input-field">
-									<textarea id="observacoes" class="materialize-textarea" data-length="120" [(ngModel)]="servico.observacao" name="observacao"></textarea>
+									<textarea 
+									id="observacoes" 
+									class="materialize-textarea" 
+									data-length="120" 
+									[(ngModel)]="servico.observacao" 
+									name="observacao"
+									></textarea>
 									<label for="observacoes">Observações</label>
 								</div>
 							</div>
@@ -137,9 +162,6 @@
 					</div>
 				</div>
 			</div>
-			<pre>
-				{{ servico | json}}
-			</pre>
 		</div>
 		<div class="modal-footer">
 			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>

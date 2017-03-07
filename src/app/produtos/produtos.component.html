@@ -22,64 +22,69 @@
 						<img src="http://materializecss.com/images/sample-1.jpg">
 					</div>
 					<span class="title"><strong>{{ produto.nome }}</strong></span>
-					<p>{{ produto.valor_venda | number:'.2-2' }}<br/>{{ produto.qntde_atual }}</p>
+					<p>R$ {{ produto.valor_venda | number:'.2-2' }}</p>
+					<p>Quantidade: {{ produto.qntde_atual }}</p>
 				</div>
 				<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteProduto(produto._id)">Excluir</a>
 				<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editProduto(produto)">Editar</a>
+				<div class="secondary-content">
+					<div class="chip red" *ngIf="produto.qntde_atual <= 0">Acabou</div>
+					<div class="chip orange" *ngIf="produto.qntde_atual <= produto.qntde_minima&&produto.qntde_atual > 0">Está acabando</div>
+				</div>
 			</li>
 		</ul>
 	</div>
 </div>
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
-	<form (submit)="novoProduto($event)">
+	<form (submit)="!nome?novoProduto($event):updateProuto()">
 		<div class="modal-content">
 			<div class="row">
 				<div class="col s12">
 					<h4>Adicionar Novo Produto</h4>
-					<p>Seu estoque será contabilizados a cada novo serviço</p>
+					<p>Seu estoque será contabilizado a cada novo serviço</p>
 					<div class="section"></div>
+					<!-- <div class="row">
+						<div class="col-s12">
+							<div class="input-field">
+								<input id="imageProduto" type="file" (change)="fileEvent($event)" name="imageProduto">
+								<label for="imageProduto">Imagem do produto</label>
+							</div>
+						</div>
+					</div> -->
 					<div class="row">
 						<div class="col-s12">
 							<div class="input-field">
-								<input id="imageProduto" type="file" class="validate" (change)="fileEvent($event)" name="imageProduto">
-								<label for="imageProduto" data-error="Inválido" data-success="Válido">Imagem do produto</label>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-s12">
-							<div class="input-field">
-								<input id="nomeNovoProduto" type="text" class="validate" [(ngModel)]="nome" name="nomeNovoProduto" required="" aria-required="true">
-								<label for="nomeNovoProduto" data-error="Inválido" data-success="Válido">Nome do produto</label>
+								<input id="nomeNovoProduto" type="text" [(ngModel)]="nome" name="nomeNovoProduto" required="" aria-required="true">
+								<label for="nomeNovoProduto">Nome do produto</label>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<input id="valorVendaProduto" type="number" step="0.01" min="0.01" max="9999" class="validate" [(ngModel)]="valor_venda" name="valorVendaProduto" >
-								<label for="valorVendaProduto" data-error="Inválido" data-success="Válido">Valor de venda do produto</label>
+								<input id="valorVendaProduto" type="number" step="0.01" min="0.01" max="9999" [(ngModel)]="valor_venda" name="valorVendaProduto" >
+								<label for="valorVendaProduto">Valor de venda do produto</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<input id="valorCustoProduto" type="number" step="0.01" min="0.01" max="9999" class="validate" [(ngModel)]="valor_custo" name="valorCustoProduto" >
-								<label for="valorCustoProduto" data-error="Inválido" data-success="Válido">Valor de custo do produto</label>
+								<input id="valorCustoProduto" type="number" step="0.01" min="0.01" max="9999" [(ngModel)]="valor_custo" name="valorCustoProduto" >
+								<label for="valorCustoProduto">Valor de custo do produto</label>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<input id="qntdeMinProduto" type="number" class="validate" min="0" [(ngModel)]="qntde_minima" name="qntdeMinProduto" >
-								<label for="qntdeMinProduto" data-error="Inválido" data-success="Válido">Quantidade mínima</label>
+								<input id="qntdeMinProduto" type="number" [(ngModel)]="qntde_minima" name="qntdeMinProduto" >
+								<label for="qntdeMinProduto">Quantidade mínima</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<input id="qntdeAtualProduto" type="number" class="validate" min="0" [(ngModel)]="qntde_atual" name="qntdeAtualProduto" >
-								<label for="qntdeAtualProduto" data-error="Inválido" data-success="Válido">Quantidade atual deste produto</label>
+								<input id="qntdeAtualProduto" type="number" [(ngModel)]="qntde_atual" name="qntdeAtualProduto" >
+								<label for="qntdeAtualProduto">Quantidade atual deste produto</label>
 							</div>
 						</div>
 					</div>
@@ -87,7 +92,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
+			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">{{!nome? 'Salvar' : 'Editar'}} e Cadastrar</button>
 			<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" (click)="closeModal()">Cancelar</a>
 		</div>
 	</form>

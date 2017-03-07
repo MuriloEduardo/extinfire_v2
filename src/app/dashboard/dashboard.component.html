@@ -1,3 +1,21 @@
-<p>
-  dashboard works!
-</p>
+<section>
+	<div class="section"></div>
+	<div class="row">
+		<div class="col s12">
+			<h4>Produtos com estoque abaixo do mínimo</h4>
+			<div class="divider"></div>
+			<div class="section"></div>
+			<div *ngFor="let produto of produtos">
+				<div class="col s12 m5" *ngIf="produto.qntde_atual <= produto.qntde_minima">
+					<div class="card-panel" [ngClass]="{red: produto.qntde_atual <= 0, orange: produto.qntde_atual > 0&&produto.qntde_atual > 0}">
+						<span class="white-text">
+							<h5>{{ produto.nome }}</h5>
+							<p *ngIf="produto.qntde_atual <= 0">Acabou!</p>
+							<p *ngIf="produto.qntde_atual > 0">Está acabando! Ainda restam {{ produto.qntde_atual }}</p>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

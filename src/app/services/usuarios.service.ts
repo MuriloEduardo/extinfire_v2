@@ -33,6 +33,6 @@ export class UsuariosService {
 	updateUser(user: any) {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(this.apiUrl + 'user' + user._id, JSON.stringify(user), {headers: headers}).map(res => res.json());
+		return this.http.put(this.apiUrl + 'user/' + user._id, JSON.stringify(user), {headers: headers}).map(res => res.json());
 	}
 }

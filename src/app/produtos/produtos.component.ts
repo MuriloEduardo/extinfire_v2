@@ -15,6 +15,7 @@ export class ProdutosComponent implements OnInit {
 
 	modalActions = new EventEmitter<string|MaterializeAction>();
 	produtos: any[] = [];
+	produto: any = {};
 	imageProduto: any;
 	nome: string;
 	valor_custo: number;
@@ -58,14 +59,18 @@ export class ProdutosComponent implements OnInit {
 		this.produtosService.addProduto(newProduto).subscribe(produto => {
 			this.produtos.push(produto);
 			
-			this.nome = undefined;
-			this.valor_venda = undefined;
-			this.valor_custo = undefined;
-			this.qntde_atual = undefined;
-			this.qntde_minima = undefined;
-
-			this.closeModal();
+			this.resetForm();
 		});
+	}
+
+	resetForm() {
+		this.nome = undefined;
+		this.valor_venda = undefined;
+		this.valor_custo = undefined;
+		this.qntde_atual = undefined;
+		this.qntde_minima = undefined;
+
+		this.closeModal();
 	}
 
 	deleteProduto(id: string) {
@@ -77,13 +82,34 @@ export class ProdutosComponent implements OnInit {
 	}
 
 	editProduto(produto: any) {
-		this.openModal();
-
 		this.nome = produto.nome;
 		this.valor_venda = produto.valor_venda;
 		this.valor_custo = produto.valor_custo;
 		this.qntde_atual = produto.qntde_atual;
 		this.qntde_minima = produto.qntde_minima;
+
+		this.produto = produto;
+
+		this.openModal();
+	}
+
+	updateProuto(produto: any) {
+		let editProduto = {
+			_id: this.produto._id,
+			nome: this.nome,
+			valor_venda: this.valor_venda,
+			valor_custo: this.valor_custo,
+			qntde_atual: this.qntde_atual,
+			qntde_minima: this.qntde_minima
+		}
+		this.produtosService.updateProduto(editProduto).subscribe(data => {
+			for (var i = 0; i < this.produtos.length; ++i) {
+				if(this.produtos[i]._id == data._id) {
+					this.produtos[i] = data;
+				}
+			}
+			this.resetForm();
+		});
 	}
 
 	openModal() {

@@ -33,6 +33,6 @@ export class ProdutosService {
 	updateProduto(produto: any) {
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(this.apiUrl + 'produto' + produto._id, JSON.stringify(produto), {headers: headers}).map(res => res.json());
+		return this.http.put(this.apiUrl + 'produto/' + produto._id, JSON.stringify(produto), {headers: headers}).map(res => res.json());
 	}
 }

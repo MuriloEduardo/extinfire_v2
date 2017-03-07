@@ -27,15 +27,12 @@ export class ServicosComponent implements OnInit {
 			produto: {},
 			qntde: undefined,
 			validade: undefined,
-			total: undefined
+			total: 0
 		}],
-		valorTotal: undefined,
+		valorTotal: 0,
 		observacao: undefined,
 		tipo: false
 	};
-
-	emailNovoUsuario: string;
-	nomeNovoUsuario: string;
 
 	constructor(
 		private servicosService: ServicosService,
@@ -66,7 +63,7 @@ export class ServicosComponent implements OnInit {
 
 	setProduto(index: number, last?: number, produto?: any) {
 
-		console.log(index)
+		if(!produto) return false;
 
 		if(!this.servico.itens[index].qntde)
 			this.servico.itens[index].qntde = 1;
@@ -75,10 +72,12 @@ export class ServicosComponent implements OnInit {
 		this.servico.itens[index].validade = new Date();
 
 		for (let j=0;j<this.servico.itens.length;++j) {
-			this.servico.valorTotal = this.servico.itens.length * this.servico.itens[j].total;
+			if(this.servico.itens[j].total) {
+				this.servico.valorTotal += this.servico.itens[j].total;
+			}
 		}
 
-		if(produto&&last) {
+		if(last) {
 			this.servico.itens.push({
 				produto: {}
 			});
@@ -88,19 +87,23 @@ export class ServicosComponent implements OnInit {
 	novoServico(event) {
 		event.preventDefault();
 		
-		if(!this.emailNovoUsuario) return false;
-
-		let newUser = {
-			nome: this.nomeNovoUsuario,
-			local: {
-				email: this.emailNovoUsuario
-			}
-		};
+		if(!this.servico.cliente.length&&!this.servico.itens.length) return false;
 		
-		this.servicosService.addServico(newUser).subscribe(user => {
-			this.servicos.push(user);
-			this.emailNovoUsuario = undefined;
-			this.nomeNovoUsuario = undefined;
+		this.servicosService.addServico(this.servico).subscribe(servico => {
+			this.servicos.push(servico);
+			
+			this.servico = {
+				cliente: {},
+				itens: [{
+					produto: {},
+					qntde: undefined,
+					validade: undefined,
+					total: 0
+				}],
+				valorTotal: 0,
+				observacao: undefined,
+				tipo: false
+			};
 
 			this.closeModal();
 		});
@@ -118,9 +121,6 @@ export class ServicosComponent implements OnInit {
 		this.openModal();
 
 		console.log(user)
-		
-		this.emailNovoUsuario = user.local.email;
-		this.nomeNovoUsuario = user.nome;
 	}
 
 	openModal() {

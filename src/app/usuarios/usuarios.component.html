@@ -24,21 +24,20 @@
 					<span class="title"><strong>{{ user.nome }}</strong></span>
 					<p>{{ user.local.email }}</p>
 				</div>
-				<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteUser(user._id)">Excluir</a>
-				<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editUser(user)">Editar</a>
-				<div class="secondary-content">
-					<!-- Switch -->
-					<div class="switch">
-						<label>
-							Usuário
-							<input type="checkbox">
-							<span class="lever"></span>
-							Admnistrador
-						</label>
+				<div *ngIf="userLocalStorage?.tipo">
+					<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteUser(user._id)">Excluir</a>
+					<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editUser(user)">Editar</a>
+					<div class="secondary-content">
+						<!-- Switch -->
+						<div class="switch">
+							<label>
+								Usuário
+								<input type="checkbox" [(ngModel)]="user.tipo" (change)="changeType(user)">
+								<span class="lever"></span>
+								Admnistrador
+							</label>
+						</div>
 					</div>
-				</div>
-				<div class="secondary-content" *ngIf="!user.local.senha">
-					<div class="chip">Sem Senha Cadastrada</div>
 				</div>
 			</li>
 		</ul>
@@ -46,22 +45,32 @@
 </div>
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
-	<form (submit)="novoUsuario($event)">
+	<form (submit)="!edit ? novoUsuario($event) : updateUser()">
 		<div class="modal-content">
 			<div class="row">
 				<div class="col s12">
-					<h4>Adicionar Novo Usuário</h4>
-					<p>Ele o ajudará a adminstrar este sistema</p>
+					<div *ngIf="!edit">
+						<h4>Adicionar Novo Usuário</h4>
+						<p>Ele o ajudará a adminstrar este sistema</p>
+					</div>
+					<div *ngIf="edit">
+						<h4>Editar Usuário</h4>
+						<p>Para alterar a senha, será necessário excluir o usuario e recria-lo com o mesmo email</p>
+					</div>
 					<div class="section"></div>
 					<div class="row">
 						<div class="col s12">
 							<div class="input-field">
-								<input id="nomeNovoUsuario" type="text" class="validate" [(ngModel)]="nomeNovoUsuario" name="nomeNovoUsuario" required="" aria-required="true">
-								<label for="nomeNovoUsuario" data-error="Inválido" data-success="Válido">Nome</label>
+								<input id="nomeNovoUsuario" type="text" [(ngModel)]="nomeNovoUsuario" name="nomeNovoUsuario" required="" aria-required="true">
+								<label for="nomeNovoUsuario">Nome</label>
 							</div>
 							<div class="input-field">
-								<input id="emailNovoUsuario" type="email" class="validate" [(ngModel)]="emailNovoUsuario" name="emailNovoUsuario"  required="" aria-required="true">
-								<label for="emailNovoUsuario" data-error="Inválido" data-success="Válido">Email</label>
+								<input id="emailNovoUsuario" type="email" [(ngModel)]="emailNovoUsuario" name="emailNovoUsuario"  required="" aria-required="true">
+								<label for="emailNovoUsuario">Email</label>
+							</div>
+							<div class="input-field" *ngIf="!edit">
+								<input id="senhaNovoUsuario" type="password" [(ngModel)]="senhaNovoUsuario" name="senhaNovoUsuario"  required="" aria-required="true">
+								<label for="senhaNovoUsuario">Senha</label>
 							</div>
 						</div>
 					</div>
@@ -69,7 +78,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
+			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">{{!edit? 'Salvar' : 'Editar'}} e Cadastrar</button>
 			<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" (click)="closeModal()">Cancelar</a>
 		</div>
 	</form>
