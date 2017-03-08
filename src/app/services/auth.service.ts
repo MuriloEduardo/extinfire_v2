@@ -10,7 +10,7 @@ export class AuthService {
 
 	private _showNav: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
 
-	apiUrl: string = 'http://127.0.0.1:8080/auth/';
+	apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/auth/';
 	usuarioAutenticado: boolean = false;
 	mostrarMenuEmitter: Observable<boolean> = this._showNav.asObservable();
 	

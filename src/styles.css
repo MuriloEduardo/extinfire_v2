@@ -8,6 +8,7 @@
 }
 .side-nav {
 	width: 240px!important;
+	box-shadow: none!important;
 }
 main.wrapper,
 footer {

@@ -3,8 +3,10 @@ import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core
 import { ProdutosService } from '../services/produtos.service';
 
 import { MaterializeAction } from 'angular2-materialize';
+import { FileUploader } from 'ng2-file-upload';
 
 declare let Materialize:any;
+const URL = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/produto';
 
 @Component({
   selector: 'app-produtos',
@@ -13,6 +15,9 @@ declare let Materialize:any;
 })
 export class ProdutosComponent implements OnInit {
 
+	uploader:FileUploader = new FileUploader({url: URL});
+	hasBaseDropZoneOver:boolean = false;
+	hasAnotherDropZoneOver:boolean = false;
 	modalActions = new EventEmitter<string|MaterializeAction>();
 	produtos: any[] = [];
 	produto: any = {};
@@ -35,10 +40,13 @@ export class ProdutosComponent implements OnInit {
 		if(Materialize.updateTextFields)
 			Materialize.updateTextFields();
 	}
-
-	fileEvent(fileInput: any) {
-		console.log(fileInput.target.files)
-
+	
+	fileOverBase(e:any):void {
+		this.hasBaseDropZoneOver = e;
+	}
+	
+	fileOverAnother(e:any):void {
+		this.hasAnotherDropZoneOver = e;
 	}
 
 	novoProduto(event) {

@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'angular2-materialize';
+import { FileUploadModule } from "ng2-file-upload";
+import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app.routing.module';
 
@@ -44,7 +46,9 @@ import { AuthGuard } from './guards/auth.guard';
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    MaterializeModule
+    MaterializeModule,
+    FileUploadModule,
+    ChartsModule
   ],
   providers: [
     UsuariosService,
