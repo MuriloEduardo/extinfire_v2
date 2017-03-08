@@ -1,8 +1,11 @@
+"use strict"
+
 let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 let configDB = require('./server/config/database');
+let multer = require('multer');
 
 mongoose.connect(configDB.url, (err, res) => {
   mongoose.Promise = global.Promise;
@@ -11,9 +14,10 @@ mongoose.connect(configDB.url, (err, res) => {
 });
 
 let allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:4200');
+    res.header('Access-Control-Allow-Origin', 'https://extinfire-v2-muriloeduardo.c9users.io');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.header('Access-Control-Allow-Credentials', true);
 
     next();
 }

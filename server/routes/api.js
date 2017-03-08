@@ -1,3 +1,5 @@
+"use strict"
+
 let express = require('express');
 let router = express.Router();
 let jwt = require('jwt-simple');
@@ -9,7 +11,16 @@ let Produto = require('../models/produto');
 let Cliente = require('../models/cliente');
 let Logs = require('../models/logs');
 let multer = require('multer');
-let upload = multer({ dest: 'server/uploads/' });
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'server/uploads/')
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);        
+  }
+})
+
+let upload = multer({ storage: storage });
 
 ////////////// PRODUTOS ///////////////////////////////
 //////////////////////////////////////////////////////
