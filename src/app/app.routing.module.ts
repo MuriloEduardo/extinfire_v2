@@ -1,7 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from './_guards/auth.guard';
+import { ProdutosResolver } from './_guards/produtos.resolver';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PerfilComponent } from './perfil/perfil.component';
@@ -17,7 +18,11 @@ const appRoutes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{ path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
 	{ path: 'clientes', component: ClientesComponent, canActivate: [AuthGuard] },
-	{ path: 'estoque', component: EstoqueComponent, canActivate: [AuthGuard] },
+	{ path: 'estoque', component: EstoqueComponent, canActivate: [AuthGuard],
+		resolve: {
+			produtos: ProdutosResolver
+		}
+	},
 	{ path: 'servicos', component: ServicosComponent, canActivate: [AuthGuard] },
 	{ path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard] },
 	{ path: 'logs', component: LogsComponent, canActivate: [AuthGuard] },

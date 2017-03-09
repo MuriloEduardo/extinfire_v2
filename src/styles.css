@@ -20,7 +20,8 @@ footer {
 		padding-left: 0;
 	}
 }
-.modal .modal-footer .btn {
+.modal .modal-footer .btn,
+.modal .modal-footer .btn-flat{
 	margin-left: 6px!important;
 }
 
@@ -66,4 +67,42 @@ input:not([type]):focus:not([readonly]) + label, input[type=text]:focus:not([rea
 	height: 90%!important;
 	max-height: 90%!important;
 	top: 5%!important;
+}
+.drop-zone {
+	padding: 25px;
+	border-radius: 6px;
+	border: dashed 3px #ccc;
+	color: #ccc;
+	text-align: center;
+    margin-top: 1rem;
+}
+.drop-zone i {
+	font-size: 36px;
+}
+.modal h4 {
+    margin-top: 15px!important;
+}
+header.modal-header * {
+	color: #fff;
+}
+.modal-content {
+	padding: 0!important;
+}
+.modal-content header p {
+	margin-bottom: 10px!important;
+}
+.add-new-card i {
+	font-size: 46px;
+}
+.valign-wrapper .valign {
+	margin: auto;
+	text-align: center;
+}
+.lista-images {
+	max-height: 200px;
+	overflow: auto;
+}
+.header-pages {
+	padding-top: 15px;
+	padding-bottom: 15px;
 }

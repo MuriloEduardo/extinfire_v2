@@ -20,12 +20,17 @@ import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
 
-import { UsuariosService } from './services/usuarios.service';
-import { EstoqueService } from './services/estoque.service';
-import { ClientesService } from './services/clientes.service';
-import { ServicosService } from './services/servicos.service';
-import { AuthService } from './services/auth.service';
-import { AuthGuard } from './guards/auth.guard';
+import { UsuariosService } from './_services/usuarios.service';
+import { EstoqueService } from './_services/estoque.service';
+import { ClientesService } from './_services/clientes.service';
+import { ServicosService } from './_services/servicos.service';
+import { AuthService } from './_services/auth.service';
+import { LogsService } from './_services/logs.service';
+
+import { AuthGuard } from './_guards/auth.guard';
+import { ProdutosResolver } from './_guards/produtos.resolver';
+
+import { ImagePreview } from './_directives/image-preview.directive';
 
 
 @NgModule({
@@ -39,7 +44,8 @@ import { AuthGuard } from './guards/auth.guard';
     UsuariosComponent,
     LogsComponent,
     FinanceiroComponent,
-    LoginComponent
+    LoginComponent,
+    ImagePreview
   ],
   imports: [
     BrowserModule,
@@ -56,7 +62,9 @@ import { AuthGuard } from './guards/auth.guard';
     ClientesService,
     ServicosService,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    LogsService,
+    ProdutosResolver
   ],
   bootstrap: [AppComponent]
 })

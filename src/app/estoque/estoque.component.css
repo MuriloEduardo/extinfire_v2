@@ -1,3 +1,7 @@
 .chip {
 	color: #fff;
 }
+.card {
+    min-height: 392px;
+    cursor: pointer;
+}

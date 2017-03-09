@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 
-import { ServicosService } from '../services/servicos.service';
-import { ClientesService } from '../services/clientes.service';
-import { EstoqueService } from '../services/estoque.service';
+import { ServicosService } from '../_services/servicos.service';
+import { ClientesService } from '../_services/clientes.service';
+import { EstoqueService } from '../_services/estoque.service';
 
 import { MaterializeAction } from 'angular2-materialize';
 

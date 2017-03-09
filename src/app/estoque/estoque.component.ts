@@ -1,12 +1,15 @@
 import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
 
-import { EstoqueService } from '../services/estoque.service';
+import { Subscription } from 'rxjs/Rx';
+import { ActivatedRoute } from '@angular/router';
+
+import { EstoqueService } from '../_services/estoque.service';
 
 import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
 
 declare let Materialize:any;
-const URL = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/produto';
+const URL = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/upload';
 
 @Component({
   selector: 'app-estoque',
@@ -14,26 +17,36 @@ const URL = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/produto';
   styleUrls: ['./estoque.component.css']
 })
 export class EstoqueComponent implements OnInit {
+	
+	inscricao: Subscription;
 
-	uploader:FileUploader = new FileUploader({url: URL});
+	uploader:FileUploader = new FileUploader({
+		url: URL
+	});
+	
 	hasBaseDropZoneOver:boolean = false;
-	hasAnotherDropZoneOver:boolean = false;
+	
 	modalActions = new EventEmitter<string|MaterializeAction>();
+	modalViewActions = new EventEmitter<string|MaterializeAction>();
+	
 	produtos: any[] = [];
 	produto: any = {};
-	imageProduto: any;
+	
 	nome: string;
 	valor_custo: number;
 	valor_venda: number;
 	qntde_atual: number;
 	qntde_minima: number;
 
-	constructor(private estoqueService: EstoqueService) { }
+	constructor(
+		private estoqueService: EstoqueService,
+		private route: ActivatedRoute
+	) { }
 
 	ngOnInit() {
-		this.estoqueService.getProdutos().subscribe((data) => {
-			this.produtos = data;
-		});
+		this.inscricao = this.route.data.subscribe(
+			(data: {produtos: any}) => this.produtos = data.produtos
+		);
 	}
 
 	ngAfterViewChecked() {
@@ -45,18 +58,13 @@ export class EstoqueComponent implements OnInit {
 		this.hasBaseDropZoneOver = e;
 	}
 	
-	fileOverAnother(e:any):void {
-		this.hasAnotherDropZoneOver = e;
-	}
-
 	novoProduto(event) {
 		event.preventDefault();
-
-		console.log(event.target)
 		
 		if(!this.nome) return false;
 
 		let newProduto = {
+			images: [],
 			nome: this.nome,
 			valor_venda: this.valor_venda,
 			valor_custo: this.valor_venda,
@@ -64,59 +72,59 @@ export class EstoqueComponent implements OnInit {
 			qntde_minima: this.qntde_minima
 		};
 		
+		for (let i = 0; i < this.uploader.queue.length; ++i) {
+			newProduto.images.push(this.uploader.queue[i].file.name);
+		}
+		
 		this.estoqueService.addProduto(newProduto).subscribe(produto => {
 			this.produtos.push(produto);
-			
-			this.resetForm();
+			this.uploader.uploadAll();
+			this.closeModal();
 		});
 	}
 
-	resetForm() {
+	resetFormNovoProduto() {
 		this.nome = undefined;
 		this.valor_venda = undefined;
 		this.valor_custo = undefined;
 		this.qntde_atual = undefined;
 		this.qntde_minima = undefined;
-
-		this.closeModal();
+		
+		this.resetUploader();
+	}
+	
+	resetUploader() {
+		this.uploader = new FileUploader({
+			url: URL
+		});
 	}
 
 	deleteProduto(id: string) {
 		this.estoqueService.deleteProduto(id).subscribe(data => {
 			if(data.n) {
 				this.produtos.splice(this.produtos.indexOf(id), 1);
+				this.closeModalView();
 			}
 		});
 	}
 
-	editProduto(produto: any) {
-		this.nome = produto.nome;
-		this.valor_venda = produto.valor_venda;
-		this.valor_custo = produto.valor_custo;
-		this.qntde_atual = produto.qntde_atual;
-		this.qntde_minima = produto.qntde_minima;
-
-		this.produto = produto;
-
-		this.openModal();
-	}
-
-	updateProuto(produto: any) {
-		let editProduto = {
-			_id: this.produto._id,
-			nome: this.nome,
-			valor_venda: this.valor_venda,
-			valor_custo: this.valor_custo,
-			qntde_atual: this.qntde_atual,
-			qntde_minima: this.qntde_minima
+	updateProuto() {
+		
+		this.uploader.uploadAll();
+		
+		for (let j = 0; j < this.uploader.queue.length; ++j) {
+			this.produto.images.push(this.uploader.queue[j].file.name);
 		}
-		this.estoqueService.updateProduto(editProduto).subscribe(data => {
-			for (var i = 0; i < this.produtos.length; ++i) {
+		
+		this.uploader.clearQueue();
+		
+		this.estoqueService.updateProduto(this.produto).subscribe(data => {
+			for (let i = 0; i < this.produtos.length; ++i) {
 				if(this.produtos[i]._id == data._id) {
 					this.produtos[i] = data;
 				}
 			}
-			this.resetForm();
+			this.closeModalView();
 		});
 	}
 
@@ -126,5 +134,21 @@ export class EstoqueComponent implements OnInit {
 
 	closeModal() {
 		this.modalActions.emit({action:"modal",params:['close']});
+		this.resetFormNovoProduto();
+	}
+	
+	openModalView(produto: any) {
+		this.produto = produto;
+		this.modalViewActions.emit({action:"modal",params:['open']});
+	}
+
+	closeModalView() {
+		this.produto = {};
+		this.resetUploader();
+		this.modalViewActions.emit({action:"modal",params:['close']});
+	}
+	
+	removeItemFotos(item: any) {
+		this.produto.images.splice(this.produto.images.indexOf(item), 1);
 	}
 }

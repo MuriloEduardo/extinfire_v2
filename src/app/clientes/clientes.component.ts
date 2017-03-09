@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
 
-import { ClientesService } from '../services/clientes.service';
+import { ClientesService } from '../_services/clientes.service';
 
 import { MaterializeAction } from 'angular2-materialize';
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 
-import { UsuariosService } from '../services/usuarios.service';
+import { UsuariosService } from '../_services/usuarios.service';
 
 import { MaterializeAction } from 'angular2-materialize';
 

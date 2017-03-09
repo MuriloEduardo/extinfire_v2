@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UsuariosService {
 
-	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-	apiUrl: string = 'http://127.0.0.1:8080/api/';
+	apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+	//apiUrl: string = 'http://127.0.0.1:8080/api/';
 	users: any;
 
   	constructor(private http: Http) {
@@ -14,7 +14,7 @@ export class UsuariosService {
   	}
 
   	getUsers() {
-  		return this.users = this.http.get(this.apiUrl + 'users').map(res => res.json());;
+  		return this.users = this.http.get(this.apiUrl + 'users').map(res => res.json());
   	}
 
 	getUser(id: string) {
