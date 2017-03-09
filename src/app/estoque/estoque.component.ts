@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
 
-import { ProdutosService } from '../services/produtos.service';
+import { EstoqueService } from '../services/estoque.service';
 
 import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
@@ -9,11 +9,11 @@ declare let Materialize:any;
 const URL = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/produto';
 
 @Component({
-  selector: 'app-produtos',
-  templateUrl: './produtos.component.html',
-  styleUrls: ['./produtos.component.css']
+  selector: 'app-estoque',
+  templateUrl: './estoque.component.html',
+  styleUrls: ['./estoque.component.css']
 })
-export class ProdutosComponent implements OnInit {
+export class EstoqueComponent implements OnInit {
 
 	uploader:FileUploader = new FileUploader({url: URL});
 	hasBaseDropZoneOver:boolean = false;
@@ -28,10 +28,10 @@ export class ProdutosComponent implements OnInit {
 	qntde_atual: number;
 	qntde_minima: number;
 
-	constructor(private produtosService: ProdutosService) { }
+	constructor(private estoqueService: EstoqueService) { }
 
 	ngOnInit() {
-		this.produtosService.getProdutos().subscribe((data) => {
+		this.estoqueService.getProdutos().subscribe((data) => {
 			this.produtos = data;
 		});
 	}
@@ -64,7 +64,7 @@ export class ProdutosComponent implements OnInit {
 			qntde_minima: this.qntde_minima
 		};
 		
-		this.produtosService.addProduto(newProduto).subscribe(produto => {
+		this.estoqueService.addProduto(newProduto).subscribe(produto => {
 			this.produtos.push(produto);
 			
 			this.resetForm();
@@ -82,7 +82,7 @@ export class ProdutosComponent implements OnInit {
 	}
 
 	deleteProduto(id: string) {
-		this.produtosService.deleteProduto(id).subscribe(data => {
+		this.estoqueService.deleteProduto(id).subscribe(data => {
 			if(data.n) {
 				this.produtos.splice(this.produtos.indexOf(id), 1);
 			}
@@ -110,7 +110,7 @@ export class ProdutosComponent implements OnInit {
 			qntde_atual: this.qntde_atual,
 			qntde_minima: this.qntde_minima
 		}
-		this.produtosService.updateProduto(editProduto).subscribe(data => {
+		this.estoqueService.updateProduto(editProduto).subscribe(data => {
 			for (var i = 0; i < this.produtos.length; ++i) {
 				if(this.produtos[i]._id == data._id) {
 					this.produtos[i] = data;

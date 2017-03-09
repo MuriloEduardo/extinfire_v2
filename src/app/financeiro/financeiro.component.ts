@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ServicosService } from '../services/servicos.service';
 import { ClientesService } from '../services/clientes.service';
-import { ProdutosService } from '../services/produtos.service';
+import { EstoqueService } from '../services/estoque.service';
 
 @Component({
   selector: 'app-financeiro',
@@ -14,7 +14,7 @@ export class FinanceiroComponent implements OnInit {
 	constructor(
 		private servicosService: ServicosService,
 		private clientesService: ClientesService,
-		private produtosService: ProdutosService
+		private estoqueService: EstoqueService
 	) { }
 
 	ngOnInit() {

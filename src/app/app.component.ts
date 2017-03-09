@@ -8,16 +8,14 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  mostrarMenu: boolean = false;
-  user: any;
+  
+  user: {};
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-  	this.authService.mostrarMenuEmitter.subscribe(
-  		mostrar => this.mostrarMenu = mostrar
+  	this.authService.getUsuarioAutenticado.subscribe(
+  		user => this.user = user
   	);
-    this.user = JSON.parse(window.localStorage.getItem('user'));
   }
 }

@@ -5,7 +5,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ClientesService {
 
-	private apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+	//private apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+	apiUrl: string = 'http://127.0.0.1:8080/api/';
 	clientes: any;
 
   	constructor(private http: Http) {

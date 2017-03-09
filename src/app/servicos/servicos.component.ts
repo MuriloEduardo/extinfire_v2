@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 
 import { ServicosService } from '../services/servicos.service';
 import { ClientesService } from '../services/clientes.service';
-import { ProdutosService } from '../services/produtos.service';
+import { EstoqueService } from '../services/estoque.service';
 
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -37,7 +37,7 @@ export class ServicosComponent implements OnInit {
 	constructor(
 		private servicosService: ServicosService,
 		private clientesService: ClientesService,
-		private produtosService: ProdutosService
+		private estoqueService: EstoqueService
 	) { }
 
 	ngOnInit() {
@@ -47,7 +47,7 @@ export class ServicosComponent implements OnInit {
 		this.clientesService.getClientes().subscribe((data) => {
 			this.clientes = data;
 		});
-		this.produtosService.getProdutos().subscribe((data) => {
+		this.estoqueService.getProdutos().subscribe((data) => {
 			this.produtos = data;
 		});
 	}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ServicosService } from '../services/servicos.service';
-import { ProdutosService } from '../services/produtos.service';
+import { EstoqueService } from '../services/estoque.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,14 +15,14 @@ export class DashboardComponent implements OnInit {
 
 	constructor(
 		private servicosService: ServicosService,
-		private produtosService: ProdutosService
+		private estoqueService: EstoqueService
 	) { }
 
 	ngOnInit() {
 		this.servicosService.getServicos().subscribe((data) => {
 			this.servicos = data;
 		});
-		this.produtosService.getProdutos().subscribe((data) => {
+		this.estoqueService.getProdutos().subscribe((data) => {
 			this.produtos = data;
 		});
 	}

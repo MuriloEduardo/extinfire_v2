@@ -1,8 +1,5 @@
-<pre class="right">
-	{{ user | json }}
-</pre>
 <div class="page-flexbox-wrapper">
-	<header *ngIf="mostrarMenu">
+	<header *ngIf="user">
 		<div class="navbar-fixed">
 			<nav class="red darken-1">
 				<div class="nav-wrapper container">
@@ -20,7 +17,7 @@
 					    </div></li> -->
 						<li><a routerLink=""><i class="material-icons">&#xE88A;</i>Painel</a></li>
 						<li><a routerLink="financeiro"><i class="material-icons">&#xE926;</i>Financeiro</a></li>
-						<li><a routerLink="produtos"><i class="material-icons">&#xE41D;</i>Produtos</a></li>
+						<li><a routerLink="estoque"><i class="material-icons">&#xE41D;</i>Estoque</a></li>
 						<li><a routerLink="servicos"><i class="material-icons">&#xE8F9;</i>Serviços</a></li>
 						<li><a routerLink="clientes"><i class="material-icons">&#xE63D;</i>Clientes</a></li>
 						<li><a routerLink="usuarios"><i class="material-icons">&#xE8D3;</i>Usuarios</a></li>
@@ -39,14 +36,8 @@
 			</nav>
 		</div>
 	</header>
-	<main [class.wrapper]="mostrarMenu">
-		<div class="row">
-			<div class="col s12">
-				<div class="col s12">
-					<router-outlet></router-outlet>
-				</div>
-			</div>
-		</div>
+	<main [class.wrapper]="user">
+		<router-outlet></router-outlet>
 	</main>
 	<!-- <footer class="page-footer red darken-1 z-depth-1">
 		<div class="container-fluid">

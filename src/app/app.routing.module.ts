@@ -6,7 +6,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ClientesComponent } from './clientes/clientes.component';
-import { ProdutosComponent } from './produtos/produtos.component';
+import { EstoqueComponent } from './estoque/estoque.component';
 import { ServicosComponent } from './servicos/servicos.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
@@ -17,7 +17,7 @@ const appRoutes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{ path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
 	{ path: 'clientes', component: ClientesComponent, canActivate: [AuthGuard] },
-	{ path: 'produtos', component: ProdutosComponent, canActivate: [AuthGuard] },
+	{ path: 'estoque', component: EstoqueComponent, canActivate: [AuthGuard] },
 	{ path: 'servicos', component: ServicosComponent, canActivate: [AuthGuard] },
 	{ path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard] },
 	{ path: 'logs', component: LogsComponent, canActivate: [AuthGuard] },

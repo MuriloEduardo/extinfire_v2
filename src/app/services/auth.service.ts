@@ -8,11 +8,11 @@ import { Usuario } from '../usuarios/usuario';;
 @Injectable()
 export class AuthService {
 
-	private _showNav: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+	private usuarioAutenticado: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-	apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/auth/';
-	usuarioAutenticado: boolean = false;
-	mostrarMenuEmitter: Observable<boolean> = this._showNav.asObservable();
+	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/auth/';
+	apiUrl: string = 'http://127.0.0.1:8080/auth/';
+	getUsuarioAutenticado: Observable<any> = this.usuarioAutenticado.asObservable();
 	
 	constructor(private http: Http) { }
 
@@ -29,15 +29,13 @@ export class AuthService {
 				if(dataJson.success) {
 					window.localStorage.setItem('auth_key', dataJson.token);
 					window.localStorage.setItem('user', JSON.stringify(dataJson.user));
-					
-					this.usuarioAutenticado = true;
 				}
-				resolve(this.usuarioAutenticado);
+				resolve(this.getUsuarioAutenticado);
 			});
 		});
 	}
 
-	showNav(ifShow: boolean) {
-		this._showNav.next(ifShow);
+	setUsuarioAutenticado(user: any) {
+		this.usuarioAutenticado.next(user);
 	}
 }

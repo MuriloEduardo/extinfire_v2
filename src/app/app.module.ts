@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ServicosComponent } from './servicos/servicos.component';
-import { ProdutosComponent } from './produtos/produtos.component';
+import { EstoqueComponent } from './estoque/estoque.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
@@ -21,7 +21,7 @@ import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
 
 import { UsuariosService } from './services/usuarios.service';
-import { ProdutosService } from './services/produtos.service';
+import { EstoqueService } from './services/estoque.service';
 import { ClientesService } from './services/clientes.service';
 import { ServicosService } from './services/servicos.service';
 import { AuthService } from './services/auth.service';
@@ -34,7 +34,7 @@ import { AuthGuard } from './guards/auth.guard';
     PerfilComponent,
     DashboardComponent,
     ServicosComponent,
-    ProdutosComponent,
+    EstoqueComponent,
     ClientesComponent,
     UsuariosComponent,
     LogsComponent,
@@ -52,7 +52,7 @@ import { AuthGuard } from './guards/auth.guard';
   ],
   providers: [
     UsuariosService,
-    ProdutosService,
+    EstoqueService,
     ClientesService,
     ServicosService,
     AuthService,

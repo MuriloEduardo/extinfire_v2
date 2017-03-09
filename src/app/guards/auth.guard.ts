@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
 
     if (window.localStorage.getItem('auth_key')){
-      this.authService.showNav(true);
+      this.authService.setUsuarioAutenticado(JSON.parse(window.localStorage.getItem('user')));
       return true;
     } 
 
