@@ -26,6 +26,8 @@ app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use('/uploads', express.static('server/uploads'));
+
 let port = process.env.PORT || 8080;
 
 let auth = require('./server/routes/auth');
