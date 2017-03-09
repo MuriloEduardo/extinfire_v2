@@ -1,3 +1,5 @@
+"use strict"
+
 let express = require('express');
 let router = express.Router();
 let jwt = require('jwt-simple');
@@ -9,7 +11,20 @@ let Produto = require('../models/produto');
 let Cliente = require('../models/cliente');
 let Logs = require('../models/logs');
 let multer = require('multer');
-let upload = multer({ dest: 'server/uploads/' });
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'server/uploads/')
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);        
+  }
+})
+
+let upload = multer({ storage: storage });
+
+router.post('/upload', upload.any(), (req, res, next) => {
+	res.send(req.files);
+});
 
 ////////////// PRODUTOS ///////////////////////////////
 //////////////////////////////////////////////////////
@@ -31,15 +46,14 @@ router.get('/produto/:id', (req, res, next) => {
 });
 
 // Create Produto
-router.post('/produto', upload.any(), (req, res, next) => {
-
-	console.log(req.files)
+router.post('/produto', (req, res, next) => {
 	let dadosProduto = req.body;
 	if(!dadosProduto) {
 		res.json({"error": "dados incompletos"});
 	} else {
 		let novoProduto = new Produto();
-
+		
+		novoProduto.images = dadosProduto.images;
 		novoProduto.nome = dadosProduto.nome;
 		novoProduto.valor_custo = dadosProduto.valor_custo;
 		novoProduto.valor_venda = dadosProduto.valor_venda;
@@ -71,6 +85,7 @@ router.put('/produto/:id', (req, res, next) => {
 			res.json({"error": "dados incompletos"});
 		} else {
 
+			produto.images = dadosProduto.images;
 			produto.nome = dadosProduto.nome;
 			produto.valor = dadosProduto.valor;
 			produto.qntde_atual = dadosProduto.qntde_atual;
@@ -362,6 +377,27 @@ router.put('/user/:id', (req, res, next) => {
 				res.json(data);
 			});
 		}
+	});
+});
+
+//////////////////// LOGS ///////////////////////
+////////////////////////////////////////////////
+
+// Get All Logs
+router.get('/logs', (req, res, next) => {
+	Logs.find({}, function(err, logs){
+		if(err) res.send(err);
+		res.json(logs);
+	});
+});
+
+// Create Log
+router.post('/log', (req, res) => {
+	let log = new Logs();
+	log.descricao = req.body.descricao;
+	log.save((err, data) => {
+		if(err) res.send(err);
+		res.json(data);
 	});
 });
 

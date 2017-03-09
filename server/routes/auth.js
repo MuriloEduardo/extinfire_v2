@@ -1,3 +1,5 @@
+"use strict"
+
 let express = require('express');
 let router = express.Router();
 let jwt = require('jwt-simple');
@@ -9,13 +11,9 @@ let User = require('../models/user');
 /////////////////////////////////////////////////////
 
 router.post('/authenticate', (req, res, next) => {
-
-	console.log(req.body)
-
 	User.findOne({
         'local.email': req.body.email
     }, function(err, user){
-    	console.log(user)
         if (err) throw err;
         
         if(!user) {
