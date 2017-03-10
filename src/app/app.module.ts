@@ -29,6 +29,10 @@ import { LogsService } from './_services/logs.service';
 
 import { AuthGuard } from './_guards/auth.guard';
 import { ProdutosResolver } from './_guards/produtos.resolver';
+import { ServicosResolver } from './_guards/servicos.resolver';
+import { ClientesResolver } from './_guards/clientes.resolver';
+import { LogsResolver } from './_guards/logs.resolver';
+import { UsuariosResolver } from './_guards/usuarios.resolver';
 
 import { ImagePreview } from './_directives/image-preview.directive';
 
@@ -64,7 +68,12 @@ import { ImagePreview } from './_directives/image-preview.directive';
     AuthService,
     AuthGuard,
     LogsService,
-    ProdutosResolver
+    ProdutosResolver,
+
+    ServicosResolver,
+    ClientesResolver,
+    LogsResolver,
+    UsuariosResolver
   ],
   bootstrap: [AppComponent]
 })

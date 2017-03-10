@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ClientesService {
 
-	apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-	//apiUrl: string = 'http://127.0.0.1:8080/api/';
+	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+	apiUrl: string = 'http://127.0.0.1:8080/api/';
 	clientes: any;
 
   	constructor(private http: Http) {
@@ -27,13 +27,14 @@ export class ClientesService {
 		return this.http.post(this.apiUrl + 'cliente', JSON.stringify(newCliente), {headers: headers}).map(res => res.json());
 	}
 
-	deleteCliente(id: string) {
-		return this.http.delete(this.apiUrl + 'cliente/' + id).map(res => res.json());
+	deleteCliente(cliente: any) {
+		return this.http.delete(this.apiUrl + 'cliente/' + cliente._id).map(res => res.json());
 	}
 
 	updateCliente(cliente: any) {
+		console.log(cliente)
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(this.apiUrl + 'cliente' + cliente._id, JSON.stringify(cliente), {headers: headers}).map(res => res.json());
+		return this.http.put(this.apiUrl + 'cliente/' + cliente._id, JSON.stringify(cliente), {headers: headers}).map(res => res.json());
 	}
 }

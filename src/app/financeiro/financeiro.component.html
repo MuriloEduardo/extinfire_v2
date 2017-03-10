@@ -1,20 +1,21 @@
 <section>
 	<div class="section"></div>
 	<div class="row">
-		<div class="col s12">
+		<div class="col s4">
 			<h4>Lucro em estoque</h4>
 			<div class="divider"></div>
 			<div class="section"></div>
+			<div class="card"></div>
 		</div>
-	</div>
-</section>
-<section>
-	<div class="section"></div>
-	<div class="row">
-		<div class="col s12">
+		<div class="col s4">
 			<h4>Serviços</h4>
 			<div class="divider"></div>
 			<div class="section"></div>
+			<div class="card">
+				<div *ngFor="let servico of servicos">
+					{{servico | json}}
+				</div>
+			</div>
 		</div>
 	</div>
 </section>

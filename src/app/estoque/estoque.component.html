@@ -4,7 +4,17 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col s12" *ngIf="!produtos.length">
+	<!-- Niovo Produto -->
+	<div class="col s3">
+		<div class="valign-wrapper add-new-card card red darken-1 white-text hoverable" (click)="openModal()">
+			<div class="valign">
+				<i class="material-icons">&#xE145;</i>
+				<h4>Novo Produto</h4>
+			</div>
+		</div>
+	</div>
+	<!-- Caso nao tenha nenhum produto -->
+	<div class="col s9" *ngIf="!produtos.length">
 		<div class="section"></div>
 		<div class="center-align">
 			<div class="grey-text text-lighten-2">
@@ -13,21 +23,14 @@
 			</div>
 		</div>
 	</div>
-	<div *ngIf="produtos.length">
+	<!-- Listagem de produtos -->
+	<div class="col s9">
 		<div class="row">
-			<div class="col s3">
-				<div class="valign-wrapper add-new-card card red darken-1 white-text hoverable" (click)="openModal()">
-					<div class="valign">
-						<i class="material-icons">&#xE145;</i>
-						<h4>Novo Produto</h4>
-					</div>
-				</div>
-			</div>
 			<div class="col s3" *ngFor="let produto of produtos" (click)="openModalView(produto)">
 				<div class="card small hoverable">
 					<div class="card-image">
-						<img *ngIf="produto.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + produto.images[0] }}">
-						<img *ngIf="!produto.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg">
+						<img *ngIf="produto.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + produto.images[0] }}">
+						<img *ngIf="!produto.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
 					</div>
 					<div class="card-content">
 						<span class="card-title"><strong>{{ produto.nome }}</strong></span>
@@ -188,7 +191,7 @@
 									<a class="waves-effect waves-light btn grey darken-4" (click)="removeItemFotos(imgProduto)">
 										<i class="material-icons">&#xE92B;</i>
 									</a>
-									<img src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + imgProduto }}" class="responsive-img">
+									<img src="{{ 'http://127.0.0.1:8080/uploads/' + imgProduto }}" class="responsive-img">
 								</div>
 								<div class="col s3 center-align" *ngFor="let item of uploader.queue">
 									<a class="waves-effect waves-light btn grey darken-4" (click)="item.remove()">
@@ -219,7 +222,7 @@
 		<div class="modal-footer">
 			<a class="waves-effect waves-red btn-flat" (click)="closeModalView()">Cancelar</a>
 			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Editar e Salvar</button>
-			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteProduto(produto._id)">Excluir</a>
+			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteProduto(produto)">Excluir</a>
 		</div>
 	</form>
 </div>

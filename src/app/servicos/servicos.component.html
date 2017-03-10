@@ -1,4 +1,4 @@
-<div class="section"></div>
+<!-- <div class="section"></div>
 <div class="card-panel right-align">
 	<a class="waves-effect waves-light btn red darken-1 modal-trigger" (click)="openModal()"><i class="material-icons right">&#xE146;</i>Novo Serviço</a>
 </div>
@@ -29,16 +29,76 @@
 			</li>
 		</ul>
 	</div>
+</div> -->
+<div class="row">
+	<div class="col s12 header-pages white">
+		<h1>Serviços</h1>
+	</div>
+</div>
+<div class="row">
+	<!-- Novo Servico -->
+	<div class="col s3">
+		<div class="valign-wrapper add-new-card card red darken-1 white-text hoverable" (click)="openModal()">
+			<div class="valign">
+				<i class="material-icons">&#xE145;</i>
+				<h4>Novo Servico</h4>
+			</div>
+		</div>
+	</div>
+	<!-- Caso nao tenha nenhum servico -->
+	<div class="col s9" *ngIf="!servicos.length">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum servico aqui <br><small>Clique em Novo Serviço</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+	<!-- Listagem de servicos -->
+	<div class="col s9">
+		<div class="row">
+			<div class="col s3" *ngFor="let servico of servicos" (click)="openModalView(servico)">
+				<div class="card small hoverable">
+					<div class="card-image">
+						<!-- <img *ngIf="servico.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + servico.images[0] }}">
+						<img *ngIf="!servico.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg"> -->
+					</div>
+					<div class="card-content">
+						<span class="card-title"><strong>{{ servico.cliente.nome }}</strong></span>
+						<p>{{ servico.valor_total }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
 	<form (submit)="novoServico($event)">
 		<div class="modal-content">
-			<div class="row">
+			<header class="modal-header red darken-1 z-depth-2">
+				<div class="row">
+					<div class="col s12">
+						<h4>Adicionar Novo Serviço</h4>
+						<p>Crie um novo serviço, faça mais lucro</p>
+					</div>
+				</div>
+			</header>
+			<!-- Sem nenhum cliente -->
+			<div class="row" *ngIf="!clientes.length">
 				<div class="col s12">
-					<h4>Adicionar Novo Serviços</h4>
-					<p>Crie um novo serviço, faça mais lucro</p>
-					<div class="divider"></div>
+					<div class="section"></div>
+					<div class="center-align">
+						<div class="grey-text text-lighten-2">
+							<h2>Sem nenhum cliente aqui <br><small>Adicione um Novo Cliente</small></h2>
+							<i class="material-icons big">&#xE814;</i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" *ngIf="clientes.length">
+				<div class="col s12">
 					<div class="section"></div>
 					<div class="input-field">
 						<select id="cliente" class="validate" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="servico.cliente" name="cliente">
@@ -166,6 +226,153 @@
 		<div class="modal-footer">
 			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
 			<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" (click)="closeModal()">Cancelar</a>
+		</div>
+	</form>
+</div>
+<!-- Modal Cada Servico Structure -->
+<div id="modal2" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalViewActions">
+	<form (submit)="updateProuto()">
+		<div class="modal-content">
+			<header class="modal-header red darken-1 z-depth-2">
+				<div class="row">
+					<div class="col s12">
+						<h4>Visualizar e Editar Serviço</h4>
+						<p>Exclua, edite e visualize este serviço</p>
+					</div>
+				</div>
+			</header>
+			<section>
+				<div class="row">
+					<div class="col s12">
+						<div class="section"></div>
+						<div class="input-field">
+							<select id="cliente" class="validate" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="servico.cliente" name="cliente">
+							  <option value="" disabled selected>Selecione o cliente</option>
+							  <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.nome}}</option>
+							</select>
+						</div>
+						<div class="section"></div>
+						<!-- Switch -->
+						<div class="switch">
+							<label>
+								Orçamento
+								<input type="checkbox" [(ngModel)]="servico.tipo" name="tipo">
+								<span class="lever"></span>
+								Pedido (Baixa no estoque)
+							</label>
+						</div>
+						<div class="section"></div>
+						<div *ngIf="(servico.cliente | json) != '{}'">
+							<table>
+								<thead>
+									<tr>
+										<th data-field="item">Produtos / Serviços</th>
+										<th data-field="qntde">Quant.</th> 
+										<th data-field="valor_venda">Valor Unitário</th>
+										<th data-field="total">Total</th>
+										<th data-field="validade">Validade</th>
+										<th data-field="acoes" class="center-align">Ações</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr *ngFor="let item of servico.itens; let i = index; let last = last;let first = first">
+										<td>
+											<div class="input-field">
+												<select 
+												id="item" 
+												class="validate" 
+												materialize="material_select" 
+												[materializeSelectOptions]="produtos" 
+												[(ngModel)]="servico.itens[i].produto" 
+												name="item{{i}}" 
+												(change)="setProduto(i, last, servico.itens[i].produto)"
+												[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+												>
+												  <option value="" disabled selected>Selecione o produto</option>
+												  <option *ngFor="let produto of produtos" [ngValue]="produto">{{produto.nome}}</option>
+												</select>
+											</div>
+										</td>
+										<td>
+											<div class="input-field">
+												<input id="qntde" type="number" min="1" class="validate" [(ngModel)]="servico.itens[i].qntde" name="qntde{{i}}" [attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
+												<label for="qntde">Quantidade</label>
+											</div>
+										</td>
+										<td>
+											<div class="input-field">
+												<input 
+												id="valor_venda" 
+												type="text" 
+												class="validate" [(ngModel)]="servico.itens[i]?.produto.valor_venda" 
+												name="valor_venda{{i}}" 
+												[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+												>
+												<label for="valor_venda">Valor unitário</label>
+											</div>
+										</td>
+										<td>
+											<div class="input-field">
+												<input 
+												id="total" 
+												type="text" 
+												class="validate" 
+												[(ngModel)]="servico.itens[i].total" 
+												name="total{{i}}" 
+												readonly="" 
+												[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+												>
+												<label for="total">Valor total</label>
+											</div>
+										</td>
+										<td>
+											<div class="input-field">
+												<label for="validade">Validade deste serviço</label>
+												<input 
+												id="validade" 
+												materialize="pickadate" 
+												[materializeParams]="[{ selectMonths: true }]"
+												type="text" 
+												[(ngModel)]="servico.itens[i].validade" 
+												name="validade{{i}}" 
+												[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+												>
+											</div>
+										</td>
+										<td>
+											<a class="waves-effect waves-light btn-flat secondary-content"><i class="material-icons">&#xE92B;</i></a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="row valign-wrapper">
+								<div class="col s8">
+									<div class="input-field">
+										<textarea 
+										id="observacoes" 
+										class="materialize-textarea" 
+										data-length="120" 
+										[(ngModel)]="servico.observacao" 
+										name="observacao"
+										></textarea>
+										<label for="observacoes">Observações</label>
+									</div>
+								</div>
+								<div class="col s4 center-align">
+									<h5>Valor Total</h5>
+									<h6>R$ {{ servico.valorTotal | number:'.2-2' }}</h6>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div class="modal-footer">
+			<a class="waves-effect waves-red btn-flat" (click)="closeModalView()">Cancelar</a>
+			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Editar e Salvar</button>
+			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteServico(servico)">Excluir</a>
 		</div>
 	</form>
 </div>

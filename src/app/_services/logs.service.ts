@@ -2,19 +2,15 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { AuthService } from './auth.service';
-
 @Injectable()
 export class LogsService {
 
-	apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-	//apiUrl: string = 'http://127.0.0.1:8080/api/';
+	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+	apiUrl: string = 'http://127.0.0.1:8080/api/';
 	logs: any;
+	user: {};
 
-  	constructor(
-  		private http: Http,
-  		private authService: AuthService
-  	) {
+  	constructor(private http: Http) {
 		console.dir('Logs Service Inicializado...');
   	}
 
@@ -23,7 +19,14 @@ export class LogsService {
   	}
 
 	addLog(newLog: any) {
-		newLog = this.authService.getUsuarioAutenticado.nome + newLog;
+		newLog = {
+			usuario: JSON.parse(window.localStorage.getItem('user')).nome,
+			descricao: newLog.descricao,
+			item: newLog.item
+		};
+
+		console.log(newLog)
+
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.apiUrl + 'log', JSON.stringify(newLog), {headers: headers}).map(res => res.json());

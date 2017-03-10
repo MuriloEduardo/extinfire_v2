@@ -9,7 +9,8 @@ import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
 
 declare let Materialize:any;
-const URL = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/upload';
+//const URL = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/upload';
+const URL = 'http://127.0.0.1:8080/api/upload';
 
 @Component({
   selector: 'app-estoque',
@@ -54,10 +55,6 @@ export class EstoqueComponent implements OnInit {
 			Materialize.updateTextFields();
 	}
 	
-	fileOverBase(e:any):void {
-		this.hasBaseDropZoneOver = e;
-	}
-	
 	novoProduto(event) {
 		event.preventDefault();
 		
@@ -93,16 +90,16 @@ export class EstoqueComponent implements OnInit {
 		this.resetUploader();
 	}
 	
-	resetUploader() {
+	private resetUploader() {
 		this.uploader = new FileUploader({
 			url: URL
 		});
 	}
 
-	deleteProduto(id: string) {
-		this.estoqueService.deleteProduto(id).subscribe(data => {
+	deleteProduto(produto: any) {
+		this.estoqueService.deleteProduto(produto).subscribe(data => {
 			if(data.n) {
-				this.produtos.splice(this.produtos.indexOf(id), 1);
+				this.produtos.splice(this.produtos.indexOf(produto), 1);
 				this.closeModalView();
 			}
 		});
@@ -127,7 +124,13 @@ export class EstoqueComponent implements OnInit {
 			this.closeModalView();
 		});
 	}
+	
+	removeItemFotos(item: any) {
+		this.produto.images.splice(this.produto.images.indexOf(item), 1);
+	}
 
+	///////////////////////// Modal /////////////////////////////
+	////////////////////////////////////////////////////////////
 	openModal() {
 		this.modalActions.emit({action:"modal",params:['open']});
 	}
@@ -147,8 +150,10 @@ export class EstoqueComponent implements OnInit {
 		this.resetUploader();
 		this.modalViewActions.emit({action:"modal",params:['close']});
 	}
-	
-	removeItemFotos(item: any) {
-		this.produto.images.splice(this.produto.images.indexOf(item), 1);
+
+	////////////////////////// Upload ///////////////////////////
+	////////////////////////////////////////////////////////////
+	fileOverBase(e:any):void {
+		this.hasBaseDropZoneOver = e;
 	}
 }

@@ -4,6 +4,9 @@ import { ServicosService } from '../_services/servicos.service';
 import { ClientesService } from '../_services/clientes.service';
 import { EstoqueService } from '../_services/estoque.service';
 
+import { Subscription } from 'rxjs/Rx';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-financeiro',
   templateUrl: './financeiro.component.html',
@@ -11,13 +14,26 @@ import { EstoqueService } from '../_services/estoque.service';
 })
 export class FinanceiroComponent implements OnInit {
 
+  inscricao: Subscription;
+
+  produtos: any = [];
+  servicos: any = [];
+  clientes: any = [];
+
 	constructor(
 		private servicosService: ServicosService,
 		private clientesService: ClientesService,
-		private estoqueService: EstoqueService
+		private estoqueService: EstoqueService,
+    private route: ActivatedRoute
 	) { }
 
 	ngOnInit() {
+    this.inscricao = this.route.data.subscribe(
+      (data: {produtos: any, servicos: any}) => {
+        this.produtos = data.produtos;
+        this.servicos = data.servicos;
+      }
+    );
 	}
 
 	// lineChart

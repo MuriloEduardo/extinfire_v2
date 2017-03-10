@@ -1,5 +1,8 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 
+import { Subscription } from 'rxjs/Rx';
+import { ActivatedRoute } from '@angular/router';
+
 import { ServicosService } from '../_services/servicos.service';
 import { ClientesService } from '../_services/clientes.service';
 import { EstoqueService } from '../_services/estoque.service';
@@ -16,7 +19,11 @@ declare var Materialize:any;
 
 export class ServicosComponent implements OnInit {
 
+	inscricao: Subscription;
+	
 	modalActions = new EventEmitter<string|MaterializeAction>();
+	modalViewActions = new EventEmitter<string|MaterializeAction>();
+
 	servicos: any[] = [];
 	clientes: any[] = [];
 	produtos: any[] = [];
@@ -37,19 +44,18 @@ export class ServicosComponent implements OnInit {
 	constructor(
 		private servicosService: ServicosService,
 		private clientesService: ClientesService,
-		private estoqueService: EstoqueService
+		private estoqueService: EstoqueService,
+		private route: ActivatedRoute
 	) { }
 
 	ngOnInit() {
-		this.servicosService.getServicos().subscribe((data) => {
-			this.servicos = data;
-		});
-		this.clientesService.getClientes().subscribe((data) => {
-			this.clientes = data;
-		});
-		this.estoqueService.getProdutos().subscribe((data) => {
-			this.produtos = data;
-		});
+		this.inscricao = this.route.data.subscribe(
+			(data: {produtos: any, servicos: any, clientes: any}) => {
+				this.produtos = data.produtos;
+				this.servicos = data.servicos;
+				this.clientes = data.clientes;
+			}
+		);
 	}
 
 	ngAfterViewChecked() {
@@ -109,25 +115,32 @@ export class ServicosComponent implements OnInit {
 		});
 	}
 
-	deleteServico(id: string) {
-		this.servicosService.deleteServico(id).subscribe(data => {
+	deleteServico(servico: any) {
+		this.servicosService.deleteServico(servico).subscribe(data => {
 			if(data.n) {
-				this.servicos.splice(this.servicos.indexOf(id), 1);
+				this.servicos.splice(this.servicos.indexOf(servico), 1);
 			}
 		});
 	}
 
-	editUser(user: any) {
-		this.openModal();
-
-		console.log(user)
-	}
-
+	///////////////////////// Modal /////////////////////////////
+	////////////////////////////////////////////////////////////
 	openModal() {
 		this.modalActions.emit({action:"modal",params:['open']});
 	}
 
 	closeModal() {
 		this.modalActions.emit({action:"modal",params:['close']});
+	}
+	
+	openModalView(servico: any) {
+		console.log(servico)
+		this.servico = servico;
+		this.modalViewActions.emit({action:"modal",params:['open']});
+	}
+
+	closeModalView() {
+		this.servico = {};
+		this.modalViewActions.emit({action:"modal",params:['close']});
 	}
 }

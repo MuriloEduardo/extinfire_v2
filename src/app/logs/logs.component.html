@@ -1,3 +1,22 @@
-<p>
-  logs works!
-</p>
+<div class="row">
+	<div class="col s12 header-pages white">
+		<h1>Logs</h1>
+	</div>
+</div>
+{{logs | json}}
+<div class="row">
+	<div class="col s12">
+		<div class="card" *ngFor="let log of logs">
+			{{log | json}}
+		</div>
+	</div>
+	<div class="col s12" *ngIf="!logs.length">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum log aqui</h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+</div>

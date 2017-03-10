@@ -1,4 +1,4 @@
-<div class="section"></div>
+<!-- <div class="section"></div>
 <div class="card-panel right-align">
 	<a class="waves-effect waves-light btn red darken-1 modal-trigger" (click)="openModal()"><i class="material-icons right">&#xE146;</i>Novo Cliente</a>
 </div>
@@ -29,146 +29,418 @@
 			</li>
 		</ul>
 	</div>
+</div> -->
+<div class="row">
+	<div class="col s12 header-pages white">
+		<h1>Clientes</h1>
+	</div>
+</div>
+<div class="row">
+	<!-- Novo Cliente -->
+	<div class="col s3">
+		<div class="valign-wrapper add-new-card card red darken-1 white-text hoverable" (click)="openModal()">
+			<div class="valign">
+				<i class="material-icons">&#xE145;</i>
+				<h4>Novo Cliente</h4>
+			</div>
+		</div>
+	</div>
+	<!-- Sem nenhum cliente -->
+	<div class="col s9" *ngIf="!clientes.length">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum cliente aqui <br><small>Clique em Novo Cliente</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+	<!-- Listagem de clientes -->
+	<div class="col s9">
+		<div class="row">
+			<div class="col s3" *ngFor="let cliente of clientes" (click)="openModalView(cliente)">
+				<div class="card small hoverable">
+					<div class="card-image">
+						<img *ngIf="cliente.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + cliente.images[0] }}">
+						<img *ngIf="!cliente.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
+					</div>
+					<div class="card-content">
+						<span class="card-title"><strong>{{ cliente.nome }}</strong></span>
+						<p>
+							{{ cliente.endereco?.cidade }}
+							<br/>
+							{{ cliente.endereco?.estado }}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
 	<form (submit)="novoCliente($event)">
 		<div class="modal-content">
-			<div class="row">
-				<div class="col s12">
-					<h4>Adicionar Novo Cliente</h4>
-					<p>Para quem que você prestará seus serviços</p>
-					<div class="section"></div>
-					<!-- Nome -->
-					<div class="row">
-						<div class="col-s12">
-							<div class="input-field">
-								<input id="nome" type="text" class="validate" [(ngModel)]="nome" name="nome" required="" aria-required="true">
-								<label for="nome" data-error="Inválido" data-success="Válido">Nome do cliente</label>
+			<header class="modal-header red darken-1 z-depth-2">
+				<div class="row">
+					<div class="col s12">
+						<h4>Adicionar Novo Cliente</h4>
+						<p>Para quem que você prestará seus serviços</p>
+					</div>
+				</div>
+			</header>
+			<section>
+				<div class="row">
+					<div class="col s7">
+						<div class="section"></div>
+						<!-- Nome -->
+						<div class="row">
+							<div class="col-s12">
+								<div class="input-field">
+									<input id="nome" type="text" [(ngModel)]="nome" name="nome" required="" aria-required="true">
+									<label for="nome" data-error="Inválido" data-success="Válido">Nome do cliente</label>
+								</div>
+							</div>
+						</div>
+						<!-- Representante -->
+						<div class="row">
+							<div class="col-s6">
+								<div class="input-field">
+									<input id="representante" type="text" [(ngModel)]="representante" name="representante">
+									<label for="representante" data-error="Inválido" data-success="Válido">Representante</label>
+								</div>
+							</div>
+							<!-- Comprador -->
+							<div class="col-s6">
+								<div class="input-field">
+									<input id="comprador" type="text" [(ngModel)]="comprador" name="comprador">
+									<label for="comprador" data-error="Inválido" data-success="Válido">Comprador</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- CNPJ -->
+							<div class="col s6">
+								<div class="input-field">
+									<input id="cnpj" type="text" [(ngModel)]="cnpj" name="cnpj" >
+									<label for="cnpj" data-error="Inválido" data-success="Válido">CNPJ</label>
+								</div>
+							</div>
+							<!-- Insc Estadual -->
+							<div class="col s6">
+								<div class="input-field">
+									<input id="insc_estadual" type="text" [(ngModel)]="insc_estadual" name="insc_estadual" >
+									<label for="insc_estadual" data-error="Inválido" data-success="Válido">Inscrição Estadual</label>
+								</div>
+							</div>
+						</div>
+						<!-- Contato -->
+						<div class="row">
+							<!-- Fone -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="fone" type="text" [(ngModel)]="fone" name="fone" >
+									<label for="fone" data-error="Inválido" data-success="Válido">Fone</label>
+								</div>
+							</div>
+							<!-- Celular -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="celular" type="text" [(ngModel)]="celular" name="celular" >
+									<label for="celular" data-error="Inválido" data-success="Válido">Celular</label>
+								</div>
+							</div>
+							<!-- Email -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="email" type="email" [(ngModel)]="email" name="email" >
+									<label for="email" data-error="Inválido" data-success="Válido">Email</label>
+								</div>
+							</div>
+						</div>
+						<!-- Endereço -->
+						<div class="row">
+							<!-- Logradouro -->
+							<div class="col s12">
+								<div class="input-field">
+									<input id="logradouro" type="text" [(ngModel)]="logradouro" name="logradouro" >
+									<label for="logradouro" data-error="Inválido" data-success="Válido">Logradouro</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- Numero -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="numero" type="text" [(ngModel)]="numero" name="numero" >
+									<label for="numero" data-error="Inválido" data-success="Válido">Número</label>
+								</div>
+							</div>
+							<!-- Complemento -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="complemento" type="text" [(ngModel)]="complemento" name="complemento" >
+									<label for="complemento" data-error="Inválido" data-success="Válido">Complemento</label>
+								</div>
+							</div>
+							<!-- Bairro -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="bairro" type="text" [(ngModel)]="bairro" name="bairro" >
+									<label for="bairro" data-error="Inválido" data-success="Válido">Bairro</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- Cidade -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="cidade" type="text" [(ngModel)]="cidade" name="cidade" >
+									<label for="cidade" data-error="Inválido" data-success="Válido">Cidade</label>
+								</div>
+							</div>
+							<!-- Estado -->
+							<div class="col s4">
+								<div class="input-field">
+									<select id="estado" [(ngModel)]="estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
+									  <option value="" disabled selected>Estado</option>
+									  <option *ngFor="let option of selectEstadoOptions" [value]="option.value">{{option.name}}</option>
+									</select>
+									<label for="estado" data-error="Inválido" data-success="Válido"></label>
+								</div>
+							</div>
+							<!-- CEP -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="cep" type="text" [(ngModel)]="cep" name="cep" >
+									<label for="cep" data-error="Inválido" data-success="Válido">CEP</label>
+								</div>
 							</div>
 						</div>
 					</div>
-					<!-- Representante -->
-					<div class="row">
-						<div class="col-s6">
-							<div class="input-field">
-								<input id="representante" type="text" class="validate" [(ngModel)]="representante" name="representante">
-								<label for="representante" data-error="Inválido" data-success="Válido">Representante</label>
+					<div class="col s5">
+						<div class="section"></div>
+						<div class="row">
+							<div class="lista-images">
+								<div class="col s3 center-align" *ngFor="let imgCliente of cliente.images">
+									<a class="waves-effect waves-light btn grey darken-4" (click)="removeItemFotos(imgCliente)">
+										<i class="material-icons">&#xE92B;</i>
+									</a>
+									<img src="{{ 'http://127.0.0.1:8080/uploads/' + imgCliente }}" class="responsive-img">
+								</div>
+								<div class="col s3 center-align" *ngFor="let item of uploader.queue">
+									<a class="waves-effect waves-light btn grey darken-4" (click)="item.remove()">
+										<i class="material-icons">&#xE92B;</i>
+									</a>
+									<img imgPreview [image]="item?._file" class="responsive-img">
+								</div>
 							</div>
 						</div>
-						<!-- Comprador -->
-						<div class="col-s6">
-							<div class="input-field">
-								<input id="comprador" type="text" class="validate" [(ngModel)]="comprador" name="comprador">
-								<label for="comprador" data-error="Inválido" data-success="Válido">Comprador</label>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<!-- CNPJ -->
-						<div class="col s6">
-							<div class="input-field">
-								<input id="cnpj" type="text" class="validate" [(ngModel)]="cnpj" name="cnpj" >
-								<label for="cnpj" data-error="Inválido" data-success="Válido">CNPJ</label>
-							</div>
-						</div>
-						<!-- Insc Estadual -->
-						<div class="col s6">
-							<div class="input-field">
-								<input id="insc_estadual" type="text" class="validate" [(ngModel)]="insc_estadual" name="insc_estadual" >
-								<label for="insc_estadual" data-error="Inválido" data-success="Válido">Inscrição Estadual</label>
-							</div>
-						</div>
-					</div>
-					<!-- Contato -->
-					<div class="row">
-						<!-- Fone -->
-						<div class="col s4">
-							<div class="input-field">
-								<input id="fone" type="text" class="validate" [(ngModel)]="fone" name="fone" >
-								<label for="fone" data-error="Inválido" data-success="Válido">Fone</label>
-							</div>
-						</div>
-						<!-- Celular -->
-						<div class="col s4">
-							<div class="input-field">
-								<input id="celular" type="text" class="validate" [(ngModel)]="celular" name="celular" >
-								<label for="celular" data-error="Inválido" data-success="Válido">Celular</label>
-							</div>
-						</div>
-						<!-- Email -->
-						<div class="col s4">
-							<div class="input-field">
-								<input id="email" type="email" class="validate" [(ngModel)]="email" name="email" >
-								<label for="email" data-error="Inválido" data-success="Válido">Email</label>
-							</div>
-						</div>
-					</div>
-					<!-- Endereço -->
-					<div class="row">
-						<!-- CEP -->
-						<div class="col s12">
-							<div class="input-field">
-								<input id="cep" type="text" class="validate" [(ngModel)]="cep" name="cep" >
-								<label for="cep" data-error="Inválido" data-success="Válido">CEP</label>
-							</div>
-						</div>
-						<!-- Logradouro -->
-						<div class="col s12">
-							<div class="input-field">
-								<input id="logradouro" type="text" class="validate" [(ngModel)]="logradouro" name="logradouro" >
-								<label for="logradouro" data-error="Inválido" data-success="Válido">Logradouro</label>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<!-- Numero -->
-						<div class="col s4">
-							<div class="input-field">
-								<input id="numero" type="text" class="validate" [(ngModel)]="numero" name="numero" >
-								<label for="numero" data-error="Inválido" data-success="Válido">Número</label>
-							</div>
-						</div>
-						<!-- Complemento -->
-						<div class="col s4">
-							<div class="input-field">
-								<input id="complemento" type="text" class="validate" [(ngModel)]="complemento" name="complemento" >
-								<label for="complemento" data-error="Inválido" data-success="Válido">Complemento</label>
-							</div>
-						</div>
-						<!-- Bairro -->
-						<div class="col s4">
-							<div class="input-field">
-								<input id="bairro" type="text" class="validate" [(ngModel)]="bairro" name="bairro" >
-								<label for="bairro" data-error="Inválido" data-success="Válido">Bairro</label>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<!-- Cidade -->
-						<div class="col s4">
-							<div class="input-field">
-								<input id="cidade" type="text" class="validate" [(ngModel)]="cidade" name="cidade" >
-								<label for="cidade" data-error="Inválido" data-success="Válido">Cidade</label>
-							</div>
-						</div>
-						<!-- Estado -->
-						<div class="col s4">
-							<div class="input-field">
-								<select id="estado" class="validate" [(ngModel)]="estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
-								  <option value="" disabled selected>Estado</option>
-								  <option *ngFor="let option of selectEstadoOptions" [value]="option.value">{{option.name}}</option>
-								</select>
-								<label for="estado" data-error="Inválido" data-success="Válido"></label>
-							</div>
+						<div class="row">
+							<div class="col s12">
+								<div ng2FileDrop
+					                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+					                 (fileOver)="fileOverBase($event)"
+					                 [uploader]="uploader"
+					                 class="drop-zone">
+					                <i class="material-icons">&#xE439;</i>
+					                <h4>Arraste e solte aqui</h4>
+					                <h5>ou</h5>
+					                <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+					            </div>
+				            </div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</section>
 		</div>
 		<div class="modal-footer">
 			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
 			<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" (click)="closeModal()">Cancelar</a>
+		</div>
+	</form>
+</div>
+<!-- Modal Cada Cliente Structure -->
+<div id="modal2" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalViewActions">
+	<form (submit)="updateCliente()">
+		<div class="modal-content">
+			<header class="modal-header red darken-1 z-depth-2">
+				<div class="row">
+					<div class="col s12">
+						<h4>Visualizar e Editar Cliente</h4>
+						<p>Exclua, edite e visualize este cliente</p>
+					</div>
+				</div>
+			</header>
+			<section>
+				<div class="row">
+					<div class="col s7">
+						<div class="section"></div>
+						<!-- Nome -->
+						<div class="row">
+							<div class="col-s12">
+								<div class="input-field">
+									<input id="nome" type="text" [(ngModel)]="cliente.nome" name="nome" required="" aria-required="true">
+									<label for="nome" data-error="Inválido" data-success="Válido">Nome do cliente</label>
+								</div>
+							</div>
+						</div>
+						<!-- Representante -->
+						<div class="row">
+							<div class="col-s6">
+								<div class="input-field">
+									<input id="representante" type="text" [(ngModel)]="cliente.representante" name="representante">
+									<label for="representante" data-error="Inválido" data-success="Válido">Representante</label>
+								</div>
+							</div>
+							<!-- Comprador -->
+							<div class="col-s6">
+								<div class="input-field">
+									<input id="comprador" type="text" [(ngModel)]="cliente.comprador" name="comprador">
+									<label for="comprador" data-error="Inválido" data-success="Válido">Comprador</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- CNPJ -->
+							<div class="col s6">
+								<div class="input-field">
+									<input id="cnpj" type="text" [(ngModel)]="cliente.cnpj" name="cnpj" >
+									<label for="cnpj" data-error="Inválido" data-success="Válido">CNPJ</label>
+								</div>
+							</div>
+							<!-- Insc Estadual -->
+							<div class="col s6">
+								<div class="input-field">
+									<input id="insc_estadual" type="text" [(ngModel)]="cliente.insc_estadual" name="insc_estadual" >
+									<label for="insc_estadual" data-error="Inválido" data-success="Válido">Inscrição Estadual</label>
+								</div>
+							</div>
+						</div>
+						<!-- Contato -->
+						<div class="row">
+							<!-- Fone -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="fone" type="text" [(ngModel)]="cliente.fone" name="fone" >
+									<label for="fone" data-error="Inválido" data-success="Válido">Fone</label>
+								</div>
+							</div>
+							<!-- Celular -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="celular" type="text" [(ngModel)]="cliente.celular" name="celular" >
+									<label for="celular" data-error="Inválido" data-success="Válido">Celular</label>
+								</div>
+							</div>
+							<!-- Email -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="email" type="email" [(ngModel)]="cliente.email" name="email" >
+									<label for="email" data-error="Inválido" data-success="Válido">Email</label>
+								</div>
+							</div>
+						</div>
+						<!-- Endereço -->
+						<div class="row">
+							<!-- Logradouro -->
+							<div class="col s12">
+								<div class="input-field">
+									<input id="logradouro" type="text" [(ngModel)]="cliente.logradouro" name="logradouro" >
+									<label for="logradouro" data-error="Inválido" data-success="Válido">Logradouro</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- Numero -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="numero" type="text" [(ngModel)]="cliente.numero" name="numero" >
+									<label for="numero" data-error="Inválido" data-success="Válido">Número</label>
+								</div>
+							</div>
+							<!-- Complemento -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="complemento" type="text" [(ngModel)]="cliente.complemento" name="complemento" >
+									<label for="complemento" data-error="Inválido" data-success="Válido">Complemento</label>
+								</div>
+							</div>
+							<!-- Bairro -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="bairro" type="text" [(ngModel)]="cliente.bairro" name="bairro" >
+									<label for="bairro" data-error="Inválido" data-success="Válido">Bairro</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<!-- Cidade -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="cidade" type="text" [(ngModel)]="cliente.cidade" name="cidade" >
+									<label for="cidade" data-error="Inválido" data-success="Válido">Cidade</label>
+								</div>
+							</div>
+							<!-- Estado -->
+							<div class="col s4">
+								<div class="input-field">
+									<select id="estado" [(ngModel)]="cliente.estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
+									  <option value="" disabled selected>Estado</option>
+									  <option *ngFor="let option of selectEstadoOptions" [value]="option.value">{{option.name}}</option>
+									</select>
+									<label for="estado" data-error="Inválido" data-success="Válido"></label>
+								</div>
+							</div>
+							<!-- CEP -->
+							<div class="col s4">
+								<div class="input-field">
+									<input id="cep" type="text" [(ngModel)]="cliente.cep" name="cep" >
+									<label for="cep" data-error="Inválido" data-success="Válido">CEP</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col s5">
+						<div class="section"></div>
+						<div class="row">
+							<div class="lista-images">
+								<div class="col s3 center-align" *ngFor="let imgCliente of cliente.images">
+									<a class="waves-effect waves-light btn grey darken-4" (click)="removeItemFotos(imgCliente)">
+										<i class="material-icons">&#xE92B;</i>
+									</a>
+									<img src="{{ 'http://127.0.0.1:8080/uploads/' + imgCliente }}" class="responsive-img">
+								</div>
+								<div class="col s3 center-align" *ngFor="let item of uploader.queue">
+									<a class="waves-effect waves-light btn grey darken-4" (click)="item.remove()">
+										<i class="material-icons">&#xE92B;</i>
+									</a>
+									<img imgPreview [image]="item?._file" class="responsive-img">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<div ng2FileDrop
+					                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+					                 (fileOver)="fileOverBase($event)"
+					                 [uploader]="uploader"
+					                 class="drop-zone">
+					                <i class="material-icons">&#xE439;</i>
+					                <h4>Arraste e solte aqui</h4>
+					                <h5>ou</h5>
+					                <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+					            </div>
+				            </div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<div class="modal-footer">
+			<a class="waves-effect waves-red btn-flat" (click)="closeModalView()">Cancelar</a>
+			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Editar e Salvar</button>
+			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteCliente(cliente)">Excluir</a>
 		</div>
 	</form>
 </div>

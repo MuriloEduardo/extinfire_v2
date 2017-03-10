@@ -7,8 +7,8 @@ import { LogsService } from './logs.service';
 @Injectable()
 export class EstoqueService {
 
-	apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-	//apiUrl: string = 'http://127.0.0.1:8080/api/';
+	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+	apiUrl: string = 'http://127.0.0.1:8080/api/';
 	produtos: any;
 
   	constructor(
@@ -27,21 +27,33 @@ export class EstoqueService {
 	}
 
 	addProduto(newProduto: any) {
-		this.logsService.addLog('criou o produto: ' + newProduto.nome);
+
+		this.logsService.addLog({
+			descricao: 'criou o produto',
+			item: newProduto.nome
+		});
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.apiUrl + 'produto', JSON.stringify(newProduto), {headers: headers}).map(res => res.json());
 	}
 
-	deleteProduto(id: string) {
-		this.logsService.addLog('deletou o produto: ' + newProduto.nome);
+	deleteProduto(produto: any) {
+
+		this.logsService.addLog({
+			descricao: 'deletou o produto',
+			item: produto.nome
+		});
 		
-		return this.http.delete(this.apiUrl + 'produto/' + id).map(res => res.json());
+		return this.http.delete(this.apiUrl + 'produto/' + produto._id).map(res => res.json());
 	}
 
 	updateProduto(produto: any) {
-		this.logsService.addLog('editou o produto: ' + produto.nome);
+
+		this.logsService.addLog({
+			descricao: 'editou o produto',
+			item: produto.nome
+		});
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');

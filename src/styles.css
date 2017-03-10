@@ -43,7 +43,9 @@ input:not([type]):focus:not([readonly]) + label, input[type=text]:focus:not([rea
 .material-icons.big {
 	font-size: 3.56rem;
 }
-
+.card {
+    cursor: pointer;
+}
 .card .card-action {
 	padding: 16px 12px !important;
 }
@@ -90,6 +92,10 @@ header.modal-header * {
 }
 .modal-content header p {
 	margin-bottom: 10px!important;
+}
+.add-new-card {
+	padding-top: 50px;
+	padding-bottom: 50px;
 }
 .add-new-card i {
 	font-size: 46px;
