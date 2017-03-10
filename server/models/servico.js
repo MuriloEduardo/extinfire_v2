@@ -13,7 +13,7 @@ let servicoSchema = mongoose.Schema({
 	tipo: String,
 	observacao: String,
 	valor_total: Number,
-	criadoEm: {
+	updatedAt: {
         type: Date, 
         default: Date.now 
     }

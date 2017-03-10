@@ -126,6 +126,7 @@ router.post('/cliente', (req, res, next) => {
 	} else {
 		let novoCliente = new Cliente();
 
+		novoCliente.images = dadosCliente.images;
 		novoCliente.nome = dadosCliente.nome;
 		novoCliente.representante = dadosCliente.representante;
 		novoCliente.cnpj = dadosCliente.cnpj;
@@ -170,7 +171,28 @@ router.put('/cliente/:id', (req, res, next) => {
 		if(!dadosCliente) {
 			res.json({"error": "dados incompletos"});
 		} else {
-			cliente = dadosCliente;
+
+			cliente.images = dadosCliente.images;
+			cliente.nome = dadosCliente.nome;
+			cliente.representante = dadosCliente.representante;
+			cliente.cnpj = dadosCliente.cnpj;
+			cliente.insc_estadual = dadosCliente.insc_estadual;
+			cliente.comprador = dadosCliente.comprador;
+			cliente.contato = {
+				fone: dadosCliente.fone,
+				celular: dadosCliente.celular,
+				email: dadosCliente.email
+			};
+			console.log(dadosCliente)
+			cliente.endereco = {
+				logradouro: dadosCliente.endereco.logradouro,
+				numero: dadosCliente.endereco.numero,
+				complemento: dadosCliente.endereco.complemento,
+				bairro: dadosCliente.endereco.bairro,
+				cidade: dadosCliente.endereco.cidade,
+				estado: dadosCliente.endereco.estado,
+				cep: dadosCliente.endereco.cep
+			};
 
 			cliente.save((err, data) => {
 				if(err) res.send(err);
@@ -392,9 +414,11 @@ router.get('/logs', (req, res, next) => {
 });
 
 // Create Log
-router.post('/log', (req, res) => {
+router.post('/log', (req, res, next) => {
+	console.log(req.body)
 	let log = new Logs();
 	log.descricao = req.body.descricao;
+	log.nome = req.body.nome;
 	log.save((err, data) => {
 		if(err) res.send(err);
 		res.json(data);

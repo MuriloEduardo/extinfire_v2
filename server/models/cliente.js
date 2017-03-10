@@ -3,6 +3,7 @@
 let mongoose = require('mongoose');
 
 let clienteSchema = mongoose.Schema({
+	images: [],
 	nome: String,
 	representante: String,
 	cnpj: Number,
@@ -22,6 +23,10 @@ let clienteSchema = mongoose.Schema({
 		cidade: String,
 		estado: String,
 		cep: Number
-	}
+	},
+	updatedAt: {
+        type: Date, 
+        default: Date.now 
+    }
 });
 module.exports = mongoose.model('Cliente', clienteSchema);

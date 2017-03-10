@@ -9,7 +9,10 @@ let produtoSchema = mongoose.Schema({
 	valor_venda: Number,
 	qntde_atual: Number,
 	qntde_minima: Number,
-	updatedAt: new Date()
+	updatedAt: {
+        type: Date, 
+        default: Date.now
+    }
 });
 
 module.exports = mongoose.model('Produto', produtoSchema);
