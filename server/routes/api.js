@@ -234,7 +234,7 @@ router.post('/servico', (req, res, next) => {
 		novoServico.itens = dadosServico.itens;
 		novoServico.tipo = dadosServico.tipo;
 		novoServico.observacao = dadosServico.observacao;
-		novoServico.valor_total = dadosServico.valorTotal;
+		novoServico.valor_total = dadosServico.valor_total;
 
 		novoServico.save((err, data) => {
 			if(err) throw err;

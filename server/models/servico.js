@@ -10,7 +10,7 @@ let servicoSchema = mongoose.Schema({
 		valor_total: Number,
 		validade: { type: Date }
 	}],
-	tipo: String,
+	tipo: Boolean,
 	observacao: String,
 	valor_total: Number,
 	updatedAt: {
