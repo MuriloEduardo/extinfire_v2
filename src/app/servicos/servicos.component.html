@@ -61,8 +61,10 @@
 			<div class="col s3" *ngFor="let servico of servicos" (click)="openModalView(servico)">
 				<div class="card small hoverable">
 					<div class="card-image">
-						<!-- <img *ngIf="servico.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + servico.images[0] }}">
-						<img *ngIf="!servico.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg"> -->
+						<!-- <img *ngIf="servico.cliente.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + servico.cliente.images[0] }}">
+						<img *ngIf="!servico.cliente.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg"> -->
+						<img *ngIf="servico.cliente.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + servico.cliente.images[0] }}">
+						<img *ngIf="!servico.cliente.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg">
 					</div>
 					<div class="card-content">
 						<span class="card-title"><strong>{{ servico.cliente.nome }}</strong></span>
@@ -151,7 +153,7 @@
 									</td>
 									<td>
 										<div class="input-field">
-											<input id="qntde" type="number" min="1" class="validate" [(ngModel)]="servico.itens[i].qntde" name="qntde{{i}}" [attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
+											<input id="qntde" type="number" (change)="sum(i)" min="1" class="validate" [(ngModel)]="servico.itens[i].qntde" name="qntde{{i}}" [attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
 											<label for="qntde">Quantidade</label>
 										</div>
 									</td>
@@ -160,7 +162,7 @@
 											<input 
 											id="valor_venda" 
 											type="text" 
-											class="validate" [(ngModel)]="servico.itens[i]?.produto.valor_venda" 
+											class="validate" [(ngModel)]="servico.itens[i].produto.valor_venda" 
 											name="valor_venda{{i}}" 
 											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
 											>
@@ -216,7 +218,7 @@
 							</div>
 							<div class="col s4 center-align">
 								<h5>Valor Total</h5>
-								<h6>R$ {{ servico.valorTotal | number:'.2-2' }}</h6>
+								<h6>R$ {{ servico.valor_total | number:'.2-2' }}</h6>
 							</div>
 						</div>
 					</div>
@@ -242,27 +244,27 @@
 				</div>
 			</header>
 			<section>
+				<pre>{{servicoEdit | json}}</pre>
 				<div class="row">
 					<div class="col s12">
 						<div class="section"></div>
 						<div class="input-field">
-							<select id="cliente" class="validate" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="servico.cliente" name="cliente">
-							  <option value="" disabled selected>Selecione o cliente</option>
+							<select id="cliente" class="validate" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="servicoEdit.cliente" name="cliente">
+							  <option value="" disabled>Selecione o cliente</option>
 							  <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.nome}}</option>
 							</select>
 						</div>
 						<div class="section"></div>
-						<!-- Switch -->
 						<div class="switch">
 							<label>
 								Orçamento
-								<input type="checkbox" [(ngModel)]="servico.tipo" name="tipo">
+								<input type="checkbox" [(ngModel)]="servicoEdit.tipo" name="tipo">
 								<span class="lever"></span>
 								Pedido (Baixa no estoque)
 							</label>
 						</div>
 						<div class="section"></div>
-						<div *ngIf="(servico.cliente | json) != '{}'">
+						<div *ngIf="(servicoEdit.cliente | json) != '{}'">
 							<table>
 								<thead>
 									<tr>
@@ -274,75 +276,76 @@
 										<th data-field="acoes" class="center-align">Ações</th>
 									</tr>
 								</thead>
-
 								<tbody>
-									<tr *ngFor="let item of servico.itens; let i = index; let last = last;let first = first">
-										<td>
-											<div class="input-field">
-												<select 
-												id="item" 
-												class="validate" 
-												materialize="material_select" 
-												[materializeSelectOptions]="produtos" 
-												[(ngModel)]="servico.itens[i].produto" 
-												name="item{{i}}" 
-												(change)="setProduto(i, last, servico.itens[i].produto)"
-												[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
-												>
-												  <option value="" disabled selected>Selecione o produto</option>
-												  <option *ngFor="let produto of produtos" [ngValue]="produto">{{produto.nome}}</option>
-												</select>
-											</div>
-										</td>
-										<td>
-											<div class="input-field">
-												<input id="qntde" type="number" min="1" class="validate" [(ngModel)]="servico.itens[i].qntde" name="qntde{{i}}" [attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
-												<label for="qntde">Quantidade</label>
-											</div>
-										</td>
-										<td>
-											<div class="input-field">
-												<input 
-												id="valor_venda" 
-												type="text" 
-												class="validate" [(ngModel)]="servico.itens[i]?.produto.valor_venda" 
-												name="valor_venda{{i}}" 
-												[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
-												>
-												<label for="valor_venda">Valor unitário</label>
-											</div>
-										</td>
-										<td>
-											<div class="input-field">
-												<input 
-												id="total" 
-												type="text" 
-												class="validate" 
-												[(ngModel)]="servico.itens[i].total" 
-												name="total{{i}}" 
-												readonly="" 
-												[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
-												>
-												<label for="total">Valor total</label>
-											</div>
-										</td>
-										<td>
-											<div class="input-field">
-												<label for="validade">Validade deste serviço</label>
-												<input 
-												id="validade" 
-												materialize="pickadate" 
-												[materializeParams]="[{ selectMonths: true }]"
-												type="text" 
-												[(ngModel)]="servico.itens[i].validade" 
-												name="validade{{i}}" 
-												[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
-												>
-											</div>
-										</td>
-										<td>
-											<a class="waves-effect waves-light btn-flat secondary-content"><i class="material-icons">&#xE92B;</i></a>
-										</td>
+									<tr *ngFor="let item of servicoEdit.itens; let i = index; let last = last;let first = first">
+										<div *ngIf="servicoEdit.itens[i].produto">
+											<td>
+												<div class="input-field">
+													<select 
+													id="item" 
+													class="validate" 
+													materialize="material_select" 
+													[materializeSelectOptions]="produtos" 
+													[(ngModel)]="item.produto" 
+													name="item{{i}}" 
+													(change)="setProduto(i, last, item.produto)"
+													>
+													  <option value="" disabled selected>Selecione o produto</option>
+													  <option *ngFor="let produto of produtos" [ngValue]="produto">{{produto.nome}}</option>
+													</select>
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<input id="qntde" type="number" min="1" class="validate" [(ngModel)]="servicoEdit.itens[i].qntde" name="qntde{{i}}" [attr.required]="servicoEdit.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
+													<label for="qntde">Quantidade</label>
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<input 
+													id="valor_vendaEdit" 
+													type="text" 
+													class="validate"
+													[(ngModel)]="servicoEdit.itens[i].produto.valor_venda" 
+													name="valor_vendaEdit{{i}}" 
+													[attr.required]="servicoEdit.itens[i].produto.nome&&!first ? true : undefined"
+													>
+													<label for="valor_vendaEdit">Valor unitário</label>
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<input 
+													id="total" 
+													type="text" 
+													class="validate" 
+													[(ngModel)]="servicoEdit.itens[i].total" 
+													name="total{{i}}" 
+													readonly="" 
+													[attr.required]="servicoEdit.itens[i].produto.nome&&!first ? true : undefined"
+													>
+													<label for="total">Valor total</label>
+												</div>
+											</td>
+											<td>
+												<div class="input-field">
+													<label for="validade">Validade deste serviço</label>
+													<input 
+													id="validade" 
+													materialize="pickadate" 
+													[materializeParams]="[{ selectMonths: true }]"
+													type="text" 
+													[(ngModel)]="servicoEdit.itens[i].validade" 
+													name="validade{{i}}" 
+													[attr.required]="servicoEdit.itens[i].produto.nome&&!first ? true : undefined"
+													>
+												</div>
+											</td>
+											<td>
+												<a class="waves-effect waves-light btn-flat secondary-content"><i class="material-icons">&#xE92B;</i></a>
+											</td>
+										</div>
 									</tr>
 								</tbody>
 							</table>
@@ -353,7 +356,7 @@
 										id="observacoes" 
 										class="materialize-textarea" 
 										data-length="120" 
-										[(ngModel)]="servico.observacao" 
+										[(ngModel)]="servicoEdit.observacao" 
 										name="observacao"
 										></textarea>
 										<label for="observacoes">Observações</label>
@@ -361,7 +364,7 @@
 								</div>
 								<div class="col s4 center-align">
 									<h5>Valor Total</h5>
-									<h6>R$ {{ servico.valorTotal | number:'.2-2' }}</h6>
+									<h6>R$ {{ servicoEdit.valor_total | number:'.2-2' }}</h6>
 								</div>
 							</div>
 						</div>
@@ -372,7 +375,7 @@
 		<div class="modal-footer">
 			<a class="waves-effect waves-red btn-flat" (click)="closeModalView()">Cancelar</a>
 			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Editar e Salvar</button>
-			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteServico(servico)">Excluir</a>
+			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteServico(servicoEdit)">Excluir</a>
 		</div>
 	</form>
 </div>

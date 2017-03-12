@@ -36,7 +36,20 @@ export class ServicosComponent implements OnInit {
 			validade: undefined,
 			total: 0
 		}],
-		valorTotal: 0,
+		valor_total: 0,
+		observacao: undefined,
+		tipo: false
+	};
+	
+	servicoEdit: any = {
+		cliente: {},
+		itens: [{
+			produto: {},
+			qntde: undefined,
+			validade: undefined,
+			total: 0
+		}],
+		valor_total: 0,
 		observacao: undefined,
 		tipo: false
 	};
@@ -68,26 +81,39 @@ export class ServicosComponent implements OnInit {
 	}
 
 	setProduto(index: number, last?: number, produto?: any) {
+		
+		console.log(produto)
 
 		if(!produto) return false;
+		
+		if(!this.servico.itens[index].produto.valor_venda)
+			this.servico.itens[index].produto.valor_venda = 0;
 
 		if(!this.servico.itens[index].qntde)
 			this.servico.itens[index].qntde = 1;
-
-		this.servico.itens[index].total = this.servico.itens[index].qntde * this.servico.itens[index].produto.valor_venda;
+			
 		this.servico.itens[index].validade = new Date();
-
-		for (let j=0;j<this.servico.itens.length;++j) {
-			if(this.servico.itens[j].total) {
-				this.servico.valorTotal += this.servico.itens[j].total;
-			}
-		}
-
+		
+		this.sum(index);
+		
 		if(last) {
 			this.servico.itens.push({
 				produto: {}
 			});
 		}
+	}
+	
+	sum(index: number) {
+		
+		this.servico.itens[index].total = this.servico.itens[index].qntde * this.servico.itens[index].produto.valor_venda;
+		
+		let valorTotalNew = 0;
+		for (let j=0;j<this.servico.itens.length;++j) {
+			if(this.servico.itens[j].total) {
+				valorTotalNew += this.servico.itens[j].total;
+			}
+		}
+		this.servico.valor_total = valorTotalNew;
 	}
 
 	novoServico(event) {
@@ -96,21 +122,9 @@ export class ServicosComponent implements OnInit {
 		if(!this.servico.cliente.length&&!this.servico.itens.length) return false;
 		
 		this.servicosService.addServico(this.servico).subscribe(servico => {
+			console.log(servico)
 			this.servicos.push(servico);
 			
-			this.servico = {
-				cliente: {},
-				itens: [{
-					produto: {},
-					qntde: undefined,
-					validade: undefined,
-					total: 0
-				}],
-				valorTotal: 0,
-				observacao: undefined,
-				tipo: false
-			};
-
 			this.closeModal();
 		});
 	}
@@ -119,6 +133,7 @@ export class ServicosComponent implements OnInit {
 		this.servicosService.deleteServico(servico).subscribe(data => {
 			if(data.n) {
 				this.servicos.splice(this.servicos.indexOf(servico), 1);
+				this.closeModalView();
 			}
 		});
 	}
@@ -130,17 +145,32 @@ export class ServicosComponent implements OnInit {
 	}
 
 	closeModal() {
+		this.servico = {
+			cliente: {},
+			itens: [{
+				produto: {},
+				qntde: undefined,
+				validade: undefined,
+				total: 0
+			}],
+			valor_total: 0,
+			observacao: undefined,
+			tipo: false
+		};
+		
 		this.modalActions.emit({action:"modal",params:['close']});
 	}
 	
 	openModalView(servico: any) {
-		console.log(servico)
-		this.servico = servico;
+		this.servicoEdit = servico;
+		this.servicoEdit.itens.push({
+			produto: {}
+		});
 		this.modalViewActions.emit({action:"modal",params:['open']});
 	}
 
 	closeModalView() {
-		this.servico = {};
+		this.servicoEdit = {};
 		this.modalViewActions.emit({action:"modal",params:['close']});
 	}
 }

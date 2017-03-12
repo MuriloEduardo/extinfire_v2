@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class LogsService {
 
-	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-	apiUrl: string = 'http://127.0.0.1:8080/api/';
+	apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+	//apiUrl: string = 'http://127.0.0.1:8080/api/';
 	logs: any;
 	user: {};
 
