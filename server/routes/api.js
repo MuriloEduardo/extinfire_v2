@@ -415,10 +415,12 @@ router.get('/logs', (req, res, next) => {
 
 // Create Log
 router.post('/log', (req, res, next) => {
-	console.log(req.body)
+
 	let log = new Logs();
 	log.descricao = req.body.descricao;
-	log.nome = req.body.nome;
+	log.item = req.body.item;
+	log.usuario = req.body.usuario;
+
 	log.save((err, data) => {
 		if(err) res.send(err);
 		res.json(data);
