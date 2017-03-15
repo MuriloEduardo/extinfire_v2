@@ -29,10 +29,10 @@
 			<div class="col s3" *ngFor="let produto of produtos" (click)="openModalView(produto)">
 				<div class="card small hoverable">
 					<div class="card-image">
-						<!--<img *ngIf="produto.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + produto.images[0] }}">
-						<img *ngIf="!produto.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">-->
-						<img *ngIf="produto.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/' + produto.images[0] }}">
-						<img *ngIf="!produto.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg">
+						<img *ngIf="produto.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + produto.images[0] }}">
+						<img *ngIf="!produto.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
+						<!-- <img *ngIf="produto.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/' + produto.images[0] }}">
+						<img *ngIf="!produto.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg"> -->
 					</div>
 					<div class="card-content">
 						<span class="card-title"><strong>{{ produto.nome }}</strong></span>

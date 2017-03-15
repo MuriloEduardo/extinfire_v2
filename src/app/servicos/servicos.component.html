@@ -61,10 +61,10 @@
 			<div class="col s3" *ngFor="let servico of servicos" (click)="openModalView(servico)">
 				<div class="card small hoverable">
 					<div class="card-image">
-						<!-- <img *ngIf="servico.cliente.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + servico.cliente.images[0] }}">
-						<img *ngIf="!servico.cliente.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg"> -->
-						<img *ngIf="servico.cliente.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + servico.cliente.images[0] }}">
-						<img *ngIf="!servico.cliente.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg">
+						<img *ngIf="servico.cliente.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + servico.cliente.images[0] }}">
+						<img *ngIf="!servico.cliente.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
+						<!-- <img *ngIf="servico.cliente.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + servico.cliente.images[0] }}">
+						<img *ngIf="!servico.cliente.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg"> -->
 					</div>
 					<div class="card-content">
 						<span class="card-title"><strong>{{ servico.cliente.nome }}</strong></span>
@@ -244,14 +244,24 @@
 				</div>
 			</header>
 			<section>
-				<pre>{{servicoEdit | json}}</pre>
 				<div class="row">
 					<div class="col s12">
 						<div class="section"></div>
 						<div class="input-field">
-							<select id="cliente" class="validate" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="servicoEdit.cliente" name="cliente">
+							<select 
+							id="cliente" 
+							class="icons" 
+							materialize="material_select" 
+							[materializeSelectOptions]="clientes" 
+							[(ngModel)]="servicoEdit.cliente" 
+							name="cliente"
+							>
 							  <option value="" disabled>Selecione o cliente</option>
-							  <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.nome}}</option>
+							  <option 
+							  *ngFor="let cliente of clientes" 
+							  [ngValue]="cliente"
+							  class="left circle" 
+							  >{{cliente.nome}}</option>
 							</select>
 						</div>
 						<div class="section"></div>

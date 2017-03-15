@@ -16,9 +16,11 @@ export class FinanceiroComponent implements OnInit {
 
   inscricao: Subscription;
 
-  produtos: any = [];
-  servicos: any = [];
-  clientes: any = [];
+  produtos: Array<any> = [];
+  servicos: Array<any> = [];
+  clientes: Array<any> = [];
+
+  valorTotalServico: Array<any> = [];
 
 	constructor(
 		private servicosService: ServicosService,
@@ -32,58 +34,61 @@ export class FinanceiroComponent implements OnInit {
       (data: {produtos: any, servicos: any}) => {
         this.produtos = data.produtos;
         this.servicos = data.servicos;
+
+        for (let i = 0; i < this.servicos.length; ++i) {
+          this.valorTotalServico.push(this.servicos[i].valor_total);
+        }
       }
     );
 	}
 
 	// lineChart
-  public lineChartData:Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
-    {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
+  public lineChartFaturamentoTotalData:Array<any> = [
+    {data: this.valorTotalServico, label: 'Faturamento Total'}
   ];
   public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions:any = {
     responsive: true
   };
-  public lineChartColors:Array<any> = [
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    },
-    { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
-    },
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
+  public lineChartFaturamentoTotalColors:Array<any> = [
+    { // red
+      backgroundColor: 'rgba(255,0,0,0.2)',
+      borderColor: 'rgba(255,0,0,1)',
       pointBackgroundColor: 'rgba(148,159,177,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(148,159,177,0.8)'
     }
   ];
-  public lineChartLegend:boolean = true;
+  public lineChartFaturamentoTotalLegend:boolean = false;
   public lineChartType:string = 'line';
- 
+
+  toggleDaysChart: boolean = false;
+  monthsChart: Array<string> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public randomize():void {
-    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
-    for (let i = 0; i < this.lineChartData.length; i++) {
-      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
-      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
+    let _lineChartData:Array<any> = new Array(this.lineChartFaturamentoTotalData.length);
+    for (let i = 0; i < this.lineChartFaturamentoTotalData.length; i++) {
+      _lineChartData[i] = {data: new Array(this.lineChartFaturamentoTotalData[i].data.length), label: this.lineChartFaturamentoTotalData[i].label};
+      for (let j = 0; j < this.lineChartFaturamentoTotalData[i].data.length; j++) {
         _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
       }
     }
-    this.lineChartData = _lineChartData;
+    this.lineChartFaturamentoTotalData = _lineChartData;
+
+    //this.lineChartLabels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
+    this.lineChartLabels.splice(0).push('');
+    this.toggleDaysChart = !this.toggleDaysChart;
+
+    if(this.toggleDaysChart) {
+      for (var i = 0; i < 31; ++i) {
+        this.lineChartLabels.push(i);
+      } 
+    } else {
+      for (var i = 0; i < this.monthsChart.length; ++i) {
+        this.lineChartLabels.push(this.monthsChart[i]);
+      } 
+    }
+
   }
  
   // events

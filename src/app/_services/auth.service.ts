@@ -10,8 +10,8 @@ export class AuthService {
 
 	private usuarioAutenticado: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-	apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/auth/';
-	//apiUrl: string = 'http://127.0.0.1:8080/auth/';
+	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/auth/';
+	apiUrl: string = 'http://127.0.0.1:8080/auth/';
 	getUsuarioAutenticado: Observable<any> = this.usuarioAutenticado.asObservable();
 	
 	constructor(private http: Http) { }

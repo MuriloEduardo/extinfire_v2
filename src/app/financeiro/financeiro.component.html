@@ -13,7 +13,7 @@
 			<div class="section"></div>
 			<div class="card">
 				<div *ngFor="let servico of servicos">
-					{{servico | json}}
+					total de servicos
 				</div>
 			</div>
 		</div>
@@ -23,30 +23,29 @@
 	<div class="section"></div>
 	<div class="row">
 		<div class="col s12">
-			<h4>Faturamentos</h4>
+			<h4>Faturamento</h4>
 			<div class="divider"></div>
 			<div class="section"></div>
 			<!-- Init Chart -->
 			<div class="row">
 			  <div class="col-md-6">
-			    <div style="display: block;">
-			    <canvas baseChart width="400" height="400"
-			                [datasets]="lineChartData"
-			                [labels]="lineChartLabels"
-			                [options]="lineChartOptions"
-			                [colors]="lineChartColors"
-			                [legend]="lineChartLegend"
-			                [chartType]="lineChartType"
-			                (chartHover)="chartHovered($event)"
-			                (chartClick)="chartClicked($event)"></canvas>
-			    </div>
+			    <canvas baseChart
+                [datasets]="lineChartFaturamentoTotalData"
+                [labels]="lineChartMonthsLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartFaturamentoTotalColors"
+                [legend]="lineChartFaturamentoTotalLegend"
+                [chartType]="lineChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"
+                ></canvas>
 			  </div>
 			  <div class="col-md-6" style="margin-bottom: 10px">
 			    <table class="table table-responsive table-condensed">
 			      <tr>
 			        <th *ngFor="let label of lineChartLabels">{{label}}</th>
 			      </tr>
-			      <tr *ngFor="let d of lineChartData">
+			      <tr *ngFor="let d of lineChartFaturamentoTotalData">
 			        <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
 			      </tr>
 			    </table>

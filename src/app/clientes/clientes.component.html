@@ -61,7 +61,7 @@
 			<div class="col s3" *ngFor="let cliente of clientes" (click)="openModalView(cliente)">
 				<div class="card small hoverable">
 					<div class="card-image">
-						<img *ngIf="cliente.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + cliente.images[0] }}">
+						<img *ngIf="cliente.images[0]" src="http://127.0.0.1:8080/uploads/{{ trustAsResourceUrl(cliente.images[0]) }}">
 						<img *ngIf="!cliente.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
 					</div>
 					<div class="card-content">
