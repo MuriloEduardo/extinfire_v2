@@ -248,20 +248,15 @@
 					<div class="col s12">
 						<div class="section"></div>
 						<div class="input-field">
+							{{servicoEdit.cliente | json}}
 							<select 
 							id="cliente" 
 							class="icons" 
-							materialize="material_select" 
-							[materializeSelectOptions]="clientes" 
 							[(ngModel)]="servicoEdit.cliente" 
 							name="cliente"
 							>
 							  <option value="" disabled>Selecione o cliente</option>
-							  <option 
-							  *ngFor="let cliente of clientes" 
-							  [ngValue]="cliente"
-							  class="left circle" 
-							  >{{cliente.nome}}</option>
+							  <option class="left circle" [ngValue]="cliente._id" *ngFor="let cliente of clientes" [attr.selected]="servicoEdit.cliente._id == cliente._id">{{cliente.nome}}</option>
 							</select>
 						</div>
 						<div class="section"></div>

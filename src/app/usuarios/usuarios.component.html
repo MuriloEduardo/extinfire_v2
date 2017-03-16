@@ -25,7 +25,7 @@
 					<p>{{ user.local.email }}</p>
 				</div>
 				<div *ngIf="userLocalStorage?.tipo">
-					<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteUser(user._id)">Excluir</a>
+					<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteUser(user)">Excluir</a>
 					<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editUser(user)">Editar</a>
 					<div class="secondary-content">
 						<!-- Switch -->

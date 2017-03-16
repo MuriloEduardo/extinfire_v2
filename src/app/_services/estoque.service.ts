@@ -29,11 +29,9 @@ export class EstoqueService {
 	addProduto(newProduto: any) {
 
 		this.logsService.addLog({
-			descricao: 'criou o produto',
+			descricao: 'adicionou o produto',
 			item: newProduto.nome
-		}).subscribe(data => {
-			console.log(data)
-		});
+		}).subscribe(data => {});
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
@@ -45,7 +43,7 @@ export class EstoqueService {
 		this.logsService.addLog({
 			descricao: 'deletou o produto',
 			item: produto.nome
-		});
+		}).subscribe(data => {});
 		
 		return this.http.delete(this.apiUrl + 'produto/' + produto._id).map(res => res.json());
 	}
@@ -55,7 +53,7 @@ export class EstoqueService {
 		this.logsService.addLog({
 			descricao: 'editou o produto',
 			item: produto.nome
-		});
+		}).subscribe(data => {});
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');

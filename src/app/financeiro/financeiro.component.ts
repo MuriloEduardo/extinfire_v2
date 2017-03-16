@@ -21,6 +21,7 @@ export class FinanceiroComponent implements OnInit {
   clientes: Array<any> = [];
 
   valorTotalServico: Array<any> = [];
+  datasServico: Array<any> = [];
 
 	constructor(
 		private servicosService: ServicosService,
@@ -37,6 +38,8 @@ export class FinanceiroComponent implements OnInit {
 
         for (let i = 0; i < this.servicos.length; ++i) {
           this.valorTotalServico.push(this.servicos[i].valor_total);
+
+          this.datasServico.push(this.servicos[i].updatedAt.toUTCString());
         }
       }
     );
@@ -46,7 +49,7 @@ export class FinanceiroComponent implements OnInit {
   public lineChartFaturamentoTotalData:Array<any> = [
     {data: this.valorTotalServico, label: 'Faturamento Total'}
   ];
-  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartLabels:Array<any> = this.datasServico;
   public lineChartOptions:any = {
     responsive: true
   };

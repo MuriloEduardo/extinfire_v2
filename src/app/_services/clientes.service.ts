@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { LogsService } from './logs.service';
+
 @Injectable()
 export class ClientesService {
 
@@ -9,8 +11,11 @@ export class ClientesService {
 	apiUrl: string = 'http://127.0.0.1:8080/api/';
 	clientes: any;
 
-  	constructor(private http: Http) {
-		console.dir('Clientes Service Inicializado...');
+  	constructor(
+  		private http: Http,
+  		private logsService: LogsService
+  	) {
+  		console.dir('Clientes Service Inicializado...');
   	}
 
   	getClientes() {
@@ -22,17 +27,34 @@ export class ClientesService {
 	}
 
 	addCliente(newCliente: any) {
+
+		this.logsService.addLog({
+			descricao: 'adicionaou o cliente',
+			item: newCliente.nome
+		}).subscribe(data => {});
+
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		return this.http.post(this.apiUrl + 'cliente', JSON.stringify(newCliente), {headers: headers}).map(res => res.json());
 	}
 
 	deleteCliente(cliente: any) {
+
+		this.logsService.addLog({
+			descricao: 'deletou o cliente',
+			item: cliente.nome
+		}).subscribe(data => {});
+
 		return this.http.delete(this.apiUrl + 'cliente/' + cliente._id).map(res => res.json());
 	}
 
 	updateCliente(cliente: any) {
-		console.log(cliente)
+		
+		this.logsService.addLog({
+			descricao: 'editou o cliente',
+			item: cliente.nome
+		}).subscribe(data => {});
+
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
 		return this.http.put(this.apiUrl + 'cliente/' + cliente._id, JSON.stringify(cliente), {headers: headers}).map(res => res.json());

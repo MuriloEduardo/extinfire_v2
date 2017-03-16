@@ -59,10 +59,10 @@ export class UsuariosComponent implements OnInit {
 		});
 	}
 
-	deleteUser(id: string) {
-		this.usuariosService.deleteUser(id).subscribe(data => {
+	deleteUser(user: any) {
+		this.usuariosService.deleteUser(user._id).subscribe(data => {
 			if(data.n) {
-				this.users.splice(this.users.indexOf(id), 1);
+				this.users.splice(this.users.indexOf(user._id), 1);
 			}
 		});
 	}
