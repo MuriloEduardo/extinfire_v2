@@ -1,9 +1,6 @@
 import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
 
-import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute } from '@angular/router';
-
-import { EstoqueService } from '../_services/estoque.service';
+import { ProdutosService } from '../_services/produtos.service';
 
 import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
@@ -13,24 +10,18 @@ declare let Materialize:any;
 const URL = 'http://127.0.0.1:8080/api/upload';
 
 @Component({
-  selector: 'app-estoque',
-  templateUrl: './estoque.component.html',
-  styleUrls: ['./estoque.component.css']
+  selector: 'app-produtos',
+  templateUrl: './produtos.component.html',
+  styleUrls: ['./produtos.component.css']
 })
-export class EstoqueComponent implements OnInit {
-	
-	inscricao: Subscription;
+export class ProdutosComponent implements OnInit {
 
 	uploader:FileUploader = new FileUploader({
 		url: URL
 	});
 	
 	hasBaseDropZoneOver:boolean = false;
-	
-	modalActions = new EventEmitter<string|MaterializeAction>();
-	modalViewActions = new EventEmitter<string|MaterializeAction>();
-	
-	produtos: any[] = [];
+
 	produto: any = {};
 	
 	nome: string;
@@ -40,21 +31,17 @@ export class EstoqueComponent implements OnInit {
 	qntde_minima: number;
 
 	constructor(
-		private estoqueService: EstoqueService,
-		private route: ActivatedRoute
+		private produtosService: ProdutosService
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
-			(data: {produtos: any}) => this.produtos = data.produtos
-		);
 	}
 
 	ngAfterViewChecked() {
 		if(Materialize.updateTextFields)
 			Materialize.updateTextFields();
 	}
-	
+
 	novoProduto(event) {
 		event.preventDefault();
 		
@@ -73,10 +60,10 @@ export class EstoqueComponent implements OnInit {
 			newProduto.images.push(this.uploader.queue[i].file.name);
 		}
 		
-		this.estoqueService.addProduto(newProduto).subscribe(produto => {
-			this.produtos.push(produto);
+		this.produtosService.addProduto(newProduto).subscribe(produto => {
+			//this.produtos.push(produto);
 			this.uploader.uploadAll();
-			this.closeModal();
+			//this.closeModal();
 		});
 	}
 
@@ -97,10 +84,10 @@ export class EstoqueComponent implements OnInit {
 	}
 
 	deleteProduto(produto: any) {
-		this.estoqueService.deleteProduto(produto).subscribe(data => {
+		this.produtosService.deleteProduto(produto).subscribe(data => {
 			if(data.n) {
-				this.produtos.splice(this.produtos.indexOf(produto), 1);
-				this.closeModalView();
+				//this.produtos.splice(this.produtos.indexOf(produto), 1);
+				//this.closeModalView();
 			}
 		});
 	}
@@ -115,40 +102,18 @@ export class EstoqueComponent implements OnInit {
 		
 		this.uploader.clearQueue();
 		
-		this.estoqueService.updateProduto(this.produto).subscribe(data => {
-			for (let i = 0; i < this.produtos.length; ++i) {
+		this.produtosService.updateProduto(this.produto).subscribe(data => {
+			/*for (let i = 0; i < this.produtos.length; ++i) {
 				if(this.produtos[i]._id == data._id) {
 					this.produtos[i] = data;
 				}
-			}
-			this.closeModalView();
+			}*/
+			//this.closeModalView();
 		});
 	}
 	
 	removeItemFotos(item: any) {
 		this.produto.images.splice(this.produto.images.indexOf(item), 1);
-	}
-
-	///////////////////////// Modal /////////////////////////////
-	////////////////////////////////////////////////////////////
-	openModal() {
-		this.modalActions.emit({action:"modal",params:['open']});
-	}
-
-	closeModal() {
-		this.modalActions.emit({action:"modal",params:['close']});
-		this.resetFormNovoProduto();
-	}
-	
-	openModalView(produto: any) {
-		this.produto = produto;
-		this.modalViewActions.emit({action:"modal",params:['open']});
-	}
-
-	closeModalView() {
-		this.produto = {};
-		this.resetUploader();
-		this.modalViewActions.emit({action:"modal",params:['close']});
 	}
 
 	////////////////////////// Upload ///////////////////////////

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ServicosService } from '../_services/servicos.service';
+import { VendasService } from '../_services/vendas.service';
 import { ClientesService } from '../_services/clientes.service';
-import { EstoqueService } from '../_services/estoque.service';
 
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute } from '@angular/router';
@@ -17,29 +16,28 @@ export class FinanceiroComponent implements OnInit {
   inscricao: Subscription;
 
   produtos: Array<any> = [];
-  servicos: Array<any> = [];
+  vendas: Array<any> = [];
   clientes: Array<any> = [];
 
-  valorTotalServico: Array<any> = [];
-  datasServico: Array<any> = [];
+  valorTotalVenda: Array<any> = [];
+  datasVenda: Array<any> = [];
 
 	constructor(
-		private servicosService: ServicosService,
+		private vendasService: VendasService,
 		private clientesService: ClientesService,
-		private estoqueService: EstoqueService,
     private route: ActivatedRoute
 	) { }
 
 	ngOnInit() {
     this.inscricao = this.route.data.subscribe(
-      (data: {produtos: any, servicos: any}) => {
+      (data: {produtos: any, vendas: any}) => {
         this.produtos = data.produtos;
-        this.servicos = data.servicos;
+        this.vendas = data.vendas;
 
-        for (let i = 0; i < this.servicos.length; ++i) {
-          this.valorTotalServico.push(this.servicos[i].valor_total);
+        for (let i = 0; i < this.vendas.length; ++i) {
+          this.valorTotalVenda.push(this.vendas[i].valor_total);
 
-          this.datasServico.push(this.servicos[i].updatedAt.toUTCString());
+          this.datasVenda.push(this.vendas[i].updatedAt.toUTCString());
         }
       }
     );
@@ -47,9 +45,9 @@ export class FinanceiroComponent implements OnInit {
 
 	// lineChart
   public lineChartFaturamentoTotalData:Array<any> = [
-    {data: this.valorTotalServico, label: 'Faturamento Total'}
+    {data: this.valorTotalVenda, label: 'Faturamento Total'}
   ];
-  public lineChartLabels:Array<any> = this.datasServico;
+  public lineChartLabels:Array<any> = this.datasVenda;
   public lineChartOptions:any = {
     responsive: true
   };

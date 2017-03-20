@@ -1,0 +1,44 @@
+<!-- <div class="row">
+	Niovo Produto
+	<div class="col s3">
+		<div class="valign-wrapper add-new-card card red darken-1 white-text hoverable">
+			<div class="valign">
+				<i class="material-icons">&#xE145;</i>
+				<h4>Novo Produto</h4>
+			</div>
+		</div>
+	</div>
+	Caso nao tenha nenhum produto
+	<div class="col s9" *ngIf="!produtos.length">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum produto aqui <br><small>Clique em Novo Produto</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+	Listagem de produtos
+	<div class="col s9">
+		<div class="row">
+			<div class="col s3" *ngFor="let produto of produtos" (click)="openModalView(produto)">
+				<div class="card small hoverable">
+					<div class="card-image">
+						<img *ngIf="produto.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + produto.images[0] }}">
+						<img *ngIf="!produto.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
+						<img *ngIf="produto.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/' + produto.images[0] }}">
+						<img *ngIf="!produto.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg">
+					</div>
+					<div class="card-content">
+						<span class="card-title"><strong>{{ produto.nome }}</strong></span>
+						<p>R$ {{ produto.valor_venda | number:'.2-2' }}</p>
+						<p>Quantidade: {{ produto.qntde_atual }}</p>
+						<div class="chip red" *ngIf="produto.qntde_atual <= 0">Acabou</div>
+						<div class="chip orange" *ngIf="produto.qntde_atual <= produto.qntde_minima&&produto.qntde_atual > 0">Está acabando</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+<router-outlet></router-outlet>

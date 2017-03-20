@@ -3,32 +3,31 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute } from '@angular/router';
 
-import { ServicosService } from '../_services/servicos.service';
+import { VendasService } from '../_services/vendas.service';
 import { ClientesService } from '../_services/clientes.service';
-import { EstoqueService } from '../_services/estoque.service';
 
 import { MaterializeAction } from 'angular2-materialize';
 
 declare var Materialize:any;
 
 @Component({
-  selector: 'app-servicos',
-  templateUrl: './servicos.component.html',
-  styleUrls: ['./servicos.component.css']
+  selector: 'app-vendas',
+  templateUrl: './vendas.component.html',
+  styleUrls: ['./vendas.component.css']
 })
 
-export class ServicosComponent implements OnInit {
+export class VendasComponent implements OnInit {
 
 	inscricao: Subscription;
 	
 	modalActions = new EventEmitter<string|MaterializeAction>();
 	modalViewActions = new EventEmitter<string|MaterializeAction>();
 
-	servicos: any[] = [];
+	vendas: any[] = [];
 	clientes: any[] = [];
 	produtos: any[] = [];
 
-	servico: any = {
+	venda: any = {
 		cliente: {},
 		itens: [{
 			produto: {},
@@ -41,7 +40,7 @@ export class ServicosComponent implements OnInit {
 		tipo: false
 	};
 	
-	servicoEdit: any = {
+	vendaEdit: any = {
 		cliente: {},
 		itens: [{
 			produto: {},
@@ -55,17 +54,16 @@ export class ServicosComponent implements OnInit {
 	};
 
 	constructor(
-		private servicosService: ServicosService,
+		private vendasService: VendasService,
 		private clientesService: ClientesService,
-		private estoqueService: EstoqueService,
 		private route: ActivatedRoute
 	) { }
 
 	ngOnInit() {
 		this.inscricao = this.route.data.subscribe(
-			(data: {produtos: any, servicos: any, clientes: any}) => {
+			(data: {produtos: any, vendas: any, clientes: any}) => {
 				this.produtos = data.produtos;
-				this.servicos = data.servicos;
+				this.vendas = data.vendas;
 				this.clientes = data.clientes;
 			}
 		);
@@ -77,7 +75,7 @@ export class ServicosComponent implements OnInit {
 	}
 
 	setCliente(cliente: any) {
-		this.servico.cliente = cliente;
+		this.venda.cliente = cliente;
 	}
 
 	setProduto(index: number, last?: number, produto?: any) {
@@ -86,18 +84,18 @@ export class ServicosComponent implements OnInit {
 
 		if(!produto) return false;
 		
-		if(!this.servico.itens[index].produto.valor_venda)
-			this.servico.itens[index].produto.valor_venda = 0;
+		if(!this.venda.itens[index].produto.valor_venda)
+			this.venda.itens[index].produto.valor_venda = 0;
 
-		if(!this.servico.itens[index].qntde)
-			this.servico.itens[index].qntde = 1;
+		if(!this.venda.itens[index].qntde)
+			this.venda.itens[index].qntde = 1;
 			
-		this.servico.itens[index].validade = new Date();
+		this.venda.itens[index].validade = new Date();
 		
 		this.sum(index);
 		
 		if(last) {
-			this.servico.itens.push({
+			this.venda.itens.push({
 				produto: {}
 			});
 		}
@@ -105,34 +103,34 @@ export class ServicosComponent implements OnInit {
 	
 	sum(index: number) {
 		
-		this.servico.itens[index].total = this.servico.itens[index].qntde * this.servico.itens[index].produto.valor_venda;
+		this.venda.itens[index].total = this.venda.itens[index].qntde * this.venda.itens[index].produto.valor_venda;
 		
 		let valorTotalNew = 0;
-		for (let j=0;j<this.servico.itens.length;++j) {
-			if(this.servico.itens[j].total) {
-				valorTotalNew += this.servico.itens[j].total;
+		for (let j=0;j<this.venda.itens.length;++j) {
+			if(this.venda.itens[j].total) {
+				valorTotalNew += this.venda.itens[j].total;
 			}
 		}
-		this.servico.valor_total = valorTotalNew;
+		this.venda.valor_total = valorTotalNew;
 	}
 
-	novoServico(event) {
+	novaVenda(event) {
 		event.preventDefault();
 		
-		if(!this.servico.cliente.length&&!this.servico.itens.length) return false;
+		if(!this.venda.cliente.length&&!this.venda.itens.length) return false;
 		
-		this.servicosService.addServico(this.servico).subscribe(servico => {
-			console.log(servico)
-			this.servicos.push(servico);
+		this.vendasService.addVenda(this.venda).subscribe(venda => {
+			console.log(venda)
+			this.vendas.push(venda);
 			
 			this.closeModal();
 		});
 	}
 
-	deleteServico(servico: any) {
-		this.servicosService.deleteServico(servico).subscribe(data => {
+	deleteVenda(venda: any) {
+		this.vendasService.deleteVenda(venda).subscribe(data => {
 			if(data.n) {
-				this.servicos.splice(this.servicos.indexOf(servico), 1);
+				this.vendas.splice(this.vendas.indexOf(venda), 1);
 				this.closeModalView();
 			}
 		});
@@ -145,7 +143,7 @@ export class ServicosComponent implements OnInit {
 	}
 
 	closeModal() {
-		this.servico = {
+		this.venda = {
 			cliente: {},
 			itens: [{
 				produto: {},
@@ -161,16 +159,16 @@ export class ServicosComponent implements OnInit {
 		this.modalActions.emit({action:"modal",params:['close']});
 	}
 	
-	openModalView(servico: any) {
-		this.servicoEdit = servico;
-		this.servicoEdit.itens.push({
+	openModalView(venda: any) {
+		this.vendaEdit = venda;
+		this.vendaEdit.itens.push({
 			produto: {}
 		});
 		this.modalViewActions.emit({action:"modal",params:['open']});
 	}
 
 	closeModalView() {
-		this.servicoEdit = {};
+		this.vendaEdit = {};
 		this.modalViewActions.emit({action:"modal",params:['close']});
 	}
 }

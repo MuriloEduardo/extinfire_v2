@@ -32,43 +32,43 @@
 </div> -->
 <div class="row">
 	<div class="col s12 header-pages white">
-		<h1>Serviços</h1>
+		<h1>Vendas</h1>
 	</div>
 </div>
 <div class="row">
-	<!-- Novo Servico -->
+	<!-- Nova Venda -->
 	<div class="col s3">
 		<div class="valign-wrapper add-new-card card red darken-1 white-text hoverable" (click)="openModal()">
 			<div class="valign">
 				<i class="material-icons">&#xE145;</i>
-				<h4>Novo Servico</h4>
+				<h4>Nova Venda</h4>
 			</div>
 		</div>
 	</div>
-	<!-- Caso nao tenha nenhum servico -->
-	<div class="col s9" *ngIf="!servicos.length">
+	<!-- Caso nao tenha nenhum venda -->
+	<div class="col s9" *ngIf="!vendas.length">
 		<div class="section"></div>
 		<div class="center-align">
 			<div class="grey-text text-lighten-2">
-				<h2>Sem nenhum servico aqui <br><small>Clique em Novo Serviço</small></h2>
+				<h2>Sem nenhuma venda aqui <br><small>Clique em Nova Venda</small></h2>
 				<i class="material-icons big">&#xE814;</i>
 			</div>
 		</div>
 	</div>
-	<!-- Listagem de servicos -->
+	<!-- Listagem de vendas -->
 	<div class="col s9">
 		<div class="row">
-			<div class="col s3" *ngFor="let servico of servicos" (click)="openModalView(servico)">
+			<div class="col s3" *ngFor="let venda of vendas" (click)="openModalView(venda)">
 				<div class="card small hoverable">
 					<div class="card-image">
-						<img *ngIf="servico.cliente.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + servico.cliente.images[0] }}">
-						<img *ngIf="!servico.cliente.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
-						<!-- <img *ngIf="servico.cliente.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + servico.cliente.images[0] }}">
-						<img *ngIf="!servico.cliente.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg"> -->
+						<img *ngIf="venda.cliente.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + venda.cliente.images[0] }}">
+						<img *ngIf="!venda.cliente.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
+						<!-- <img *ngIf="venda.cliente.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + venda.cliente.images[0] }}">
+						<img *ngIf="!venda.cliente.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg"> -->
 					</div>
 					<div class="card-content">
-						<span class="card-title"><strong>{{ servico.cliente.nome }}</strong></span>
-						<p>{{ servico.valor_total }}</p>
+						<span class="card-title"><strong>{{ venda.cliente.nome }}</strong></span>
+						<p>{{ venda.valor_total }}</p>
 					</div>
 				</div>
 			</div>
@@ -77,7 +77,7 @@
 </div>
 <!-- Modal Structure -->
 <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
-	<form (submit)="novoServico($event)">
+	<form (submit)="novaVenda($event)">
 		<div class="modal-content">
 			<header class="modal-header red darken-1 z-depth-2">
 				<div class="row">
@@ -103,7 +103,7 @@
 				<div class="col s12">
 					<div class="section"></div>
 					<div class="input-field">
-						<select id="cliente" class="validate" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="servico.cliente" name="cliente">
+						<select id="cliente" class="validate" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="venda.cliente" name="cliente">
 						  <option value="" disabled selected>Selecione o cliente</option>
 						  <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.nome}}</option>
 						</select>
@@ -113,13 +113,13 @@
 					<div class="switch">
 						<label>
 							Orçamento
-							<input type="checkbox" [(ngModel)]="servico.tipo" name="tipo">
+							<input type="checkbox" [(ngModel)]="venda.tipo" name="tipo">
 							<span class="lever"></span>
 							Pedido (Baixa no estoque)
 						</label>
 					</div>
 					<div class="section"></div>
-					<div *ngIf="(servico.cliente | json) != '{}'">
+					<div *ngIf="(venda.cliente | json) != '{}'">
 						<table>
 							<thead>
 								<tr>
@@ -133,7 +133,7 @@
 							</thead>
 
 							<tbody>
-								<tr *ngFor="let item of servico.itens; let i = index; let last = last;let first = first">
+								<tr *ngFor="let item of venda.itens; let i = index; let last = last;let first = first">
 									<td>
 										<div class="input-field">
 											<select 
@@ -141,10 +141,10 @@
 											class="validate" 
 											materialize="material_select" 
 											[materializeSelectOptions]="produtos" 
-											[(ngModel)]="servico.itens[i].produto" 
+											[(ngModel)]="venda.itens[i].produto" 
 											name="item{{i}}" 
-											(change)="setProduto(i, last, servico.itens[i].produto)"
-											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+											(change)="setProduto(i, last, venda.itens[i].produto)"
+											[attr.required]="venda.itens[i].produto.nome&&!first ? true : undefined"
 											>
 											  <option value="" disabled selected>Selecione o produto</option>
 											  <option *ngFor="let produto of produtos" [ngValue]="produto">{{produto.nome}}</option>
@@ -153,7 +153,7 @@
 									</td>
 									<td>
 										<div class="input-field">
-											<input id="qntde" type="number" (change)="sum(i)" min="1" class="validate" [(ngModel)]="servico.itens[i].qntde" name="qntde{{i}}" [attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
+											<input id="qntde" type="number" (change)="sum(i)" min="1" class="validate" [(ngModel)]="venda.itens[i].qntde" name="qntde{{i}}" [attr.required]="venda.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
 											<label for="qntde">Quantidade</label>
 										</div>
 									</td>
@@ -162,9 +162,9 @@
 											<input 
 											id="valor_venda" 
 											type="text" 
-											class="validate" [(ngModel)]="servico.itens[i].produto.valor_venda" 
+											class="validate" [(ngModel)]="venda.itens[i].produto.valor_venda" 
 											name="valor_venda{{i}}" 
-											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+											[attr.required]="venda.itens[i].produto.nome&&!first ? true : undefined"
 											>
 											<label for="valor_venda">Valor unitário</label>
 										</div>
@@ -175,10 +175,10 @@
 											id="total" 
 											type="text" 
 											class="validate" 
-											[(ngModel)]="servico.itens[i].total" 
+											[(ngModel)]="venda.itens[i].total" 
 											name="total{{i}}" 
 											readonly="" 
-											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+											[attr.required]="venda.itens[i].produto.nome&&!first ? true : undefined"
 											>
 											<label for="total">Valor total</label>
 										</div>
@@ -191,9 +191,9 @@
 											materialize="pickadate" 
 											[materializeParams]="[{ selectMonths: true }]"
 											type="text" 
-											[(ngModel)]="servico.itens[i].validade" 
+											[(ngModel)]="venda.itens[i].validade" 
 											name="validade{{i}}" 
-											[attr.required]="servico.itens[i].produto.nome&&!first ? true : undefined"
+											[attr.required]="venda.itens[i].produto.nome&&!first ? true : undefined"
 											>
 										</div>
 									</td>
@@ -210,7 +210,7 @@
 									id="observacoes" 
 									class="materialize-textarea" 
 									data-length="120" 
-									[(ngModel)]="servico.observacao" 
+									[(ngModel)]="venda.observacao" 
 									name="observacao"
 									></textarea>
 									<label for="observacoes">Observações</label>
@@ -218,7 +218,7 @@
 							</div>
 							<div class="col s4 center-align">
 								<h5>Valor Total</h5>
-								<h6>R$ {{ servico.valor_total | number:'.2-2' }}</h6>
+								<h6>R$ {{ venda.valor_total | number:'.2-2' }}</h6>
 							</div>
 						</div>
 					</div>
@@ -231,7 +231,7 @@
 		</div>
 	</form>
 </div>
-<!-- Modal Cada Servico Structure -->
+<!-- Modal Cada Venda Structure -->
 <div id="modal2" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalViewActions">
 	<form (submit)="updateProuto()">
 		<div class="modal-content">
@@ -248,28 +248,28 @@
 					<div class="col s12">
 						<div class="section"></div>
 						<div class="input-field">
-							{{servicoEdit.cliente | json}}
+							{{vendaEdit.cliente | json}}
 							<select 
 							id="cliente" 
 							class="icons" 
-							[(ngModel)]="servicoEdit.cliente" 
+							[(ngModel)]="vendaEdit.cliente" 
 							name="cliente"
 							>
 							  <option value="" disabled>Selecione o cliente</option>
-							  <option class="left circle" [ngValue]="cliente._id" *ngFor="let cliente of clientes" [attr.selected]="servicoEdit.cliente._id == cliente._id">{{cliente.nome}}</option>
+							  <option class="left circle" [ngValue]="cliente._id" *ngFor="let cliente of clientes" [attr.selected]="vendaEdit.cliente._id == cliente._id">{{cliente.nome}}</option>
 							</select>
 						</div>
 						<div class="section"></div>
 						<div class="switch">
 							<label>
 								Orçamento
-								<input type="checkbox" [(ngModel)]="servicoEdit.tipo" name="tipo">
+								<input type="checkbox" [(ngModel)]="vendaEdit.tipo" name="tipo">
 								<span class="lever"></span>
 								Pedido (Baixa no estoque)
 							</label>
 						</div>
 						<div class="section"></div>
-						<div *ngIf="(servicoEdit.cliente | json) != '{}'">
+						<div *ngIf="(vendaEdit.cliente | json) != '{}'">
 							<table>
 								<thead>
 									<tr>
@@ -282,8 +282,8 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr *ngFor="let item of servicoEdit.itens; let i = index; let last = last;let first = first">
-										<div *ngIf="servicoEdit.itens[i].produto">
+									<tr *ngFor="let item of vendaEdit.itens; let i = index; let last = last;let first = first">
+										<div *ngIf="vendaEdit.itens[i].produto">
 											<td>
 												<div class="input-field">
 													<select 
@@ -302,7 +302,7 @@
 											</td>
 											<td>
 												<div class="input-field">
-													<input id="qntde" type="number" min="1" class="validate" [(ngModel)]="servicoEdit.itens[i].qntde" name="qntde{{i}}" [attr.required]="servicoEdit.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
+													<input id="qntde" type="number" min="1" class="validate" [(ngModel)]="vendaEdit.itens[i].qntde" name="qntde{{i}}" [attr.required]="vendaEdit.itens[i].produto.nome&&!first ? true : undefined" (change)="setProduto(i)">
 													<label for="qntde">Quantidade</label>
 												</div>
 											</td>
@@ -312,9 +312,9 @@
 													id="valor_vendaEdit" 
 													type="text" 
 													class="validate"
-													[(ngModel)]="servicoEdit.itens[i].produto.valor_venda" 
+													[(ngModel)]="vendaEdit.itens[i].produto.valor_venda" 
 													name="valor_vendaEdit{{i}}" 
-													[attr.required]="servicoEdit.itens[i].produto.nome&&!first ? true : undefined"
+													[attr.required]="vendaEdit.itens[i].produto.nome&&!first ? true : undefined"
 													>
 													<label for="valor_vendaEdit">Valor unitário</label>
 												</div>
@@ -325,10 +325,10 @@
 													id="total" 
 													type="text" 
 													class="validate" 
-													[(ngModel)]="servicoEdit.itens[i].total" 
+													[(ngModel)]="vendaEdit.itens[i].total" 
 													name="total{{i}}" 
 													readonly="" 
-													[attr.required]="servicoEdit.itens[i].produto.nome&&!first ? true : undefined"
+													[attr.required]="vendaEdit.itens[i].produto.nome&&!first ? true : undefined"
 													>
 													<label for="total">Valor total</label>
 												</div>
@@ -341,9 +341,9 @@
 													materialize="pickadate" 
 													[materializeParams]="[{ selectMonths: true }]"
 													type="text" 
-													[(ngModel)]="servicoEdit.itens[i].validade" 
+													[(ngModel)]="vendaEdit.itens[i].validade" 
 													name="validade{{i}}" 
-													[attr.required]="servicoEdit.itens[i].produto.nome&&!first ? true : undefined"
+													[attr.required]="vendaEdit.itens[i].produto.nome&&!first ? true : undefined"
 													>
 												</div>
 											</td>
@@ -361,7 +361,7 @@
 										id="observacoes" 
 										class="materialize-textarea" 
 										data-length="120" 
-										[(ngModel)]="servicoEdit.observacao" 
+										[(ngModel)]="vendaEdit.observacao" 
 										name="observacao"
 										></textarea>
 										<label for="observacoes">Observações</label>
@@ -369,7 +369,7 @@
 								</div>
 								<div class="col s4 center-align">
 									<h5>Valor Total</h5>
-									<h6>R$ {{ servicoEdit.valor_total | number:'.2-2' }}</h6>
+									<h6>R$ {{ vendaEdit.valor_total | number:'.2-2' }}</h6>
 								</div>
 							</div>
 						</div>
@@ -380,7 +380,7 @@
 		<div class="modal-footer">
 			<a class="waves-effect waves-red btn-flat" (click)="closeModalView()">Cancelar</a>
 			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Editar e Salvar</button>
-			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteServico(servicoEdit)">Excluir</a>
+			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteVenda(vendaEdit)">Excluir</a>
 		</div>
 	</form>
 </div>

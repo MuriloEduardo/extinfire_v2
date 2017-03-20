@@ -5,18 +5,19 @@ import { AuthGuard } from './_guards/auth.guard';
 import { ProdutosResolver } from './_guards/produtos.resolver';
 import { ClientesResolver } from './_guards/clientes.resolver';
 import { LogsResolver } from './_guards/logs.resolver';
-import { ServicosResolver } from './_guards/servicos.resolver';
+import { VendasResolver } from './_guards/vendas.resolver';
 import { UsuariosResolver } from './_guards/usuarios.resolver';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CatalogoComponent } from './catalogo/catalogo.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ClientesComponent } from './clientes/clientes.component';
-import { EstoqueComponent } from './estoque/estoque.component';
-import { ServicosComponent } from './servicos/servicos.component';
+import { VendasComponent } from './vendas/vendas.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
+import { ProdutosComponent } from './produtos/produtos.component';
 
 const appRoutes: Routes = [
 	{
@@ -37,19 +38,27 @@ const appRoutes: Routes = [
 		}
 	},
 	{
-		path: 'estoque',
-		component: EstoqueComponent,
-		canActivate: [AuthGuard],
+		path: 'catalogo',
+		component: CatalogoComponent,
 		resolve: {
 			produtos: ProdutosResolver
-		}
+		},
+		canActivate: [AuthGuard]
 	},
 	{
-		path: 'servicos',
-		component: ServicosComponent,
+		path: 'produtos',
+		component: ProdutosComponent,
+		resolve: {
+			produtos: ProdutosResolver
+		},
+		canActivate: [AuthGuard]
+	},
+	{
+		path: 'vendas',
+		component: VendasComponent,
 		canActivate: [AuthGuard],
 		resolve: {
-			servicos: ServicosResolver,
+			vendas: VendasResolver,
 			produtos: ProdutosResolver,
 			clientes: ClientesResolver
 		}
@@ -77,7 +86,7 @@ const appRoutes: Routes = [
 		resolve: {
 			produtos: ProdutosResolver,
 			clientes: ClientesResolver,
-			servicos: ServicosResolver
+			servicos: VendasResolver
 		}
 	},
 	{
@@ -86,7 +95,7 @@ const appRoutes: Routes = [
 		canActivate: [AuthGuard],
 		resolve: {
 			produtos: ProdutosResolver,
-			servicos: ServicosResolver
+			servicos: VendasResolver
 		}
 	}
 ];

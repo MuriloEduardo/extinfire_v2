@@ -1,52 +1,46 @@
 <div class="row">
 	<div class="col s12 header-pages white">
-		<h1>Estoque</h1>
+		<h3>Catálogo</h3>
 	</div>
 </div>
 <div class="row">
-	<!-- Niovo Produto -->
-	<div class="col s3">
-		<div class="valign-wrapper add-new-card card red darken-1 white-text hoverable" (click)="openModal()">
-			<div class="valign">
-				<i class="material-icons">&#xE145;</i>
-				<h4>Novo Produto</h4>
-			</div>
+	<div class="col s12">
+		<div class="align-right">
+			<a [routerLink]="['produtos', 'novo']" class="btn">Novo Produto</a>
 		</div>
-	</div>
-	<!-- Caso nao tenha nenhum produto -->
-	<div class="col s9" *ngIf="!produtos.length">
-		<div class="section"></div>
-		<div class="center-align">
-			<div class="grey-text text-lighten-2">
-				<h2>Sem nenhum produto aqui <br><small>Clique em Novo Produto</small></h2>
-				<i class="material-icons big">&#xE814;</i>
-			</div>
-		</div>
-	</div>
-	<!-- Listagem de produtos -->
-	<div class="col s9">
-		<div class="row">
-			<div class="col s3" *ngFor="let produto of produtos" (click)="openModalView(produto)">
-				<div class="card small hoverable">
-					<div class="card-image">
-						<img *ngIf="produto.images[0]" src="{{ 'http://127.0.0.1:8080/uploads/' + produto.images[0] }}">
-						<img *ngIf="!produto.images[0]" src="http://127.0.0.1:8080/uploads/sem-foto.jpg">
-						<!-- <img *ngIf="produto.images[0]" src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/' + produto.images[0] }}">
-						<img *ngIf="!produto.images[0]" src="https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/sem-foto.jpg"> -->
-					</div>
-					<div class="card-content">
-						<span class="card-title"><strong>{{ produto.nome }}</strong></span>
-						<p>R$ {{ produto.valor_venda | number:'.2-2' }}</p>
-						<p>Quantidade: {{ produto.qntde_atual }}</p>
-						<div class="chip red" *ngIf="produto.qntde_atual <= 0">Acabou</div>
-						<div class="chip orange" *ngIf="produto.qntde_atual <= produto.qntde_minima&&produto.qntde_atual > 0">Está acabando</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<form action="#">
+			<table class="bordered highlight">
+				<thead>
+					<tr>
+						<th data-field="check">
+							<input type="checkbox" checked="checked" />
+						</th>
+						<th data-field="nome">Produto</th>
+						<th data-field="qntdeMinima">Qntde. Minima</th>
+						<th data-field="qntdeAtual">Qntde. Atual</th>
+						<th data-field="valorVenda">Valor Venda</th>
+						<th data-field="valorCusto">Valor Custo</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let produto of produtos" [routerLink]="[produto._id]">
+						<td><input type="checkbox"></td>
+						<td>
+							<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0]) }}" class="circle img-table">
+							{{ produto.nome }}
+						</td>
+						<td>{{ produto.qntde_minima || '---' }}</td>
+						<td>{{ produto.qntde_atual }}</td>
+						<td>{{ produto.valor_venda }}</td>
+						<td>{{ produto.valor_custo }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
 	</div>
 </div>
-<!-- Modal Structure -->
+<!-- 
+Modal Structure
 <div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
 	<form (submit)="novoProduto($event)">
 		<div class="modal-content">
@@ -54,7 +48,7 @@
 				<div class="row">
 					<div class="col s12">
 						<h4>Adicionar Novo Produto</h4>
-						<p>Seu estoque será contabilizado a cada novo serviço</p>
+						<p>Seu catálago será contabilizado a cada novo serviço</p>
 					</div>
 				</div>
 			</header>
@@ -132,7 +126,7 @@
 		</div>
 	</form>
 </div>
-<!-- Modal Cada Produto Structure -->
+Modal Cada Produto Structure
 <div id="modal2" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalViewActions">
 	<form (submit)="updateProuto()">
 		<div class="modal-content">
@@ -193,7 +187,7 @@
 									<a class="waves-effect waves-light btn grey darken-4" (click)="removeItemFotos(imgProduto)">
 										<i class="material-icons">&#xE92B;</i>
 									</a>
-									<!--<img src="{{ 'http://127.0.0.1:8080/uploads/' + imgProduto }}" class="responsive-img">-->
+									<img src="{{ 'http://127.0.0.1:8080/uploads/' + imgProduto }}" class="responsive-img">
 									<img src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + imgProduto }}" class="responsive-img">
 								</div>
 								<div class="col s3 center-align" *ngFor="let item of uploader.queue">
@@ -228,4 +222,4 @@
 			<a class="waves-effect waves-light btn grey darken-4" (click)="deleteProduto(produto)">Excluir</a>
 		</div>
 	</form>
-</div>
+</div> -->

@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { LogsService } from './logs.service';
+import { LogsService } from '../_services/logs.service';
 
 @Injectable()
-export class EstoqueService {
+export class ProdutosService {
 
 	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
 	apiUrl: string = 'http://127.0.0.1:8080/api/';

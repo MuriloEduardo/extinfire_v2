@@ -5,11 +5,11 @@ import 'rxjs/add/operator/map';
 import { LogsService } from './logs.service';
 
 @Injectable()
-export class ServicosService {
+export class VendasService {
 
 	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
 	apiUrl: string = 'http://127.0.0.1:8080/api/';
-	servicos: any;
+	vendas: any;
 
   	constructor(
   		private http: Http,
@@ -18,45 +18,45 @@ export class ServicosService {
 		console.dir('Clientes Service Inicializado...');
   	}
 
-  	getServicos() {
-  		return this.servicos = this.http.get(this.apiUrl + 'servicos').map(res => res.json());
+  	getVendas() {
+  		return this.vendas = this.http.get(this.apiUrl + 'vendas').map(res => res.json());
   	}
 
-	getServico(id: string) {
-		return this.http.get(this.apiUrl + 'servico/' + id).map(res => res.json());
+	getVenda(id: string) {
+		return this.http.get(this.apiUrl + 'venda/' + id).map(res => res.json());
 	}
 
-	addServico(newServico: any) {
+	addVenda(newVenda: any) {
 
 		this.logsService.addLog({
-			descricao: 'adicionou o serviço',
-			item: newServico.nome
+			descricao: 'adicionou a venda',
+			item: newVenda.nome
 		}).subscribe(data => {});
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(this.apiUrl + 'servico', JSON.stringify(newServico), {headers: headers}).map(res => res.json());
+		return this.http.post(this.apiUrl + 'venda', JSON.stringify(newVenda), {headers: headers}).map(res => res.json());
 	}
 
-	deleteServico(servico: any) {
+	deleteVenda(venda: any) {
 
 		this.logsService.addLog({
-			descricao: 'deletou o serviço',
-			item: servico.nome
+			descricao: 'deletou a venda',
+			item: venda.nome
 		}).subscribe(data => {});
 
-		return this.http.delete(this.apiUrl + 'servico/' + servico._id).map(res => res.json());
+		return this.http.delete(this.apiUrl + 'venda/' + venda._id).map(res => res.json());
 	}
 
-	updateServico(servico: any) {
+	updateVenda(venda: any) {
 
 		this.logsService.addLog({
 			descricao: 'editou o serviço',
-			item: servico.nome
+			item: venda.nome
 		}).subscribe(data => {});
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(this.apiUrl + 'servico' + servico._id, JSON.stringify(servico), {headers: headers}).map(res => res.json());
+		return this.http.post(this.apiUrl + 'venda' + venda._id, JSON.stringify(venda), {headers: headers}).map(res => res.json());
 	}
 }

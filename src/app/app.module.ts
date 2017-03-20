@@ -11,28 +11,29 @@ import { AppRoutingModule } from './app.routing.module';
 
 import { AppComponent } from './app.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { CatalogoComponent } from './catalogo/catalogo.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ServicosComponent } from './servicos/servicos.component';
-import { EstoqueComponent } from './estoque/estoque.component';
+import { VendasComponent } from './vendas/vendas.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
+import { ProdutosComponent } from './produtos/produtos.component';
 
 import { UsuariosService } from './_services/usuarios.service';
-import { EstoqueService } from './_services/estoque.service';
+import { ProdutosService } from './_services/produtos.service';
 import { ClientesService } from './_services/clientes.service';
-import { ServicosService } from './_services/servicos.service';
+import { VendasService } from './_services/vendas.service';
 import { AuthService } from './_services/auth.service';
 import { LogsService } from './_services/logs.service';
 
 import { AuthGuard } from './_guards/auth.guard';
-import { ProdutosResolver } from './_guards/produtos.resolver';
-import { ServicosResolver } from './_guards/servicos.resolver';
+import { VendasResolver } from './_guards/vendas.resolver';
 import { ClientesResolver } from './_guards/clientes.resolver';
 import { LogsResolver } from './_guards/logs.resolver';
 import { UsuariosResolver } from './_guards/usuarios.resolver';
+import { ProdutosResolver } from './_guards/produtos.resolver';
 
 import { ImagePreview } from './_directives/image-preview.directive';
 
@@ -42,38 +43,38 @@ import { ImagePreview } from './_directives/image-preview.directive';
     AppComponent,
     PerfilComponent,
     DashboardComponent,
-    ServicosComponent,
-    EstoqueComponent,
+    VendasComponent,
     ClientesComponent,
     UsuariosComponent,
     LogsComponent,
     FinanceiroComponent,
     LoginComponent,
-    ImagePreview
+    ImagePreview,
+    CatalogoComponent,
+    ProdutosComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule,
     MaterializeModule,
     FileUploadModule,
-    ChartsModule
+    ChartsModule,
+    AppRoutingModule
   ],
   providers: [
     UsuariosService,
-    EstoqueService,
     ClientesService,
-    ServicosService,
+    ProdutosService,
+    VendasService,
     AuthService,
     AuthGuard,
     LogsService,
-    ProdutosResolver,
-
-    ServicosResolver,
+    VendasResolver,
     ClientesResolver,
     LogsResolver,
-    UsuariosResolver
+    UsuariosResolver,
+    ProdutosResolver
   ],
   bootstrap: [AppComponent]
 })

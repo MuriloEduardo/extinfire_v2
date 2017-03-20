@@ -1,3 +1,6 @@
+body {
+	background-color: #fcfcfc;
+}
 .page-flexbox-wrapper {
 	display: flex;
 	min-height: 100vh;
@@ -111,4 +114,11 @@ header.modal-header * {
 .header-pages {
 	padding-top: 15px;
 	padding-bottom: 15px;
+}
+.circle.img-table {
+	width: 42px;
+	height: 42px;
+	display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
 }
