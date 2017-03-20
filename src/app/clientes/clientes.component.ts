@@ -9,8 +9,8 @@ import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
 
 declare let Materialize:any;
-//const URL = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/upload';
-const URL = 'http://127.0.0.1:8080/api/upload';
+
+const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/upload/' || 'http://127.0.0.1:8080/api/upload/';
 
 @Component({
   selector: 'app-clientes',
@@ -22,7 +22,7 @@ export class ClientesComponent implements OnInit {
 	inscricao: Subscription;
 
 	uploader:FileUploader = new FileUploader({
-		url: URL
+		url: apiUrl
 	});
 	
 	hasBaseDropZoneOver:boolean = false;
@@ -167,7 +167,7 @@ export class ClientesComponent implements OnInit {
 
 	private resetUploader() {
 		this.uploader = new FileUploader({
-			url: URL
+			url: apiUrl
 		});
 	}
 

@@ -4,11 +4,11 @@ import 'rxjs/add/operator/map';
 
 import { LogsService } from '../_services/logs.service';
 
+const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/' || 'http://127.0.0.1:8080/api/';
+
 @Injectable()
 export class ProdutosService {
 
-	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-	apiUrl: string = 'http://127.0.0.1:8080/api/';
 	produtos: any;
 
   	constructor(
@@ -19,11 +19,11 @@ export class ProdutosService {
   	}
 
   	getProdutos() {
-  		return this.produtos = this.http.get(this.apiUrl + 'produtos').map(res => res.json());
+  		return this.produtos = this.http.get(apiUrl + 'produtos').map(res => res.json());
   	}
 
 	getProduto(id: string) {
-		return this.http.get(this.apiUrl + 'produto/' + id).map(res => res.json());
+		return this.http.get(apiUrl + 'produto/' + id).map(res => res.json());
 	}
 
 	addProduto(newProduto: any) {
@@ -35,7 +35,7 @@ export class ProdutosService {
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(this.apiUrl + 'produto', JSON.stringify(newProduto), {headers: headers}).map(res => res.json());
+		return this.http.post(apiUrl + 'produto', JSON.stringify(newProduto), {headers: headers}).map(res => res.json());
 	}
 
 	deleteProduto(produto: any) {
@@ -45,7 +45,7 @@ export class ProdutosService {
 			item: produto.nome
 		}).subscribe(data => {});
 		
-		return this.http.delete(this.apiUrl + 'produto/' + produto._id).map(res => res.json());
+		return this.http.delete(apiUrl + 'produto/' + produto._id).map(res => res.json());
 	}
 
 	updateProduto(produto: any) {
@@ -57,6 +57,6 @@ export class ProdutosService {
 		
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.put(this.apiUrl + 'produto/' + produto._id, JSON.stringify(produto), {headers: headers}).map(res => res.json());
+		return this.http.put(apiUrl + 'produto/' + produto._id, JSON.stringify(produto), {headers: headers}).map(res => res.json());
 	}
 }

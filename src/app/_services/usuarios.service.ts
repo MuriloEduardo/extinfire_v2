@@ -4,11 +4,11 @@ import 'rxjs/add/operator/map';
 
 import { LogsService } from './logs.service';
 
+const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/' || 'http://127.0.0.1:8080/api/';
+
 @Injectable()
 export class UsuariosService {
 
-	//apiUrl: string = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-	apiUrl: string = 'http://127.0.0.1:8080/api/';
 	users: any;
 
   	constructor(
@@ -19,11 +19,11 @@ export class UsuariosService {
   	}
 
   	getUsers() {
-  		return this.users = this.http.get(this.apiUrl + 'users').map(res => res.json());
+  		return this.users = this.http.get(apiUrl + 'users').map(res => res.json());
   	}
 
 	getUser(id: string) {
-		return this.http.get(this.apiUrl + 'user/' + id).map(res => res.json());
+		return this.http.get(apiUrl + 'user/' + id).map(res => res.json());
 	}
 
 	addUser(newUser: any) {
@@ -35,7 +35,7 @@ export class UsuariosService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(this.apiUrl + 'user', JSON.stringify(newUser), {headers: headers}).map(res => res.json());
+		return this.http.post(apiUrl + 'user', JSON.stringify(newUser), {headers: headers}).map(res => res.json());
 	}
 
 	deleteUser(user: any) {
@@ -45,7 +45,7 @@ export class UsuariosService {
 			item: user.nome
 		}).subscribe(data => {});
 
-		return this.http.delete(this.apiUrl + 'user/' + user._id).map(res => res.json());
+		return this.http.delete(apiUrl + 'user/' + user._id).map(res => res.json());
 	}
 
 	updateUser(user: any) {
@@ -57,6 +57,6 @@ export class UsuariosService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.put(this.apiUrl + 'user/' + user._id, JSON.stringify(user), {headers: headers}).map(res => res.json());
+		return this.http.put(apiUrl + 'user/' + user._id, JSON.stringify(user), {headers: headers}).map(res => res.json());
 	}
 }
