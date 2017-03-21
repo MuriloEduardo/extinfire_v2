@@ -6,11 +6,13 @@ let jwt = require('jwt-simple');
 let config = require('../config/database');
 let User = require('../models/user');
 let Empresa = require('../models/empresa');
-let Servico = require('../models/servico');
+let Venda = require('../models/venda');
 let Produto = require('../models/produto');
 let Cliente = require('../models/cliente');
+let Servico = require('../models/servico');
 let Logs = require('../models/logs');
 let multer = require('multer');
+
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'server/uploads/')
@@ -124,6 +126,75 @@ router.put('/produto/:id', (req, res, next) => {
 	});
 });
 
+
+////////////// SERVICOS ///////////////////////////////
+//////////////////////////////////////////////////////
+
+// Get All Servicos
+router.get('/servicos', (req, res, next) => {
+	Servico.find({}, function(err, servicos){
+		if(err) res.send(err);
+		res.json(servicos);
+	});
+});
+
+// Get Servico
+router.get('/servico/:id', (req, res, next) => {
+	Servico.findOne({_id: req.params.id}, function(err, servico){
+		if(err) res.send(err);
+		res.json(servico);
+	});
+});
+
+// Create Servico
+router.post('/servico', (req, res, next) => {
+	let dadosServico = req.body;
+	if(!dadosServico) {
+		res.json({"error": "dados incompletos"});
+	} else {
+		let novoServico = new Servico();
+		
+		novoServico.images = dadosServico.images;
+		novoServico.nome = dadosServico.nome;
+		novoServico.valor = dadosServico.valor;
+
+		novoServico.save((err, data) => {
+			if(err) res.send(err);
+			res.json(data);
+		});
+	}
+});
+
+// Delete Servico
+router.delete('/servico/:id', (req, res, next) => {
+	Servico.remove({_id: req.params.id}, function(err, servico){
+		if(err) res.send(err);
+		res.json(servico);
+	});
+});
+
+// Update Servico
+router.put('/servico/:id', (req, res, next) => {
+	let dadosServico = req.body;
+	Servico.findOne({_id: req.params.id}, function(err, servico){
+		if(err) res.send(err);
+
+		if(!dadosServico) {
+			res.json({"error": "dados incompletos"});
+		} else {
+
+			servico.images = dadosServico.images;
+			servico.nome = dadosServico.nome;
+			servico.valor = dadosServico.valor;
+
+			servico.save((err, data) => {
+				if(err) res.send(err);
+				res.json(data);
+			});
+		}
+	});
+});
+
 ////////////// CLIENTES ///////////////////////////////
 //////////////////////////////////////////////////////
 
@@ -227,57 +298,57 @@ router.put('/cliente/:id', (req, res, next) => {
 	});
 });
 
-////////////// SERVIÇOS ///////////////////////////////
+////////////// VENDAS ///////////////////////////////
 //////////////////////////////////////////////////////
 
-// Get All Servico
-router.get('/servicos', (req, res, next) => {
-	Servico.find({}, function(err, servicos){
+// Get All Vendas
+router.get('/vendas', (req, res, next) => {
+	Venda.find({}, function(err, vendas){
 		if(err) res.send(err);
-		res.json(servicos);
+		res.json(vendas);
 	});
 });
 
-// Get Servico
-router.get('/servico/:id', (req, res, next) => {
-	Servico.findOne({_id: req.params.id}, function(err, servico){
+// Get Venda
+router.get('/venda/:id', (req, res, next) => {
+	Venda.findOne({_id: req.params.id}, function(err, venda){
 		if(err) res.send(err);
-		res.json(servico);
+		res.json(venda);
 	});
 });
 
-// Create Servico
-router.post('/servico', (req, res, next) => {
-	let dadosServico = req.body;
-	if(!dadosServico) {
+// Create Venda
+router.post('/venda', (req, res, next) => {
+	let dadosVenda = req.body;
+	if(!dadosVenda) {
 		res.json({"error": "dados incompletos"});
 	} else {
 
-		let novoServico = new Servico();
+		let novaVenda = new Venda();
 
-		novoServico.cliente = dadosServico.cliente;
-		novoServico.itens = dadosServico.itens;
-		novoServico.tipo = dadosServico.tipo;
-		novoServico.observacao = dadosServico.observacao;
-		novoServico.valor_total = dadosServico.valor_total;
+		novaVenda.cliente = dadosVenda.cliente;
+		novaVenda.itens = dadosVenda.itens;
+		novaVenda.tipo = dadosVenda.tipo;
+		novaVenda.observacao = dadosVenda.observacao;
+		novaVenda.valor_total = dadosVenda.valor_total;
 
-		novoServico.save((err, data) => {
+		novaVenda.save((err, data) => {
 			if(err) throw err;
 
 			// Dar baixa no estoque
 			// @param boolean
-			if(dadosServico.tipo) {
+			if(dadosVenda.tipo) {
 				let idProutosItens = [];
-				for (let i = 0; i < dadosServico.itens.length; i++) {
-					idProutosItens.push(dadosServico.itens[i].produto._id);
+				for (let i = 0; i < dadosVenda.itens.length; i++) {
+					idProutosItens.push(dadosVenda.itens[i].produto._id);
 				}
 				Produto.find({_id: { $in: idProutosItens }}, (err, produtos) => {
 					if(err) throw err;
 
-					for (let o = 0; o < dadosServico.itens.length; o++) {
+					for (let o = 0; o < dadosVenda.itens.length; o++) {
 						for (let u = 0; u < produtos.length; u++) {
-							if(dadosServico.itens[o].produto._id == produtos[u]._id) {
-								produtos[u].qntde_atual = produtos[u].qntde_atual - dadosServico.itens[o].qntde;
+							if(dadosVenda.itens[o].produto._id == produtos[u]._id) {
+								produtos[u].qntde_atual = produtos[u].qntde_atual - dadosVenda.itens[o].qntde;
 
 								Produto.findOneAndUpdate({_id: produtos[u]._id}, produtos[u], {upsert: true}, (err, data) => {
 									if(err) throw err;
@@ -292,11 +363,11 @@ router.post('/servico', (req, res, next) => {
 	}
 });
 
-// Delete Servico
-router.delete('/servico/:id', (req, res, next) => {
-	Servico.remove({_id: req.params.id}, function(err, servico){
+// Delete Venda
+router.delete('/venda/:id', (req, res, next) => {
+	Venda.remove({_id: req.params.id}, function(err, venda){
 		if(err) res.send(err);
-		res.json(servico);
+		res.json(venda);
 	});
 });
 
@@ -440,10 +511,12 @@ router.get('/logs', (req, res, next) => {
 
 // Create Log
 router.post('/log', (req, res, next) => {
-	console.log(req.body)
+
 	let log = new Logs();
 	log.descricao = req.body.descricao;
-	log.nome = req.body.nome;
+	log.item = req.body.item;
+	log.usuario = req.body.usuario;
+
 	log.save((err, data) => {
 		if(err) res.send(err);
 		res.json(data);
