@@ -10,7 +10,6 @@ import { UsuariosResolver } from './_guards/usuarios.resolver';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PerfilComponent } from './perfil/perfil.component';
-import { VendasComponent } from './vendas/vendas.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
@@ -38,13 +37,8 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'vendas',
-		component: VendasComponent,
-		canActivate: [AuthGuard],
-		resolve: {
-			vendas: VendasResolver,
-			produtos: ProdutosResolver,
-			clientes: ClientesResolver
-		}
+		loadChildren: './vendas/vendas.module#VendasModule',
+		canActivate: [AuthGuard]
 	},
 	{
 		path: 'usuarios',

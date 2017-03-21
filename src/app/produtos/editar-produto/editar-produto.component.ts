@@ -8,8 +8,7 @@ import { FileUploader } from 'ng2-file-upload';
 
 declare let Materialize:any;
 
-//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-const apiUrl = 'http://127.0.0.1:8080/api/';
+import { AppSettings } from '../../app.config';
 
 @Component({
   selector: 'app-editar-produto',
@@ -22,7 +21,7 @@ export class EditarProdutoComponent implements OnInit {
 	produto: any = {};
 
 	uploader:FileUploader = new FileUploader({
-		url: apiUrl
+		url: AppSettings.API_ENDPOINT
 	});
 
 	constructor(

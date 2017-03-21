@@ -7,15 +7,11 @@ import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
 import { ChartsModule } from 'ng2-charts';
 
-import { ProdutosModule } from './produtos/produtos.module';
-import { ClientesModule } from './clientes/clientes.module';
-
 import { AppRoutingModule } from './app.routing.module';
 
 import { AppComponent } from './app.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { VendasComponent } from './vendas/vendas.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
@@ -43,7 +39,6 @@ import { ImagePreview } from './_directives/image-preview.directive';
     AppComponent,
     PerfilComponent,
     DashboardComponent,
-    VendasComponent,
     UsuariosComponent,
     LogsComponent,
     FinanceiroComponent,

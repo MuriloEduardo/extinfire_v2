@@ -8,10 +8,9 @@ import { ClientesService } from './../../_services/clientes.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
 
-declare let Materialize:any;
+import { AppSettings } from '../../app.config';
 
-//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-const apiUrl = 'http://127.0.0.1:8080/api/';
+declare let Materialize:any;
 
 @Component({
   selector: 'app-editar-cliente',
@@ -23,7 +22,7 @@ export class EditarClienteComponent implements OnInit {
 	inscricao: Subscription;
 
 	uploader:FileUploader = new FileUploader({
-		url: apiUrl
+		url: AppSettings.API_ENDPOINT
 	});
 	
 	hasBaseDropZoneOver:boolean = false;

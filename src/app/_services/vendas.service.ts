@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-const apiUrl = 'http://127.0.0.1:8080/api/';
+import { AppSettings } from '../app.config';
 
 import { LogsService } from './logs.service';
 
@@ -20,11 +19,11 @@ export class VendasService {
   	}
 
   	getVendas() {
-  		return this.vendas = this.http.get(apiUrl + 'vendas').map(res => res.json());
+  		return this.vendas = this.http.get(AppSettings.API_ENDPOINT + 'vendas').map(res => res.json());
   	}
 
 	getVenda(id: string) {
-		return this.http.get(apiUrl + 'venda/' + id).map(res => res.json());
+		return this.http.get(AppSettings.API_ENDPOINT + 'venda/' + id).map(res => res.json());
 	}
 
 	addVenda(newVenda: any) {
@@ -36,7 +35,7 @@ export class VendasService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(apiUrl + 'venda', JSON.stringify(newVenda), {headers: headers}).map(res => res.json());
+		return this.http.post(AppSettings.API_ENDPOINT + 'venda', JSON.stringify(newVenda), {headers: headers}).map(res => res.json());
 	}
 
 	deleteVenda(venda: any) {
@@ -46,7 +45,7 @@ export class VendasService {
 			item: venda.nome
 		}).subscribe(data => {});
 
-		return this.http.delete(apiUrl + 'venda/' + venda._id).map(res => res.json());
+		return this.http.delete(AppSettings.API_ENDPOINT + 'venda/' + venda._id).map(res => res.json());
 	}
 
 	updateVenda(venda: any) {
@@ -58,6 +57,6 @@ export class VendasService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(apiUrl + 'venda' + venda._id, JSON.stringify(venda), {headers: headers}).map(res => res.json());
+		return this.http.post(AppSettings.API_ENDPOINT + 'venda' + venda._id, JSON.stringify(venda), {headers: headers}).map(res => res.json());
 	}
 }

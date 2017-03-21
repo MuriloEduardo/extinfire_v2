@@ -5,8 +5,7 @@ import { Observable } from "rxjs/Observable";
 
 import { Usuario } from '../usuarios/usuario';;
 
-//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-const apiUrl = 'http://127.0.0.1:8080/api/';
+import { AppSettings } from '../app.config';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +24,7 @@ export class AuthService {
 		headers.append('Content-Type', 'application/X-www-form-urlencoded');
 
 		return new Promise((resolve) => {
-			this.http.post(apiUrl + 'authenticate', creds, {headers: headers}).subscribe((data) => {
+			this.http.post(AppSettings.API_ENDPOINT + 'authenticate', creds, {headers: headers}).subscribe((data) => {
 				let dataJson = data.json();
 				if(dataJson.success) {
 					window.localStorage.setItem('auth_key', dataJson.token);

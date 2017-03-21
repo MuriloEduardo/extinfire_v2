@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ClientesService } from '../../_services/clientes.service';
+import { ClientesService } from './../../_services/clientes.service';
 
 @Component({
   selector: 'app-detalhe-cliente',

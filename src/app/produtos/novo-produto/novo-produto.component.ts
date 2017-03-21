@@ -5,10 +5,9 @@ import { FileUploader } from 'ng2-file-upload';
 
 import { ProdutosService } from '../../_services/produtos.service';
 
-declare let Materialize:any;
+import { AppSettings } from '../../app.config';
 
-//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-const apiUrl = 'http://127.0.0.1:8080/api/';
+declare let Materialize:any;
 
 @Component({
   selector: 'app-novo-produto',
@@ -18,7 +17,7 @@ const apiUrl = 'http://127.0.0.1:8080/api/';
 export class NovoProdutoComponent implements OnInit {
 
 	uploader:FileUploader = new FileUploader({
-		url: apiUrl
+		url: AppSettings.API_ENDPOINT
 	});
 	
 	hasBaseDropZoneOver:boolean = false;
@@ -78,7 +77,7 @@ export class NovoProdutoComponent implements OnInit {
 	
 	private resetUploader() {
 		this.uploader = new FileUploader({
-			url: apiUrl
+			url: AppSettings.API_ENDPOINT
 		});
 	}
 

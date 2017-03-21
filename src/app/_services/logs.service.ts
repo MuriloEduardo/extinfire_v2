@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
-const apiUrl = 'http://127.0.0.1:8080/api/';
+import { AppSettings } from '../app.config';
 
 @Injectable()
 export class LogsService {
@@ -16,7 +15,7 @@ export class LogsService {
   	}
 
   	getLogs() {
-  		return this.logs = this.http.get(apiUrl + 'logs').map(res => res.json());
+  		return this.logs = this.http.get(AppSettings.API_ENDPOINT + 'logs').map(res => res.json());
   	}
 
 	addLog(newLog: any) {
@@ -28,6 +27,6 @@ export class LogsService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(apiUrl + 'log', JSON.stringify(newLog), {headers: headers}).map(res => res.json());
+		return this.http.post(AppSettings.API_ENDPOINT + 'log', JSON.stringify(newLog), {headers: headers}).map(res => res.json());
 	}
 }
