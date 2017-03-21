@@ -15,7 +15,6 @@ import { ProdutoResolver } from '../_guards/produto.resolver';
 import { ProdutosComponent } from './produtos.component';
 import { NovoProdutoComponent } from './novo-produto/novo-produto.component';
 import { DetalheProdutoComponent } from './detalhe-produto/detalhe-produto.component';
-import { ProdutoNaoEncontradoComponent } from './produto-nao-encontrado/produto-nao-encontrado.component';
 import { EditarProdutoComponent } from './editar-produto/editar-produto.component';
 
 @NgModule({
@@ -23,7 +22,6 @@ import { EditarProdutoComponent } from './editar-produto/editar-produto.componen
     ProdutosComponent,
     NovoProdutoComponent,
     DetalheProdutoComponent,
-    ProdutoNaoEncontradoComponent,
     EditarProdutoComponent
   ],
   imports: [

@@ -8,7 +8,6 @@ import { ProdutosComponent } from './produtos.component';
 import { NovoProdutoComponent } from './novo-produto/novo-produto.component';
 import { EditarProdutoComponent } from './editar-produto/editar-produto.component';
 import { DetalheProdutoComponent } from './detalhe-produto/detalhe-produto.component';
-import { ProdutoNaoEncontradoComponent } from './produto-nao-encontrado/produto-nao-encontrado.component';
 
 const produtosRoutes: Routes = [
 	{
@@ -19,7 +18,6 @@ const produtosRoutes: Routes = [
 		}
 	},
 	{ path: 'novo', component: NovoProdutoComponent },
-	{ path: 'nao-encontrado', component: DetalheProdutoComponent },
 	{
 		path: ':id',
 		component: DetalheProdutoComponent,

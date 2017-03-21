@@ -1,8 +1,86 @@
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<a routerLink="/produtos" class="breadcrumb">Lista de Produtos</a>
+			<a [routerLink]="['/produtos', produto._id]" class="breadcrumb">Detalhe do Produto</a>
+			<span class="breadcrumb">Editar Produto</span>
+		</div>
+	</div>
+</nav>
 <div class="row">
-	<div class="col s12 header-pages white">
-		<a routerLink="/produtos" class="breadcrumb">Lista de Produtos</a>
-		<a [routerLink]="['/produtos', produto._id]" class="breadcrumb">Detalhe do Produto</a>
-		<a [routerLink]="['/produtos', produto._id, 'editar']" class="breadcrumb">Editar Produto</a>
+	<div class="col s12">
+		<form (submit)="updateProuto()">
+			<div class="row">
+				<div class="col s7">
+					<div class="section"></div>
+					<div class="row">
+						<div class="col-s12">
+							<div class="input-field">
+								<input id="nomeNovoProduto" type="text" [(ngModel)]="produto.nome" name="nomeNovoProduto" required="" aria-required="true">
+								<label for="nomeNovoProduto">Nome do produto</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<div class="input-field">
+								<input id="valorVendaProduto" type="number" step="0.01" min="0.01" max="9999" [(ngModel)]="produto.valor_venda" name="valorVendaProduto" required="" aria-required="true">
+								<label for="valorVendaProduto">Valor de venda do produto</label>
+							</div>
+						</div>
+						<div class="col s6">
+							<div class="input-field">
+								<input id="valorCustoProduto" type="number" step="0.01" min="0.01" max="9999" [(ngModel)]="produto.valor_custo" name="valorCustoProduto" required="" aria-required="true">
+								<label for="valorCustoProduto">Valor de custo do produto</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<div class="input-field">
+								<input id="qntdeMinProduto" type="number" [(ngModel)]="produto.qntde_minima" name="qntdeMinProduto" required="" aria-required="true">
+								<label for="qntdeMinProduto">Quantidade mínima</label>
+							</div>
+						</div>
+						<div class="col s6">
+							<div class="input-field">
+								<input id="qntdeAtualProduto" type="number" [(ngModel)]="produto.qntde_atual" name="qntdeAtualProduto" required="" aria-required="true">
+								<label for="qntdeAtualProduto">Quantidade atual deste produto</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col s5">
+					<div class="section"></div>
+					<div class="row">
+						<div class="lista-images">
+							<div class="col s3 center-align" *ngFor="let item of uploader.queue">
+								<!-- <img imgPreview [image]="item?._file" class="responsive-img"> -->
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<div ng2FileDrop
+				                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+				                 (fileOver)="fileOverBase($event)"
+				                 [uploader]="uploader"
+				                 class="drop-zone">
+				                <i class="material-icons">&#xE439;</i>
+				                <h4>Arraste e solte aqui</h4>
+				                <h5>ou</h5>
+				                <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+				            </div>
+			            </div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12">
+					<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Editar</button>
+					<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" routerLink="/produtos">Cancelar e Voltar</a>
+				</div>
+			</div>
+		</form>
 	</div>
 </div>
-{{ produto | json }}

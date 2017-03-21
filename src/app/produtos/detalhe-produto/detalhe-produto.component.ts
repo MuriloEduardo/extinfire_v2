@@ -12,7 +12,7 @@ import { ProdutosService } from '../../_services/produtos.service';
 export class DetalheProdutoComponent implements OnInit {
 
 	inscricao: Subscription;
-	produto: any[] = [];
+	produto: any;
 
 	constructor(
 		private produtosService: ProdutosService,

@@ -1,8 +1,4 @@
 <div class="section"></div>
-<div class="card-panel right-align">
-	<a class="waves-effect waves-light btn red darken-1 modal-trigger" (click)="openModal()"><i class="material-icons right">&#xE146;</i>Novo Usuário</a>
-</div>
-<div class="divider"></div>
 <div class="row">
 	<div class="col s12" *ngIf="!users.length">
 		<div class="section"></div>
@@ -15,7 +11,10 @@
 	</div>
 	<div class="col s12" *ngIf="users.length">
 		<ul class="collection with-header">
-			<li class="collection-header"><h4>Usuários</h4></li>
+			<li class="collection-header">
+				<h4>Usuários</h4>
+				<a class="waves-effect waves-light btn red darken-1 modal-trigger" (click)="openModal()"><i class="material-icons right">&#xE146;</i>Novo Usuário</a>
+			</li>
 			<li class="collection-item avatar" *ngFor="let user of users">
 				<div class="left">
 					<div class="firs-letter-users circle red darken-1">
