@@ -10,7 +10,8 @@ import { FileUploader } from 'ng2-file-upload';
 
 declare let Materialize:any;
 
-const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/upload/' || 'http://127.0.0.1:8080/api/upload/';
+//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+const apiUrl = 'http://127.0.0.1:8080/api/';
 
 @Component({
   selector: 'app-clientes',

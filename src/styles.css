@@ -103,17 +103,14 @@ header.modal-header * {
 .add-new-card i {
 	font-size: 46px;
 }
-.valign-wrapper .valign {
-	margin: auto;
-	text-align: center;
-}
 .lista-images {
 	max-height: 200px;
 	overflow: auto;
 }
 .header-pages {
-	padding-top: 15px;
-	padding-bottom: 15px;
+	margin-bottom: 20px;
+	padding-top: 15px!important;
+	padding-bottom: 15px!important;
 }
 .circle.img-table {
 	width: 42px;
@@ -121,4 +118,11 @@ header.modal-header * {
 	display: inline-block;
     vertical-align: middle;
     margin-right: 5px;
+}
+table.highlight tbody tr {
+	cursor: pointer;
+}
+.breadcrumb,
+.breadcrumb:before {
+	color: rgba(0, 0, 0, 0.87)!important;
 }

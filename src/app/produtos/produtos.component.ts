@@ -1,12 +1,6 @@
 import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
-
-import { ProdutosService } from '../_services/produtos.service';
-
-import { MaterializeAction } from 'angular2-materialize';
-import { FileUploader } from 'ng2-file-upload';
-
-declare let Materialize:any;
-const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/upload/' || 'http://127.0.0.1:8080/api/upload/';
+import { Subscription } from 'rxjs/Rx';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-produtos',
@@ -15,109 +9,20 @@ const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/upload
 })
 export class ProdutosComponent implements OnInit {
 
-	uploader:FileUploader = new FileUploader({
-		url: apiUrl
-	});
-	
-	hasBaseDropZoneOver:boolean = false;
-
-	produto: any = {};
-	
-	nome: string;
-	valor_custo: number;
-	valor_venda: number;
-	qntde_atual: number;
-	qntde_minima: number;
+	inscricao: Subscription;
+	produtos: any[] = [];
 
 	constructor(
-		private produtosService: ProdutosService
+		private route: ActivatedRoute
 	) { }
 
 	ngOnInit() {
+		this.inscricao = this.route.data.subscribe(
+			(data: {produtos: any}) => this.produtos = data.produtos
+		);
 	}
 
-	ngAfterViewChecked() {
-		if(Materialize.updateTextFields)
-			Materialize.updateTextFields();
-	}
-
-	novoProduto(event) {
-		event.preventDefault();
-		
-		if(!this.nome) return false;
-
-		let newProduto = {
-			images: [],
-			nome: this.nome,
-			valor_venda: this.valor_venda,
-			valor_custo: this.valor_venda,
-			qntde_atual: this.qntde_atual,
-			qntde_minima: this.qntde_minima
-		};
-		
-		for (let i = 0; i < this.uploader.queue.length; ++i) {
-			newProduto.images.push(this.uploader.queue[i].file.name);
-		}
-		
-		this.produtosService.addProduto(newProduto).subscribe(produto => {
-			//this.produtos.push(produto);
-			this.uploader.uploadAll();
-			//this.closeModal();
-		});
-	}
-
-	resetFormNovoProduto() {
-		this.nome = undefined;
-		this.valor_venda = undefined;
-		this.valor_custo = undefined;
-		this.qntde_atual = undefined;
-		this.qntde_minima = undefined;
-		
-		this.resetUploader();
-	}
-	
-	private resetUploader() {
-		this.uploader = new FileUploader({
-			url: apiUrl
-		});
-	}
-
-	deleteProduto(produto: any) {
-		this.produtosService.deleteProduto(produto).subscribe(data => {
-			if(data.n) {
-				//this.produtos.splice(this.produtos.indexOf(produto), 1);
-				//this.closeModalView();
-			}
-		});
-	}
-
-	updateProuto() {
-		
-		this.uploader.uploadAll();
-		
-		for (let j = 0; j < this.uploader.queue.length; ++j) {
-			this.produto.images.push(this.uploader.queue[j].file.name);
-		}
-		
-		this.uploader.clearQueue();
-		
-		this.produtosService.updateProduto(this.produto).subscribe(data => {
-			/*for (let i = 0; i < this.produtos.length; ++i) {
-				if(this.produtos[i]._id == data._id) {
-					this.produtos[i] = data;
-				}
-			}*/
-			//this.closeModalView();
-		});
-	}
-	
-	removeItemFotos(item: any) {
-		this.produto.images.splice(this.produto.images.indexOf(item), 1);
-	}
-
-	////////////////////////// Upload ///////////////////////////
-	////////////////////////////////////////////////////////////
-	fileOverBase(e:any):void {
-		this.hasBaseDropZoneOver = e;
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

@@ -9,7 +9,6 @@ import { VendasResolver } from './_guards/vendas.resolver';
 import { UsuariosResolver } from './_guards/usuarios.resolver';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CatalogoComponent } from './catalogo/catalogo.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { VendasComponent } from './vendas/vendas.component';
@@ -17,7 +16,6 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
-import { ProdutosComponent } from './produtos/produtos.component';
 
 const appRoutes: Routes = [
 	{
@@ -38,19 +36,8 @@ const appRoutes: Routes = [
 		}
 	},
 	{
-		path: 'catalogo',
-		component: CatalogoComponent,
-		resolve: {
-			produtos: ProdutosResolver
-		},
-		canActivate: [AuthGuard]
-	},
-	{
 		path: 'produtos',
-		component: ProdutosComponent,
-		resolve: {
-			produtos: ProdutosResolver
-		},
+		loadChildren: './produtos/produtos.module#ProdutosModule',
 		canActivate: [AuthGuard]
 	},
 	{

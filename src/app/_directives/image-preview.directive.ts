@@ -6,7 +6,16 @@ export class ImagePreview {
 
     @Input() image: any;
 
-    constructor(private el: ElementRef, private renderer: Renderer) { }
+    constructor(
+        private el: ElementRef, 
+        private renderer: Renderer
+    ) {
+        console.log('ImagePreviewDirective Initialize...');
+    }
+
+    ngOnInit() {
+        console.log(this.image)
+    }
 
     ngOnChanges(changes: SimpleChanges) {
 

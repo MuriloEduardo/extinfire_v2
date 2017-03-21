@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/' || 'http://127.0.0.1:8080/api/';
+//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+const apiUrl = 'http://127.0.0.1:8080/api/';
 
 import { LogsService } from './logs.service';
 

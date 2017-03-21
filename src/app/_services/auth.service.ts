@@ -5,7 +5,8 @@ import { Observable } from "rxjs/Observable";
 
 import { Usuario } from '../usuarios/usuario';;
 
-const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/auth/' || 'http://127.0.0.1:8080/auth/';
+//const apiUrl = 'https://extinfire-backend-v2-muriloeduardo.c9users.io/api/';
+const apiUrl = 'http://127.0.0.1:8080/api/';
 
 @Injectable()
 export class AuthService {
