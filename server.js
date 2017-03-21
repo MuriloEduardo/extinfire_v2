@@ -14,8 +14,7 @@ mongoose.connect(configDB.url, (err, res) => {
 });
 
 let allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://extinfire-v2-muriloeduardo.c9users.io');
-    //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:4200');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.header('Access-Control-Allow-Credentials', true);
@@ -31,10 +30,8 @@ app.use('/uploads', express.static('server/uploads'));
 
 let port = process.env.PORT || 8080;
 
-let auth = require('./server/routes/auth');
 let api = require('./server/routes/api');
 app.use('/api', api);
-app.use('/auth', auth);
 
 app.listen(port);
 console.log('Magic happens on port ' + port);

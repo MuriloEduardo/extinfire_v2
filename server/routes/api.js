@@ -18,9 +18,34 @@ let storage = multer.diskStorage({
   filename: function (req, file, cb) {
       cb(null, file.originalname);        
   }
-})
-
+});
 let upload = multer({ storage: storage });
+
+//////////////// AUTHENTICATE ////////////////////////
+/////////////////////////////////////////////////////
+
+router.post('/authenticate', (req, res, next) => {
+	User.findOne({
+        'local.email': req.body.email
+    }, function(err, user){
+        if (err) throw err;
+        
+        if(!user) {
+            res.json({success: false, msg: 'Authentication failed, User not found'});
+        } else {
+
+   			let token = jwt.encode(user, config.secret);
+
+			if(!user.validPassword(req.body.senha)) {
+				return res.json({success: false, msg: 'Authenticaton failed, wrong password.'});
+			}
+   			res.json({success: true, token: token, user: user});
+        }  
+    });
+});
+
+////////////////////// UPLOAD /////////////////////////
+//////////////////////////////////////////////////////
 
 router.post('/upload', upload.any(), (req, res, next) => {
 	res.send(req.files);
