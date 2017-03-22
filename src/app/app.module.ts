@@ -12,7 +12,6 @@ import { AppRoutingModule } from './app.routing.module';
 import { AppComponent } from './app.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
@@ -39,7 +38,6 @@ import { ImagePreview } from './_directives/image-preview.directive';
     AppComponent,
     PerfilComponent,
     DashboardComponent,
-    UsuariosComponent,
     LogsComponent,
     FinanceiroComponent,
     LoginComponent,

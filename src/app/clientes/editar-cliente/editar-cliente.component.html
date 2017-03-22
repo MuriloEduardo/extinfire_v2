@@ -16,7 +16,7 @@
 					<div class="row">
 						<div class="col-s12">
 							<div class="input-field">
-								<input id="nome" type="text" [(ngModel)]="cliente.nome" name="nome" required="" aria-required="true">
+								<input id="nome" type="text" (ngModelChange)=cliente.nome=$event"" [ngModel]="cliente?.nome" name="nome" required="" aria-required="true">
 								<label for="nome">Nome do cliente</label>
 							</div>
 						</div>
@@ -24,13 +24,13 @@
 					<div class="row">
 						<div class="col-s6">
 							<div class="input-field">
-								<input id="representante" type="text" [(ngModel)]="cliente.representante" name="representante">
+								<input id="representante" type="text" (ngModelChange)=cliente.representante=$event"" [ngModel]="cliente?.representante" name="representante">
 								<label for="representante">Representante</label>
 							</div>
 						</div>
 						<div class="col-s6">
 							<div class="input-field">
-								<input id="comprador" type="text" [(ngModel)]="cliente.comprador" name="comprador">
+								<input id="comprador" type="text" (ngModelChange)=cliente.comprador=$event"" [ngModel]="cliente?.comprador" name="comprador">
 								<label for="comprador">Comprador</label>
 							</div>
 						</div>
@@ -38,13 +38,13 @@
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<input id="cnpj" type="text" [(ngModel)]="cliente.cnpj" name="cnpj" >
+								<input id="cnpj" type="text" (ngModelChange)=cliente.cnpj=$event"" [ngModel]="cliente?.cnpj" name="cnpj" >
 								<label for="cnpj">CNPJ</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<input id="insc_estadual" type="text" [(ngModel)]="cliente.insc_estadual" name="insc_estadual" >
+								<input id="insc_estadual" type="text" (ngModelChange)=cliente.insc_estadual=$event"" [ngModel]="cliente?.insc_estadual" name="insc_estadual" >
 								<label for="insc_estadual">Inscrição Estadual</label>
 							</div>
 						</div>
@@ -52,19 +52,19 @@
 					<div class="row">
 						<div class="col s4">
 							<div class="input-field">
-								<input id="fone" type="text" [(ngModel)]="cliente.contato?.fone" name="fone" >
+								<input id="fone" type="text" (ngModelChange)=cliente.contato.fone=$event"" [ngModel]="cliente?.contato.fone" name="fone" >
 								<label for="fone">Fone</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
-								<input id="celular" type="text" [(ngModel)]="cliente.contato.celular" name="celular" >
+								<input id="celular" type="text" (ngModelChange)=cliente.contato.celular=$event"" [ngModel]="cliente?.contato.celular" name="celular" >
 								<label for="celular">Celular</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
-								<input id="email" type="email" [(ngModel)]="cliente.contato.email" name="email" >
+								<input id="email" type="email" (ngModelChange)=cliente.contato.email=$event"" [ngModel]="cliente?.contato.email" name="email" >
 								<label for="email">Email</label>
 							</div>
 						</div>
@@ -72,7 +72,7 @@
 					<div class="row">
 						<div class="col s12">
 							<div class="input-field">
-								<input id="logradouro" type="text" [(ngModel)]="cliente.endereco.logradouro" name="logradouro" >
+								<input id="logradouro" type="text" (ngModelChange)=cliente.endereco.logradouro=$event"" [ngModel]="cliente?.endereco.logradouro" name="logradouro" >
 								<label for="logradouro">Logradouro</label>
 							</div>
 						</div>
@@ -80,19 +80,19 @@
 					<div class="row">
 						<div class="col s4">
 							<div class="input-field">
-								<input id="numero" type="text" [(ngModel)]="cliente.endereco.numero" name="numero" >
+								<input id="numero" type="text" (ngModelChange)=cliente.endereco.numero=$event"" [ngModel]="cliente?.endereco.numero" name="numero" >
 								<label for="numero">Número</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
-								<input id="complemento" type="text" [(ngModel)]="cliente.endereco.complemento" name="complemento" >
+								<input id="complemento" type="text" (ngModelChange)=cliente.endereco.complemento=$event"" [ngModel]="cliente?.endereco.complemento" name="complemento" >
 								<label for="complemento">Complemento</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
-								<input id="bairro" type="text" [(ngModel)]="cliente.endereco.bairro" name="bairro" >
+								<input id="bairro" type="text" (ngModelChange)=cliente.endereco.bairro=$event"" [ngModel]="cliente?.endereco.bairro" name="bairro" >
 								<label for="bairro">Bairro</label>
 							</div>
 						</div>
@@ -100,13 +100,13 @@
 					<div class="row">
 						<div class="col s4">
 							<div class="input-field">
-								<input id="cidade" type="text" [(ngModel)]="cliente.endereco.cidade" name="cidade" >
+								<input id="cidade" type="text" (ngModelChange)=cliente.endereco.cidade=$event"" [ngModel]="cliente?.endereco.cidade" name="cidade" >
 								<label for="cidade">Cidade</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
-								<select id="estado" [(ngModel)]="cliente.endereco.estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
+								<select id="estado" (ngModelChange)=cliente.endereco.estado=$event"" [ngModel]="cliente?.endereco.estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
 								  <option value="" disabled selected>Estado</option>
 								  <option *ngFor="let option of selectEstadoOptions" [value]="option.value">{{option.name}}</option>
 								</select>
@@ -115,7 +115,7 @@
 						</div>
 						<div class="col s4">
 							<div class="input-field">
-								<input id="cep" type="text" [(ngModel)]="cliente.endereco.cep" name="cep" >
+								<input id="cep" type="text" (ngModelChange)=cliente.endereco.cep=$event"" [ngModel]="cliente?.endereco.cep" name="cep" >
 								<label for="cep">CEP</label>
 							</div>
 						</div>

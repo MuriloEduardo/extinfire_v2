@@ -10,7 +10,6 @@ import { UsuariosResolver } from './_guards/usuarios.resolver';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PerfilComponent } from './perfil/perfil.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
@@ -42,11 +41,8 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'usuarios',
-		component: UsuariosComponent,
-		canActivate: [AuthGuard],
-		resolve: {
-			usuarios: UsuariosResolver
-		}
+		loadChildren: './usuarios/usuarios.module#UsuariosModule',
+		canActivate: [AuthGuard]
 	},
 	{
 		path: 'logs',
