@@ -7,7 +7,7 @@ let vendaSchema = mongoose.Schema({
 	itens: [{
 		produto: {},
 		qntde: Number,
-		valor_total: Number,
+		total: Number,
 		validade: { type: Date }
 	}],
 	tipo: Boolean,

@@ -229,9 +229,9 @@ router.post('/cliente', (req, res, next) => {
 		novoCliente.insc_estadual = dadosCliente.insc_estadual;
 		novoCliente.comprador = dadosCliente.comprador;
 		novoCliente.contato = {
-			fone: dadosCliente.fone,
-			celular: dadosCliente.celular,
-			email: dadosCliente.email
+			fone: dadosCliente.contato.fone,
+			celular: dadosCliente.contato.celular,
+			email: dadosCliente.contato.email
 		};
 		novoCliente.endereco = {
 			logradouro: dadosCliente.endereco.logradouro,
@@ -275,11 +275,10 @@ router.put('/cliente/:id', (req, res, next) => {
 			cliente.insc_estadual = dadosCliente.insc_estadual;
 			cliente.comprador = dadosCliente.comprador;
 			cliente.contato = {
-				fone: dadosCliente.fone,
-				celular: dadosCliente.celular,
-				email: dadosCliente.email
+				fone: dadosCliente.contato.fone,
+				celular: dadosCliente.contato.celular,
+				email: dadosCliente.contato.email
 			};
-			console.log(dadosCliente)
 			cliente.endereco = {
 				logradouro: dadosCliente.endereco.logradouro,
 				numero: dadosCliente.endereco.numero,
@@ -372,23 +371,28 @@ router.delete('/venda/:id', (req, res, next) => {
 });
 
 // Update Servico
-/*router.put('/servico/:id', (req, res, next) => {
-	let dadosCliente = req.body;
-	Cliente.findOne({_id: req.params.id}, function(err, cliente){
+router.put('/venda/:id', (req, res, next) => {
+	let dadosVenda = req.body;
+	Venda.findOne({_id: req.params.id}, function(err, venda){
 		if(err) res.send(err);
 
-		if(!dadosCliente) {
+		if(!dadosVenda) {
 			res.json({"error": "dados incompletos"});
 		} else {
-			cliente = dadosCliente;
+			
+			venda.cliente = dadosVenda.cliente;
+			venda.itens = dadosVenda.itens;
+			venda.tipo = dadosVenda.tipo;
+			venda.observacao = dadosVenda.observacao;
+			venda.valor_total = dadosVenda.valor_total;
 
-			cliente.save((err, data) => {
+			venda.save((err, data) => {
 				if(err) res.send(err);
 				res.json(data);
 			});
 		}
 	});
-});*/
+});
 
 ////////////// EMPRESA ///////////////////////////////
 /////////////////////////////////////////////////////
