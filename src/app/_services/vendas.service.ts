@@ -57,6 +57,6 @@ export class VendasService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(AppSettings.API_ENDPOINT + 'venda' + venda._id, JSON.stringify(venda), {headers: headers}).map(res => res.json());
+		return this.http.put(AppSettings.API_ENDPOINT + 'venda/' + venda._id, JSON.stringify(venda), {headers: headers}).map(res => res.json());
 	}
 }

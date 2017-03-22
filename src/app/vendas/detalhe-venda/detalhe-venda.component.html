@@ -1,7 +1,7 @@
 <nav class="header-pages white">
 	<div class="nav-wrapper">
 		<div class="col s12">
-			<a routerLink="/vendas" class="breadcrumb">Listagem de Vendas</a>
+			<a routerLink="/vendas" class="breadcrumb">Lista de Vendas</a>
 			<span class="breadcrumb">Detalhe da Venda</span>
 		</div>
 	</div>
@@ -17,3 +17,4 @@
 		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteVenda(venda)">Excluir e Voltar</a>
 	</div>
 </div>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

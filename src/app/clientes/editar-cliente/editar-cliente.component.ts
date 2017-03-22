@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
 
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +18,8 @@ declare let Materialize:any;
   styleUrls: ['./editar-cliente.component.css']
 })
 export class EditarClienteComponent implements OnInit {
-
+	
+	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 
 	uploader:FileUploader = new FileUploader({
@@ -27,7 +28,30 @@ export class EditarClienteComponent implements OnInit {
 	
 	hasBaseDropZoneOver:boolean = false;
 
-	cliente: any;
+	cliente: any = {
+	  _id: null,
+	  comprador: null,
+	  insc_estadual: null,
+	  cnpj: null,
+	  representante: null,
+	  nome: null,
+	  updatedAt: null,
+	  endereco: {
+	    logradouro: null,
+	    numero: null,
+	    complemento: null,
+	    bairro: null,
+	    cidade: null,
+	    estado: null,
+	    cep: null
+	  },
+	  contato: {
+	    fone: null,
+	    celular: null,
+	    email: null
+	  },
+	  images: []
+	};
 
 	constructor(
 		private route: ActivatedRoute,
@@ -39,19 +63,13 @@ export class EditarClienteComponent implements OnInit {
 		this.inscricao = this.route.data.subscribe(
 			(data: {cliente: any}) => this.cliente = data.cliente
 		);
+
+		console.log(this.cliente)
 	}
 
 	ngAfterViewChecked() {
 		if(Materialize.updateTextFields)
 			Materialize.updateTextFields();
-	}
-
-	deleteCliente(cliente: any) {
-		this.clientesService.deleteCliente(cliente).subscribe(data => {
-			if(data.n) {
-				this.router.navigate(['produtos']);
-			}
-		});
 	}
 
 	updateCliente() {
@@ -65,7 +83,12 @@ export class EditarClienteComponent implements OnInit {
 		this.uploader.clearQueue();
 		
 		this.clientesService.updateCliente(this.cliente).subscribe(data => {
-			this.router.navigate(['produtos']);
+			this.router.navigate(['clientes']);
+			this.triggerToast('Cliente editado!');
 		});
+	}
+
+	triggerToast(stringToast) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
 	}
 }

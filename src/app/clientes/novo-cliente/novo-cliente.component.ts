@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
 
 import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ClientesService } from './../../_services/clientes.service';
 
@@ -20,7 +20,7 @@ declare let Materialize:any;
 export class NovoClienteComponent implements OnInit {
 
 	inscricao: Subscription;
-
+	globalActions = new EventEmitter<string|MaterializeAction>();
 	uploader:FileUploader = new FileUploader({
 		url: AppSettings.API_ENDPOINT
 	});
@@ -38,25 +38,26 @@ export class NovoClienteComponent implements OnInit {
 		}
 	];
 
-	nome: string;
-	representante: string;
-	cnpj: number;
-	insc_estadual: string;
-	comprador: string;
-	fone: number;
-	celular: number;
-	email: string;
-	logradouro: string;
-	numero: string;
-	complemento: string;
-	bairro: string;
-	cidade: string;
-	estado: string;
-	cep: number;
+	nome: any;
+	representante: any;
+	cnpj: any;
+	insc_estadual: any;
+	comprador: any;
+	fone: any;
+	celular: any;
+	email: any;
+	logradouro: any;
+	numero: any;
+	complemento: any;
+	bairro: any;
+	cidade: any;
+	estado: any;
+	cep: any;
 
 	constructor(
 		private route: ActivatedRoute,
-		private clientesService: ClientesService
+		private clientesService: ClientesService,
+		private router: Router
 	) { }
 
 	ngOnInit() {
@@ -65,32 +66,6 @@ export class NovoClienteComponent implements OnInit {
 	ngAfterViewChecked() {
 		if(Materialize.updateTextFields)
 			Materialize.updateTextFields();
-	}
-
-	resetFormNovoCliente() {
-		this.nome = undefined;
-		this.representante = undefined;
-		this.cnpj = undefined;
-		this.insc_estadual = undefined;
-		this.comprador = undefined;
-		this.fone = undefined;
-		this.celular = undefined;
-		this.email = undefined;
-		this.logradouro = undefined;
-		this.numero = undefined;
-		this.complemento = undefined;
-		this.bairro = undefined;
-		this.cidade = undefined;
-		this.estado = undefined;
-		this.cep = undefined;
-
-		this.resetUploader();
-	}
-
-	private resetUploader() {
-		this.uploader = new FileUploader({
-			url: AppSettings.API_ENDPOINT
-		});
 	}
 
 	trustAsResourceUrl(uri: string) {
@@ -129,9 +104,16 @@ export class NovoClienteComponent implements OnInit {
 			newCliente.images.push(this.uploader.queue[i].file.name);
 		}
 
+		console.log(newCliente)
+
 		this.clientesService.addCliente(newCliente).subscribe(cliente => {
-			// Redirecionamento para listagem de clientes
+			this.router.navigate(['clientes']);
+	  		this.triggerToast('Cliente cadastrado com sucesso!');
 		});
+	}
+
+	triggerToast(stringToast) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
 	}
 
 	////////////////////////// Upload ///////////////////////////

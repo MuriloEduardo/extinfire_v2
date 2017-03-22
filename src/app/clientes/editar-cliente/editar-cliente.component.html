@@ -17,7 +17,7 @@
 						<div class="col-s12">
 							<div class="input-field">
 								<input id="nome" type="text" [(ngModel)]="cliente.nome" name="nome" required="" aria-required="true">
-								<label for="nome" data-error="Inválido" data-success="Válido">Nome do cliente</label>
+								<label for="nome">Nome do cliente</label>
 							</div>
 						</div>
 					</div>
@@ -25,13 +25,13 @@
 						<div class="col-s6">
 							<div class="input-field">
 								<input id="representante" type="text" [(ngModel)]="cliente.representante" name="representante">
-								<label for="representante" data-error="Inválido" data-success="Válido">Representante</label>
+								<label for="representante">Representante</label>
 							</div>
 						</div>
 						<div class="col-s6">
 							<div class="input-field">
 								<input id="comprador" type="text" [(ngModel)]="cliente.comprador" name="comprador">
-								<label for="comprador" data-error="Inválido" data-success="Válido">Comprador</label>
+								<label for="comprador">Comprador</label>
 							</div>
 						</div>
 					</div>
@@ -39,96 +39,84 @@
 						<div class="col s6">
 							<div class="input-field">
 								<input id="cnpj" type="text" [(ngModel)]="cliente.cnpj" name="cnpj" >
-								<label for="cnpj" data-error="Inválido" data-success="Válido">CNPJ</label>
+								<label for="cnpj">CNPJ</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
 								<input id="insc_estadual" type="text" [(ngModel)]="cliente.insc_estadual" name="insc_estadual" >
-								<label for="insc_estadual" data-error="Inválido" data-success="Válido">Inscrição Estadual</label>
+								<label for="insc_estadual">Inscrição Estadual</label>
 							</div>
 						</div>
 					</div>
-					Contato
 					<div class="row">
-						Fone
 						<div class="col s4">
 							<div class="input-field">
-								<input id="fone" type="text" [(ngModel)]="cliente.fone" name="fone" >
-								<label for="fone" data-error="Inválido" data-success="Válido">Fone</label>
+								<input id="fone" type="text" [(ngModel)]="cliente.contato?.fone" name="fone" >
+								<label for="fone">Fone</label>
 							</div>
 						</div>
-						Celular
 						<div class="col s4">
 							<div class="input-field">
-								<input id="celular" type="text" [(ngModel)]="cliente.celular" name="celular" >
-								<label for="celular" data-error="Inválido" data-success="Válido">Celular</label>
+								<input id="celular" type="text" [(ngModel)]="cliente.contato.celular" name="celular" >
+								<label for="celular">Celular</label>
 							</div>
 						</div>
-						Email
 						<div class="col s4">
 							<div class="input-field">
-								<input id="email" type="email" [(ngModel)]="cliente.email" name="email" >
-								<label for="email" data-error="Inválido" data-success="Válido">Email</label>
+								<input id="email" type="email" [(ngModel)]="cliente.contato.email" name="email" >
+								<label for="email">Email</label>
 							</div>
 						</div>
 					</div>
-					Endereço
 					<div class="row">
-						Logradouro
 						<div class="col s12">
 							<div class="input-field">
-								<input id="logradouro" type="text" [(ngModel)]="cliente.logradouro" name="logradouro" >
-								<label for="logradouro" data-error="Inválido" data-success="Válido">Logradouro</label>
+								<input id="logradouro" type="text" [(ngModel)]="cliente.endereco.logradouro" name="logradouro" >
+								<label for="logradouro">Logradouro</label>
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						Numero
 						<div class="col s4">
 							<div class="input-field">
-								<input id="numero" type="text" [(ngModel)]="cliente.numero" name="numero" >
-								<label for="numero" data-error="Inválido" data-success="Válido">Número</label>
+								<input id="numero" type="text" [(ngModel)]="cliente.endereco.numero" name="numero" >
+								<label for="numero">Número</label>
 							</div>
 						</div>
-						Complemento
 						<div class="col s4">
 							<div class="input-field">
-								<input id="complemento" type="text" [(ngModel)]="cliente.complemento" name="complemento" >
-								<label for="complemento" data-error="Inválido" data-success="Válido">Complemento</label>
+								<input id="complemento" type="text" [(ngModel)]="cliente.endereco.complemento" name="complemento" >
+								<label for="complemento">Complemento</label>
 							</div>
 						</div>
-						Bairro
 						<div class="col s4">
 							<div class="input-field">
-								<input id="bairro" type="text" [(ngModel)]="cliente.bairro" name="bairro" >
-								<label for="bairro" data-error="Inválido" data-success="Válido">Bairro</label>
+								<input id="bairro" type="text" [(ngModel)]="cliente.endereco.bairro" name="bairro" >
+								<label for="bairro">Bairro</label>
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						Cidade
 						<div class="col s4">
 							<div class="input-field">
-								<input id="cidade" type="text" [(ngModel)]="cliente.cidade" name="cidade" >
-								<label for="cidade" data-error="Inválido" data-success="Válido">Cidade</label>
+								<input id="cidade" type="text" [(ngModel)]="cliente.endereco.cidade" name="cidade" >
+								<label for="cidade">Cidade</label>
 							</div>
 						</div>
-						Estado
 						<div class="col s4">
 							<div class="input-field">
-								<select id="estado" [(ngModel)]="cliente.estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
+								<select id="estado" [(ngModel)]="cliente.endereco.estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
 								  <option value="" disabled selected>Estado</option>
 								  <option *ngFor="let option of selectEstadoOptions" [value]="option.value">{{option.name}}</option>
 								</select>
-								<label for="estado" data-error="Inválido" data-success="Válido"></label>
+								<label for="estado"></label>
 							</div>
 						</div>
-						CEP
 						<div class="col s4">
 							<div class="input-field">
-								<input id="cep" type="text" [(ngModel)]="cliente.cep" name="cep" >
-								<label for="cep" data-error="Inválido" data-success="Válido">CEP</label>
+								<input id="cep" type="text" [(ngModel)]="cliente.endereco.cep" name="cep" >
+								<label for="cep">CEP</label>
 							</div>
 						</div>
 					</div>
@@ -176,3 +164,4 @@
 		</form>
 	</div>
 </div>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

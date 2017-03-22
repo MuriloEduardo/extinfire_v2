@@ -23,3 +23,7 @@ nav .logotipo h5 {
 .side-nav.fixed .collapsible-body li a {
 	padding: 0 52px;
 }
+header .container {
+	width: 100%;
+	max-width: 100%;
+}

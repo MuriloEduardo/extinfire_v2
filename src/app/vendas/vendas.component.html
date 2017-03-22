@@ -1,14 +1,26 @@
 <nav class="header-pages white">
 	<div class="nav-wrapper">
 		<div class="col s12">
-			<span class="breadcrumb">Listagem de Vendas</span>
+			<span class="breadcrumb">Lista de Vendas</span>
 			<div class="right">
 				<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Nova Venda</a>
 			</div>
 		</div>
 	</div>
 </nav>
-<div class="row">
+<!-- Sem nenhuma venda -->
+<div class="row" *ngIf="!vendas.length">
+	<div class="col s12">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhuma venda aqui <br><small>clique em Nova Venda</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" *ngIf="vendas.length">
 	<div class="col s12">
 		<form action="#">
 			<table class="bordered highlight">
@@ -17,7 +29,7 @@
 						<th data-field="check">
 							<input type="checkbox" checked="checked" />
 						</th>
-						<th data-field="nome">Para o cliente</th>
+						<th data-field="nome">Nome do cliente</th>
 						<th data-field="cidade">Valor Total</th>
 						<th data-field="tipo">Tipo</th>
 						<th data-field="obs">Obs.</th>

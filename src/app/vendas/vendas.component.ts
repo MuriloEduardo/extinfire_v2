@@ -27,8 +27,6 @@ export class VendasComponent implements OnInit {
 				this.produtos = data.produtos;
 				this.vendas = data.vendas;
 				this.clientes = data.clientes;
-				
-				console.log(this.vendas)
 			}
 		);
 	}

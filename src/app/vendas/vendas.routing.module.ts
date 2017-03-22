@@ -21,7 +21,14 @@ const vendasRoutes: Routes = [
 			clientes: ClientesResolver
 		}
 	},
-	{ path: 'novo', component: NovaVendaComponent },
+	{
+		path: 'novo',
+		component: NovaVendaComponent,
+		resolve: {
+			produtos: ProdutosResolver,
+			clientes: ClientesResolver
+		}
+	},
 	{
 		path: ':id',
 		component: DetalheVendaComponent,
@@ -33,7 +40,9 @@ const vendasRoutes: Routes = [
 		path: ':id/editar',
 		component: EditarVendaComponent,
 		resolve: {
-			venda: VendaResolver
+			venda: VendaResolver,
+			produtos: ProdutosResolver,
+			clientes: ClientesResolver
 		}
 	}
 ];
