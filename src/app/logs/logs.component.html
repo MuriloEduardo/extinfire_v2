@@ -30,7 +30,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let log of logs">
+					<tr *ngFor="let log of logs | paginate: { itemsPerPage: 10, currentPage: p }">
 						<td>{{ log.usuario || '---' }}</td>
 						<td>{{ log.descricao || '---' }}</td>
 						<td>{{ log.item || '---' }}</td>
@@ -38,6 +38,11 @@
 					</tr>
 				</tbody>
 			</table>
+			<pagination-controls 
+			(pageChange)="p = $event" 
+			previousLabel="Anterior"
+            nextLabel="Próximo"
+            ></pagination-controls>
 		</form>
 	</div>
 </div>

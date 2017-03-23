@@ -38,7 +38,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let produto of produtos" [routerLink]="[produto._id]">
+					<tr *ngFor="let produto of produtos | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[produto._id]">
 						<td><input type="checkbox"></td>
 						<td>
 							<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0]) }}" class="circle img-table">
@@ -49,16 +49,21 @@
 						<td>R{{ produto.valor_venda | currency:'USD':true:'1.2-2' || '---'  }}</td>
 						<td>R{{ produto.valor_custo | currency:'USD':true:'1.2-2' || '---'  }}</td>
 						<td>{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</td>
-						<td *ngIf="(produto.qntde_atual <= 0) || (produto.qntde_atual > 0&&produto.qntde_atual > 0)">
-							<div class="chip white-text" [ngClass]="{'red text-white': produto.qntde_atual <= 0, 'orange text-white': produto.qntde_atual > 0&&produto.qntde_atual > 0}">
+						<td>
+							<div  *ngIf="(produto.qntde_atual <= 0) || (produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima)" class="chip white-text" [ngClass]="{'red text-white': produto.qntde_atual <= 0, 'orange text-white': produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima}">
 								<h6 *ngIf="produto.qntde_atual <= 0">Acabou!</h6>
-								<h6 *ngIf="produto.qntde_atual > 0&&produto.qntde_atual > 0">Está Acabando</h6>
+								<h6 *ngIf="produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima">Está Acabando</h6>
 							</div>
 						</td>
 						<td><i class="material-icons">&#xE315;</i></td>
 					</tr>
 				</tbody>
 			</table>
+			<pagination-controls 
+			(pageChange)="p = $event" 
+			previousLabel="Anterior"
+            nextLabel="Próximo"
+            ></pagination-controls>
 		</form>
 	</div>
 </div>

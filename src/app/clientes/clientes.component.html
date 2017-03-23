@@ -36,7 +36,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let cliente of clientes" [routerLink]="[cliente._id]">
+					<tr *ngFor="let cliente of clientes | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[cliente._id]">
 						<td><input type="checkbox"></td>
 						<td>
 							<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0]) }}" class="circle img-table">
@@ -49,6 +49,11 @@
 					</tr>
 				</tbody>
 			</table>
+			<pagination-controls 
+			(pageChange)="p = $event" 
+			previousLabel="Anterior"
+            nextLabel="Próximo"
+            ></pagination-controls>
 		</form>
 	</div>
 </div>

@@ -3,10 +3,18 @@ import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { VendasService } from './../../_services/vendas.service';
 
 declare var Materialize:any;
+
+const numberMask = createNumberMask({
+	prefix: 'R$ ',
+	thousandsSeparatorSymbol: '.',
+	decimalSymbol: ',',
+	allowDecimal: true
+})
 
 @Component({
   selector: 'app-editar-venda',
@@ -14,6 +22,8 @@ declare var Materialize:any;
   styleUrls: ['./editar-venda.component.css']
 })
 export class EditarVendaComponent implements OnInit {
+
+	maskMoney = numberMask;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;

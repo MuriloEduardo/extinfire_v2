@@ -38,7 +38,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let servico of servicos" [routerLink]="[servico._id]">
+					<tr *ngFor="let servico of servicos | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[servico._id]">
 						<td>
 							<p>
 								<input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" />
@@ -55,6 +55,11 @@
 					</tr>
 				</tbody>
 			</table>
+			<pagination-controls 
+			(pageChange)="p = $event" 
+			previousLabel="Anterior"
+            nextLabel="Próximo"
+            ></pagination-controls>
 		</form>
 	</div>
 </div>

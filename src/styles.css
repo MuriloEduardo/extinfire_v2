@@ -129,3 +129,13 @@ a.breadcrumb:hover {
 .breadcrumb:before {
 	color: #212121!important;
 }
+.ng2-pagination .current {
+	background: #e53935!important;
+}
+.ng2-pagination {
+	text-align: center;
+	padding: 15px 0;
+}
+#sidenav-overlay {
+	z-index: 1!important;
+}

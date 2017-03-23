@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
+import { Ng2PaginationModule } from 'ng2-pagination';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { VendasRoutingModule  } from './vendas.routing.module';
 
@@ -30,6 +32,8 @@ import { NovaVendaComponent } from './nova-venda/nova-venda.component';
     HttpModule,
     MaterializeModule,
     FileUploadModule,
+    Ng2PaginationModule,
+    TextMaskModule,
     VendasRoutingModule
   ],
   providers: [

@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core
 import { Router } from '@angular/router';
 
 import { FileUploader } from 'ng2-file-upload';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { ProdutosService } from '../../_services/produtos.service';
 
@@ -11,6 +12,13 @@ import { MaterializeAction } from 'angular2-materialize';
 
 declare let Materialize:any;
 
+const numberMask = createNumberMask({
+	prefix: 'R$ ',
+	thousandsSeparatorSymbol: '.',
+	decimalSymbol: ',',
+	allowDecimal: true
+})
+
 @Component({
   selector: 'app-novo-produto',
   templateUrl: './novo-produto.component.html',
@@ -18,6 +26,8 @@ declare let Materialize:any;
 })
 export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 
+	maskMoney = numberMask;
+	
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
 	uploader:FileUploader = new FileUploader({

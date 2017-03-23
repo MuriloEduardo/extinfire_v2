@@ -3,11 +3,19 @@ import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { VendasService } from './../../_services/vendas.service';
 import { ClientesService } from './../../_services/clientes.service';
 
 declare var Materialize:any;
+
+const numberMask = createNumberMask({
+	prefix: 'R$ ',
+	thousandsSeparatorSymbol: '.',
+	decimalSymbol: ',',
+	allowDecimal: true
+})
 
 @Component({
   selector: 'app-nova-venda',
@@ -15,6 +23,8 @@ declare var Materialize:any;
   styleUrls: ['./nova-venda.component.css']
 })
 export class NovaVendaComponent implements OnInit {
+
+	maskMoney = numberMask;
 
 	inscricao: Subscription;
 	globalActions = new EventEmitter<string|MaterializeAction>();

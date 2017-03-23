@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
 import { TextMaskModule } from 'angular2-text-mask';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 import { ClientesRoutingModule } from './clientes.routing.module';
 
@@ -35,6 +36,7 @@ import { ImagePreviewCliente } from './../_directives/image-preview-cliente.dire
     MaterializeModule,
     FileUploadModule,
     ClientesRoutingModule,
+    Ng2PaginationModule,
     TextMaskModule
   ],
   providers: [

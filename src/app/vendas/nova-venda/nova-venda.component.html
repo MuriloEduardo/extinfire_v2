@@ -94,6 +94,7 @@
 											[(ngModel)]="venda.itens[i].item.valor_venda" 
 											name="valor_venda{{i}}" 
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
+											[textMask]="{mask: maskMoney}"
 											>
 											<label for="valor_venda">Valor unitário</label>
 										</div>
@@ -107,6 +108,7 @@
 											name="total{{i}}" 
 											readonly="" 
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
+											[textMask]="{mask: maskMoney}"
 											>
 											<label for="total">Valor total</label>
 										</div>

@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 import { UsuariosService } from '../_services/usuarios.service';
 import { UsuarioResolver } from '../_guards/usuario.resolver';
@@ -29,6 +30,7 @@ import { DetalheUsuarioComponent } from './detalhe-usuario/detalhe-usuario.compo
     HttpModule,
     MaterializeModule,
     FileUploadModule,
+    Ng2PaginationModule,
     UsuariosRoutingModule
   ],
   providers: [

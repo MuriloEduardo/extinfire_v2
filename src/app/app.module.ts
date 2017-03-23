@@ -7,6 +7,7 @@ import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
 import { ChartsModule } from 'ng2-charts';
 import { TextMaskModule } from 'angular2-text-mask';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 import { AppRoutingModule } from './app.routing.module';
 
@@ -49,6 +50,7 @@ import { ServicosResolver } from './_guards/servicos.resolver';
     MaterializeModule,
     FileUploadModule,
     ChartsModule,
+    Ng2PaginationModule,
     AppRoutingModule
   ],
   providers: [
