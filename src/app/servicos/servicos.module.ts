@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { ServicosRoutingModule } from './servicos.routing.module';
 
@@ -33,6 +34,7 @@ import { ImagePreviewServico } from './../_directives/image-preview-servico.dire
     HttpModule,
     MaterializeModule,
     FileUploadModule,
+    TextMaskModule,
     ServicosRoutingModule
   ],
   providers: [

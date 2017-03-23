@@ -23,7 +23,7 @@
 					<div class="row">
 						<div class="col s12">
 							<div class="input-field">
-								<input id="valorVendaServico" type="text" [(ngModel)]="valor_venda" name="valorVendaServico" required="" aria-required="true">
+								<input id="valorVendaServico" type="text" [(ngModel)]="valor_venda" name="valorVendaServico" required="" aria-required="true" [textMask]="{mask: maskMoney}">
 								<label for="valorVendaServico">Valor</label>
 							</div>
 						</div>

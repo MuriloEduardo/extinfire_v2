@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+
 import { FileUploader } from 'ng2-file-upload';
 
 import { ServicosService } from '../../_services/servicos.service';
@@ -11,12 +13,21 @@ import { MaterializeAction } from 'angular2-materialize';
 
 declare let Materialize:any;
 
+const numberMask = createNumberMask({
+	prefix: 'R$ ',
+	thousandsSeparatorSymbol: '.',
+	decimalSymbol: ',',
+	allowDecimal: true
+})
+
 @Component({
   selector: 'app-novo-servico',
   templateUrl: './novo-servico.component.html',
   styleUrls: ['./novo-servico.component.css']
 })
 export class NovoServicoComponent implements OnInit, AfterViewChecked {
+
+	maskMoney = numberMask;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
@@ -27,7 +38,7 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 	hasBaseDropZoneOver:boolean = false;
 	
 	nome: string;
-	valor_venda: number;
+	valor_venda: any;
 
 	constructor(
 		private servicosService: ServicosService,
@@ -56,7 +67,10 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 		for (let i = 0; i < this.uploader.queue.length; ++i) {
 			newServico.images.push(this.uploader.queue[i].file.name);
 		}
-		
+
+		// Retira o Prefixo R$
+		newServico.valor_venda = newServico.valor_venda.slice(3);
+
 		this.servicosService.addServico(newServico).subscribe(servico => {
 			this.uploader.uploadAll();
 			this.router.navigate(['servicos']);

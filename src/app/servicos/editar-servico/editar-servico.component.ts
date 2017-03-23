@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+
 import { ServicosService } from '../../_services/servicos.service';
 
 import { FileUploader } from 'ng2-file-upload';
@@ -12,12 +14,20 @@ declare let Materialize:any;
 
 import { AppSettings } from '../../app.config';
 
+const numberMask = createNumberMask({
+	prefix: 'R$ ',
+	suffix: '',
+    allowDecimal: true,
+})
+
 @Component({
   selector: 'app-editar-servico',
   templateUrl: './editar-servico.component.html',
   styleUrls: ['./editar-servico.component.css']
 })
 export class EditarServicoComponent implements OnInit {
+
+	maskMoney = numberMask;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
@@ -53,6 +63,9 @@ export class EditarServicoComponent implements OnInit {
 		}
 		
 		this.uploader.clearQueue();
+
+		// Retira o Prefixo R$
+		this.servico.valor_venda = parseFloat(this.servico.valor_venda.slice(3));
 		
 		this.servicosService.updateServico(this.servico).subscribe(data => {
 			if(data._id) {
