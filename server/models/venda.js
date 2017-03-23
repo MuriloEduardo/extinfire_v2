@@ -5,9 +5,10 @@ let mongoose = require('mongoose');
 let vendaSchema = mongoose.Schema({
 	cliente: {},
 	itens: [{
-		produto: {},
+		item: {},
 		qntde: Number,
 		total: Number,
+		tipo: Boolean,
 		validade: { type: Date }
 	}],
 	tipo: Boolean,

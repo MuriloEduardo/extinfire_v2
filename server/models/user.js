@@ -10,7 +10,11 @@ let usuarioSchema = mongoose.Schema({
 	local: {
 		email: String,
 		senha: String
-	}
+	},
+	updatedAt: {
+        type: Date, 
+        default: Date.now 
+    }
 });
 
 usuarioSchema.methods.generateHash = function(senha){

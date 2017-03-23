@@ -156,7 +156,7 @@ router.post('/servico', (req, res, next) => {
 		
 		novoServico.images = dadosServico.images;
 		novoServico.nome = dadosServico.nome;
-		novoServico.valor = dadosServico.valor;
+		novoServico.valor_venda = dadosServico.valor_venda;
 
 		novoServico.save((err, data) => {
 			if(err) res.send(err);
@@ -185,7 +185,7 @@ router.put('/servico/:id', (req, res, next) => {
 
 			servico.images = dadosServico.images;
 			servico.nome = dadosServico.nome;
-			servico.valor = dadosServico.valor;
+			servico.valor_venda = dadosServico.valor_venda;
 
 			servico.save((err, data) => {
 				if(err) res.send(err);
@@ -337,16 +337,18 @@ router.post('/venda', (req, res, next) => {
 			// Dar baixa no estoque
 			// @param boolean
 			if(dadosVenda.tipo) {
-				let idProutosItens = [];
+				let idItens = [];
 				for (let i = 0; i < dadosVenda.itens.length; i++) {
-					idProutosItens.push(dadosVenda.itens[i].produto._id);
+					if(!dadosVenda.itens[i].tipo) {
+						idItens.push(dadosVenda.itens[i].item._id);
+					}
 				}
-				Produto.find({_id: { $in: idProutosItens }}, (err, produtos) => {
+				Produto.find({_id: { $in: idItens }}, (err, produtos) => {
 					if(err) throw err;
 
 					for (let o = 0; o < dadosVenda.itens.length; o++) {
 						for (let u = 0; u < produtos.length; u++) {
-							if(dadosVenda.itens[o].produto._id == produtos[u]._id) {
+							if(dadosVenda.itens[o].item._id == produtos[u]._id) {
 								produtos[u].qntde_atual = produtos[u].qntde_atual - dadosVenda.itens[o].qntde;
 
 								Produto.findOneAndUpdate({_id: produtos[u]._id}, produtos[u], {upsert: true}, (err, data) => {
@@ -458,6 +460,7 @@ router.post('/user', (req, res, next) => {
 	} else {
 		let novoUser = new User();
 		novoUser.nome = dadosUser.nome;
+		novoUser.tipo = dadosUser.tipo;
 		novoUser.local = {
 			email: dadosUser.local.email,
 			senha: novoUser.generateHash(req.body.local.senha)
