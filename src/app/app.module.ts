@@ -3,12 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { MaterializeModule } from 'angular2-materialize';
-import { FileUploadModule } from "ng2-file-upload";
-import { ChartsModule } from 'ng2-charts';
-import { TextMaskModule } from 'angular2-text-mask';
-import { Ng2PaginationModule } from 'ng2-pagination';
-
 import { AppRoutingModule } from './app.routing.module';
 
 import { AppComponent } from './app.component';
@@ -17,6 +11,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
+
+import { MaterializeModule } from 'angular2-materialize';
+import { FileUploadModule } from "ng2-file-upload";
+import { TextMaskModule } from 'angular2-text-mask';
+import { Ng2PaginationModule } from 'ng2-pagination';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 import { UsuariosService } from './_services/usuarios.service';
 import { ClientesService } from './_services/clientes.service';
@@ -49,8 +49,8 @@ import { ServicosResolver } from './_guards/servicos.resolver';
     HttpModule,
     MaterializeModule,
     FileUploadModule,
-    ChartsModule,
     Ng2PaginationModule,
+    Ng2OrderModule,
     AppRoutingModule
   ],
   providers: [

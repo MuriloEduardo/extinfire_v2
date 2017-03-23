@@ -8,8 +8,26 @@
 		</div>
 	</div>
 </nav>
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- Sem nenhuma venda -->
-<div class="row" *ngIf="!vendas.length">
+<div class="row" *ngIf="!vendas.length&&loadStatus">
 	<div class="col s12">
 		<div class="section"></div>
 		<div class="center-align">
@@ -20,24 +38,85 @@
 		</div>
 	</div>
 </div>
+ orderBy: "{{ order }}":{{ reverse}}
 <div class="row" *ngIf="vendas.length">
 	<div class="col s12">
 		<form action="#">
 			<table class="bordered highlight">
 				<thead>
-					<tr>
+					<tr class="orders">
 						<th data-field="check">
 							<input type="checkbox" checked="checked" />
 						</th>
-						<th data-field="nome">Nome do cliente</th>
-						<th data-field="cidade">Valor Total</th>
-						<th data-field="tipo">Tipo</th>
-						<th data-field="obs">Obs.</th>
-						<th data-field="dataCriado">Data Criado</th>
+						<th 
+						data-field="nome" 
+						(click)="setOrder('cliente.nome')"
+						[class.active]="order === 'cliente.nome'"
+						>
+							Nome do cliente
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="cidade" 
+						(click)="setOrder('valor_total')"
+						[class.active]="order === 'valor_total'"
+						>
+							Valor Total
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="tipo" 
+						(click)="setOrder('tipo')"
+						[class.active]="order === 'tipo'"
+						>
+							Tipo
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="obs" 
+						(click)="setOrder('observacao')"
+						[class.active]="order === 'observacao'"
+						>
+							Obs.
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="dataCriado" 
+						(click)="setOrder('updatedAt')"
+						[class.active]="order === 'updatedAt'"
+						>
+							Data Criado
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let venda of vendas | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[venda._id]">
+					<tr *ngFor="let venda of vendas | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[venda._id]">
 						<td><input type="checkbox"></td>
 						<td>
 							<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
@@ -55,6 +134,7 @@
 			(pageChange)="p = $event" 
 			previousLabel="Anterior"
             nextLabel="Próximo"
+            *ngIf="vendas.length>9"
             ></pagination-controls>
 		</form>
 	</div>

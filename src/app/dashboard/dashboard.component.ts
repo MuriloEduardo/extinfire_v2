@@ -1,9 +1,6 @@
-import { Subscription } from 'rxjs/Rx';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
-//import { ServicosService } from '../_services/servicos.service';
-//import { EstoqueService } from '../_services/estoque.service';
+import { ProdutosService } from '../_services/produtos.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,30 +9,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
-	inscricao: Subscription;
-
-	servicos: any[] = [];
 	produtos: any[] = [];
+	loadStatus: boolean = false;
 
 	constructor(
-		//private servicosService: ServicosService,
-		//private estoqueService: EstoqueService,
-		private route: ActivatedRoute
+		private produtosService: ProdutosService
 	) { }
 
 	ngOnInit() {
-		/*this.servicosService.getServicos().subscribe((data) => {
-			this.servicos = data;
+		this.produtosService.getProdutos().subscribe((produtos) => {
+			this.produtos = produtos;
+			this.loadStatus = true;
 		});
-		this.estoqueService.getProdutos().subscribe((data) => {
-			this.produtos = data;
-		});*/
-
-		this.inscricao = this.route.data.subscribe(
-			(data: {produtos: any, servicos: any}) => {
-				this.produtos = data.produtos;
-				this.servicos = data.servicos;
-			}
-		);
 	}
 }

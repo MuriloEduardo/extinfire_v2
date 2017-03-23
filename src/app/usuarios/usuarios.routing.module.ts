@@ -2,7 +2,6 @@ import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
 import { UsuariosService } from '../_services/usuarios.service';
-import { UsuariosResolver } from '../_guards/usuarios.resolver';
 import { UsuarioResolver } from '../_guards/usuario.resolver';
 
 import { UsuariosComponent } from './usuarios.component';
@@ -13,12 +12,12 @@ import { DetalheUsuarioComponent } from './detalhe-usuario/detalhe-usuario.compo
 const clientesRoutes: Routes = [
 	{
 		path: '',
-		component: UsuariosComponent,
-		resolve: {
-			usuarios: UsuariosResolver
-		}
+		component: UsuariosComponent
 	},
-	{ path: 'novo', component: NovoUsuarioComponent },
+	{
+		path: 'novo',
+		component: NovoUsuarioComponent
+	},
 	{
 		path: ':id',
 		component: DetalheUsuarioComponent,

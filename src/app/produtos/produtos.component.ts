@@ -1,6 +1,6 @@
-import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
-import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+
+import { ProdutosService } from './../_services/produtos.service';
 
 @Component({
   selector: 'app-produtos',
@@ -9,20 +9,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProdutosComponent implements OnInit {
 
-	inscricao: Subscription;
 	produtos: any[] = [];
+	loadStatus: boolean = false;
 
 	constructor(
-		private route: ActivatedRoute
+		private produtosService: ProdutosService
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
-			(data: {produtos: any}) => this.produtos = data.produtos
-		);
-	}
 
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
+		this.produtosService.getProdutos().subscribe((produtos) => {
+			this.produtos = produtos;
+			this.loadStatus = true;
+		});
 	}
 }

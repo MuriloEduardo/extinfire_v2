@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute } from '@angular/router';
+
+import { ServicosService } from './../_services/servicos.service';
 
 @Component({
   selector: 'app-servicos',
@@ -9,18 +9,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ServicosComponent implements OnInit {
 	
-	inscricao: Subscription;
-	servicos: any[];
+	servicos: any[] = [];
+	loadStatus: boolean = false;
 
 	constructor(
-		private route: ActivatedRoute
+		private servicosService: ServicosService
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
-			(data: {servicos: any}) => {
-				this.servicos = data.servicos;
-			}
-		);
+
+		this.servicosService.getServicos().subscribe((servicos) => {
+			this.servicos = servicos;
+			this.loadStatus = true;
+		});
 	}
 }

@@ -1,7 +1,6 @@
-import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute } from '@angular/router';
+import { ClientesService } from './../_services/clientes.service';
 
 @Component({
   selector: 'app-clientes',
@@ -10,19 +9,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ClientesComponent implements OnInit {
 
-	inscricao: Subscription;
-
 	clientes: any[] = [];
+	loadStatus: boolean = false;
 
 	constructor(
-		private route: ActivatedRoute
+		private clientesService: ClientesService
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
-			(data: {clientes: any}) => {
-				this.clientes = data.clientes;
-			}
-		);
+		this.clientesService.getClientes().subscribe(clientes => {
+			this.clientes = clientes;
+			this.loadStatus = true;
+		});
 	}
 }

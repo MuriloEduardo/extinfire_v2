@@ -5,29 +5,25 @@
 		</div>
 	</div>
 </nav>
-<div class="row">
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
 	<div class="col s12">
-		<h5>Faturamento por Datas</h5>
-		<div class="divider"></div>
-		<div class="section"></div>
-		<!-- Init Chart -->
-		<div class="row">
-		  <div class="col s12">
-		    <canvas baseChart
-            [datasets]="lineChartData"
-            [labels]="lineChartLabels"
-            [options]="lineChartOptions"
-            [colors]="lineChartColors"
-            [legend]="lineChartLegend"
-            [chartType]="lineChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)">
-            </canvas>
-		  </div>
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
-<div class="row">
+<div class="row" *ngIf="loadStatus">
 	<div class="col s12">
 		<div class="row">
 			<div class="col s4">

@@ -7,11 +7,11 @@ import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { TextMaskModule } from 'angular2-text-mask';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 import { VendasRoutingModule  } from './vendas.routing.module';
 
 import { VendasService } from '../_services/vendas.service';
-import { VendasResolver } from '../_guards/vendas.resolver';
 import { VendaResolver } from '../_guards/venda.resolver';
 
 import { VendasComponent } from './vendas.component';
@@ -34,11 +34,11 @@ import { NovaVendaComponent } from './nova-venda/nova-venda.component';
     FileUploadModule,
     Ng2PaginationModule,
     TextMaskModule,
+    Ng2OrderModule,
     VendasRoutingModule
   ],
   providers: [
     VendasService,
-    VendasResolver,
     VendaResolver
   ]
 })

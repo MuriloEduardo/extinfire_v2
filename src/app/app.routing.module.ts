@@ -53,30 +53,17 @@ const appRoutes: Routes = [
 	{
 		path: 'logs',
 		component: LogsComponent,
-		canActivate: [AuthGuard],
-		resolve: {
-			logs: LogsResolver
-		}
+		canActivate: [AuthGuard]
 	},
 	{
 		path: 'financeiro',
 		component: FinanceiroComponent,
-		canActivate: [AuthGuard],
-		resolve: {
-			produtos: ProdutosResolver,
-			servicos: ServicosResolver,
-			clientes: ClientesResolver,
-			vendas: VendasResolver
-		}
+		canActivate: [AuthGuard]
 	},
 	{
 		path: '',
 		component: DashboardComponent,
-		canActivate: [AuthGuard],
-		resolve: {
-			produtos: ProdutosResolver,
-			servicos: VendasResolver
-		}
+		canActivate: [AuthGuard]
 	}
 ];
 

@@ -9,13 +9,17 @@ import { UsuariosService } from '../_services/usuarios.service';
 })
 export class UsuariosComponent implements OnInit {
 
-	usuarios: any[];
+	usuarios: any[] = [];
+	
+	loadStatus: boolean = false;
 
 	constructor(private usuariosService: UsuariosService) { }
 
 	ngOnInit() {
-		this.usuariosService.getUsers().subscribe((data) => {
-			this.usuarios = data;
+		
+		this.usuariosService.getUsers().subscribe((usuarios) => {
+			this.usuarios = usuarios;
+			this.loadStatus = true;
 		});
 	}
 }

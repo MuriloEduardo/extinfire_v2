@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute } from '@angular/router';
-
-import { FileUploader } from 'ng2-file-upload';
-
 import { LogsService } from '../_services/logs.service';
 
 @Component({
@@ -14,17 +9,17 @@ import { LogsService } from '../_services/logs.service';
 })
 export class LogsComponent implements OnInit {
 
-	inscricao: Subscription;
-	logs: any = [];
+	logs: any[] = [];
+	loadStatus: boolean = false;
 
 	constructor(
-		private logsService: LogsService,
-		private route: ActivatedRoute
+		private logsService: LogsService
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
-			(data: {logs: any}) => {this.logs = data.logs; console.log(data)}
-		);
+		this.logsService.getLogs().subscribe((logs) => {
+			this.logs = logs;
+			this.loadStatus = true;
+		});
 	}
 }

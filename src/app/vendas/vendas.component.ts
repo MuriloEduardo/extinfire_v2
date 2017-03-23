@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute } from '@angular/router';
+
+import { VendasService } from './../_services/vendas.service';
+import { ClientesService } from './../_services/clientes.service';
+import { ProdutosService } from './../_services/produtos.service';
 
 @Component({
   selector: 'app-vendas',
@@ -10,23 +12,42 @@ import { ActivatedRoute } from '@angular/router';
 
 export class VendasComponent implements OnInit {
 
-	inscricao: Subscription;
-
 	vendas: any[] = [];
 	clientes: any[] = [];
 	produtos: any[] = [];
 
+	order: string = 'updatedAt';
+  	reverse: boolean = false;
+	loadStatus: boolean = false;
+
 	constructor(
-		private route: ActivatedRoute
+		private vendasService: VendasService,
+		private clientesService: ClientesService,
+    	private produtosService: ProdutosService
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
-			(data: {produtos: any, vendas: any, clientes: any}) => {
-				this.produtos = data.produtos;
-				this.vendas = data.vendas;
-				this.clientes = data.clientes;
-			}
-		);
+
+		this.vendasService.getVendas().subscribe((vendas) => {
+	      this.vendas = vendas;
+
+	      this.loadStatus = true;
+	      
+	      this.produtosService.getProdutos().subscribe((produtos) => {
+	        this.produtos = produtos;
+
+	        this.clientesService.getClientes().subscribe((clientes) => {
+	          this.clientes = clientes;
+	        });
+	      });
+	    });
+	}
+
+	setOrder(value: string) {
+		if (this.order === value) {
+			this.reverse = !this.reverse;
+		}
+
+		this.order = value;
 	}
 }

@@ -1,7 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
-import { ServicosResolver } from '../_guards/servicos.resolver';
 import { ServicoResolver } from '../_guards/servico.resolver';
 
 import { ServicosComponent } from './servicos.component';
@@ -12,10 +11,7 @@ import { NovoServicoComponent } from './novo-servico/novo-servico.component';
 const servicosRoutes: Routes = [
   {
     path: '',
-    component: ServicosComponent,
-    resolve: {
-      servicos: ServicosResolver
-    }
+    component: ServicosComponent
   },
   {
     path: 'novo',

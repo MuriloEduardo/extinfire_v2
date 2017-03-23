@@ -11,7 +11,6 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { ClientesRoutingModule } from './clientes.routing.module';
 
 import { ClientesService } from '../_services/clientes.service';
-import { ClientesResolver } from '../_guards/clientes.resolver';
 import { ClienteResolver } from '../_guards/cliente.resolver';
 
 import { ClientesComponent } from './clientes.component';
@@ -41,7 +40,6 @@ import { ImagePreviewCliente } from './../_directives/image-preview-cliente.dire
   ],
   providers: [
     ClientesService,
-    ClientesResolver,
     ClienteResolver
   ]
 })

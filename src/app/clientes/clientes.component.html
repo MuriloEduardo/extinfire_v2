@@ -8,8 +8,26 @@
 		</div>
 	</div>
 </nav>
+<!-- Carregando clientes -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- Sem nenhum cliente -->
-<div class="row" *ngIf="!clientes.length">
+<div class="row" *ngIf="!clientes.length&&loadStatus">
 	<div class="col s12">
 		<div class="section"></div>
 		<div class="center-align">
@@ -53,6 +71,7 @@
 			(pageChange)="p = $event" 
 			previousLabel="Anterior"
             nextLabel="Próximo"
+            *ngIf="clientes.length>9"
             ></pagination-controls>
 		</form>
 	</div>

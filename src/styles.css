@@ -139,3 +139,12 @@ a.breadcrumb:hover {
 #sidenav-overlay {
 	z-index: 1!important;
 }
+.orders>th {
+	cursor: pointer;
+}
+.orders>th span {
+	visibility: hidden;
+}
+.orders>th.active span {
+	visibility: visible;
+}

@@ -5,6 +5,36 @@
 		</div>
 	</div>
 </nav>
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Sem nenhum aviso de produtos -->
+<div class="row" *ngIf="!produtos.length&&loadStatus">
+	<div class="col s12">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum aviso de produtos <br><small>Parabéns!</small></h2>
+				<i class="material-icons">&#xE7F2;</i>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="row">
 	<div class="col s12">
 		<h5>Produtos com estoque abaixo do mínimo</h5>

@@ -1,7 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
-import { ClientesResolver } from '../_guards/clientes.resolver';
 import { ClienteResolver } from '../_guards/cliente.resolver';
 
 import { ClientesComponent } from './clientes.component';
@@ -12,12 +11,12 @@ import { DetalheClienteComponent } from './detalhe-cliente/detalhe-cliente.compo
 const clientesRoutes: Routes = [
 	{
 		path: '',
-		component: ClientesComponent,
-		resolve: {
-			clientes: ClientesResolver
-		}
+		component: ClientesComponent
 	},
-	{ path: 'novo', component: NovoClienteComponent },
+	{
+		path: 'novo',
+		component: NovoClienteComponent
+	},
 	{
 		path: ':id',
 		component: DetalheClienteComponent,
