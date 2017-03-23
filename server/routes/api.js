@@ -153,6 +153,8 @@ router.post('/servico', (req, res, next) => {
 		res.json({"error": "dados incompletos"});
 	} else {
 		let novoServico = new Servico();
+
+		console.log(dadosServico)
 		
 		novoServico.images = dadosServico.images;
 		novoServico.nome = dadosServico.nome;
