@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { ClientesRoutingModule } from './clientes.routing.module';
 
@@ -17,12 +18,15 @@ import { NovoClienteComponent } from './novo-cliente/novo-cliente.component';
 import { EditarClienteComponent } from './editar-cliente/editar-cliente.component';
 import { DetalheClienteComponent } from './detalhe-cliente/detalhe-cliente.component';
 
+import { ImagePreviewCliente } from './../_directives/image-preview-cliente.directive';
+
 @NgModule({
   declarations: [
     ClientesComponent,
     NovoClienteComponent,
     EditarClienteComponent,
-    DetalheClienteComponent
+    DetalheClienteComponent,
+    ImagePreviewCliente
   ],
   imports: [
     CommonModule,
@@ -30,7 +34,8 @@ import { DetalheClienteComponent } from './detalhe-cliente/detalhe-cliente.compo
     HttpModule,
     MaterializeModule,
     FileUploadModule,
-    ClientesRoutingModule
+    ClientesRoutingModule,
+    TextMaskModule
   ],
   providers: [
     ClientesService,

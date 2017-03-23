@@ -8,7 +8,19 @@
 		</div>
 	</div>
 </nav>
-<div class="row">
+<!-- Sem nenhum serviço -->
+<div class="row" *ngIf="!produtos.length">
+	<div class="col s12">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum produto aqui <br><small>clique em Novo Produto</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" *ngIf="produtos.length">
 	<div class="col s12">
 		<form action="#">
 			<table class="bordered highlight">
@@ -33,10 +45,16 @@
 							{{ produto.nome }}
 						</td>
 						<td>{{ produto.qntde_minima || '---' }}</td>
-						<td>{{ produto.qntde_atual || '---'  }}</td>
-						<td>{{ produto.valor_venda || '---'  }}</td>
-						<td>{{ produto.valor_custo || '---'  }}</td>
-						<td>{{ produto.updatedAt }}</td>
+						<td>{{ produto.qntde_atual }}</td>
+						<td>R{{ produto.valor_venda | currency:'USD':true:'1.2-2' || '---'  }}</td>
+						<td>R{{ produto.valor_custo | currency:'USD':true:'1.2-2' || '---'  }}</td>
+						<td>{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</td>
+						<td *ngIf="(produto.qntde_atual <= 0) || (produto.qntde_atual > 0&&produto.qntde_atual > 0)">
+							<div class="chip white-text" [ngClass]="{'red text-white': produto.qntde_atual <= 0, 'orange text-white': produto.qntde_atual > 0&&produto.qntde_atual > 0}">
+								<h6 *ngIf="produto.qntde_atual <= 0">Acabou!</h6>
+								<h6 *ngIf="produto.qntde_atual > 0&&produto.qntde_atual > 0">Está Acabando</h6>
+							</div>
+						</td>
 						<td><i class="material-icons">&#xE315;</i></td>
 					</tr>
 				</tbody>

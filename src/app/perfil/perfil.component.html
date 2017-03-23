@@ -1,2 +1,36 @@
-<div class="section"></div>
-<a class="waves-effect waves-light btn red darken-1 modal-trigger" (click)="logout()"><i class="material-icons">&#xE14B;</i>Sair</a>
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<span class="breadcrumb">Seu Perfil</span>
+		</div>
+	</div>
+</nav>
+<div class="row">
+	<div class="col s6 offset-s3">
+		<div class="input-field center-align">
+			<img src="" alt="" *ngIf="user.foto_perfil">
+			<div class="firs-letter-users z-depth-5 circle red darken-1" *ngIf="!user.foto_perfil">
+				{{ user.nome.charAt(0) }}
+			</div>
+		</div>
+		<div class="input-field">
+			<input id="nome" type="text" [(ngModel)]="user.nome" name="nome" required="" aria-required="true">
+			<label for="nome">Seu Nome</label>
+		</div>
+		<div class="input-field">
+			<input id="email" type="email" [(ngModel)]="user.local.email" name="email" required="" aria-required="true">
+			<label for="email">Seu Email</label>
+		</div>
+		<div class="input-field">
+			<input id="senha" type="password" [(ngModel)]="local.senha" name="senha" required="" aria-required="true">
+			<label for="senha">Sua Senha</label>
+		</div>
+		<label>Deixe em branco para não alterar</label>
+	</div>
+</div>
+<div class="row">
+	<div class="col s6 offset-s3 center-align">
+		<a class="waves-effect waves-light btn red darken-1" (click)="updateUser()">Editar e Salvar</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/">Cancelar e Voltar</a>
+	</div>
+</div>

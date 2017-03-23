@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthService } from './_services/auth.service';
 
@@ -9,13 +10,22 @@ import { AuthService } from './_services/auth.service';
 })
 export class AppComponent {
   
-  user: {};
+  user: any;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router:Router
+  ) {}
 
   ngOnInit() {
   	this.authService.getUsuarioAutenticado.subscribe(
   		user => this.user = user
   	);
+  }
+
+  logout() {
+    window.localStorage.removeItem('auth_key');
+    window.localStorage.removeItem('user');
+    this.router.navigate(['login']);
   }
 }

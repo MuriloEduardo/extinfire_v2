@@ -1,57 +1,47 @@
-<section>
-	<div class="section"></div>
-	<div class="row">
-		<div class="col s4">
-			<h4>Lucro em estoque</h4>
-			<div class="divider"></div>
-			<div class="section"></div>
-			<div class="card"></div>
-		</div>
-		<div class="col s4">
-			<h4>Serviços</h4>
-			<div class="divider"></div>
-			<div class="section"></div>
-			<div class="card">
-				<div *ngFor="let servico of servicos">
-					total de servicos
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<section>
-	<div class="section"></div>
-	<div class="row">
+<nav class="header-pages white">
+	<div class="nav-wrapper">
 		<div class="col s12">
-			<h4>Faturamento</h4>
-			<div class="divider"></div>
-			<div class="section"></div>
-			<!-- Init Chart -->
-			<div class="row">
-			  <div class="col-md-6">
-			    <canvas baseChart
-                [datasets]="lineChartFaturamentoTotalData"
-                [labels]="lineChartMonthsLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartFaturamentoTotalColors"
-                [legend]="lineChartFaturamentoTotalLegend"
-                [chartType]="lineChartType"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)"
-                ></canvas>
-			  </div>
-			  <div class="col-md-6" style="margin-bottom: 10px">
-			    <table class="table table-responsive table-condensed">
-			      <tr>
-			        <th *ngFor="let label of lineChartLabels">{{label}}</th>
-			      </tr>
-			      <tr *ngFor="let d of lineChartFaturamentoTotalData">
-			        <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
-			      </tr>
-			    </table>
-			    <button (click)="randomize()">CLICK</button>
-			  </div>
+			<span class="breadcrumb">Faturamento</span>
+		</div>
+	</div>
+</nav>
+<div class="row">
+	<div class="col s12">
+		<h5>Faturamento por Datas</h5>
+		<div class="divider"></div>
+		<div class="section"></div>
+		<!-- Init Chart -->
+		<div class="row">
+		  <div class="col s12">
+		    <canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+            </canvas>
+		  </div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<div class="row">
+			<div class="col s4">
+				<h5>Lucro Total em Estoque</h5>
+				<div class="divider"></div>
+				<div class="section"></div>
+				R{{ lucroTotalEstoque | currency:'USD':true:'1.2-2' }}
+			</div>
+			<div class="col s4">
+				<h5>Faturamento Total</h5>
+				<div class="divider"></div>
+				<div class="section"></div>
+				R{{ faturamentoTotal | currency:'USD':true:'1.2-2' }}
 			</div>
 		</div>
 	</div>
-</section>
+</div>

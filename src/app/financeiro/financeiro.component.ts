@@ -15,12 +15,19 @@ export class FinanceiroComponent implements OnInit {
 
   inscricao: Subscription;
 
-  produtos: Array<any> = [];
-  vendas: Array<any> = [];
-  clientes: Array<any> = [];
+  produtos: any[];
+  vendas: any[];
+  clientes: any[];
+  servicos: any[];
 
-  valorTotalVenda: Array<any> = [];
-  datasVenda: Array<any> = [];
+  lineChartLabels: any[] = [];
+  lineChartData: any[] = [
+    {
+      data: []
+    }
+  ];
+  faturamentoTotal: number = 0;
+  lucroTotalEstoque: number = 0;
 
 	constructor(
 		private vendasService: VendasService,
@@ -30,66 +37,56 @@ export class FinanceiroComponent implements OnInit {
 
 	ngOnInit() {
     this.inscricao = this.route.data.subscribe(
-      (data: {produtos: any, vendas: any}) => {
+      (data: {produtos: any, vendas: any, servicos: any, clientes: any}) => {
         this.produtos = data.produtos;
         this.vendas = data.vendas;
+        this.clientes = data.produtos;
+        this.servicos = data.vendas;
 
-        for (let i = 0; i < this.vendas.length; ++i) {
-          this.valorTotalVenda.push(this.vendas[i].valor_total);
+        for (var i = 0; i < this.vendas.length; ++i) {
+          let displayDate = new Date(this.vendas[i].updatedAt).toLocaleString();
+          this.lineChartLabels.push(displayDate);
 
-          this.datasVenda.push(this.vendas[i].updatedAt.toUTCString());
+          this.lineChartData[0].data.push(this.vendas[i].valor_total);
+
+          this.faturamentoTotal += this.vendas[i].valor_total;
+        }
+
+        for (var i = 0; i < this.produtos.length; ++i) {
+          console.log(this.produtos[i])
+          if(this.produtos[i].qntde_atual) {
+            this.lucroTotalEstoque += this.produtos[i].valor_venda - this.produtos[i].valor_custo;
+          }
         }
       }
     );
 	}
 
-	// lineChart
-  public lineChartFaturamentoTotalData:Array<any> = [
-    {data: this.valorTotalVenda, label: 'Faturamento Total'}
-  ];
-  public lineChartLabels:Array<any> = this.datasVenda;
   public lineChartOptions:any = {
     responsive: true
   };
-  public lineChartFaturamentoTotalColors:Array<any> = [
-    { // red
-      backgroundColor: 'rgba(255,0,0,0.2)',
-      borderColor: 'rgba(255,0,0,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
+  public lineChartColors:Array<any> = [
+    { // grey
+      backgroundColor: 'rgba(229, 57, 53,0.2)',
+      borderColor: 'rgba(229, 57, 53,1)',
+      pointBackgroundColor: 'rgba(229, 57, 53,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+      pointHoverBorderColor: 'rgba(229, 57, 53,0.8)'
     }
   ];
-  public lineChartFaturamentoTotalLegend:boolean = false;
+  public lineChartLegend:boolean = false;
   public lineChartType:string = 'line';
-
-  toggleDaysChart: boolean = false;
-  monthsChart: Array<string> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+ 
   public randomize():void {
-    let _lineChartData:Array<any> = new Array(this.lineChartFaturamentoTotalData.length);
-    for (let i = 0; i < this.lineChartFaturamentoTotalData.length; i++) {
-      _lineChartData[i] = {data: new Array(this.lineChartFaturamentoTotalData[i].data.length), label: this.lineChartFaturamentoTotalData[i].label};
-      for (let j = 0; j < this.lineChartFaturamentoTotalData[i].data.length; j++) {
+    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
+    for (let i = 0; i < this.lineChartData.length; i++) {
+      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
+      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
         _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
       }
     }
-    this.lineChartFaturamentoTotalData = _lineChartData;
-
-    //this.lineChartLabels = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
-    this.lineChartLabels.splice(0).push('');
-    this.toggleDaysChart = !this.toggleDaysChart;
-
-    if(this.toggleDaysChart) {
-      for (var i = 0; i < 31; ++i) {
-        this.lineChartLabels.push(i);
-      } 
-    } else {
-      for (var i = 0; i < this.monthsChart.length; ++i) {
-        this.lineChartLabels.push(this.monthsChart[i]);
-      } 
-    }
-
+    this.lineChartData = _lineChartData;
   }
  
   // events

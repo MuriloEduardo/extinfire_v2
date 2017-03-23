@@ -1,3 +1,41 @@
-<p>
-  detalhe-usuario works!
-</p>
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<a routerLink="/usuarios" class="breadcrumb">Lista de Usuários</a>
+			<span class="breadcrumb">Detalhe do Usuário</span>
+		</div>
+	</div>
+</nav>
+<div class="row">
+	<div class="col s12">
+		<!-- Nome do usuario -->
+		<div class="row">
+			<div class="col s12">
+				<label>Nome</label>
+				<h5>{{ usuario.nome }}</h5>
+			</div>
+		</div>
+		<!-- Tipo do usuario -->
+		<div class="row">
+			<div class="col s12">
+				<label>Tipo</label>
+				<h5>{{ !usuario.tipo ? 'Comun' : 'Administrador' }}</h5>
+			</div>
+		</div>
+		<!-- Email do usuario -->
+		<div class="row">
+			<div class="col s12">
+				<label>Email</label>
+				<h5>{{ usuario.local.email }}</h5>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<a class="waves-effect waves-light btn red darken-1" [routerLink]="['/usuarios', usuario._id, 'editar']">Editar Usuário</a>
+		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteUsuario(usuario)">Excluir e Voltar</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/usuarios">Cancelar e Voltar</a>
+	</div>
+</div>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

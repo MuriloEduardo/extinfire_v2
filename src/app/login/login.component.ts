@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
 
 	private usuario: Usuario = new Usuario();
 	resposta: {};
+	loadLogin: boolean = false;
 
 	constructor(
 		private authService: AuthService,
@@ -36,13 +37,19 @@ export class LoginComponent implements OnInit {
 	}
 
 	fazerLogin() {
-		this.authService.fazerLogin(this.usuario).then((res) => {
-			if(res) {
+		this.loadLogin = true;
+		this.authService.fazerLogin(this.usuario).subscribe((res) => {
+			if(res.success) {
 				this.resposta = {res: true, string: 'Sucesso!'};
 				this.router.navigate(['']);
+
+				window.localStorage.setItem('auth_key', res.token);
+				window.localStorage.setItem('user', JSON.stringify(res.user));
 			} else {
 				this.resposta = {res: false, string: 'Login e/ou Senha Inválidos'};
 			}
+			;
+			this.loadLogin = false
 		});
 	}
 }

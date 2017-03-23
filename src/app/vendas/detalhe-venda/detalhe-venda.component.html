@@ -8,13 +8,125 @@
 </nav>
 <div class="row">
 	<div class="col s12">
-		<pre>{{ venda | json }}</pre>
+		<div class="row">
+			<div class="col s12">
+				<div class="section">
+					<h4>Geral</h4>
+					<div class="divider"></div>
+				</div>
+				<!-- Valor total -->
+				<div class="row">
+					<div class="col s12">
+						<label>Valor total</label>
+						<h5>R{{ venda.valor_total | currency:'USD':true:'1.2-2' }}</h5>
+					</div>
+				</div>
+				<!-- Observacao -->
+				<div class="row">
+					<div class="col s12">
+						<label>Observação</label>
+						<h5>{{ venda.observacao }}</h5>
+					</div>
+				</div>
+				<!-- Tipo -->
+				<div class="row">
+					<div class="col s12">
+						<label>Tipo</label>
+						<h5>{{ !venda.tipo?'Orçamento':'Pedido' }}</h5>
+					</div>
+				</div>
+				<!-- Data -->
+				<div class="row">
+					<div class="col s12">
+						<label>Data de criação</label>
+						<h5>{{ venda.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="row">
+		<div class="col s12">
+			<div class="section">
+				<h4>Cliente</h4>
+				<div class="divider"></div>
+			</div>
+			<!-- Fotos -->
+			<div class="row">
+				<div class="col s12">
+					<label>Imagens</label>
+					<br>
+					<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
+				</div>
+			</div>
+			<!-- nome -->
+			<div class="row">
+				<div class="col s12">
+					<label>Nome</label>
+					<h5>{{ venda.cliente.nome }}</h5>
+				</div>
+			</div>
+			<!-- comprador -->
+			<div class="row">
+				<div class="col s12">
+					<label>Comprador</label>
+					<h5>{{ venda.cliente.comprador }}</h5>
+				</div>
+			</div>
+			<!-- Representante -->
+			<div class="row">
+				<div class="col s12">
+					<label>Representante</label>
+					<h5>{{ venda.cliente.representante }}</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="row">
+		<div class="col s12">
+			<div class="section">
+				<h4>Itens</h4>
+				<div class="divider"></div>
+			</div>
+			<div class="row">
+				<div class="col s12">
+					<table class="bordered">
+						<thead>
+							<tr>
+								<th data-field="nome">Produtos / Serviços</th>
+								<th data-field="unit">Valor Unitário</th>
+								<th data-field="qntde">Quantidade</th>
+								<th data-field="total">Total da Venda</th>
+								<th data-field="valida">Validade desta Venda</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of venda.itens; let i = index; let last = last;let first = first;">
+								<td>
+									<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0]) }}" class="circle img-table">
+									{{ venda.itens[i].item.nome }}
+								</td>
+								<td>{{ venda.itens[i].item.valor_venda }}</td>
+								<td>{{ venda.itens[i].qntde }}</td>
+								<td>{{ venda.itens[i].total }}</td>
+								<td>{{ venda.itens[i].validade }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col s12">
 		<a class="waves-effect waves-light btn red darken-1" [routerLink]="['/vendas', venda._id, 'editar']">Editar</a>
 		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteVenda(venda)">Excluir e Voltar</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/vendas">Cancelar e Voltar</a>
 	</div>
 </div>
 <a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

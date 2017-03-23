@@ -1,17 +1,13 @@
-<div class="row">
-	<div class="col s12 header-pages white">
-		<h1>Logs</h1>
-	</div>
-</div>
-<div class="row">
-	<div class="col s12">
-		<div class="card" *ngFor="let log of logs">
-			<div class="card-content">
-				{{ log.usuario + ' ' + log.descricao + log.item + ' em ' + (log.criadoEm | date:'dd/MM/yyyy hh:mm:ss') }}
-			</div>
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<span class="breadcrumb">Lista de Logs</span>
 		</div>
 	</div>
-	<div class="col s12" *ngIf="!logs.length">
+</nav>
+<!-- Sem nenhum log -->
+<div class="row" *ngIf="!logs.length">
+	<div class="col s12">
 		<div class="section"></div>
 		<div class="center-align">
 			<div class="grey-text text-lighten-2">
@@ -19,5 +15,29 @@
 				<i class="material-icons big">&#xE814;</i>
 			</div>
 		</div>
+	</div>
+</div>
+<div class="row" *ngIf="logs.length">
+	<div class="col s12">
+		<form action="#">
+			<table class="bordered">
+				<thead>
+					<tr>
+						<th data-field="nome">Usuário</th>
+						<th data-field="cidade">Descrição</th>
+						<th data-field="contato">Item</th>
+						<th data-field="dataCriado">Data</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let log of logs">
+						<td>{{ log.usuario || '---' }}</td>
+						<td>{{ log.descricao || '---' }}</td>
+						<td>{{ log.item || '---' }}</td>
+						<td>{{ log.criadoEm  | date:'dd/MM/yyyy hh:mm:ss' }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
 	</div>
 </div>

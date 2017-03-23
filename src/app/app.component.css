@@ -27,3 +27,17 @@ header .container {
 	width: 100%;
 	max-width: 100%;
 }
+#dropdownMais {
+	min-width: 200px;
+}
+header .dropdown-content li > a,
+header .dropdown-content li > span {
+	color: #e53935;
+}
+.side-nav li > a > i.material-icons.right {
+	margin-right: 0;
+	opacity: .3;
+}
+ul.collapsible.collapsible-accordion li.active a > i.material-icons.right {
+	transform: rotate(180deg);
+}

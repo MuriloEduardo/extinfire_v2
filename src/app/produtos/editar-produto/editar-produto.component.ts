@@ -1,10 +1,12 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProdutosService } from '../../_services/produtos.service';
 
 import { FileUploader } from 'ng2-file-upload';
+
+import { MaterializeAction } from 'angular2-materialize';
 
 declare let Materialize:any;
 
@@ -15,8 +17,9 @@ import { AppSettings } from '../../app.config';
   templateUrl: './editar-produto.component.html',
   styleUrls: ['./editar-produto.component.css']
 })
-export class EditarProdutoComponent implements OnInit {
+export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 
+	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	produto: any = {};
 
@@ -52,12 +55,18 @@ export class EditarProdutoComponent implements OnInit {
 		this.uploader.clearQueue();
 		
 		this.produtosService.updateProduto(this.produto).subscribe(data => {
-			if(data._id)
+			if(data._id) {
 				this.router.navigate(['produtos']);
+				this.triggerToast('Produto editado!');
+			}
 		});
 	}
 
 	removeItemFotos(item: any) {
 		this.produto.images.splice(this.produto.images.indexOf(item), 1);
+	}
+
+	triggerToast(stringToast) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
 	}
 }

@@ -24,17 +24,124 @@ export class NovoClienteComponent implements OnInit {
 	uploader:FileUploader = new FileUploader({
 		url: AppSettings.API_ENDPOINT
 	});
+
+	loadCep: boolean = false;
+
+	maskCel = ['(', /\d/, /\d/, ')', ' ', /\d/, ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+	maskFone = ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+	maskCep = [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+	maskCnpj = [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/];
 	
 	hasBaseDropZoneOver:boolean = false;
 
 	selectEstadoOptions: any[] = [
 		{
-			name: 'Rio Grande do Sul',
-			value: 'RS'
+			"nome": "Acre",
+			"uf": "AC"
 		},
 		{
-			name: 'Rio de Janeiro',
-			value: 'RJ'
+			"nome": "Alagoas",
+			"uf": "AL"
+		},
+		{
+			"nome": "Amazonas",
+			"uf": "AM"
+		},
+		{
+			"nome": "Amapá",
+			"uf": "AP"
+		},
+		{
+			"nome": "Bahia",
+			"uf": "BA"
+		},
+		{
+			"nome": "Ceará",
+			"uf": "CE"
+		},
+		{
+			"nome": "Distrito Federal",
+			"uf": "DF"
+		},
+		{
+			"nome": "Espírito Santo",
+			"uf": "ES"
+		},
+		{
+			"nome": "Goiás",
+			"uf": "GO"
+		},
+		{
+			"nome": "Maranhão",
+			"uf": "MA"
+		},
+		{
+			"nome": "Minas Gerais",
+			"uf": "MG"
+		},
+		{
+			"nome": "Mato Grosso do Sul",
+			"uf": "MS"
+		},
+		{
+			"nome": "Mato Grosso",
+			"uf": "MT"
+		},
+		{
+			"nome": "Pará",
+			"uf": "PA"
+		},
+		{
+			"nome": "Paraíba",
+			"uf": "PB"
+		},
+		{
+			"nome": "Pernambuco",
+			"uf": "PE"
+		},
+		{
+			"nome": "Piauí",
+			"uf": "PI"
+		},
+		{
+			"nome": "Paraná",
+			"uf": "PR"
+		},
+		{
+			"nome": "Rio de Janeiro",
+			"uf": "RJ"
+		},
+		{
+			"nome": "Rio Grande do Norte",
+			"uf": "RN"
+		},
+		{
+			"nome": "Rondônia",
+			"uf": "RO"
+		},
+		{
+			"nome": "Roraima",
+			"uf": "RR"
+		},
+		{
+			"nome": "Rio Grande do Sul",
+			"uf": "RS"
+		},
+		{
+			"nome": "Santa Catarina",
+			"uf": "SC"
+		},
+		{
+			"nome": "Sergipe",
+			"uf": "SE"
+		},
+		{
+			"nome": "São Paulo",
+			"uf": "SP"
+		},
+		{
+			"nome": "Tocantins",
+			"uf": "TO"
 		}
 	];
 
@@ -66,6 +173,30 @@ export class NovoClienteComponent implements OnInit {
 	ngAfterViewChecked() {
 		if(Materialize.updateTextFields)
 			Materialize.updateTextFields();
+	}
+
+	buscaCep() {
+
+		if(!this.cep||this.cep.trim().length<9) return false;
+
+		this.loadCep = true;
+		this.clientesService.getCep(this.cep).subscribe(data => {
+
+			if(!data.erro) {
+				this.bairro = data.bairro;
+				this.complemento = data.complemento;
+				this.logradouro = data.logradouro;
+				this.cidade = data.localidade;
+				this.estado = data.uf;
+			} else {
+				this.bairro = undefined;
+				this.complemento = undefined;
+				this.logradouro = undefined;
+				this.cidade = undefined;
+				this.estado = undefined;
+			}
+			this.loadCep = false;
+		});
 	}
 
 	trustAsResourceUrl(uri: string) {
@@ -103,8 +234,6 @@ export class NovoClienteComponent implements OnInit {
 		for (let i = 0; i < this.uploader.queue.length; ++i) {
 			newCliente.images.push(this.uploader.queue[i].file.name);
 		}
-
-		console.log(newCliente)
 
 		this.clientesService.addCliente(newCliente).subscribe(cliente => {
 			this.router.navigate(['clientes']);

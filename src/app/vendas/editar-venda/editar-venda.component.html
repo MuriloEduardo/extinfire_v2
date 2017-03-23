@@ -13,9 +13,21 @@
 	    	<div class="row">
 				<div class="col s12">
 					<div class="input-field">
-						<select id="cliente" class="validate" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="venda.cliente" name="cliente">
+						<select 
+						id="cliente" 
+						materialize="material_select" 
+						[materializeSelectOptions]="clientes" 
+						[(ngModel)]="venda.cliente._id" 
+						name="cliente"
+						(change)="setCliente()"
+						>
 						  <option value="" disabled selected>Selecione o cliente</option>
-						  <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.nome}}</option>
+						  <option 
+						  *ngFor="let cliente of clientes" 
+						  [value]="cliente._id"
+						  [attr.data-icon]="('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+						  class="left circle"
+						  >{{cliente.nome}}</option>
 						</select>
 					</div>
 					<div class="section"></div>
@@ -47,23 +59,37 @@
 									<td>
 										<div class="input-field">
 											<select 
-											id="item" 
-											class="validate" 
+											id="item{{i}}" 
 											materialize="material_select" 
-											[materializeSelectOptions]="produtos" 
-											[(ngModel)]="venda.itens[i].produto" 
+											[materializeSelectOptions]="itens" 
+											[(ngModel)]="venda.itens[i].item._id" 
 											name="item{{i}}" 
-											(change)="setProduto(i, last, venda.itens[i].produto)"
-											[attr.required]="venda.itens[i].produto.nome&&!first ? true : undefined"
+											(change)="setItem(i, last, venda.itens[i].item._id)"
+											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
 											>
-											  <option value="" disabled selected>Selecione o produto</option>
-											  <option *ngFor="let produto of produtos" [ngValue]="produto">{{produto.nome}}</option>
+												<option value="" disabled selected>Selecione</option>
+												<optgroup label="Produtos">
+													<option 
+													*ngFor="let produto of produtos" 
+													[value]="produto._id"
+													[attr.data-icon]="('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													class="left circle"
+													>{{produto.nome}}</option>
+												</optgroup>
+												<optgroup label="Servicos">
+													<option 
+													*ngFor="let servico of servicos" 
+													[value]="servico._id"
+													[attr.data-icon]="('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													class="left circle"
+													>{{servico.nome}}</option>
+												</optgroup>
 											</select>
 										</div>
 									</td>
 									<td>
 										<div class="input-field">
-											<input id="qntde" type="number" (change)="sum(i)" min="1" class="validate" [(ngModel)]="venda.itens[i].qntde" name="qntde{{i}}">
+											<input id="qntde" type="number" (change)="sum(i)" [(ngModel)]="venda.itens[i].qntde" name="qntde{{i}}">
 											<label for="qntde">Quantidade</label>
 										</div>
 									</td>
@@ -72,10 +98,9 @@
 											<input 
 											id="valor_venda" 
 											type="text" 
-											class="validate"
-											[(ngModel)]="venda.itens[i]?.produto.valor_venda" 
+											[(ngModel)]="venda.itens[i]?.item.valor_venda" 
 											name="valor_venda{{i}}" 
-											[attr.required]="venda.itens[i].produto?.nome&&!first ? true : undefined"
+											[attr.required]="venda.itens[i].item?.nome&&!first ? true : undefined"
 											>
 											<label for="valor_venda">Valor unitário</label>
 										</div>
@@ -85,7 +110,6 @@
 											<input 
 											id="total" 
 											type="text" 
-											class="validate" 
 											[(ngModel)]="venda.itens[i].total" 
 											name="total{{i}}" 
 											readonly="" 
@@ -107,7 +131,9 @@
 										</div>
 									</td>
 									<td>
-										<a class="waves-effect waves-light btn-flat secondary-content"><i class="material-icons">&#xE92B;</i></a>
+										<a class="waves-effect waves-light btn-flat secondary-content" (click)="deleteRow(i)" *ngIf="!last">
+											<i class="material-icons">&#xE92B;</i>
+										</a>
 									</td>
 								</tr>
 							</tbody>
@@ -136,7 +162,7 @@
 			<div class="row">
 				<div class="col s12">
 			    	<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
-					<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" routerLink="/vendas">Cancelar e VOltar</a>
+					<a class="modal-action modal-close waves-effect waves-light btn grey" [routerLink]="['/vendas', venda._id]">Cancelar e VOltar</a>
 				</div>
 			</div>
     	</form>

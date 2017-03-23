@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FileUploader } from 'ng2-file-upload';
@@ -7,6 +7,8 @@ import { ProdutosService } from '../../_services/produtos.service';
 
 import { AppSettings } from '../../app.config';
 
+import { MaterializeAction } from 'angular2-materialize';
+
 declare let Materialize:any;
 
 @Component({
@@ -14,7 +16,9 @@ declare let Materialize:any;
   templateUrl: './novo-produto.component.html',
   styleUrls: ['./novo-produto.component.css']
 })
-export class NovoProdutoComponent implements OnInit {
+export class NovoProdutoComponent implements OnInit, AfterViewChecked {
+
+	globalActions = new EventEmitter<string|MaterializeAction>();
 
 	uploader:FileUploader = new FileUploader({
 		url: AppSettings.API_ENDPOINT
@@ -62,22 +66,7 @@ export class NovoProdutoComponent implements OnInit {
 		this.produtosService.addProduto(newProduto).subscribe(produto => {
 			this.uploader.uploadAll();
 			this.router.navigate(['produtos']);
-		});
-	}
-
-	resetFormNovoProduto() {
-		this.nome = undefined;
-		this.valor_venda = undefined;
-		this.valor_custo = undefined;
-		this.qntde_atual = undefined;
-		this.qntde_minima = undefined;
-		
-		this.resetUploader();
-	}
-	
-	private resetUploader() {
-		this.uploader = new FileUploader({
-			url: AppSettings.API_ENDPOINT
+			this.triggerToast('Produto cadastrado com sucesso!');
 		});
 	}
 
@@ -85,5 +74,9 @@ export class NovoProdutoComponent implements OnInit {
 	////////////////////////////////////////////////////////////
 	fileOverBase(e:any):void {
 		this.hasBaseDropZoneOver = e;
+	}
+
+	triggerToast(stringToast) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
 	}
 }

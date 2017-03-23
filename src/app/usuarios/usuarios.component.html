@@ -1,84 +1,46 @@
-<div class="section"></div>
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<span class="breadcrumb">Lista de Usuários</span>
+			<div class="right">
+				<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Usuário</a>
+			</div>
+		</div>
+	</div>
+</nav>
 <div class="row">
-	<div class="col s12" *ngIf="!users.length">
-		<div class="section"></div>
-		<div class="center-align">
-			<div class="grey-text text-lighten-2">
-				<h2>Sem nenhum usuário aqui <br><small>Clique em Novo Usuário</small></h2>
-				<i class="material-icons big">&#xE814;</i>
-			</div>
-		</div>
+	<div class="col s12">
+		<form action="#">
+			<table class="bordered highlight">
+				<thead>
+					<tr>
+						<th data-field="check">
+							<input type="checkbox" checked="checked" />
+						</th>
+						<th data-field="nome">Usuário</th>
+						<th data-field="qntdeMinima">Tipo</th>
+						<th data-field="qntdeAtual">Email</th>
+						<th data-field="data">Data</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let usuario of usuarios" [routerLink]="[usuario._id]">
+						<td><input type="checkbox"></td>
+						<td class="valign-wrapper">
+							<div class="firs-letter-users circle red darken-1 valign">
+								{{ usuario.nome.charAt(0) }}
+							</div>
+							<div class="valign">
+								{{ usuario.nome }}
+							</div>
+						</td>
+						<td>{{ !usuario.tipo ? 'Comun' : 'Administrador' }}</td>
+						<td>{{ usuario.local.email }}</td>
+						<td>{{ usuario.updatedAt }}</td>
+						<td><i class="material-icons">&#xE315;</i></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
 	</div>
-	<div class="col s12" *ngIf="users.length">
-		<ul class="collection with-header">
-			<li class="collection-header">
-				<h4>Usuários</h4>
-				<a class="waves-effect waves-light btn red darken-1 modal-trigger" (click)="openModal()"><i class="material-icons right">&#xE146;</i>Novo Usuário</a>
-			</li>
-			<li class="collection-item avatar" *ngFor="let user of users">
-				<div class="left">
-					<div class="firs-letter-users circle red darken-1">
-						{{ user.nome.charAt(0) }}
-					</div>
-					<span class="title"><strong>{{ user.nome }}</strong></span>
-					<p>{{ user.local.email }}</p>
-				</div>
-				<div *ngIf="userLocalStorage?.tipo">
-					<a class="waves-effect waves-light btn grey darken-4 secondary-content" (click)="deleteUser(user)">Excluir</a>
-					<a class="waves-effect waves-light btn red darken-1 secondary-content" (click)="editUser(user)">Editar</a>
-					<div class="secondary-content">
-						<!-- Switch -->
-						<div class="switch">
-							<label>
-								Usuário
-								<input type="checkbox" [(ngModel)]="user.tipo" (change)="changeType(user)">
-								<span class="lever"></span>
-								Admnistrador
-							</label>
-						</div>
-					</div>
-				</div>
-			</li>
-		</ul>
-	</div>
-</div>
-<!-- Modal Structure -->
-<div id="modal1" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
-	<form (submit)="!edit ? novoUsuario($event) : updateUser()">
-		<div class="modal-content">
-			<div class="row">
-				<div class="col s12">
-					<div *ngIf="!edit">
-						<h4>Adicionar Novo Usuário</h4>
-						<p>Ele o ajudará a adminstrar este sistema</p>
-					</div>
-					<div *ngIf="edit">
-						<h4>Editar Usuário</h4>
-						<p>Para alterar a senha, será necessário excluir o usuario e recria-lo com o mesmo email</p>
-					</div>
-					<div class="section"></div>
-					<div class="row">
-						<div class="col s12">
-							<div class="input-field">
-								<input id="nomeNovoUsuario" type="text" [(ngModel)]="nomeNovoUsuario" name="nomeNovoUsuario" required="" aria-required="true">
-								<label for="nomeNovoUsuario">Nome</label>
-							</div>
-							<div class="input-field">
-								<input id="emailNovoUsuario" type="email" [(ngModel)]="emailNovoUsuario" name="emailNovoUsuario"  required="" aria-required="true">
-								<label for="emailNovoUsuario">Email</label>
-							</div>
-							<div class="input-field" *ngIf="!edit">
-								<input id="senhaNovoUsuario" type="password" [(ngModel)]="senhaNovoUsuario" name="senhaNovoUsuario"  required="" aria-required="true">
-								<label for="senhaNovoUsuario">Senha</label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">{{!edit? 'Salvar' : 'Editar'}} e Cadastrar</button>
-			<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" (click)="closeModal()">Cancelar</a>
-		</div>
-	</form>
 </div>

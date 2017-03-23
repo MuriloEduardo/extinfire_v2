@@ -1,8 +1,8 @@
 import { Directive, ElementRef, Input, Renderer, OnChanges, SimpleChanges } from '@angular/core';
 
-@Directive({ selector: 'img[imgPreview]' })
+@Directive({ selector: 'img[imgPreviewServico]' })
 
-export class ImagePreview {
+export class ImagePreviewServico {
 
     @Input() image: any;
 
@@ -10,7 +10,7 @@ export class ImagePreview {
         private el: ElementRef, 
         private renderer: Renderer
     ) {
-        console.log('ImagePreviewDirective Initialize...');
+        console.log('ImagePreviewServicoDirective Initialize...');
     }
 
     ngOnInit() {

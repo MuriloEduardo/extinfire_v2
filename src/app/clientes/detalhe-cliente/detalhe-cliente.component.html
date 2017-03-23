@@ -8,12 +8,87 @@
 </nav>
 <div class="row">
 	<div class="col s12">
-		<pre>{{ cliente | json }}</pre>
+		<div class="row">
+			<div class="col s12">
+				<div class="section">
+					<h4>Geral</h4>
+					<div class="divider"></div>
+				</div>
+				<!-- Nome -->
+				<div class="row">
+					<div class="col s12">
+						<label>Nome</label>
+						<h5>{{ cliente.nome }}</h5>
+					</div>
+				</div>
+				<div class="row">
+					<!-- Comprador -->
+					<div class="col s6">
+						<label>Comprador</label>
+						<h5>{{ cliente.comprador }}</h5>
+					</div>
+					<!-- Representante -->
+					<div class="col s6">
+						<label>Representante</label>
+						<h5>{{ cliente.representante }}</h5>
+					</div>
+				</div>
+				<div class="row">
+					<!-- Inscrição estadual -->
+					<div class="col s6">
+						<label>Inscrição Estadual</label>
+						<h5>{{ cliente.insc_estadual }}</h5>
+					</div>
+					<!-- CNPJ -->
+					<div class="col s6">
+						<label>CNPJ</label>
+						<h5>{{ cliente.cnpj }}</h5>
+					</div>
+				</div>
+				<!-- Data -->
+				<div class="row">
+					<div class="col s12">
+						<label>Data</label>
+						<h5>{{ cliente.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<div class="row">
+			<div class="col s12">
+				<div class="section">
+					<h4>Contato</h4>
+					<div class="divider"></div>
+				</div>
+				<div class="row">
+					<!-- Fone -->
+					<div class="col s4">
+						<label>Fone</label>
+						<h5>{{ cliente.contato.fone }}</h5>
+					</div>
+					<!-- Celular -->
+					<div class="col s4">
+						<label>Celular</label>
+						<h5>{{ cliente.contato.celular }}</h5>
+					</div>
+					<!-- Email -->
+					<div class="col s4">
+						<label>Email</label>
+						<h5>{{ cliente.contato.email }}</h5>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="row">
 	<div class="col s12">
 		<a class="waves-effect waves-light btn red darken-1" [routerLink]="['/clientes', cliente._id, 'editar']">Editar</a>
 		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteCliente(cliente)">Excluir e Voltar</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/clientes">Cancelar e Voltar</a>
 	</div>
 </div>

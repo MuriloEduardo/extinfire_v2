@@ -8,68 +8,58 @@
 </nav>
 <div class="row">
 	<div class="col s6">
-		<!-- Nome do produto -->
 		<div class="row">
 			<div class="col s12">
 				<label>Nome do produto</label>
 				<h5>{{ produto.nome }}</h5>
 			</div>
 		</div>
-		<!-- Data de Cadastro -->
 		<div class="row">
 			<div class="col s12">
 				<label>Data de cadastro</label>
-				<h5>{{ produto.updatedAt }}</h5>
+				<h5>R{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</h5>
 			</div>
 		</div>
 		<div class="row">
-			<!-- Valor Venda -->
-			<div class="col s12">
+			<div class="col s6">
 				<label>Valor de venda</label>
-				<h5>{{ produto?.valor_venda }}<h5>
+				<h5>{{ produto.valor_venda | currency:'USD':true:'1.2-2' }}</h5>
 			</div>
-		</div>
-		<div class="row">
-			<!-- Valor Compra -->
-			<div class="col s3">
+			<div class="col s6">
 				<label>Valor de custo</label>
-				<h5>{{ produto.valor_custo }}</h5>
+				<h5>R{{ produto.valor_custo | currency:'USD':true:'1.2-2' }}</h5>
 			</div>
 		</div>
 		<div class="row">
-			<!-- Qntde Atual -->
-			<div class="col s3">
+			<div class="col s6">
 				<label>Quantidade em estoque</label>
 				<h5>{{ produto.qntde_atual }}</h5>
 			</div>
-		</div>
-		<div class="row">
-			<!-- Qntde Minima -->
-			<div class="col s3">
+			<div class="col s6">
 				<label>Quantidade mínima necessária</label>
 				<h5>{{ produto.qntde_minima }}</h5>
 			</div>
 		</div>
 		<div class="row">
-			<!-- Lucro por unidade -->
 			<div class="col s6">
 				<label>Lucro por unidade</label>
-				<h5>{{ produto.valor_venda - produto.valor_custo }}</h5>
+				<h5>R{{ produto.valor_venda - produto.valor_custo | currency:'USD':true:'1.2-2' }}</h5>
 			</div>
-			<!-- Lucro total deste produto em estoque -->
 			<div class="col s6">
 				<label>Lucro estoque</label>
-				<h5>{{ produto.qntde_atual * produto.valor_venda }}</h5>
+				<h5>R{{ produto.qntde_atual * produto.valor_venda | currency:'USD':true:'1.2-2' }}</h5>
 			</div>
 		</div>
 	</div>
 	<div class="col s6">
-		{{ produto.images }}
+		<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of produto.images">
 	</div>
 </div>
 <div class="row">
 	<div class="col s12">
 		<a class="waves-effect waves-light btn red darken-1" [routerLink]="['/produtos', produto._id, 'editar']">Editar Produto</a>
 		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteProduto(produto)">Excluir e Voltar</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/produtos">Cancelar e Voltar</a>
 	</div>
 </div>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

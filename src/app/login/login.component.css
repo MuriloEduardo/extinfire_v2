@@ -4,3 +4,9 @@
 	border: 1px solid #EEE;
 	width: 40%;
 }
+#loadLogin {
+	margin: 8px 0;
+}
+.spinner-white-only {
+	border-color: #fff;
+}

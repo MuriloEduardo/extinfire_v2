@@ -1,0 +1,44 @@
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<a routerLink="/servicos" class="breadcrumb">Lista de Serviços</a>
+			<span class="breadcrumb">Detalhe do Serviço</span>
+		</div>
+	</div>
+</nav>
+<div class="row">
+	<div class="col s6">
+		<!-- Nome -->
+		<div class="row">
+			<div class="col s12">
+				<label>Nome do Serviço</label>
+				<h5>{{ servico.nome }}</h5>
+			</div>
+		</div>
+		<!-- Valor -->
+		<div class="row">
+			<div class="col s12">
+				<label>Valor</label>
+				<h5>R{{ servico.valor_venda | currency:'USD':true:'1.2-2' }}</h5>
+			</div>
+		</div>
+		<!-- Data -->
+		<div class="row">
+			<div class="col s12">
+				<label>Data de cadastro</label>
+				<h5>{{ servico.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</h5>
+			</div>
+		</div>
+	</div>
+	<div class="col s6">
+		<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of servico.images">
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<a class="waves-effect waves-light btn red darken-1" [routerLink]="['/servicos', servico._id, 'editar']">Editar Serviço</a>
+		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteServico(servico)">Excluir e Voltar</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/servicos">Cancelar e Voltar</a>
+	</div>
+</div>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

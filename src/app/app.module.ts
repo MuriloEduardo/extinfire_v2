@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
 import { ChartsModule } from 'ng2-charts';
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { AppRoutingModule } from './app.routing.module';
 
@@ -22,6 +23,7 @@ import { VendasService } from './_services/vendas.service';
 import { AuthService } from './_services/auth.service';
 import { LogsService } from './_services/logs.service';
 import { ProdutosService } from './_services/produtos.service';
+import { ServicosService } from './_services/servicos.service';
 
 import { AuthGuard } from './_guards/auth.guard';
 import { VendasResolver } from './_guards/vendas.resolver';
@@ -29,9 +31,7 @@ import { ClientesResolver } from './_guards/clientes.resolver';
 import { LogsResolver } from './_guards/logs.resolver';
 import { UsuariosResolver } from './_guards/usuarios.resolver';
 import { ProdutosResolver } from './_guards/produtos.resolver';
-
-import { ImagePreview } from './_directives/image-preview.directive';
-
+import { ServicosResolver } from './_guards/servicos.resolver';
 
 @NgModule({
   declarations: [
@@ -40,8 +40,7 @@ import { ImagePreview } from './_directives/image-preview.directive';
     DashboardComponent,
     LogsComponent,
     FinanceiroComponent,
-    LoginComponent,
-    ImagePreview
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -60,11 +59,13 @@ import { ImagePreview } from './_directives/image-preview.directive';
     ProdutosService,
     AuthGuard,
     LogsService,
+    ServicosService,
     VendasResolver,
     ClientesResolver,
     LogsResolver,
     UsuariosResolver,
-    ProdutosResolver
+    ProdutosResolver,
+    ServicosResolver
   ],
   bootstrap: [AppComponent]
 })

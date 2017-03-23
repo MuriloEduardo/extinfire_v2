@@ -7,6 +7,7 @@ import { ClientesResolver } from './_guards/clientes.resolver';
 import { LogsResolver } from './_guards/logs.resolver';
 import { VendasResolver } from './_guards/vendas.resolver';
 import { UsuariosResolver } from './_guards/usuarios.resolver';
+import { ServicosResolver } from './_guards/servicos.resolver';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PerfilComponent } from './perfil/perfil.component';
@@ -35,6 +36,11 @@ const appRoutes: Routes = [
 		canActivate: [AuthGuard]
 	},
 	{
+		path: 'servicos',
+		loadChildren: './servicos/servicos.module#ServicosModule',
+		canActivate: [AuthGuard]
+	},
+	{
 		path: 'vendas',
 		loadChildren: './vendas/vendas.module#VendasModule',
 		canActivate: [AuthGuard]
@@ -58,8 +64,9 @@ const appRoutes: Routes = [
 		canActivate: [AuthGuard],
 		resolve: {
 			produtos: ProdutosResolver,
+			servicos: ServicosResolver,
 			clientes: ClientesResolver,
-			servicos: VendasResolver
+			vendas: VendasResolver
 		}
 	},
 	{

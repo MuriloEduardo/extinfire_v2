@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { MaterializeAction } from 'angular2-materialize';
 
 import { ProdutosService } from '../../_services/produtos.service';
 
@@ -11,6 +13,7 @@ import { ProdutosService } from '../../_services/produtos.service';
 })
 export class DetalheProdutoComponent implements OnInit {
 
+	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	produto: any;
 
@@ -30,7 +33,12 @@ export class DetalheProdutoComponent implements OnInit {
 		this.produtosService.deleteProduto(produto).subscribe(data => {
 			if(data.n) {
 				this.router.navigate(['produtos']);
+				this.triggerToast('Produto excluido!');
 			}
 		});
+	}
+
+	triggerToast(stringToast) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
 	}
 }

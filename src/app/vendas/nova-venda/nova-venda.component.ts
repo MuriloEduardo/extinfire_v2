@@ -19,19 +19,23 @@ export class NovaVendaComponent implements OnInit {
 	inscricao: Subscription;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
-	clientes: any[] = [];
-	produtos: any[] = [];
+	itens: any[];
+	clientes: any[];
+	produtos: any[];
+	servicos: any[];
+
   	venda: any = {
 		cliente: {},
 		itens: [{
-			produto: {},
+			item: {},
 			qntde: undefined,
 			validade: undefined,
-			total: 0
+			total: undefined,
+			tipo: undefined
 		}],
-		valor_total: 0,
+		valor_total: undefined,
 		observacao: undefined,
-		tipo: false
+		tipo: undefined
 	};
   
   	constructor(
@@ -43,9 +47,12 @@ export class NovaVendaComponent implements OnInit {
   
   	ngOnInit() {
 	  	this.inscricao = this.route.data.subscribe(
-			(data: {produtos: any, clientes: any}) => {
+			(data: {produtos: any, clientes: any, servicos: any}) => {
 				this.produtos = data.produtos;
 				this.clientes = data.clientes;
+				this.servicos = data.servicos;
+
+				this.itens = data.produtos.concat(data.servicos);
 			}
 		);
   	}
@@ -59,12 +66,16 @@ export class NovaVendaComponent implements OnInit {
 		this.venda.cliente = cliente;
 	}
 	
-	setProduto(index: number, last?: number, produto?: any) {
+	setItem(index: number, last?: number, id?: any) {
 
-		if(!produto) return false;
+		if(!id) return false;
+
+		// Se tem valor de custo é um produto
+		// Caso não: é um serviço
+		this.venda.itens[index].tipo = this.venda.itens[index].item.valor_custo ? false : true;
 		
-		if(!this.venda.itens[index].produto.valor_venda)
-			this.venda.itens[index].produto.valor_venda = 0;
+		if(!this.venda.itens[index].item.valor_venda)
+			this.venda.itens[index].item.valor_venda = 0;
 
 		if(!this.venda.itens[index].qntde)
 			this.venda.itens[index].qntde = 1;
@@ -75,14 +86,18 @@ export class NovaVendaComponent implements OnInit {
 		
 		if(last) {
 			this.venda.itens.push({
-				produto: {}
+				item: {}
 			});
 		}
+	}
+
+	deleteRow(index: number) {
+		this.venda.itens.splice(index, 1);
 	}
 	
 	sum(index: number) {
 		
-		this.venda.itens[index].total = this.venda.itens[index].qntde * this.venda.itens[index].produto.valor_venda;
+		this.venda.itens[index].total = this.venda.itens[index].qntde * this.venda.itens[index].item.valor_venda;
 		
 		let valorTotalNew = 0;
 		for (let j=0;j<this.venda.itens.length;++j) {
@@ -103,7 +118,7 @@ export class NovaVendaComponent implements OnInit {
 
 		// Elimina oultimo produto que fica em vazio
 		for (var i = 0; i < this.venda.itens.length; ++i) {
-			if(!this.venda.itens[i].produto.nome) {
+			if(!this.venda.itens[i].item.nome) {
 				this.venda.itens.splice(this.venda.itens.indexOf(this.venda.itens[i]), 1);
 			}
 		}

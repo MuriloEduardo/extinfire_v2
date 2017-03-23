@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AuthService } from './../_services/auth.service';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -8,14 +10,19 @@ import { Router } from '@angular/router';
 })
 export class PerfilComponent implements OnInit {
 
-	constructor(private router:Router) { }
+  user: any;
+  local: any = {
+    senha: undefined
+  }
 
-	ngOnInit() {
-	}
+  constructor(
+    private authService: AuthService,
+    private router:Router
+  ) {}
 
-	logout() {
-        window.localStorage.removeItem('auth_key');
-        window.localStorage.removeItem('user');
-        this.router.navigate(['login']);
-    }
+  ngOnInit() {
+    this.authService.getUsuarioAutenticado.subscribe(
+      user => this.user = user
+    );
+  }
 }

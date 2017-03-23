@@ -59,4 +59,8 @@ export class ClientesService {
 		headers.append('Content-Type', 'application/json');
 		return this.http.put(AppSettings.API_ENDPOINT + 'cliente/' + cliente._id, JSON.stringify(cliente), {headers: headers}).map(res => res.json());
 	}
+
+	getCep(cep: string) {
+		return this.http.get('https://viacep.com.br/ws/' + cep + '/json/').map(res => res.json());
+	}
 }

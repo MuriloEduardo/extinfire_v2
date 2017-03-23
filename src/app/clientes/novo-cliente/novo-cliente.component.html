@@ -11,111 +11,123 @@
 		<form (submit)="novoCliente($event)">
 			<div class="row">
 				<div class="col s7">
-					<div class="section"></div>
 					<div class="row">
-						<div class="col-s12">
+						<div class="col s12">
 							<div class="input-field">
 								<input id="nome" type="text" [(ngModel)]="nome" name="nome" required="" aria-required="true">
-								<label for="nome" data-error="Inválido" data-success="Válido">Nome do cliente</label>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-s6">
-							<div class="input-field">
-								<input id="representante" type="text" [(ngModel)]="representante" name="representante">
-								<label for="representante" data-error="Inválido" data-success="Válido">Representante</label>
-							</div>
-						</div>
-						<div class="col-s6">
-							<div class="input-field">
-								<input id="comprador" type="text" [(ngModel)]="comprador" name="comprador">
-								<label for="comprador" data-error="Inválido" data-success="Válido">Comprador</label>
+								<label for="nome">Nome do cliente</label>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<input id="cnpj" type="text" [(ngModel)]="cnpj" name="cnpj" >
-								<label for="cnpj" data-error="Inválido" data-success="Válido">CNPJ</label>
+								<input id="representante" type="text" [(ngModel)]="representante" name="representante">
+								<label for="representante">Representante</label>
+							</div>
+						</div>
+						<div class="col s6">
+							<div class="input-field">
+								<input id="comprador" type="text" [(ngModel)]="comprador" name="comprador">
+								<label for="comprador">Comprador</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<div class="input-field">
+								<input id="cnpj" type="text" [(ngModel)]="cnpj" name="cnpj" [textMask]="{mask: maskCnpj, placeholderChar: '\u2000', keepCharPositions: true}">
+								<label for="cnpj">CNPJ</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
 								<input id="insc_estadual" type="text" [(ngModel)]="insc_estadual" name="insc_estadual" >
-								<label for="insc_estadual" data-error="Inválido" data-success="Válido">Inscrição Estadual</label>
+								<label for="insc_estadual">Inscrição Estadual</label>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s4">
 							<div class="input-field">
-								<input id="fone" type="text" [(ngModel)]="fone" name="fone" >
-								<label for="fone" data-error="Inválido" data-success="Válido">Fone</label>
+								<input id="fone" type="text" [(ngModel)]="fone" name="fone" [textMask]="{mask: maskFone, placeholderChar: '\u2000', keepCharPositions: true}">
+								<label for="fone">Fone</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
-								<input id="celular" type="text" [(ngModel)]="celular" name="celular" >
-								<label for="celular" data-error="Inválido" data-success="Válido">Celular</label>
+								<input id="celular" type="tel" [(ngModel)]="celular" name="celular" [textMask]="{mask: maskCel, placeholderChar: '\u2000', keepCharPositions: true}">
+								<label for="celular">Celular</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
 								<input id="email" type="email" [(ngModel)]="email" name="email" >
-								<label for="email" data-error="Inválido" data-success="Válido">Email</label>
+								<label for="email">Email</label>
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col s12">
+						<div class="col s6">
+							<div class="input-field">
+								<div id="loadCep" class="preloader-wrapper small active right" *ngIf="loadCep">
+									<div class="spinner-layer spinner-red-only">
+										<div class="circle-clipper left">
+											<div class="circle"></div>
+										</div>
+										<div class="gap-patch">
+											<div class="circle"></div>
+										</div>
+										<div class="circle-clipper right">
+											<div class="circle"></div>
+										</div>
+									</div>
+								</div>
+								<input id="cep" type="text" [(ngModel)]="cep" name="cep" (blur)="buscaCep()" [textMask]="{mask: maskCep, placeholderChar: '\u2000', keepCharPositions: true}">
+								<label for="cep">CEP</label>
+							</div>
+						</div>
+						<div class="col s6">
+							<div class="input-field">
+								<input id="cidade" type="text" [(ngModel)]="cidade" name="cidade" >
+								<label for="cidade">Cidade</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
 							<div class="input-field">
 								<input id="logradouro" type="text" [(ngModel)]="logradouro" name="logradouro" >
-								<label for="logradouro" data-error="Inválido" data-success="Válido">Logradouro</label>
+								<label for="logradouro">Logradouro</label>
+							</div>
+						</div>
+						<div class="col s6">
+							<div class="input-field">
+								<input id="bairro" type="text" [(ngModel)]="bairro" name="bairro" >
+								<label for="bairro">Bairro</label>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col s4">
 							<div class="input-field">
-								<input id="numero" type="text" [(ngModel)]="numero" name="numero" >
-								<label for="numero" data-error="Inválido" data-success="Válido">Número</label>
+								<input id="numero" type="number" [(ngModel)]="numero" name="numero" >
+								<label for="numero">Número</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
 								<input id="complemento" type="text" [(ngModel)]="complemento" name="complemento" >
-								<label for="complemento" data-error="Inválido" data-success="Válido">Complemento</label>
-							</div>
-						</div>
-						<div class="col s4">
-							<div class="input-field">
-								<input id="bairro" type="text" [(ngModel)]="bairro" name="bairro" >
-								<label for="bairro" data-error="Inválido" data-success="Válido">Bairro</label>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col s4">
-							<div class="input-field">
-								<input id="cidade" type="text" [(ngModel)]="cidade" name="cidade" >
-								<label for="cidade" data-error="Inválido" data-success="Válido">Cidade</label>
+								<label for="complemento">Complemento</label>
 							</div>
 						</div>
 						<div class="col s4">
 							<div class="input-field">
 								<select id="estado" [(ngModel)]="estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
 								  <option value="" disabled selected>Estado</option>
-								  <option *ngFor="let option of selectEstadoOptions" [value]="option.value">{{option.name}}</option>
+								  <option *ngFor="let option of selectEstadoOptions" [value]="option.uf">{{option.nome}}</option>
 								</select>
-								<label for="estado" data-error="Inválido" data-success="Válido"></label>
-							</div>
-						</div>
-						<div class="col s4">
-							<div class="input-field">
-								<input id="cep" type="text" [(ngModel)]="cep" name="cep" >
-								<label for="cep" data-error="Inválido" data-success="Válido">CEP</label>
+								<label for="estado"></label>
 							</div>
 						</div>
 					</div>
@@ -128,13 +140,13 @@
 								<a class="waves-effect waves-light btn grey darken-4" (click)="removeItemFotos(imgCliente)">
 									<i class="material-icons">&#xE92B;</i>
 								</a>
-								<!-- <img src="{{ 'http://127.0.0.1:8080/uploads/' + imgCliente }}" class="responsive-img"> -->
+								<img src="{{ 'http://127.0.0.1:8080/uploads/' + imgCliente }}" class="responsive-img">
 							</div>
 							<div class="col s3 center-align" *ngFor="let item of uploader.queue">
 								<a class="waves-effect waves-light btn grey darken-4" (click)="item.remove()">
 									<i class="material-icons">&#xE92B;</i>
 								</a>
-								<!-- <img imgPreview [image]="item?._file" class="responsive-img"> -->
+								<img imgPreviewCliente [image]="item?._file" class="responsive-img">
 							</div>
 						</div>
 					</div>
@@ -157,7 +169,7 @@
 			<div class="row">
 				<div class="col 12">
 					<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
-					<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" (click)="closeModal()">Cancelar</a>
+					<a class="waves-effect waves-light btn grey" routerLink="/clientes">Cancelar e Voltar</a>
 				</div>
 			</div>
 		</form>

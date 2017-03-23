@@ -1,11 +1,12 @@
-<div class="center-align">
+<div class="center-align" *ngIf="!resposta">
   <div class="section"></div>
   <div class="container">
+    <h3 class="red-text">Bem vindo</h3>
     <h5 class="red-text">Faça login para entrar</h5>
     <div class="section"></div>
     <div class="body-login z-depth-1 white row">
 
-      <div *ngIf="resposta" class="card" [ngClass]="{teal: resposta?.res, red: !resposta?.res}">
+      <div *ngIf="resposta" class="card" [ngClass]="{green: resposta?.res, red: !resposta?.res}">
         <div class="card-content white-text">
           <span>{{ resposta?.string }}</span>
         </div>
@@ -30,11 +31,24 @@
             <label for="password">Entre com sua senha</label>
           </div>
         </div>
-
-        <br />
         <div>
           <div class="row">
-            <button type="submit" name="btn_login" class="col s12 btn btn-large waves-effect red darken-1">Login</button>
+            <button type="submit" name="btn_login" class="col s12 btn btn-large waves-effect red darken-1">
+              Login
+              <div id="loadLogin" class="preloader-wrapper small active right" *ngIf="loadLogin">
+                <div class="spinner-layer spinner-white-only">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </button>
           </div>
         </div>
       </form>

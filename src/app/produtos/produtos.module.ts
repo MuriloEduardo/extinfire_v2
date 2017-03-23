@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
+import { TextMaskModule } from 'angular2-text-mask';
 
 import { ProdutosRoutingModule } from './produtos.routing.module';
 
@@ -17,12 +18,15 @@ import { NovoProdutoComponent } from './novo-produto/novo-produto.component';
 import { DetalheProdutoComponent } from './detalhe-produto/detalhe-produto.component';
 import { EditarProdutoComponent } from './editar-produto/editar-produto.component';
 
+import { ImagePreviewProduto } from './../_directives/image-preview-produto.directive';
+
 @NgModule({
   declarations: [
     ProdutosComponent,
     NovoProdutoComponent,
     DetalheProdutoComponent,
-    EditarProdutoComponent
+    EditarProdutoComponent,
+    ImagePreviewProduto
   ],
   imports: [
     CommonModule,
@@ -30,6 +34,7 @@ import { EditarProdutoComponent } from './editar-produto/editar-produto.componen
     HttpModule,
     MaterializeModule,
     FileUploadModule,
+    TextMaskModule,
     ProdutosRoutingModule
   ],
   providers: [

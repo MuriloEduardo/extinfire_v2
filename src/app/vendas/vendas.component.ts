@@ -1,5 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute } from '@angular/router';
 

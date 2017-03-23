@@ -55,7 +55,7 @@
 					<div class="row">
 						<div class="lista-images">
 							<div class="col s3 center-align" *ngFor="let item of uploader.queue">
-								<!-- <img imgPreview [image]="item?._file" class="responsive-img"> -->
+								<img imgPreviewProduto [image]="item?._file" class="responsive-img">
 							</div>
 						</div>
 					</div>
@@ -78,9 +78,10 @@
 			<div class="row">
 				<div class="col s12">
 					<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Editar</button>
-					<a class="modal-action modal-close waves-effect waves-light btn grey darken-4" routerLink="/produtos">Cancelar e Voltar</a>
+					<a class="waves-effect waves-light btn grey" [routerLink]="['/produtos', produto._id]">Cancelar e Voltar</a>
 				</div>
 			</div>
 		</form>
 	</div>
 </div>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

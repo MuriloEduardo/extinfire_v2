@@ -22,17 +22,7 @@ export class AuthService {
 		let creds = 'email=' + usuario.email + '&senha=' + usuario.senha;
 
 		headers.append('Content-Type', 'application/X-www-form-urlencoded');
-
-		return new Promise((resolve) => {
-			this.http.post(AppSettings.API_ENDPOINT + 'authenticate', creds, {headers: headers}).subscribe((data) => {
-				let dataJson = data.json();
-				if(dataJson.success) {
-					window.localStorage.setItem('auth_key', dataJson.token);
-					window.localStorage.setItem('user', JSON.stringify(dataJson.user));
-				}
-				resolve(this.getUsuarioAutenticado);
-			});
-		});
+		return this.http.post(AppSettings.API_ENDPOINT + 'authenticate', creds, {headers: headers}).map(res => res.json());
 	}
 
 	setUsuarioAutenticado(user: any) {
