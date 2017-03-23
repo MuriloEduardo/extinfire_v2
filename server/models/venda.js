@@ -3,6 +3,7 @@
 let mongoose = require('mongoose');
 
 let vendaSchema = mongoose.Schema({
+	nome: String,
 	cliente: {},
 	itens: [{
 		item: {},

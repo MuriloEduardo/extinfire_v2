@@ -327,6 +327,7 @@ router.post('/venda', (req, res, next) => {
 
 		let novaVenda = new Venda();
 
+		novaVenda.nome = dadosVenda.cliente.nome;
 		novaVenda.cliente = dadosVenda.cliente;
 		novaVenda.itens = dadosVenda.itens;
 		novaVenda.tipo = dadosVenda.tipo;
@@ -384,6 +385,7 @@ router.put('/venda/:id', (req, res, next) => {
 			res.json({"error": "dados incompletos"});
 		} else {
 			
+			venda.nome = dadosVenda.cliente.nome;
 			venda.cliente = dadosVenda.cliente;
 			venda.itens = dadosVenda.itens;
 			venda.tipo = dadosVenda.tipo;
