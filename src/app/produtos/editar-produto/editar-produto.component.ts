@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProdutosService } from '../../_services/produtos.service';
 
 import { FileUploader } from 'ng2-file-upload';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -12,12 +13,22 @@ declare let Materialize:any;
 
 import { AppSettings } from '../../app.config';
 
+const numberMask = createNumberMask({
+	prefix: 'R$ ',
+	allowDecimal:true,
+	requireDecimal:true,
+	integerLimit: 7,
+	decimalLimit: 2
+})
+
 @Component({
   selector: 'app-editar-produto',
   templateUrl: './editar-produto.component.html',
   styleUrls: ['./editar-produto.component.css']
 })
 export class EditarProdutoComponent implements OnInit, AfterViewChecked {
+
+	maskMoney = numberMask;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;

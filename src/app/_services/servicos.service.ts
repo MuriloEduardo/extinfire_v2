@@ -29,7 +29,7 @@ export class ServicosService {
 	addServico(newServico: any) {
 
 		this.logsService.addLog({
-			descricao: 'adicionou o serviço',
+			descricao: 'Adicionou o serviço',
 			item: newServico.nome
 		}).subscribe(data => {});
 		
@@ -41,7 +41,7 @@ export class ServicosService {
 	deleteServico(servico: any) {
 
 		this.logsService.addLog({
-			descricao: 'deletou o serviço',
+			descricao: 'Deletou o serviço',
 			item: servico.nome
 		}).subscribe(data => {});
 		
@@ -51,7 +51,7 @@ export class ServicosService {
 	updateServico(servico: any) {
 
 		this.logsService.addLog({
-			descricao: 'editou o serviço',
+			descricao: 'Editou o serviço',
 			item: servico.nome
 		}).subscribe(data => {});
 		

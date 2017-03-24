@@ -10,6 +10,9 @@ import { LogsService } from '../_services/logs.service';
 export class LogsComponent implements OnInit {
 
 	logs: any[] = [];
+	
+	order: string = 'criadoEm';
+  	reverse: boolean = false;
 	loadStatus: boolean = false;
 
 	constructor(
@@ -21,5 +24,13 @@ export class LogsComponent implements OnInit {
 			this.logs = logs;
 			this.loadStatus = true;
 		});
+	}
+
+	setOrder(value: string) {
+		if (this.order === value) {
+			this.reverse = !this.reverse;
+		}
+
+		this.order = value;
 	}
 }

@@ -38,17 +38,65 @@
 <div class="row" *ngIf="logs.length">
 	<div class="col s12">
 		<form action="#">
-			<table class="bordered">
+			<table class="bordered responsive-table">
 				<thead>
-					<tr>
-						<th data-field="nome">Usuário</th>
-						<th data-field="cidade">Descrição</th>
-						<th data-field="contato">Item</th>
-						<th data-field="dataCriado">Data</th>
+					<tr class="orders">
+						<th 
+						data-field="usuario" 
+						(click)="setOrder('usuario')"
+						[class.active]="order === 'usuario'"
+						>
+							Usuário
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="descricao" 
+						(click)="setOrder('descricao')"
+						[class.active]="order === 'descricao'"
+						>
+							Descrição
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="item" 
+						(click)="setOrder('item')"
+						[class.active]="order === 'item'"
+						>
+							Item
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="criadoEm" 
+						(click)="setOrder('criadoEm')"
+						[class.active]="order === 'criadoEm'"
+						>
+							Data Criado
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let log of logs | paginate: { itemsPerPage: 10, currentPage: p }">
+					<tr *ngFor="let log of logs | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }">
 						<td>{{ log.usuario || '---' }}</td>
 						<td>{{ log.descricao || '---' }}</td>
 						<td>{{ log.item || '---' }}</td>

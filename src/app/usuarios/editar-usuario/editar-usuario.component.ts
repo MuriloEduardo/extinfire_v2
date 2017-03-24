@@ -41,9 +41,7 @@ export class EditarUsuarioComponent implements OnInit, AfterViewChecked {
 			_id: this.usuario._id,
 			nome: this.usuario.nome,
 			tipo: this.usuario.tipo,
-			local: {
-				email: this.usuario.local.email
-			}
+			email: this.usuario.email
 		}
 		this.usuariosService.updateUser(editUser).subscribe(data => {
 			this.router.navigate(['usuarios']);

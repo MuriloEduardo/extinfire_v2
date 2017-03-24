@@ -14,9 +14,10 @@ declare let Materialize:any;
 
 const numberMask = createNumberMask({
 	prefix: 'R$ ',
-	thousandsSeparatorSymbol: '.',
-	decimalSymbol: ',',
-	allowDecimal: true
+	allowDecimal:true,
+	requireDecimal:true,
+	integerLimit: 7,
+	decimalLimit: 2
 })
 
 @Component({
@@ -37,8 +38,8 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 	hasBaseDropZoneOver:boolean = false;
 	
 	nome: string;
-	valor_custo: number;
-	valor_venda: number;
+	valor_custo: string;
+	valor_venda: string;
 	qntde_atual: number;
 	qntde_minima: number;
 
@@ -63,8 +64,8 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 		let newProduto = {
 			images: [],
 			nome: this.nome,
-			valor_venda: this.valor_venda,
-			valor_custo: this.valor_venda,
+			valor_venda: this.valor_venda.slice(3),
+			valor_custo: this.valor_custo.slice(3),
 			qntde_atual: this.qntde_atual,
 			qntde_minima: this.qntde_minima
 		};

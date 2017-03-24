@@ -2,12 +2,16 @@
 	<div class="nav-wrapper">
 		<div class="col s12">
 			<span class="breadcrumb">Lista de Usuários</span>
-			<div class="right">
-				<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Usuário</a>
-			</div>
 		</div>
 	</div>
 </nav>
+<!-- Botoes de ação -->
+<div class="row">
+	<div class="col s12 right-align">
+		<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Usuário</a>
+	</div>
+</div>
+<div class="section"></div>
 <!-- Carregando -->
 <div class="row" *ngIf="!loadStatus">
 	<div class="col s12">
@@ -26,45 +30,100 @@
 		</div>
 	</div>
 </div>
+<!-- Sem nenhum serviço -->
+<div class="row" *ngIf="!usuarios.length&&loadStatus">
+	<div class="col s12">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum usuário aqui <br><small>clique em Novo Usuário</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="row" *ngIf="usuarios.length">
 	<div class="col s12">
-		<form action="#">
-			<table class="bordered highlight">
-				<thead>
-					<tr>
-						<th data-field="check">
-							<input type="checkbox" checked="checked" />
-						</th>
-						<th data-field="nome">Usuário</th>
-						<th data-field="qntdeMinima">Tipo</th>
-						<th data-field="qntdeAtual">Email</th>
-						<th data-field="data">Data</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[usuario._id]">
-						<td><input type="checkbox"></td>
-						<td class="valign-wrapper">
-							<div class="firs-letter-users circle red darken-1 valign">
-								{{ usuario.nome.charAt(0) }}
-							</div>
-							<div class="valign">
-								{{ usuario.nome }}
-							</div>
-						</td>
-						<td>{{ !usuario.tipo ? 'Comun' : 'Administrador' }}</td>
-						<td>{{ usuario.local.email }}</td>
-						<td>{{ usuario.updatedAt }}</td>
-						<td><i class="material-icons">&#xE315;</i></td>
-					</tr>
-				</tbody>
-			</table>
-			<pagination-controls 
-			(pageChange)="p = $event" 
-			previousLabel="Anterior"
-            nextLabel="Próximo"
-            *ngIf="usuarios.length>9"
-            ></pagination-controls>
-		</form>
+		<table class="bordered highlight responsive-table">
+			<thead>
+				<tr class="orders">
+					<th 
+					data-field="nome" 
+					(click)="setOrder('nome')"
+					[class.active]="order === 'nome'"
+					>
+						Usuário
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="tipo" 
+					(click)="setOrder('tipo')"
+					[class.active]="order === 'tipo'"
+					>
+						Tipo
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="obs" 
+					(click)="setOrder('email')"
+					[class.active]="order === 'email'"
+					>
+						Email
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="dataCriado" 
+					(click)="setOrder('updatedAt')"
+					[class.active]="order === 'updatedAt'"
+					>
+						Data Criado
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let usuario of usuarios | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[usuario._id]">
+					<td class="valign-wrapper">
+						<div class="firs-letter-users circle red darken-1 valign">
+							{{ usuario.nome.charAt(0) }}
+						</div>
+						<div class="valign">
+							{{ usuario.nome }}
+						</div>
+					</td>
+					<td>{{ usuario.tipo }}</td>
+					<td>{{ usuario.email }}</td>
+					<td>{{ usuario.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</td>
+					<td><i class="material-icons">&#xE315;</i></td>
+				</tr>
+			</tbody>
+		</table>
+		<pagination-controls 
+		(pageChange)="p = $event" 
+		previousLabel="Anterior"
+        nextLabel="Próximo"
+        *ngIf="usuarios.length>9"
+        ></pagination-controls>
 	</div>
 </div>

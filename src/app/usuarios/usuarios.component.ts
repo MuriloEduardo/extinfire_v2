@@ -11,6 +11,8 @@ export class UsuariosComponent implements OnInit {
 
 	usuarios: any[] = [];
 	
+	order: string = 'updatedAt';
+  	reverse: boolean = false;
 	loadStatus: boolean = false;
 
 	constructor(private usuariosService: UsuariosService) { }
@@ -21,5 +23,13 @@ export class UsuariosComponent implements OnInit {
 			this.usuarios = usuarios;
 			this.loadStatus = true;
 		});
+	}
+
+	setOrder(value: string) {
+		if (this.order === value) {
+			this.reverse = !this.reverse;
+		}
+
+		this.order = value;
 	}
 }

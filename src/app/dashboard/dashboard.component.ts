@@ -18,7 +18,12 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit() {
 		this.produtosService.getProdutos().subscribe((produtos) => {
-			this.produtos = produtos;
+
+			for (var i = 0; i < produtos.length; ++i) {
+				if(produtos[i].qntde_atual <= produtos[i].qntde_minima) {
+					this.produtos.push(produtos[i]);
+				}
+			}
 			this.loadStatus = true;
 		});
 	}

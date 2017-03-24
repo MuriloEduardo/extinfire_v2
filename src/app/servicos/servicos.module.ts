@@ -7,6 +7,7 @@ import { MaterializeModule } from 'angular2-materialize';
 import { FileUploadModule } from "ng2-file-upload";
 import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2PaginationModule } from 'ng2-pagination';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 import { ServicosRoutingModule } from './servicos.routing.module';
 
@@ -37,6 +38,7 @@ import { ImagePreviewServico } from './../_directives/image-preview-servico.dire
     FileUploadModule,
     TextMaskModule,
     Ng2PaginationModule,
+    Ng2OrderModule,
     ServicosRoutingModule
   ],
   providers: [

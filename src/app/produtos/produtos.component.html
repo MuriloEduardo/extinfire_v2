@@ -2,12 +2,16 @@
 	<div class="nav-wrapper">
 		<div class="col s12">
 			<span class="breadcrumb">Lista de Produtos</span>
-			<div class="right">
-				<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Produto</a>
-			</div>
 		</div>
 	</div>
 </nav>
+<!-- Botoes de ação -->
+<div class="row">
+	<div class="col s12 right-align">
+		<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Produto</a>
+	</div>
+</div>
+<div class="section"></div>
 <!-- Carregando -->
 <div class="row" *ngIf="!loadStatus">
 	<div class="col s12">
@@ -40,49 +44,121 @@
 </div>
 <div class="row" *ngIf="produtos.length">
 	<div class="col s12">
-		<form action="#">
-			<table class="bordered highlight">
-				<thead>
-					<tr>
-						<th data-field="check">
-							<input type="checkbox" checked="checked" />
-						</th>
-						<th data-field="nome">Produto</th>
-						<th data-field="qntdeMinima">Qntde. Minima</th>
-						<th data-field="qntdeAtual">Qntde. Atual</th>
-						<th data-field="valorVenda">Valor Venda</th>
-						<th data-field="valorCusto">Valor Custo</th>
-						<th data-field="dataCreate">Data Criado</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let produto of produtos | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[produto._id]">
-						<td><input type="checkbox"></td>
-						<td>
-							<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0]) }}" class="circle img-table">
-							{{ produto.nome }}
-						</td>
-						<td>{{ produto.qntde_minima || '---' }}</td>
-						<td>{{ produto.qntde_atual }}</td>
-						<td>R{{ produto.valor_venda | currency:'USD':true:'1.2-2' || '---'  }}</td>
-						<td>R{{ produto.valor_custo | currency:'USD':true:'1.2-2' || '---'  }}</td>
-						<td>{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</td>
-						<td>
-							<div  *ngIf="(produto.qntde_atual <= 0) || (produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima)" class="chip white-text" [ngClass]="{'red text-white': produto.qntde_atual <= 0, 'orange text-white': produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima}">
-								<h6 *ngIf="produto.qntde_atual <= 0">Acabou!</h6>
-								<h6 *ngIf="produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima">Está Acabando</h6>
-							</div>
-						</td>
-						<td><i class="material-icons">&#xE315;</i></td>
-					</tr>
-				</tbody>
-			</table>
-			<pagination-controls 
-			(pageChange)="p = $event" 
-			previousLabel="Anterior"
-            nextLabel="Próximo"
-            *ngIf="produtos.length>9"
-            ></pagination-controls>
-		</form>
+		<table class="bordered highlight responsive-table">
+			<thead>
+				<tr class="orders">
+					<th 
+					data-field="nome" 
+					(click)="setOrder('nome')"
+					[class.active]="order === 'nome'"
+					>
+						Produto
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="qntdeMinima" 
+					(click)="setOrder('qntde_minima')"
+					[class.active]="order === 'qntde_minima'"
+					>
+						Qntde. Minima
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="qntdeAtual" 
+					(click)="setOrder('qntde_atual')"
+					[class.active]="order === 'qntde_atual'"
+					>
+						Qntde. Atual
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="valorVenda" 
+					(click)="setOrder('valor_venda')"
+					[class.active]="order === 'valor_venda'"
+					>
+						Valor Venda
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="valorCusto" 
+					(click)="setOrder('valor_custo')"
+					[class.active]="order === 'valor_custo'"
+					>
+						Valor Custo
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="dataCriado" 
+					(click)="setOrder('updatedAt')"
+					[class.active]="order === 'updatedAt'"
+					>
+						Data Criado
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let produto of produtos | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[produto._id]">
+					<td>
+						<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0]) }}" class="circle img-table">
+						{{ produto.nome }}
+					</td>
+					<td>{{ produto.qntde_minima }}</td>
+					<td>{{ produto.qntde_atual }}</td>
+					<td>{{ produto.valor_venda | number : '7.2-2' }}</td>
+					<td>{{ produto.valor_custo }}</td>
+					<td>{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</td>
+					<td>
+						<div 
+						*ngIf="(produto.qntde_atual <= 0) || (produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima)" 
+						class="chip white-text" 
+						[ngClass]="{'red text-white': produto.qntde_atual <= 0, 'orange text-white': produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima}"
+						>
+							<h6 *ngIf="produto.qntde_atual <= 0">Acabou!</h6>
+							<h6 *ngIf="produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima">Está Acabando</h6>
+						</div>
+					</td>
+					<td><i class="material-icons">&#xE315;</i></td>
+				</tr>
+			</tbody>
+		</table>
+		<pagination-controls 
+		(pageChange)="p = $event" 
+		previousLabel="Anterior"
+        nextLabel="Próximo"
+        *ngIf="produtos.length>9"
+        ></pagination-controls>
 	</div>
 </div>

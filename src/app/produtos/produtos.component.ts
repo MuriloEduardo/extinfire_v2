@@ -10,6 +10,9 @@ import { ProdutosService } from './../_services/produtos.service';
 export class ProdutosComponent implements OnInit {
 
 	produtos: any[] = [];
+	
+	order: string = 'updatedAt';
+  	reverse: boolean = false;
 	loadStatus: boolean = false;
 
 	constructor(
@@ -22,5 +25,13 @@ export class ProdutosComponent implements OnInit {
 			this.produtos = produtos;
 			this.loadStatus = true;
 		});
+	}
+
+	setOrder(value: string) {
+		if (this.order === value) {
+			this.reverse = !this.reverse;
+		}
+
+		this.order = value;
 	}
 }

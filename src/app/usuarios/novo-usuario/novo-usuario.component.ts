@@ -46,10 +46,8 @@ export class NovoUsuarioComponent implements OnInit, AfterViewChecked {
 		let newUser = {
 			nome: this.nome,
 			tipo: this.tipo,
-			local: {
-				email: this.email,
-				senha: this.senha
-			}
+			email: this.email,
+			senha: this.senha
 		};
 		
 		this.usuariosService.addUser(newUser).subscribe(user => {

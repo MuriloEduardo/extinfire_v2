@@ -10,6 +10,9 @@ import { ServicosService } from './../_services/servicos.service';
 export class ServicosComponent implements OnInit {
 	
 	servicos: any[] = [];
+	
+	order: string = 'updatedAt';
+  	reverse: boolean = false;
 	loadStatus: boolean = false;
 
 	constructor(
@@ -22,5 +25,13 @@ export class ServicosComponent implements OnInit {
 			this.servicos = servicos;
 			this.loadStatus = true;
 		});
+	}
+
+	setOrder(value: string) {
+		if (this.order === value) {
+			this.reverse = !this.reverse;
+		}
+
+		this.order = value;
 	}
 }

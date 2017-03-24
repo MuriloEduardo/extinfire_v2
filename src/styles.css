@@ -108,8 +108,8 @@ header.modal-header * {
 	overflow: auto;
 }
 .header-pages {
-	padding-left: 15px;
-	padding-right: 15px;
+	padding: 5px 15px;
+	height: auto!important;
 	margin-bottom: 50px;
 }
 .circle.img-table {
@@ -122,8 +122,11 @@ header.modal-header * {
 table.highlight tbody tr {
 	cursor: pointer;
 }
+.breadcrumb {
+	font-size: 24px!important;
+}
 a.breadcrumb:hover {
-	color: #000;
+	color: #e53935!important;
 }
 .breadcrumb,
 .breadcrumb:before {

@@ -29,7 +29,7 @@ export class ProdutosService {
 	addProduto(newProduto: any) {
 
 		this.logsService.addLog({
-			descricao: 'adicionou o produto',
+			descricao: 'Adicionou o produto',
 			item: newProduto.nome
 		}).subscribe(data => {});
 		
@@ -41,7 +41,7 @@ export class ProdutosService {
 	deleteProduto(produto: any) {
 
 		this.logsService.addLog({
-			descricao: 'deletou o produto',
+			descricao: 'Deletou o produto',
 			item: produto.nome
 		}).subscribe(data => {});
 		
@@ -51,7 +51,7 @@ export class ProdutosService {
 	updateProduto(produto: any) {
 
 		this.logsService.addLog({
-			descricao: 'editou o produto',
+			descricao: 'Editou o produto',
 			item: produto.nome
 		}).subscribe(data => {});
 		

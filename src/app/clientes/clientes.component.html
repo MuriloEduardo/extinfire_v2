@@ -2,12 +2,16 @@
 	<div class="nav-wrapper">
 		<div class="col s12">
 			<span class="breadcrumb">Lista de Clientes</span>
-			<div class="right">
-				<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Cliente</a>
-			</div>
 		</div>
 	</div>
 </nav>
+<!-- Botoes de ação -->
+<div class="row">
+	<div class="col s12 right-align">
+		<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Cliente</a>
+	</div>
+</div>
+<div class="section"></div>
 <!-- Carregando clientes -->
 <div class="row" *ngIf="!loadStatus">
 	<div class="col s12">
@@ -44,9 +48,6 @@
 			<table class="bordered highlight">
 				<thead>
 					<tr>
-						<th data-field="check">
-							<input type="checkbox" checked="checked" />
-						</th>
 						<th data-field="nome">Cliente</th>
 						<th data-field="cidade">Cidade</th>
 						<th data-field="contato">Contato</th>
@@ -55,7 +56,6 @@
 				</thead>
 				<tbody>
 					<tr *ngFor="let cliente of clientes | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[cliente._id]">
-						<td><input type="checkbox"></td>
 						<td>
 							<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0]) }}" class="circle img-table">
 							{{ cliente.nome }}
