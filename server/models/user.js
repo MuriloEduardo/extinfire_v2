@@ -5,12 +5,10 @@ let bcrypt    = require('bcryptjs');
 
 let usuarioSchema = mongoose.Schema({
 	nome: String,
-	foto_perfil: String,
-	tipo: Boolean,
-	local: {
-		email: String,
-		senha: String
-	},
+	image: String,
+	tipo: String,
+	email: String,
+	senha: String,
 	updatedAt: {
         type: Date, 
         default: Date.now 

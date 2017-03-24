@@ -28,7 +28,7 @@ let upload = multer({ storage: storage });
 
 router.post('/authenticate', (req, res, next) => {
 	User.findOne({
-        'local.email': req.body.email
+        'email': req.body.email
     }, function(err, user){
         if (err) throw err;
         
@@ -79,6 +79,8 @@ router.post('/produto', (req, res, next) => {
 		res.json({"error": "dados incompletos"});
 	} else {
 		let novoProduto = new Produto();
+
+		console.log(dadosProduto)
 		
 		novoProduto.images = dadosProduto.images;
 		novoProduto.nome = dadosProduto.nome;
@@ -88,6 +90,7 @@ router.post('/produto', (req, res, next) => {
 		novoProduto.qntde_minima = dadosProduto.qntde_minima;
 
 		novoProduto.save((err, data) => {
+			console.log(data)
 			if(err) res.send(err);
 			res.json(data);
 		});
@@ -330,7 +333,7 @@ router.post('/venda', (req, res, next) => {
 		novaVenda.nome = dadosVenda.cliente.nome;
 		novaVenda.cliente = dadosVenda.cliente;
 		novaVenda.itens = dadosVenda.itens;
-		novaVenda.tipo = dadosVenda.tipo;
+		novaVenda.tipo = !dadosVenda.tipo ? 'Orçamento' : 'Pedido';
 		novaVenda.observacao = dadosVenda.observacao;
 		novaVenda.valor_total = dadosVenda.valor_total;
 
@@ -388,7 +391,7 @@ router.put('/venda/:id', (req, res, next) => {
 			venda.nome = dadosVenda.cliente.nome;
 			venda.cliente = dadosVenda.cliente;
 			venda.itens = dadosVenda.itens;
-			venda.tipo = dadosVenda.tipo;
+			venda.tipo = !dadosVenda.tipo ? 'Orçamento' : 'Pedido';
 			venda.observacao = dadosVenda.observacao;
 			venda.valor_total = dadosVenda.valor_total;
 
@@ -464,11 +467,9 @@ router.post('/user', (req, res, next) => {
 	} else {
 		let novoUser = new User();
 		novoUser.nome = dadosUser.nome;
-		novoUser.tipo = dadosUser.tipo;
-		novoUser.local = {
-			email: dadosUser.local.email,
-			senha: novoUser.generateHash(req.body.local.senha)
-		};
+		novoUser.tipo = !dadosUser.tipo ? 'Comun' : 'Administrador';
+		novoUser.email = dadosUser.email,
+		novoUser.senha = novoUser.generateHash(req.body.senha)
 
 		novoUser.save((err, data) => {
 			if(err) res.send(err);
@@ -497,9 +498,7 @@ router.put('/user/:id', (req, res, next) => {
 
 			user.nome = dadosUser.nome;
 			user.tipo = dadosUser.tipo;
-			user.local = {
-				email: dadosUser.local.email
-			};
+			user.email = dadosUser.email
 
 			user.save((err, data) => {
 				if(err) res.send(err);

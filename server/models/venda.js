@@ -12,7 +12,7 @@ let vendaSchema = mongoose.Schema({
 		tipo: Boolean,
 		validade: { type: Date }
 	}],
-	tipo: Boolean,
+	tipo: String,
 	observacao: String,
 	valor_total: Number,
 	updatedAt: {
