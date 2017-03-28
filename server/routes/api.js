@@ -50,6 +50,7 @@ router.post('/authenticate', (req, res, next) => {
 //////////////////////////////////////////////////////
 
 router.post('/upload', upload.any(), (req, res, next) => {
+	console.log(req.files)
 	res.send(req.files);
 });
 
@@ -114,7 +115,8 @@ router.put('/produto/:id', (req, res, next) => {
 
 			produto.images = dadosProduto.images;
 			produto.nome = dadosProduto.nome;
-			produto.valor = dadosProduto.valor;
+			produto.valor_custo = dadosProduto.valor_custo;
+			produto.valor_venda = dadosProduto.valor_venda;
 			produto.qntde_atual = dadosProduto.qntde_atual;
 			produto.qntde_minima = dadosProduto.qntde_minima;
 
@@ -267,6 +269,8 @@ router.put('/cliente/:id', (req, res, next) => {
 		if(!dadosCliente) {
 			res.json({"error": "dados incompletos"});
 		} else {
+
+			console.log(dadosCliente)
 
 			cliente.images = dadosCliente.images;
 			cliente.nome = dadosCliente.nome;
