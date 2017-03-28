@@ -95,7 +95,7 @@
 						<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!servico?.images[0] ? 'sem-foto.jpg' : servico?.images[0]) }}" class="circle img-table">
 						{{ servico?.nome }}
 					</td>
-					<td>{{ 'R$ ' + servico?.valor_venda }}</td>
+					<td>{{ servico.valor_venda | currencyformat }}</td>
 					<td>{{ servico?.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</td>
 					<td><i class="material-icons">&#xE315;</i></td>
 				</tr>

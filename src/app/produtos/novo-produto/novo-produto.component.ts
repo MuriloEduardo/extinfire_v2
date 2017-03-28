@@ -13,7 +13,7 @@ import { MaterializeAction } from 'angular2-materialize';
 declare let Materialize:any;
 
 const numberMask = createNumberMask({
-	prefix: 'R$ ',
+	prefix: 'R$',
 	allowDecimal:true,
 	integerLimit: 7,
 	decimalLimit: 2,
@@ -33,7 +33,7 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
 	uploader:FileUploader = new FileUploader({
-		url: AppSettings.API_ENDPOINT
+		url: AppSettings.API_ENDPOINT + 'upload'
 	});
 	
 	hasBaseDropZoneOver:boolean = false;
@@ -65,8 +65,8 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 		let newProduto = {
 			images: [],
 			nome: this.nome,
-			valor_venda: this.valor_venda.slice(3),
-			valor_custo: this.valor_custo.slice(3),
+			valor_venda: this.valor_venda.replace('R$',''),
+			valor_custo: this.valor_custo.replace('R$',''),
 			qntde_atual: this.qntde_atual,
 			qntde_minima: this.qntde_minima
 		};

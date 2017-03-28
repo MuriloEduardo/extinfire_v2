@@ -33,7 +33,7 @@
 				<div class="col s12">
 					<div class="input-field">
 						<select id="cliente" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="venda.cliente" name="cliente">
-						  <option value="" disabled selected>Selecione o cliente</option>
+						  <option value="">Selecione o cliente</option>
 						  <option 
 						  *ngFor="let cliente of clientes" 
 						  [attr.data-icon]="('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
@@ -114,7 +114,16 @@
 									</td>
 									<td>
 										<div class="input-field">
-											<input id="qntde" type="number" (change)="sum(i)" [(ngModel)]="venda.itens[i].qntde" name="qntde{{i}}" [attr.required]="venda.itens[i].item.nome&&!first ? true : undefined">
+											<input 
+											id="qntde" 
+											min="1" 
+											type="number" 
+											(change)="sum(i)" 
+											[(ngModel)]="venda.itens[i].qntde" 
+											name="qntde{{i}}" 
+											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
+											[disabled]="!venda.itens[i].item.nome"
+											>
 											<label for="qntde">Quantidade</label>
 										</div>
 									</td>
@@ -122,10 +131,12 @@
 										<div class="input-field">
 											<input 
 											id="valor_venda" 
+											class="decimal" 
 											type="text" 
 											[(ngModel)]="venda.itens[i].item.valor_venda" 
 											name="valor_venda{{i}}" 
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
+											readonly="" 
 											[textMask]="{mask: maskMoney}"
 											>
 											<label for="valor_venda">Valor unitário</label>
@@ -135,6 +146,7 @@
 										<div class="input-field">
 											<input 
 											id="total" 
+											class="decimal" 
 											type="text" 
 											[(ngModel)]="venda.itens[i].total" 
 											name="total{{i}}" 
@@ -146,7 +158,7 @@
 										</div>
 									</td>
 									<td>
-										<div class="input-field">
+										<div class="input-field" *ngIf="venda.itens[i].tipo">
 											<label for="validade">Validade deste serviço</label>
 											<input 
 											id="validade" 
@@ -156,6 +168,7 @@
 											[(ngModel)]="venda.itens[i].validade" 
 											name="validade{{i}}" 
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
+											[disabled]="!venda.itens[i].item.nome"
 											>
 										</div>
 									</td>
@@ -182,7 +195,7 @@
 							</div>
 							<div class="col s4 center-align">
 								<h5>Valor Total</h5>
-								<h6>{{ 'R$ ' + venda.valor_total }}</h6>
+								<h4>{{ venda.valor_total | currencyformat }}</h4>
 							</div>
 						</div>
 					</div>

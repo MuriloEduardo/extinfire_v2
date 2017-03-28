@@ -1,7 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
-import { UsuariosService } from '../_services/usuarios.service';
 import { UsuarioResolver } from '../_guards/usuario.resolver';
 
 import { UsuariosComponent } from './usuarios.component';

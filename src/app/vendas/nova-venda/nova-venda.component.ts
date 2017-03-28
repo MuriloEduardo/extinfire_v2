@@ -11,7 +11,7 @@ import { ClientesService } from './../../_services/clientes.service';
 declare var Materialize:any;
 
 const numberMask = createNumberMask({
-	prefix: 'R$ ',
+	prefix: 'R$',
 	allowDecimal:true,
 	integerLimit: 7,
 	decimalLimit: 2,
@@ -45,7 +45,7 @@ export class NovaVendaComponent implements OnInit {
 			total: undefined,
 			tipo: undefined
 		}],
-		valor_total: undefined,
+		valor_total: 0,
 		observacao: undefined,
 		tipo: undefined
 	};
@@ -108,18 +108,19 @@ export class NovaVendaComponent implements OnInit {
 	}
 	
 	sum(index: number) {
-		
-		//this.venda.itens[index].total = this.venda.itens[index].qntde * this.venda.itens[index].item.valor_venda;
 
-		console.log(this.venda.itens[index].item.valor_venda)
-		console.log(parseFloat(this.venda.itens[index].item.valor_venda.replace('R$ ','').replace(',','.').replace(' ','')))
+		let priceFloat = parseFloat(this.venda.itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
+		let priceCalculed = priceFloat * this.venda.itens[index].qntde;
+
+		this.venda.itens[index].total = priceCalculed.toString().replace('.',',');
 		
 		let valorTotalNew = 0;
 		for (let j=0;j<this.venda.itens.length;++j) {
 			if(this.venda.itens[j].total) {
-				valorTotalNew += this.venda.itens[j].total;
+				valorTotalNew += parseFloat(this.venda.itens[j].total.replace('.','').replace('.','').replace(',','.'));
 			}
 		}
+
 		this.venda.valor_total = valorTotalNew;
 	}
 
@@ -127,7 +128,7 @@ export class NovaVendaComponent implements OnInit {
 		event.preventDefault();
 		
 		if(!this.venda.cliente.length&&this.venda.itens.length<=1) {
-			this.triggerToast('Adicione ao menos 1 produto na sua venda.');
+			alert('Adicione ao menos 1 produto');
 			return false;
 		};
 

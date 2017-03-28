@@ -23,7 +23,7 @@ export class EditarClienteComponent implements OnInit {
 	inscricao: Subscription;
 
 	uploader:FileUploader = new FileUploader({
-		url: AppSettings.API_ENDPOINT
+		url: AppSettings.API_ENDPOINT + 'upload'
 	});
 	
 	hasBaseDropZoneOver:boolean = false;
@@ -63,8 +63,6 @@ export class EditarClienteComponent implements OnInit {
 		this.inscricao = this.route.data.subscribe(
 			(data: {cliente: any}) => this.cliente = data.cliente
 		);
-
-		console.log(this.cliente)
 	}
 
 	ngAfterViewChecked() {
@@ -74,8 +72,6 @@ export class EditarClienteComponent implements OnInit {
 
 	updateCliente() {
 		
-		this.uploader.uploadAll();
-		
 		for (let j = 0; j < this.uploader.queue.length; ++j) {
 			this.cliente.images.push(this.uploader.queue[j].file.name);
 		}
@@ -83,9 +79,14 @@ export class EditarClienteComponent implements OnInit {
 		this.uploader.clearQueue();
 		
 		this.clientesService.updateCliente(this.cliente).subscribe(data => {
+			this.uploader.uploadAll();
 			this.router.navigate(['clientes']);
 			this.triggerToast('Cliente editado!');
 		});
+	}
+
+	removeItemFotos(item: any) {
+		this.cliente.images.splice(this.cliente.images.indexOf(item), 1);
 	}
 
 	triggerToast(stringToast) {

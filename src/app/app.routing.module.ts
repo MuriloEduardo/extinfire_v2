@@ -5,7 +5,6 @@ import { AuthGuard } from './_guards/auth.guard';
 
 import { ProdutosResolver } from './_guards/produtos.resolver';
 import { ClientesResolver } from './_guards/clientes.resolver';
-import { LogsResolver } from './_guards/logs.resolver';
 import { VendasResolver } from './_guards/vendas.resolver';
 import { UsuariosResolver } from './_guards/usuarios.resolver';
 import { ServicosResolver } from './_guards/servicos.resolver';

@@ -32,13 +32,31 @@
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<input id="valorVendaProduto" type="text" [(ngModel)]="produto.valor_venda" name="valorVendaProduto" required="" aria-required="true" [textMask]="{mask: maskMoney}">
+								<input 
+								id="valorVendaProduto" 
+								type="text" 
+								[(ngModel)]="produto.valor_venda" 
+								name="valorVendaProduto" 
+								required="" 
+								aria-required="true" 
+								[textMask]="{mask: maskMoney}"
+								class="decimal" 
+								>
 								<label for="valorVendaProduto">Valor de venda do produto</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<input id="valorCustoProduto" type="text" [(ngModel)]="produto.valor_custo" name="valorCustoProduto" required="" aria-required="true" [textMask]="{mask: maskMoney}">
+								<input 
+								id="valorCustoProduto" 
+								type="text" 
+								[(ngModel)]="produto.valor_custo" 
+								name="valorCustoProduto" 
+								required="" 
+								aria-required="true" 
+								[textMask]="{mask: maskMoney}"
+								class="decimal" 
+								>
 								<label for="valorCustoProduto">Valor de custo do produto</label>
 							</div>
 						</div>
@@ -62,7 +80,16 @@
 					<div class="section"></div>
 					<div class="row">
 						<div class="lista-images">
+							<div class="col s3 center-align" *ngFor="let imgPrdt of produto.images">
+								<a class="waves-effect waves-light btn grey darken-4" (click)="removeItemFotos(imgPrdt)">
+									<i class="material-icons">&#xE92B;</i>
+								</a>
+								<img src="{{ 'http://127.0.0.1:8080/uploads/' + imgPrdt }}" class="responsive-img">
+							</div>
 							<div class="col s3 center-align" *ngFor="let item of uploader.queue">
+								<a class="waves-effect waves-light btn grey darken-4" (click)="item.remove()">
+									<i class="material-icons">&#xE92B;</i>
+								</a>
 								<img imgPreviewProduto [image]="item?._file" class="responsive-img">
 							</div>
 						</div>

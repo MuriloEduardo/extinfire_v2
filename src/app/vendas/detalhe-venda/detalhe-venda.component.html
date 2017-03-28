@@ -27,7 +27,7 @@
 				<div class="row">
 					<div class="col s12">
 						<label>Valor total</label>
-						<h5>{{ 'R$ ' + venda.valor_total }}</h5>
+						<h5>{{ venda.valor_total | currencyformat }}</h5>
 					</div>
 				</div>
 				<!-- Observacao -->
@@ -119,9 +119,9 @@
 									<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0]) }}" class="circle img-table">
 									{{ venda.itens[i].item.nome }}
 								</td>
-								<td>{{ 'R$ ' + venda.itens[i].item.valor_venda }}</td>
+								<td>{{ venda.itens[i].item.valor_venda | currencyformat }}</td>
 								<td>{{ venda.itens[i].qntde }}</td>
-								<td>{{ 'R$ ' + venda.itens[i].total }}</td>
+								<td>{{ venda.itens[i].total | currencyformat }}</td>
 								<td>{{ venda.itens[i].validade }}</td>
 							</tr>
 						</tbody>

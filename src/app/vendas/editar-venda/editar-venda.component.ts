@@ -10,7 +10,7 @@ import { VendasService } from './../../_services/vendas.service';
 declare var Materialize:any;
 
 const numberMask = createNumberMask({
-	prefix: 'R$ ',
+	prefix: 'R$',
 	allowDecimal:true,
 	integerLimit: 7,
 	decimalLimit: 2,
@@ -35,6 +35,8 @@ export class EditarVendaComponent implements OnInit {
 	servicos: any[];
 	produtos: any[];
 
+	tipoVenda: boolean;
+
 	venda: any = {
 		cliente: {},
 		itens: [{
@@ -48,6 +50,28 @@ export class EditarVendaComponent implements OnInit {
 		observacao: undefined,
 		tipo: undefined
 	};
+
+	ngOnInit() {
+		this.inscricao = this.route.data.subscribe(
+			(data: {venda: any, produtos: any, servicos: any, clientes: any}) => {
+				this.venda = data.venda;
+				this.produtos = data.produtos;
+				this.servicos = data.servicos;
+				this.clientes = data.clientes;
+
+				this.itens = data.produtos.concat(data.servicos);
+
+				// Adiciona uma linha de itens ao carregar
+				let lastItem = this.venda.itens.length-1;
+				this.setItem(lastItem, true, this.venda.itens[lastItem]._id);
+
+				this.venda.valor_total = this.venda.valor_total.replace('.','').replace('.','').replace(',','.');
+
+				// Mesmo mudando de tipo, não poderá aterar o cliente
+				this.tipoVenda = this.venda.tipo;
+			}
+		);
+	}
 
 	setCliente() {
 		for (var i = 0; i < this.clientes.length; ++i) {
@@ -99,23 +123,27 @@ export class EditarVendaComponent implements OnInit {
 	}
 	
 	sum(index: number) {
-		
-		this.venda.itens[index].total = this.venda.itens[index].qntde * this.venda.itens[index].item.valor_venda;
+
+		let priceFloat = parseFloat(this.venda.itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
+		let priceCalculed = priceFloat * this.venda.itens[index].qntde;
+
+		this.venda.itens[index].total = priceCalculed.toString().replace('.',',');
 		
 		let valorTotalNew = 0;
 		for (let j=0;j<this.venda.itens.length;++j) {
 			if(this.venda.itens[j].total) {
-				valorTotalNew += this.venda.itens[j].total;
+				valorTotalNew += parseFloat(this.venda.itens[j].total.replace('.','').replace('.','').replace(',','.'));
 			}
 		}
-		this.venda.valor_total = valorTotalNew;
+
+		this.venda.valor_total = valorTotalNew.toString().replace('.','').replace('.','').replace(',','.');
 	}
 
 	updateVenda(event) {
 		event.preventDefault();
 		
 		if(!this.venda.cliente.length&&this.venda.itens.length<=1) {
-			this.triggerToast('Adicione ao menos 1 produto na sua venda.');
+			alert('Adicione ao menos 1 produto');
 			return false;
 		};
 
@@ -137,23 +165,6 @@ export class EditarVendaComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router
 	) { }
-
-	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
-			(data: {venda: any, produtos: any, servicos: any, clientes: any}) => {
-				this.venda = data.venda;
-				this.produtos = data.produtos;
-				this.servicos = data.servicos;
-				this.clientes = data.clientes;
-
-				this.itens = data.produtos.concat(data.servicos);
-
-				// Adiciona uma linha de itens ao carregar
-				let lastItem = this.venda.itens.length-1;
-				this.setItem(lastItem, true, this.venda.itens[lastItem]._id);
-			}
-		);
-	}
 	
 	ngAfterViewChecked() {
 		if(Materialize.updateTextFields)

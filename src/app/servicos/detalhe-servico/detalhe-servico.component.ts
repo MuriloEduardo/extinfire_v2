@@ -25,7 +25,11 @@ export class DetalheServicoComponent implements OnInit {
 
 	ngOnInit() {
 		this.inscricao = this.route.data.subscribe(
-			(data: {servico: any}) => this.servico = data.servico
+			(data: {servico: any}) => {
+				this.servico = data.servico;
+
+				this.servico.valor_venda = this.servico.valor_venda.replace('.','').replace('.','').replace(',','.');
+			}
 		);
 	}
 

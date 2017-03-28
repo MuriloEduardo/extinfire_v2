@@ -9,22 +9,24 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 
-import { VendasRoutingModule  } from './vendas.routing.module';
+import { VendaResolver } from './../_guards/venda.resolver';
 
-import { VendasService } from '../_services/vendas.service';
-import { VendaResolver } from '../_guards/venda.resolver';
+import { VendasRoutingModule  } from './vendas.routing.module';
 
 import { VendasComponent } from './vendas.component';
 import { DetalheVendaComponent } from './detalhe-venda/detalhe-venda.component';
 import { EditarVendaComponent } from './editar-venda/editar-venda.component';
 import { NovaVendaComponent } from './nova-venda/nova-venda.component';
 
+import { CurrencyFormatVendasPipe } from './../_pipes/currency-format-vendas.pipe';
+
 @NgModule({
   declarations: [
     VendasComponent,
     DetalheVendaComponent,
     EditarVendaComponent,
-    NovaVendaComponent
+    NovaVendaComponent,
+    CurrencyFormatVendasPipe
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,6 @@ import { NovaVendaComponent } from './nova-venda/nova-venda.component';
     VendasRoutingModule
   ],
   providers: [
-    VendasService,
     VendaResolver
   ]
 })

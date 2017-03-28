@@ -37,7 +37,7 @@ export class EditarServicoComponent implements OnInit {
 	servico: any = {};
 
 	uploader:FileUploader = new FileUploader({
-		url: AppSettings.API_ENDPOINT
+		url: AppSettings.API_ENDPOINT + 'upload'
 	});
 
 	constructor(
@@ -59,8 +59,6 @@ export class EditarServicoComponent implements OnInit {
 
 	updateServico() {
 		
-		this.uploader.uploadAll();
-		
 		for (let j = 0; j < this.uploader.queue.length; ++j) {
 			this.servico.images.push(this.uploader.queue[j].file.name);
 		}
@@ -68,10 +66,11 @@ export class EditarServicoComponent implements OnInit {
 		this.uploader.clearQueue();
 
 		// Retira o Prefixo R$
-		this.servico.valor_venda = parseFloat(this.servico.valor_venda.slice(3));
+		this.servico.valor_venda = this.servico.valor_venda.replace('R$ ','');
 		
 		this.servicosService.updateServico(this.servico).subscribe(data => {
 			if(data._id) {
+				this.uploader.uploadAll();
 				this.router.navigate(['servicos']);
 				this.triggerToast('Servico editado!');
 			}

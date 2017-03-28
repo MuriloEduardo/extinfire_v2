@@ -25,7 +25,12 @@ export class DetalheProdutoComponent implements OnInit {
 
 	ngOnInit() {
 		this.inscricao = this.route.data.subscribe(
-			(data: {produto: any}) => this.produto = data.produto
+			(data: {produto: any}) => {
+				this.produto = data.produto;
+
+				this.produto.valor_custo = this.produto.valor_custo.replace('.','').replace('.','').replace(',','.');
+				this.produto.valor_venda = this.produto.valor_venda.replace('.','').replace('.','').replace(',','.');
+			}
 		);
 	}
 

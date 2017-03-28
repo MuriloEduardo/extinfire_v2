@@ -30,8 +30,6 @@ import { AuthGuard } from './_guards/auth.guard';
 
 import { VendasResolver } from './_guards/vendas.resolver';
 import { ClientesResolver } from './_guards/clientes.resolver';
-import { LogsResolver } from './_guards/logs.resolver';
-import { UsuariosResolver } from './_guards/usuarios.resolver';
 import { ProdutosResolver } from './_guards/produtos.resolver';
 import { ServicosResolver } from './_guards/servicos.resolver';
 
@@ -69,8 +67,6 @@ import { ServicosResolver } from './_guards/servicos.resolver';
 
     VendasResolver,
     ClientesResolver,
-    LogsResolver,
-    UsuariosResolver,
     ProdutosResolver,
     ServicosResolver
   ],

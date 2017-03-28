@@ -34,7 +34,7 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
 	uploader:FileUploader = new FileUploader({
-		url: AppSettings.API_ENDPOINT
+		url: AppSettings.API_ENDPOINT + 'upload'
 	});
 	
 	hasBaseDropZoneOver:boolean = false;
@@ -71,7 +71,7 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 		}
 
 		// Retira o Prefixo R$
-		newServico.valor_venda = newServico.valor_venda.slice(3);
+		newServico.valor_venda = newServico.valor_venda.replace('R$ ','');
 
 		this.servicosService.addServico(newServico).subscribe(servico => {
 			this.uploader.uploadAll();

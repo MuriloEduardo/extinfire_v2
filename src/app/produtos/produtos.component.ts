@@ -23,6 +23,12 @@ export class ProdutosComponent implements OnInit {
 
 		this.produtosService.getProdutos().subscribe((produtos) => {
 			this.produtos = produtos;
+
+			for (var i = 0; i < this.produtos.length; ++i) {
+				this.produtos[i].valor_custo = this.produtos[i].valor_custo.replace('.','').replace('.','').replace(',','.');
+				this.produtos[i].valor_venda = this.produtos[i].valor_venda.replace('.','').replace('.','').replace(',','.');
+			}
+			
 			this.loadStatus = true;
 		});
 	}

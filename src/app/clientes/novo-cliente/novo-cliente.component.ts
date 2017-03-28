@@ -22,7 +22,7 @@ export class NovoClienteComponent implements OnInit {
 	inscricao: Subscription;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	uploader:FileUploader = new FileUploader({
-		url: AppSettings.API_ENDPOINT
+		url: AppSettings.API_ENDPOINT + 'upload'
 	});
 
 	loadCep: boolean = false;
@@ -236,6 +236,7 @@ export class NovoClienteComponent implements OnInit {
 		}
 
 		this.clientesService.addCliente(newCliente).subscribe(cliente => {
+			this.uploader.uploadAll();
 			this.router.navigate(['clientes']);
 	  		this.triggerToast('Cliente cadastrado com sucesso!');
 		});

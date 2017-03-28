@@ -9,11 +9,9 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 
-import { ServicosRoutingModule } from './servicos.routing.module';
-
-import { ServicosService } from '../_services/servicos.service';
-import { ServicosResolver } from '../_guards/servicos.resolver';
 import { ServicoResolver } from '../_guards/servico.resolver';
+
+import { ServicosRoutingModule } from './servicos.routing.module';
 
 import { ServicosComponent } from './servicos.component';
 import { DetalheServicoComponent } from './detalhe-servico/detalhe-servico.component';
@@ -22,13 +20,16 @@ import { NovoServicoComponent } from './novo-servico/novo-servico.component';
 
 import { ImagePreviewServico } from './../_directives/image-preview-servico.directive';
 
+import { CurrencyFormatServicosPipe } from './../_pipes/currency-format-servicos.pipe';
+
 @NgModule({
   declarations: [
     ServicosComponent,
     DetalheServicoComponent,
     EditarServicoComponent,
     NovoServicoComponent,
-    ImagePreviewServico
+    ImagePreviewServico,
+    CurrencyFormatServicosPipe
   ],
   imports: [
     CommonModule,
@@ -42,7 +43,6 @@ import { ImagePreviewServico } from './../_directives/image-preview-servico.dire
     ServicosRoutingModule
   ],
   providers: [
-    ServicosService,
     ServicoResolver
   ]
 })

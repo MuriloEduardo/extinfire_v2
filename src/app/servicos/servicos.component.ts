@@ -23,6 +23,11 @@ export class ServicosComponent implements OnInit {
 
 		this.servicosService.getServicos().subscribe((servicos) => {
 			this.servicos = servicos;
+
+			for (var i = 0; i < this.servicos.length; ++i) {
+				this.servicos[i].valor_venda = this.servicos[i].valor_venda.replace('.','').replace('.','').replace(',','.');
+			}
+
 			this.loadStatus = true;
 		});
 	}

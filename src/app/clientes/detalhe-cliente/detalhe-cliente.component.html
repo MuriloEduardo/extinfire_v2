@@ -18,7 +18,7 @@
 <div class="row">
 	<div class="col s12">
 		<div class="row">
-			<div class="col s12">
+			<div class="col s6">
 				<div class="section">
 					<h4>Geral</h4>
 					<div class="divider"></div>
@@ -61,6 +61,9 @@
 						<h5>{{ cliente.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</h5>
 					</div>
 				</div>
+			</div>
+			<div class="col s6">
+				<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of cliente.images">
 			</div>
 		</div>
 	</div>

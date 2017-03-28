@@ -14,7 +14,7 @@ declare let Materialize:any;
 import { AppSettings } from '../../app.config';
 
 const numberMask = createNumberMask({
-	prefix: 'R$ ',
+	prefix: 'R$',
 	allowDecimal:true,
 	integerLimit: 7,
 	decimalLimit: 2,
@@ -36,7 +36,7 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 	produto: any = {};
 
 	uploader:FileUploader = new FileUploader({
-		url: AppSettings.API_ENDPOINT
+		url: AppSettings.API_ENDPOINT + 'upload'
 	});
 
 	constructor(
@@ -58,16 +58,18 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 
 	updateProuto() {
 		
-		this.uploader.uploadAll();
-		
 		for (let j = 0; j < this.uploader.queue.length; ++j) {
 			this.produto.images.push(this.uploader.queue[j].file.name);
 		}
 		
 		this.uploader.clearQueue();
+
+		this.produto.valor_venda = this.produto.valor_venda.replace('R$','');
+		this.produto.valor_custo = this.produto.valor_custo.replace('R$','');
 		
 		this.produtosService.updateProduto(this.produto).subscribe(data => {
 			if(data._id) {
+				this.uploader.uploadAll();
 				this.router.navigate(['produtos']);
 				this.triggerToast('Produto editado!');
 			}

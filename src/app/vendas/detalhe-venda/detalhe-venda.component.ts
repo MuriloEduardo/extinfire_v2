@@ -25,7 +25,16 @@ export class DetalheVendaComponent implements OnInit {
 
 	ngOnInit() {
 		this.inscricao = this.route.data.subscribe(
-			(data: {venda: any}) => this.venda = data.venda
+			(data: {venda: any}) => {
+				this.venda = data.venda;
+
+				for (var i = 0; i < this.venda.itens.length; ++i) {
+
+					this.venda.itens[i].item.valor_venda = this.venda.itens[i].item.valor_venda.replace('.','').replace('.','').replace(',','.');
+					
+					this.venda.itens[i].total = this.venda.itens[i].total.replace('.','').replace('.','').replace(',','.');
+				}
+			}
 		);
 	}
     

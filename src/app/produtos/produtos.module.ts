@@ -9,11 +9,9 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 
-import { ProdutosRoutingModule } from './produtos.routing.module';
-
-import { ProdutosService } from '../_services/produtos.service';
-
 import { ProdutoResolver } from '../_guards/produto.resolver';
+
+import { ProdutosRoutingModule } from './produtos.routing.module';
 
 import { ProdutosComponent } from './produtos.component';
 import { NovoProdutoComponent } from './novo-produto/novo-produto.component';
@@ -22,13 +20,16 @@ import { EditarProdutoComponent } from './editar-produto/editar-produto.componen
 
 import { ImagePreviewProduto } from './../_directives/image-preview-produto.directive';
 
+import { CurrencyFormatProdutosPipe } from './../_pipes/currency-format-produtos.pipe';
+
 @NgModule({
   declarations: [
     ProdutosComponent,
     NovoProdutoComponent,
     DetalheProdutoComponent,
     EditarProdutoComponent,
-    ImagePreviewProduto
+    ImagePreviewProduto,
+    CurrencyFormatProdutosPipe
   ],
   imports: [
     CommonModule,
@@ -42,7 +43,6 @@ import { ImagePreviewProduto } from './../_directives/image-preview-produto.dire
     ProdutosRoutingModule
   ],
   providers: [
-    ProdutosService,
     ProdutoResolver
   ]
 })
