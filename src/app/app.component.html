@@ -11,7 +11,7 @@
 							<h5>ExtinFire</h5>
 						</li>
 						<li><a routerLink=""><i class="material-icons">&#xE88A;</i>Painel</a></li>
-						<li><a routerLink="financeiro"><i class="material-icons">&#xE926;</i>Financeiro</a></li>
+						<li *ngIf="user.tipo=='Administrador'"><a routerLink="financeiro"><i class="material-icons">&#xE926;</i>Financeiro</a></li>
 						<li>
 							<ul materialize="collapsible" class="collapsible collapsible-accordion">
 								<li>
@@ -27,14 +27,19 @@
 						</li>
 						<li><a routerLink="vendas"><i class="material-icons">&#xE227;</i>Vendas</a></li>
 						<li><a routerLink="clientes"><i class="material-icons">&#xE63D;</i>Clientes</a></li>
-						<li><a routerLink="usuarios"><i class="material-icons">&#xE8D3;</i>Usuarios</a></li>
+						<li *ngIf="user.tipo=='Administrador'"><a routerLink="usuarios"><i class="material-icons">&#xE8D3;</i>Usuarios</a></li>
 						<li><a routerLink="logs"><i class="material-icons">&#xE164;</i>Logs</a></li>
 					</ul>
 					<ul class="right">
 						<li>
 							<!-- Dropdown Perfil Trigger -->
-							<a materialize="dropdown" class='dropdown-button' href='#' data-activates='dropdownPerfil'>
-								{{ user?.nome.split(' ')[0] }}
+							<a materialize="dropdown" class='dropdown-button valign-wrapper' href='#' data-activates='dropdownPerfil'>
+								<span class="valign truncate">
+									{{ user.nome }}
+								</span>
+								<div class="firs-letter-users circle white red-text right z-depth-1 valign">
+									{{ user.nome.charAt(0) }}
+								</div>
 							</a>
 						</li>
 						<li>
@@ -73,7 +78,7 @@
 						Novo Cliente
 					</a>
 				</li>
-				<li>
+				<li *ngIf="user.tipo=='Administrador'">
 					<a routerLink="/usuarios/novo">
 						<i class="material-icons left">&#xE8D3;</i>
 						Novo Usuário

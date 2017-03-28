@@ -45,17 +45,66 @@
 <div class="row" *ngIf="clientes.length">
 	<div class="col s12">
 		<form action="#">
-			<table class="bordered highlight">
+			<table class="bordered highlight responsive-table">
 				<thead>
-					<tr>
-						<th data-field="nome">Cliente</th>
-						<th data-field="cidade">Cidade</th>
-						<th data-field="contato">Contato</th>
-						<th data-field="dataCriado">Data Criado</th>
+					<tr class="orders">
+						<th 
+						data-field="nome" 
+						(click)="setOrder('nome')"
+						[class.active]="order === 'nome'"
+						>
+							Cliente
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="cidade" 
+						(click)="setOrder('endereco.cidade')"
+						[class.active]="order === 'endereco.cidade'"
+						>
+							Cidade
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="celular" 
+						(click)="setOrder('contato.celular')"
+						[class.active]="order === 'contato.celular'"
+						>
+							Contato
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="updatedAt" 
+						(click)="setOrder('updatedAt')"
+						[class.active]="order === 'updatedAt'"
+						>
+							Data Criado
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let cliente of clientes | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[cliente._id]">
+					<tr *ngFor="let cliente of clientes | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[cliente._id]">
 						<td>
 							<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0]) }}" class="circle img-table">
 							{{ cliente.nome }}

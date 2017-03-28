@@ -10,7 +10,10 @@ import { ClientesService } from './../_services/clientes.service';
 export class ClientesComponent implements OnInit {
 
 	clientes: any[] = [];
+	
 	loadStatus: boolean = false;
+	order: string = 'criadoEm';
+  	reverse: boolean = true;
 
 	constructor(
 		private clientesService: ClientesService
@@ -21,5 +24,13 @@ export class ClientesComponent implements OnInit {
 			this.clientes = clientes;
 			this.loadStatus = true;
 		});
+	}
+
+	setOrder(value: string) {
+		if (this.order === value) {
+			this.reverse = !this.reverse;
+		}
+
+		this.order = value;
 	}
 }

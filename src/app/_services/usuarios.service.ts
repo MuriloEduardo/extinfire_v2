@@ -29,7 +29,7 @@ export class UsuariosService {
 	addUser(newUser: any) {
 
 		this.logsService.addLog({
-			descricao: 'Adicionou o usuário',
+			descricao: 'Adicionou um usuário',
 			item: newUser.nome
 		}).subscribe(data => {});
 
@@ -41,7 +41,7 @@ export class UsuariosService {
 	deleteUser(user: any) {
 
 		this.logsService.addLog({
-			descricao: 'Deletou o usuário',
+			descricao: 'Deletou um usuário',
 			item: user.nome
 		}).subscribe(data => {});
 
@@ -51,7 +51,7 @@ export class UsuariosService {
 	updateUser(user: any) {
 
 		this.logsService.addLog({
-			descricao: 'Editou o usuário',
+			descricao: 'Editou um usuário',
 			item: user.nome
 		}).subscribe(data => {});
 

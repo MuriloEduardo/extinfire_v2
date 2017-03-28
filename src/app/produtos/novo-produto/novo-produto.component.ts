@@ -15,9 +15,10 @@ declare let Materialize:any;
 const numberMask = createNumberMask({
 	prefix: 'R$ ',
 	allowDecimal:true,
-	requireDecimal:true,
 	integerLimit: 7,
-	decimalLimit: 2
+	decimalLimit: 2,
+	thousandsSeparatorSymbol: '.',
+	decimalSymbol: ',',
 })
 
 @Component({

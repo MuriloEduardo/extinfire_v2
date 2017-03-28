@@ -151,3 +151,22 @@ a.breadcrumb:hover {
 .orders>th.active span {
 	visibility: visible;
 }
+.decimal {
+	text-align: right;
+}
+.eng-del-image {
+	position: relative;
+}
+.btn-del-image {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 22px;
+	height: 22px;
+	text-align: center;	
+	cursor: pointer;
+}
+.btn-del-image i {
+	font-size: 16px;
+	line-height: 22px;
+}

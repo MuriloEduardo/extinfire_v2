@@ -12,7 +12,7 @@ export class LogsComponent implements OnInit {
 	logs: any[] = [];
 	
 	order: string = 'criadoEm';
-  	reverse: boolean = false;
+  	reverse: boolean = true;
 	loadStatus: boolean = false;
 
 	constructor(

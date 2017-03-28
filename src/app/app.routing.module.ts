@@ -2,6 +2,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './_guards/auth.guard';
+
 import { ProdutosResolver } from './_guards/produtos.resolver';
 import { ClientesResolver } from './_guards/clientes.resolver';
 import { LogsResolver } from './_guards/logs.resolver';

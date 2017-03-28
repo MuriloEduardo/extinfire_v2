@@ -31,10 +31,8 @@ export class DetalheVendaComponent implements OnInit {
     
     deleteVenda(venda: any) {
         this.vendasService.deleteVenda(venda).subscribe(data => {
-            if(data.n) {
-				this.router.navigate(['vendas']);
-				this.triggerToast('Venda excluida!');
-            }
+            this.router.navigate(['vendas']);
+			this.triggerToast('Venda excluida!');
         });
     }
 

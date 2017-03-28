@@ -11,9 +11,11 @@ declare var Materialize:any;
 
 const numberMask = createNumberMask({
 	prefix: 'R$ ',
+	allowDecimal:true,
+	integerLimit: 7,
+	decimalLimit: 2,
 	thousandsSeparatorSymbol: '.',
-	decimalSymbol: ',',
-	allowDecimal: true
+	decimalSymbol: ','
 })
 
 @Component({

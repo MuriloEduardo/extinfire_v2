@@ -10,7 +10,9 @@ export class AuthGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {
+    console.log('AuthGuard Initialized...');
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -18,9 +20,16 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
 
     if (window.localStorage.getItem('auth_key')){
+
       this.authService.setUsuarioAutenticado(JSON.parse(window.localStorage.getItem('user')));
+
+      // Se for false, não é administrador
+      if(JSON.parse(window.localStorage.getItem('user')).tipo=='Comun'&&(state.url.includes('usuarios')||state.url.includes('financeiro'))) {
+        alert('Usuário sem permissão');
+        return false;
+      }
       return true;
-    } 
+    }
 
     this.router.navigate(['login']);
     return false;

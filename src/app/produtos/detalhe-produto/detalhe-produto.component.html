@@ -25,17 +25,17 @@
 		<div class="row">
 			<div class="col s12">
 				<label>Data de cadastro</label>
-				<h5>R{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</h5>
+				<h5>{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</h5>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col s6">
 				<label>Valor de venda</label>
-				<h5>{{ produto.valor_venda | currency:'USD':true:'1.2-2' }}</h5>
+				<h5>{{ 'R$ ' + produto.valor_venda }}</h5>
 			</div>
 			<div class="col s6">
 				<label>Valor de custo</label>
-				<h5>R{{ produto.valor_custo | currency:'USD':true:'1.2-2' }}</h5>
+				<h5>{{ 'R$ ' + produto.valor_custo }}</h5>
 			</div>
 		</div>
 		<div class="row">
@@ -46,16 +46,6 @@
 			<div class="col s6">
 				<label>Quantidade mínima necessária</label>
 				<h5>{{ produto.qntde_minima }}</h5>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s6">
-				<label>Lucro por unidade</label>
-				<h5>R{{ produto.valor_venda - produto.valor_custo | currency:'USD':true:'1.2-2' }}</h5>
-			</div>
-			<div class="col s6">
-				<label>Lucro estoque</label>
-				<h5>R{{ produto.qntde_atual * produto.valor_venda | currency:'USD':true:'1.2-2' }}</h5>
 			</div>
 		</div>
 	</div>

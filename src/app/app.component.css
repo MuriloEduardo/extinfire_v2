@@ -41,3 +41,11 @@ header .dropdown-content li > span {
 ul.collapsible.collapsible-accordion li.active a > i.material-icons.right {
 	transform: rotate(180deg);
 }
+.firs-letter-users {
+	text-align: center;
+	font-size: 20px;
+	line-height: 42px;
+	height: 42px;
+	width: 42px;
+	margin-left: 15px;
+}

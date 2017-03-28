@@ -6,7 +6,19 @@
 		</div>
 	</div>
 </nav>
-<form (submit)="novaVenda($event)">
+<!-- Sem nenhum cliente -->
+<div class="row" *ngIf="!clientes.length">
+	<div class="col s12">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Nenhum cliente cadastrado <br><small>necessário para que se crie uma nova venda</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+</div>
+<form (submit)="novaVenda($event)" *ngIf="clientes.length">
 	<!-- Botoes de ação -->
 	<div class="row">
 		<div class="col s12 right-align">
@@ -41,7 +53,19 @@
 						</label>
 					</div>
 					<div class="section"></div>
-					<div *ngIf="(venda.cliente | json) != '{}'">
+					<!-- Sem nenhum serviço ou produtos -->
+					<div class="row" *ngIf="!produtos.length&&!servicos.length">
+						<div class="col s12">
+							<div class="section"></div>
+							<div class="center-align">
+								<div class="grey-text text-lighten-2">
+									<h2>Nenhum produto e/ou serviço cadastrado <br><small>necessário para adiciona-los a uma nova venda</small></h2>
+									<i class="material-icons big">&#xE814;</i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div *ngIf="(venda.cliente | json) != '{}'&&(produtos.length||servicos.length)">
 						<table>
 							<thead>
 								<tr>
@@ -67,7 +91,7 @@
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
 											>
 												<option value="" disabled selected>Selecione</option>
-												<optgroup label="Produtos">
+												<optgroup label="Produtos" *ngIf="produtos.length">
 													<option 
 													*ngFor="let produto of produtos" 
 													[ngValue]="produto"
@@ -76,7 +100,7 @@
 													>{{produto.nome}}
 													</option>
 												</optgroup>
-												<optgroup label="Servicos">
+												<optgroup label="Servicos" *ngIf="servicos.length">
 													<option 
 													*ngFor="let servico of servicos" 
 													[ngValue]="servico"
@@ -158,7 +182,7 @@
 							</div>
 							<div class="col s4 center-align">
 								<h5>Valor Total</h5>
-								<h6>R$ {{ venda.valor_total | number:'.2-2' }}</h6>
+								<h6>{{ 'R$ ' + venda.valor_total }}</h6>
 							</div>
 						</div>
 					</div>

@@ -20,7 +20,7 @@
 			<div class="row">
 				<div class="col s7">
 					<div class="row">
-						<div class="col-s12">
+						<div class="col s12">
 							<div class="input-field">
 								<input id="nomeNovoProduto" type="text" [(ngModel)]="nome" name="nomeNovoProduto" required="" aria-required="true">
 								<label for="nomeNovoProduto">Nome do produto</label>
@@ -30,13 +30,13 @@
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<input id="valorVendaProduto" type="text" [(ngModel)]="valor_venda" name="valorVendaProduto" required="" aria-required="true" [textMask]="{mask: maskMoney}">
+								<input id="valorVendaProduto" type="text" [(ngModel)]="valor_venda" name="valorVendaProduto" required="" aria-required="true" class="decimal" [textMask]="{mask: maskMoney}">
 								<label for="valorVendaProduto">Valor de venda do produto</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<input id="valorCustoProduto" type="text" [(ngModel)]="valor_custo" name="valorCustoProduto" required="" aria-required="true" [textMask]="{mask: maskMoney}">
+								<input id="valorCustoProduto" type="text" [(ngModel)]="valor_custo" name="valorCustoProduto" required="" aria-required="true" class="decimal" [textMask]="{mask: maskMoney}">
 								<label for="valorCustoProduto">Valor de custo do produto</label>
 							</div>
 						</div>
@@ -60,8 +60,11 @@
 					<div class="section"></div>
 					<div class="row">
 						<div class="lista-images">
-							<div class="col s3 center-align" *ngFor="let item of uploader.queue">
+							<div class="col s3 center-align eng-del-image" *ngFor="let item of uploader.queue">
 								<img imgPreviewProduto [image]="item?._file" class="responsive-img">
+								<div class="btn-del-image z-depth-1 hoverable grey darken-4 circle white-text" (click)="item.remove()">
+									<i class="material-icons">&#xE92B;</i>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -75,7 +78,15 @@
 				                <i class="material-icons">&#xE439;</i>
 				                <h4>Arraste e solte aqui</h4>
 				                <h5>ou</h5>
-				                <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
+								<div class="file-field input-field">
+									<div class="btn red darken-1">
+										<span>Imagens</span>
+										<input type="file" ng2FileSelect [uploader]="uploader" multiple>
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text" placeholder="Upload de uma ou mais imagens">
+									</div>
+								</div>
 				            </div>
 			            </div>
 					</div>

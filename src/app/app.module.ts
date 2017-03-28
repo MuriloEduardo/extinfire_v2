@@ -27,6 +27,7 @@ import { ProdutosService } from './_services/produtos.service';
 import { ServicosService } from './_services/servicos.service';
 
 import { AuthGuard } from './_guards/auth.guard';
+
 import { VendasResolver } from './_guards/vendas.resolver';
 import { ClientesResolver } from './_guards/clientes.resolver';
 import { LogsResolver } from './_guards/logs.resolver';
@@ -54,14 +55,18 @@ import { ServicosResolver } from './_guards/servicos.resolver';
     AppRoutingModule
   ],
   providers: [
+    
+    AuthGuard,
+
     UsuariosService,
     ClientesService,
+
     VendasService,
     AuthService,
     ProdutosService,
-    AuthGuard,
     LogsService,
     ServicosService,
+
     VendasResolver,
     ClientesResolver,
     LogsResolver,

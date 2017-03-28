@@ -12,9 +12,11 @@ declare var Materialize:any;
 
 const numberMask = createNumberMask({
 	prefix: 'R$ ',
+	allowDecimal:true,
+	integerLimit: 7,
+	decimalLimit: 2,
 	thousandsSeparatorSymbol: '.',
-	decimalSymbol: ',',
-	allowDecimal: true
+	decimalSymbol: ','
 })
 
 @Component({
@@ -82,7 +84,7 @@ export class NovaVendaComponent implements OnInit {
 
 		// Se tem valor de custo é um produto
 		// Caso não: é um serviço
-		this.venda.itens[index].tipo = this.venda.itens[index].item.valor_custo ? false : true;
+		this.venda.itens[index].tipo = !this.venda.itens[index].item.valor_custo ? false : true;
 		
 		if(!this.venda.itens[index].item.valor_venda)
 			this.venda.itens[index].item.valor_venda = 0;
@@ -107,7 +109,10 @@ export class NovaVendaComponent implements OnInit {
 	
 	sum(index: number) {
 		
-		this.venda.itens[index].total = this.venda.itens[index].qntde * this.venda.itens[index].item.valor_venda;
+		//this.venda.itens[index].total = this.venda.itens[index].qntde * this.venda.itens[index].item.valor_venda;
+
+		console.log(this.venda.itens[index].item.valor_venda)
+		console.log(parseFloat(this.venda.itens[index].item.valor_venda.replace('R$ ','').replace(',','.').replace(' ','')))
 		
 		let valorTotalNew = 0;
 		for (let j=0;j<this.venda.itens.length;++j) {

@@ -16,8 +16,11 @@ import { AppSettings } from '../../app.config';
 
 const numberMask = createNumberMask({
 	prefix: 'R$ ',
-	suffix: '',
-    allowDecimal: true,
+	allowDecimal:true,
+	integerLimit: 7,
+	decimalLimit: 2,
+	thousandsSeparatorSymbol: '.',
+	decimalSymbol: ','
 })
 
 @Component({

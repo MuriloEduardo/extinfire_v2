@@ -137,8 +137,8 @@
 					</td>
 					<td>{{ produto.qntde_minima }}</td>
 					<td>{{ produto.qntde_atual }}</td>
-					<td>{{ produto.valor_venda | number : '7.2-2' }}</td>
-					<td>{{ produto.valor_custo }}</td>
+					<td>{{ 'R$ ' + produto.valor_venda }}</td>
+					<td>{{ 'R$ ' + produto.valor_custo }}</td>
 					<td>{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</td>
 					<td>
 						<div 
