@@ -20,7 +20,7 @@ usuarioSchema.methods.generateHash = function(senha){
 }
 
 usuarioSchema.methods.validPassword = function(senha){
-	return bcrypt.compareSync(senha, this.local.senha);
+	return bcrypt.compareSync(senha, this.senha);
 }
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

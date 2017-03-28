@@ -8,13 +8,13 @@ let vendaSchema = mongoose.Schema({
 	itens: [{
 		item: {},
 		qntde: Number,
-		total: Number,
+		total: String,
 		tipo: Boolean,
 		validade: { type: Date }
 	}],
 	tipo: String,
 	observacao: String,
-	valor_total: Number,
+	valor_total: String,
 	updatedAt: {
         type: Date, 
         default: Date.now 

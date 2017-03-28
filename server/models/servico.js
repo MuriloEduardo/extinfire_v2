@@ -5,7 +5,7 @@ let mongoose = require('mongoose');
 let servicoSchema = mongoose.Schema({
 	images: [],
 	nome: String,
-	valor_venda: Number,
+	valor_venda: String,
 	updatedAt: {
         type: Date, 
         default: Date.now

@@ -6,13 +6,13 @@ let clienteSchema = mongoose.Schema({
 	images: [],
 	nome: String,
 	representante: String,
-	cnpj: Number,
+	cnpj: String,
 	insc_estadual: String,
 	comprador: String,
 	foto: String,
 	contato: {
-		fone: Number,
-		celular: Number,
+		fone: String,
+		celular: String,
 		email: String
 	},
 	endereco: {
@@ -22,7 +22,7 @@ let clienteSchema = mongoose.Schema({
 		bairro: String,
 		cidade: String,
 		estado: String,
-		cep: Number
+		cep: String
 	},
 	updatedAt: {
         type: Date, 

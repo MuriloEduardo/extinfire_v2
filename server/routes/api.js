@@ -79,8 +79,6 @@ router.post('/produto', (req, res, next) => {
 		res.json({"error": "dados incompletos"});
 	} else {
 		let novoProduto = new Produto();
-
-		console.log(dadosProduto)
 		
 		novoProduto.images = dadosProduto.images;
 		novoProduto.nome = dadosProduto.nome;
@@ -90,7 +88,6 @@ router.post('/produto', (req, res, next) => {
 		novoProduto.qntde_minima = dadosProduto.qntde_minima;
 
 		novoProduto.save((err, data) => {
-			console.log(data)
 			if(err) res.send(err);
 			res.json(data);
 		});
@@ -156,8 +153,6 @@ router.post('/servico', (req, res, next) => {
 		res.json({"error": "dados incompletos"});
 	} else {
 		let novoServico = new Servico();
-
-		console.log(dadosServico)
 		
 		novoServico.images = dadosServico.images;
 		novoServico.nome = dadosServico.nome;
@@ -349,12 +344,16 @@ router.post('/venda', (req, res, next) => {
 						idItens.push(dadosVenda.itens[i].item._id);
 					}
 				}
+				
 				Produto.find({_id: { $in: idItens }}, (err, produtos) => {
 					if(err) throw err;
 
 					for (let o = 0; o < dadosVenda.itens.length; o++) {
+
 						for (let u = 0; u < produtos.length; u++) {
+
 							if(dadosVenda.itens[o].item._id == produtos[u]._id) {
+
 								produtos[u].qntde_atual = produtos[u].qntde_atual - dadosVenda.itens[o].qntde;
 
 								Produto.findOneAndUpdate({_id: produtos[u]._id}, produtos[u], {upsert: true}, (err, data) => {
@@ -372,13 +371,20 @@ router.post('/venda', (req, res, next) => {
 
 // Delete Venda
 router.delete('/venda/:id', (req, res, next) => {
-	Venda.remove({_id: req.params.id}, function(err, venda){
+	Venda.findOne({_id: req.params.id}, function(err, venda){
 		if(err) res.send(err);
+
+		venda.remove();
+
+		//console.log(venda)
+		// Ao deletar uma venda e ela for do tipo Pedido
+		// Cada Produto deverá ter sua quantidade atual reposta
+		
 		res.json(venda);
 	});
 });
 
-// Update Servico
+// Update Venda
 router.put('/venda/:id', (req, res, next) => {
 	let dadosVenda = req.body;
 	Venda.findOne({_id: req.params.id}, function(err, venda){
@@ -489,16 +495,18 @@ router.delete('/user/:id', (req, res, next) => {
 // Update User
 router.put('/user/:id', (req, res, next) => {
 	let dadosUser = req.body;
-	User.findOne({_id: req.params.id}, function(err, user){
+	User.findOne({_id: dadosUser._id}, function(err, user){
 		if(err) res.send(err);
 
 		if(!dadosUser) {
 			res.json({"error": "dados incompletos"});
 		} else {
-
+			
 			user.nome = dadosUser.nome;
 			user.tipo = dadosUser.tipo;
 			user.email = dadosUser.email
+			if(dadosUser.senha)
+				user.senha = user.generateHash(dadosUser.senha)
 
 			user.save((err, data) => {
 				if(err) res.send(err);

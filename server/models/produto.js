@@ -1,14 +1,12 @@
 "use strict"
-let mongoose = require('mongoose');
 
-require('mongoose-currency').loadType(mongoose);
-let Currency = mongoose.Types.Currency;
+let mongoose = require('mongoose');
 
 let produtoSchema = mongoose.Schema({
 	images: [],
 	nome: String,
-	valor_custo: { type: Currency },
-	valor_venda: { type: Currency },
+	valor_custo: String,
+	valor_venda: String,
 	qntde_atual: Number,
 	qntde_minima: Number,
 	updatedAt: {
