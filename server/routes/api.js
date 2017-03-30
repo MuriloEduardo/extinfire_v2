@@ -344,7 +344,7 @@ router.post('/venda', (req, res, next) => {
 			if(dadosVenda.tipo) {
 				let idItens = [];
 				for (let i = 0; i < dadosVenda.itens.length; i++) {
-					if(!dadosVenda.itens[i].tipo) {
+					if(dadosVenda.itens[i].tipo) {
 						idItens.push(dadosVenda.itens[i].item._id);
 					}
 				}
@@ -378,11 +378,39 @@ router.delete('/venda/:id', (req, res, next) => {
 	Venda.findOne({_id: req.params.id}, function(err, venda){
 		if(err) res.send(err);
 
-		venda.remove();
-
-		//console.log(venda)
 		// Ao deletar uma venda e ela for do tipo Pedido
 		// Cada Produto deverá ter sua quantidade atual reposta
+		// Dar baixa no estoque
+		// @param string
+		if(venda.tipo=='Pedido') {
+			let idItens = [];
+			for (let i = 0; i < venda.itens.length; i++) {
+				if(venda.itens[i].tipo) {
+					idItens.push(venda.itens[i].item._id);
+				}
+			}
+			
+			Produto.find({_id: { $in: idItens }}, (err, produtos) => {
+				if(err) throw err;
+
+				for (let o = 0; o < venda.itens.length; o++) {
+
+					for (let u = 0; u < produtos.length; u++) {
+
+						if(venda.itens[o].item._id == produtos[u]._id) {
+
+							produtos[u].qntde_atual = produtos[u].qntde_atual + venda.itens[o].qntde;
+
+							Produto.findOneAndUpdate({_id: produtos[u]._id}, produtos[u], {upsert: true}, (err, data) => {
+								if(err) throw err;
+							});
+						}
+					}
+				}
+			});
+		}
+
+		venda.remove();
 		
 		res.json(venda);
 	});
@@ -397,18 +425,62 @@ router.put('/venda/:id', (req, res, next) => {
 		if(!dadosVenda) {
 			res.json({"error": "dados incompletos"});
 		} else {
-			
-			venda.nome = dadosVenda.cliente.nome;
-			venda.cliente = dadosVenda.cliente;
-			venda.itens = dadosVenda.itens;
-			venda.tipo = !dadosVenda.tipo ? 'Orçamento' : 'Pedido';
-			venda.observacao = dadosVenda.observacao;
-			venda.valor_total = dadosVenda.valor_total;
 
-			venda.save((err, data) => {
-				if(err) res.send(err);
-				res.json(data);
-			});
+			// Dar baixa no estoque
+			// @param string
+			if(venda.tipo=='Pedido') {
+				let idItens = [];
+				for (let i = 0; i < venda.itens.length; i++) {
+					if(venda.itens[i].tipo) {
+						idItens.push(venda.itens[i].item._id);
+					}
+				}
+				
+				Produto.find({_id: { $in: idItens }}, (err, produtos) => {
+					if(err) throw err;
+
+					for (var i = 0; i < dadosVenda.itens.length; i++) {
+						console.log(dadosVenda.itens[i].qntde);
+
+						for (var x = 0; x < venda.itens.length; x++) {
+							console.log(venda.itens[x].qntde);
+
+							for (let u = 0; u < produtos.length; u++) {
+
+								if(venda.itens[x].item._id == produtos[u]._id) {
+									
+									// Se as quantidades forem iguais, não faz nada
+									if(dadosVenda.itens[i].qntde != venda.itens[x].qntde) {
+										if(dadosVenda.itens[i].qntde < venda.itens[x].qntde) {
+											// Precisa decrementar a quantidade
+											produtos[u].qntde_atual = produtos[u].qntde_atual - (dadosVenda.itens[i].qntde - venda.itens[x].qntde);
+										} else {
+											// Precisa acrescentar a quantidade
+											produtos[u].qntde_atual = produtos[u].qntde_atual + (venda.itens[x].qntde - dadosVenda.itens[i].qntde);
+										}
+
+										Produto.findOneAndUpdate({_id: produtos[u]._id}, produtos[u], {upsert: true}, (err, data) => {
+											if(err) throw err;
+										});
+									}
+								}
+							}
+						}
+					}
+
+					venda.nome = dadosVenda.cliente.nome;
+					venda.cliente = dadosVenda.cliente;
+					venda.itens = dadosVenda.itens;
+					venda.tipo = !dadosVenda.tipo ? 'Orçamento' : 'Pedido';
+					venda.observacao = dadosVenda.observacao;
+					venda.valor_total = dadosVenda.valor_total;
+
+					venda.save((err, data) => {
+						if(err) res.send(err);
+						res.json(data);
+					});
+				});
+			}
 		}
 	});
 });

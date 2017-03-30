@@ -7,7 +7,10 @@ let mongoose = require('mongoose');
 let configDB = require('./server/config/database');
 let multer = require('multer');
 
-mongoose.connect(configDB.url, (err, res) => {
+let options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
+            	replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
+
+mongoose.connect(configDB.url, options, (err, res) => {
   mongoose.Promise = global.Promise;
   if(err) throw err;
   console.info('MongoDB Conectado');
@@ -29,10 +32,11 @@ app.use(bodyParser.json());
 
 app.use('/uploads', express.static('server/uploads'));
 
-let port = process.env.PORT || 8080;
+let port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+let ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 let api = require('./server/routes/api');
 app.use('/api', api);
 
-app.listen(port);
+app.listen(port, ip);
 console.log('Magic happens on port ' + port);
