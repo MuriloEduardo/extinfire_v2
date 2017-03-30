@@ -17,7 +17,7 @@ export class VendasComponent implements OnInit {
 	produtos: any[] = [];
 
 	order: string = 'updatedAt';
-  	reverse: boolean = false;
+  	reverse: boolean = true;
 	loadStatus: boolean = false;
 
 	constructor(
@@ -30,11 +30,6 @@ export class VendasComponent implements OnInit {
 
 		this.vendasService.getVendas().subscribe((vendas) => {
 	      this.vendas = vendas;
-
-			for (var i = 0; i < this.vendas.length; ++i) {
-				//this.vendas[i].valor_venda = this.vendas[i].valor_venda.replace('.','').replace('.','').replace(',','.');
-				console.log(this.vendas[i]);
-			}
 
 	      this.loadStatus = true;
 	      

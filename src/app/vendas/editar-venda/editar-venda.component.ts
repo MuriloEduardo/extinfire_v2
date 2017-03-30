@@ -35,7 +35,7 @@ export class EditarVendaComponent implements OnInit {
 	servicos: any[];
 	produtos: any[];
 
-	tipoVenda: boolean;
+	private tipoVenda: boolean;
 
 	venda: any = {
 		cliente: {},
@@ -65,7 +65,7 @@ export class EditarVendaComponent implements OnInit {
 				let lastItem = this.venda.itens.length-1;
 				this.setItem(lastItem, true, this.venda.itens[lastItem]._id);
 
-				this.venda.valor_total = this.venda.valor_total.replace('.','').replace('.','').replace(',','.');
+				//this.venda.valor_total = this.venda.valor_total.replace('.','').replace('.','').replace(',','.');
 
 				// Mesmo mudando de tipo, não poderá aterar o cliente
 				this.tipoVenda = this.venda.tipo;
@@ -91,7 +91,7 @@ export class EditarVendaComponent implements OnInit {
 
 		// Se tem valor de custo é um produto
 		// Caso não: é um serviço
-		this.venda.itens[index].tipo = this.venda.itens[index].item.valor_custo ? false : true;
+		this.venda.itens[index].tipo = !this.venda.itens[index].item.valor_custo ? false : true;
 
 		for (var i = 0; i < this.produtos.length; ++i) {
 			if(id === this.produtos[i]._id) {
@@ -121,7 +121,7 @@ export class EditarVendaComponent implements OnInit {
 			});
 		}
 	}
-	
+
 	sum(index: number) {
 
 		let priceFloat = parseFloat(this.venda.itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
@@ -136,7 +136,7 @@ export class EditarVendaComponent implements OnInit {
 			}
 		}
 
-		this.venda.valor_total = valorTotalNew.toString().replace('.','').replace('.','').replace(',','.');
+		this.venda.valor_total = valorTotalNew;
 	}
 
 	updateVenda(event) {

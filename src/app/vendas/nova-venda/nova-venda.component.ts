@@ -33,7 +33,7 @@ export class NovaVendaComponent implements OnInit {
 
 	itens: any[];
 	clientes: any[];
-	produtos: any[];
+	produtos: any[] = [];
 	servicos: any[];
 
   	venda: any = {
@@ -60,11 +60,16 @@ export class NovaVendaComponent implements OnInit {
   	ngOnInit() {
 	  	this.inscricao = this.route.data.subscribe(
 			(data: {produtos: any, clientes: any, servicos: any}) => {
-				this.produtos = data.produtos;
 				this.clientes = data.clientes;
 				this.servicos = data.servicos;
 
 				this.itens = data.produtos.concat(data.servicos);
+
+				for (var i = 0; i < data.produtos.length; ++i) {
+					if(data.produtos[i].qntde_atual>0) {
+						this.produtos.push(data.produtos[i]);
+					}
+				}
 			}
 		);
   	}
@@ -104,7 +109,7 @@ export class NovaVendaComponent implements OnInit {
 	}
 
 	deleteRow(index: number) {
-		this.venda.itens.splice(index, 1);
+		this.venda.itens.splice(this.venda.itens[index], 1);
 	}
 	
 	sum(index: number) {

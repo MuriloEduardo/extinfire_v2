@@ -1,6 +1,7 @@
 <nav class="header-pages white">
 	<div class="nav-wrapper">
 		<div class="col s12">
+			<a class="modal-action modal-close waves-effect waves-light btn blue darken-4">Emitir PDF</a>
 			<a routerLink="/vendas" class="breadcrumb">Lista de Produtos</a>
 			<a [routerLink]="['/vendas', venda._id]" class="breadcrumb">Detalhe do Produto</a>
 			<span class="breadcrumb">Editar Produto</span>
@@ -98,7 +99,15 @@
 									</td>
 									<td>
 										<div class="input-field">
-											<input id="qntde" min="1" type="number" (change)="sum(i)" [(ngModel)]="venda.itens[i].qntde" name="qntde{{i}}">
+											<input 
+											id="qntde" 
+											min="1" 
+											[max]="venda.itens[i].item.qntde_atual"
+											type="number" 
+											(change)="sum(i)" 
+											[(ngModel)]="venda.itens[i].qntde" 
+											name="qntde{{i}}"
+											>
 											<label for="qntde">Quantidade</label>
 										</div>
 									</td>
@@ -111,6 +120,7 @@
 											name="valor_venda{{i}}" 
 											[attr.required]="venda.itens[i].item?.nome&&!first ? true : undefined"
 											[textMask]="{mask: maskMoney}"
+											readonly="" 
 											>
 											<label for="valor_venda">Valor unitário</label>
 										</div>
