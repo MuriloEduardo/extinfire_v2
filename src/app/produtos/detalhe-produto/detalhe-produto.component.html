@@ -50,7 +50,7 @@
 		</div>
 	</div>
 	<div class="col s6">
-		<img src="{{ ('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of produto.images">
+		<img src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of produto.images">
 	</div>
 </div>
 <a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

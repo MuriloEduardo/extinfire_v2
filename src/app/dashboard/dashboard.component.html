@@ -25,7 +25,7 @@
 </div>
 <div *ngIf="loadStatus">
 	<div class="row">
-		<div class="col s12">
+		<div class="col s6">
 			<h5>Produtos com estoque abaixo do mínimo</h5>
 			<div class="divider"></div>
 			<div class="section"></div>
@@ -47,6 +47,11 @@
 					</a>
 				</div>
 			</div>
+		</div>
+		<div class="col s6">
+			<h5>Produtos que irão vencer</h5>
+			<div class="divider"></div>
+			<div class="section"></div>
 		</div>
 		<!-- Sem nenhum aviso de produtos -->
 		<div class="row" *ngIf="!produtos.length&&loadStatus">

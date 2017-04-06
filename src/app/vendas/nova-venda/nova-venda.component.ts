@@ -35,6 +35,24 @@ export class NovaVendaComponent implements OnInit {
 	clientes: any[];
 	produtos: any[] = [];
 	servicos: any[];
+	
+	paramsPickdate: any = {
+	    monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+	    monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+	    weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabádo'],
+	    weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+	    today: 'Hoje',
+	    clear: 'Limpar',
+	    close: 'Pronto',
+	    labelMonthNext: 'Próximo mês',
+	    labelMonthPrev: 'Mês anterior',
+	    labelMonthSelect: 'Selecione um mês',
+	    labelYearSelect: 'Selecione um ano',
+	    format:'dd/mm/yyyy',
+	    closeOnSelect: true,
+	    selectMonths: true, 
+	    selectYears: 15 
+    };
 
   	venda: any = {
 		cliente: {},
@@ -97,7 +115,10 @@ export class NovaVendaComponent implements OnInit {
 		if(!this.venda.itens[index].qntde)
 			this.venda.itens[index].qntde = 1;
 			
-		this.venda.itens[index].validade = new Date();
+		let date = new Date();
+		date.setMonth(date.getMonth() + 12);
+			
+		this.venda.itens[index].validade = date.toLocaleDateString('pt-BR');
 		
 		this.sum(index);
 		
@@ -107,9 +128,17 @@ export class NovaVendaComponent implements OnInit {
 			});
 		}
 	}
-
-	deleteRow(index: number) {
-		this.venda.itens.splice(this.venda.itens[index], 1);
+	
+	deleteItem(itens: any) {
+		this.venda.itens = itens.filter(function(item) {
+			if(!item.selecionado) return item;
+		});
+	}
+	
+	itensSelecionados(itens: any) {
+		return itens.some(function(item) {
+			return item.selecionado;
+		});
 	}
 	
 	sum(index: number) {

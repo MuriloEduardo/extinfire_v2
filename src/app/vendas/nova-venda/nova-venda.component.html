@@ -37,7 +37,7 @@
 						  <option value="">Selecione o cliente</option>
 						  <option 
 						  *ngFor="let cliente of clientes" 
-						  [attr.data-icon]="('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+						  [attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
 						  [ngValue]="cliente" 
 						  class="left circle"
 						  >{{cliente.nome}}</option>
@@ -67,19 +67,37 @@
 						</div>
 					</div>
 					<div *ngIf="(venda.cliente | json) != '{}'&&(produtos.length||servicos.length)">
+						<div class="row">
+							<div class="col s12 right-align">
+								<a
+								class="waves-effect waves-light btn grey darken-4" 
+								(click)="deleteItem(venda.itens)"
+								*ngIf="itensSelecionados(venda.itens)"
+								>Excluir Marcados</a>
+							</div>
+						</div>
 						<table>
 							<thead>
 								<tr>
+									<th>
+										<input type="checkbox" class="filled-in" id="filled-in-box-f" checked="checked" [attr.disabled]="isDisabled?true:null"/>
+										<label for="filled-in-box-f"></label>
+									</th>
 									<th data-field="item">Produtos / Serviços</th>
 									<th data-field="qntde">Quant.</th> 
 									<th data-field="valor_venda">Valor Unitário</th>
 									<th data-field="total">Total</th>
 									<th data-field="validade">Validade</th>
-									<th data-field="acoes" class="center-align">Ações</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr *ngFor="let item of venda.itens; let i = index; let last = last;let first = first">
+									<td>
+										<div *ngIf="venda.itens[i].item.nome">
+											<input type="checkbox" class="filled-in" id="filled-in-box{{i}}" [(ngModel)]="venda.itens[i].selecionado" name="selecionado{{i}}"/>
+											<label for="filled-in-box{{i}}"></label>
+										</div>
+									</td>
 									<td>
 										<div class="input-field">
 											<select 
@@ -96,7 +114,7 @@
 													<option 
 													*ngFor="let produto of produtos" 
 													[ngValue]="produto"
-													[attr.data-icon]="('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
 													>{{produto.nome}}
 													</option>
@@ -105,7 +123,7 @@
 													<option 
 													*ngFor="let servico of servicos" 
 													[ngValue]="servico"
-													[attr.data-icon]="('http://127.0.0.1:8080/uploads/' || 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/') + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
 													>{{servico.nome}}
 													</option>
@@ -160,23 +178,18 @@
 									</td>
 									<td>
 										<div class="input-field" *ngIf="venda.itens[i].tipo || !venda.itens[i].item.nome">
-											<label for="validade">Validade deste serviço</label>
+											<label for="validade">Validade deste produto</label>
 											<input 
 											id="validade" 
 											materialize="pickadate" 
-											[materializeParams]="[{ selectMonths: true }]"
-											type="text" 
+											[materializeParams]="[paramsPickdate]"
+											type="date" 
 											[(ngModel)]="venda.itens[i].validade" 
 											name="validade{{i}}" 
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
 											[disabled]="!venda.itens[i].item.nome"
 											>
 										</div>
-									</td>
-									<td>
-										<a class="waves-effect waves-light btn-flat secondary-content" (click)="deleteRow(i)" *ngIf="!last">
-											<i class="material-icons">&#xE92B;</i>
-										</a>
 									</td>
 								</tr>
 							</tbody>

@@ -170,3 +170,17 @@ a.breadcrumb:hover {
 	font-size: 16px;
 	line-height: 22px;
 }
+input[materialize="pickadate"] {
+	text-transform: capitalize;
+}
+.picker__date-display, .picker__weekday-display,
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
+    background-color: #e53935!important;
+}
+.picker__close, .picker__today {
+	color: #e53935!important;
+}
+.picker__nav--prev:hover, .picker__nav--next:hover {
+	color: #fff!important;
+	background-color: #e53935!important;
+}
