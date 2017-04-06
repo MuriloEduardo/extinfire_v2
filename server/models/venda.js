@@ -10,7 +10,7 @@ let vendaSchema = mongoose.Schema({
 		qntde: Number,
 		total: String,
 		tipo: Boolean,
-		validade: { type: Date }
+		validade: String
 	}],
 	tipo: String,
 	observacao: String,
