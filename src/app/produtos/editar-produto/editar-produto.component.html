@@ -84,7 +84,7 @@
 								<a class="waves-effect waves-light btn grey darken-4" (click)="removeItemFotos(imgPrdt)">
 									<i class="material-icons">&#xE92B;</i>
 								</a>
-								<img src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + imgPrdt }}" class="responsive-img">
+								<img src="{{ 'http://127.0.0.1:8080/uploads/' + imgPrdt }}" class="responsive-img">
 							</div>
 							<div class="col s3 center-align" *ngFor="let item of uploader.queue">
 								<a class="waves-effect waves-light btn grey darken-4" (click)="item.remove()">

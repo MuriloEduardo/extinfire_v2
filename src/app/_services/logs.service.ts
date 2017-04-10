@@ -21,7 +21,7 @@ export class LogsService {
 	addLog(newLog: any) {
 		newLog = {
 			usuario: JSON.parse(window.localStorage.getItem('user')).nome,
-			descricao: newLog.descricao,
+			nome: newLog.nome,
 			item: newLog.item
 		};
 

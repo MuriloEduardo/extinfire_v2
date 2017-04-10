@@ -17,6 +17,7 @@ import { FileUploadModule } from "ng2-file-upload";
 import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
+import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
 
 import { UsuariosService } from './_services/usuarios.service';
 import { ClientesService } from './_services/clientes.service';
@@ -32,6 +33,7 @@ import { VendasResolver } from './_guards/vendas.resolver';
 import { ClientesResolver } from './_guards/clientes.resolver';
 import { ProdutosResolver } from './_guards/produtos.resolver';
 import { ServicosResolver } from './_guards/servicos.resolver';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ServicosResolver } from './_guards/servicos.resolver';
     DashboardComponent,
     LogsComponent,
     FinanceiroComponent,
-    LoginComponent
+    LoginComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ import { ServicosResolver } from './_guards/servicos.resolver';
     FileUploadModule,
     Ng2PaginationModule,
     Ng2OrderModule,
+    Ng2FilterPipeModule,
     AppRoutingModule
   ],
   providers: [

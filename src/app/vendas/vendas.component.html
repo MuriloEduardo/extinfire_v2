@@ -118,7 +118,7 @@
 			<tbody>
 				<tr *ngFor="let venda of vendas | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[venda._id]">
 					<td>
-						<img src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
+						<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
 						{{ venda.nome }}
 					</td>
 					<td>{{ venda.valor_total | currencyformat }}</td>

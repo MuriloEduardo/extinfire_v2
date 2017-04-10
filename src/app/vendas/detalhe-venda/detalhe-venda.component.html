@@ -68,7 +68,7 @@
 				<div class="col s12">
 					<label>Imagens</label>
 					<br>
-					<img src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
+					<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
 				</div>
 			</div>
 			<!-- nome -->
@@ -117,7 +117,7 @@
 						<tbody>
 							<tr *ngFor="let item of venda.itens; let i = index; let last = last;let first = first;">
 								<td>
-									<img src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0]) }}" class="circle img-table">
+									<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0]) }}" class="circle img-table">
 									{{ venda.itens[i].item.nome }}
 								</td>
 								<td>{{ venda.itens[i].item.valor_venda | currencyformat }}</td>

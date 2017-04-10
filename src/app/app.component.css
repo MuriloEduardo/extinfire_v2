@@ -49,3 +49,8 @@ ul.collapsible.collapsible-accordion li.active a > i.material-icons.right {
 	width: 42px;
 	margin-left: 15px;
 }
+@media (min-width:769px) { 
+	.nav-wrapper {
+		padding-left: 240px;
+	}
+}

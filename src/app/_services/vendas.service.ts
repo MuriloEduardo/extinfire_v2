@@ -29,7 +29,7 @@ export class VendasService {
 	addVenda(newVenda: any) {
 
 		this.logsService.addLog({
-			descricao: 'Adicionou uma venda',
+			nome: 'Adicionou uma venda',
 			item: newVenda.nome
 		}).subscribe(data => {});
 
@@ -41,7 +41,7 @@ export class VendasService {
 	deleteVenda(venda: any) {
 
 		this.logsService.addLog({
-			descricao: 'Deletou uma venda',
+			nome: 'Deletou uma venda',
 			item: venda.nome
 		}).subscribe(data => {});
 
@@ -51,7 +51,7 @@ export class VendasService {
 	updateVenda(venda: any) {
 
 		this.logsService.addLog({
-			descricao: 'Editou uma venda',
+			nome: 'Editou uma venda',
 			item: venda.nome
 		}).subscribe(data => {});
 

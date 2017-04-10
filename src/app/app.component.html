@@ -3,15 +3,21 @@
 		<div class="navbar-fixed">
 			<nav class="red darken-1">
 				<div class="nav-wrapper container">
-	                <a materialize="sideNav" href="#" data-activates="slide-out" class="button-collapse">
-	                	<i class="material-icons">&#xE5D2;</i>
-	                </a>
+	                <ul>
+	                	<li>
+	                		<a materialize="sideNav" href="#" data-activates="slide-out" class="button-collapse">
+			                	<i class="material-icons">&#xE5D2;</i>
+			                </a>
+	                	</li>
+	                	<li>
+	                		<app-search></app-search>
+	                	</li>
+	                </ul>
 					<ul id="slide-out" class="side-nav fixed grey darken-4">
-						<li class="red darken-1 logotipo">
+						<li class="red darken-1 logotipo" routerLink="">
 							<h5>ExtinFire</h5>
 						</li>
 						<li><a routerLink=""><i class="material-icons">&#xE88A;</i>Painel</a></li>
-						<li *ngIf="user.tipo=='Administrador'"><a routerLink="financeiro"><i class="material-icons">&#xE926;</i>Financeiro</a></li>
 						<li>
 							<ul materialize="collapsible" class="collapsible collapsible-accordion">
 								<li>
@@ -25,8 +31,9 @@
 								</li>
 							</ul>
 						</li>
-						<li><a routerLink="vendas"><i class="material-icons">&#xE227;</i>Vendas</a></li>
 						<li><a routerLink="clientes"><i class="material-icons">&#xE63D;</i>Clientes</a></li>
+						<li><a routerLink="vendas"><i class="material-icons">&#xE227;</i>Vendas</a></li>
+						<li *ngIf="user.tipo=='Administrador'"><a routerLink="financeiro"><i class="material-icons">&#xE926;</i>Financeiro</a></li>
 						<li *ngIf="user.tipo=='Administrador'"><a routerLink="usuarios"><i class="material-icons">&#xE8D3;</i>Usuarios</a></li>
 						<li><a routerLink="logs"><i class="material-icons">&#xE164;</i>Logs</a></li>
 					</ul>

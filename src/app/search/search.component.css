@@ -1,0 +1,16 @@
+input[type="search"]#search {
+	height: 64px !important;
+	border: none!important;
+	margin: 0!important;
+}
+.search-box ul.collection {
+	margin: 0!important;
+}
+.second-title {
+	font-size: 10px;
+	color: gray;
+}
+#search-content-data {
+	overflow-y: auto;
+	max-height: 300px;
+}

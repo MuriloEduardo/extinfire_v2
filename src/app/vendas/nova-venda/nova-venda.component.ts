@@ -97,42 +97,47 @@ export class NovaVendaComponent implements OnInit {
 			Materialize.updateTextFields();
 	}
 
-	setCliente(cliente: any) {
-		this.venda.cliente = cliente;
-	}
-	
-	setItem(index: number, last?: number, id?: any) {
+	setItem(index: number, last?: number, itens?: any) {
 
-		if(!id) return false;
+		if(!itens[index].item._id) return false;
 
-		// Se tem valor de custo é um produto
-		// Caso não: é um serviço
-		this.venda.itens[index].tipo = !this.venda.itens[index].item.valor_custo ? false : true;
-		
-		if(!this.venda.itens[index].item.valor_venda)
-			this.venda.itens[index].item.valor_venda = 0;
-
-		if(!this.venda.itens[index].qntde)
-			this.venda.itens[index].qntde = 1;
-			
-		let date = new Date();
-		date.setMonth(date.getMonth() + 12);
-			
-		this.venda.itens[index].validade = date.toLocaleDateString('pt-BR');
-		
-		this.sum(index);
-		
 		if(last) {
-			this.venda.itens.push({
+			itens.push({
 				item: {}
 			});
 		}
+
+		//itens[index].item = itens[index].item;
+
+		/*
+
+		//
+
+		// Se tem valor de custo é um produto
+		// Caso não: é um serviço
+		itens[index].tipo = !itens[index].item.valor_custo ? false : true;
+		
+		if(!itens[index].item.valor_venda)
+			itens[index].item.valor_venda = 0;
+
+		if(!itens[index].qntde)
+			itens[index].qntde = 1;
+		
+		// Validade do produto
+		// APENAS produto
+		if(itens[index].tipo) {
+			let date = new Date();
+			date.setMonth(date.getMonth() + 12);
+			itens[index].validade = date.toLocaleDateString('pt-BR');
+		}
+		
+		this.sum(index, itens);*/
+
+		console.log(itens[index])
 	}
 	
-	deleteItem(itens: any) {
-		this.venda.itens = itens.filter(function(item) {
-			if(!item.selecionado) return item;
-		});
+	deleteRow(index: number) {
+		this.venda.itens.splice(index, 1);
 	}
 	
 	itensSelecionados(itens: any) {
@@ -141,17 +146,17 @@ export class NovaVendaComponent implements OnInit {
 		});
 	}
 	
-	sum(index: number) {
+	sum(index: number, itens: any) {
 
-		let priceFloat = parseFloat(this.venda.itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
-		let priceCalculed = priceFloat * this.venda.itens[index].qntde;
+		let priceFloat = parseFloat(itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
+		let priceCalculed = priceFloat * itens[index].qntde;
 
-		this.venda.itens[index].total = priceCalculed.toString().replace('.',',');
+		itens[index].total = priceCalculed.toString().replace('.',',');
 		
 		let valorTotalNew = 0;
-		for (let j=0;j<this.venda.itens.length;++j) {
-			if(this.venda.itens[j].total) {
-				valorTotalNew += parseFloat(this.venda.itens[j].total.replace('.','').replace('.','').replace(',','.'));
+		for (let j=0;j<itens.length;++j) {
+			if(itens[j].total) {
+				valorTotalNew += parseFloat(itens[j].total.replace('.','').replace('.','').replace(',','.'));
 			}
 		}
 

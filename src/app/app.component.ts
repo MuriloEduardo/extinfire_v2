@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { AuthService } from './_services/auth.service';
 
+import { SearchComponent } from './search/search.component';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

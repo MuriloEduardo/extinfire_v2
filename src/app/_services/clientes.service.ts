@@ -29,7 +29,7 @@ export class ClientesService {
 	addCliente(newCliente: any) {
 
 		this.logsService.addLog({
-			descricao: 'Adicionaou um cliente',
+			nome: 'Adicionaou um cliente',
 			item: newCliente.nome
 		}).subscribe(data => {});
 
@@ -41,7 +41,7 @@ export class ClientesService {
 	deleteCliente(cliente: any) {
 
 		this.logsService.addLog({
-			descricao: 'Deletou um cliente',
+			nome: 'Deletou um cliente',
 			item: cliente.nome
 		}).subscribe(data => {});
 
@@ -51,7 +51,7 @@ export class ClientesService {
 	updateCliente(cliente: any) {
 		
 		this.logsService.addLog({
-			descricao: 'Editou um cliente',
+			nome: 'Editou um cliente',
 			item: cliente.nome
 		}).subscribe(data => {});
 
