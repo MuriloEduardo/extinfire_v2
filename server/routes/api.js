@@ -12,6 +12,9 @@ let Cliente = require('../models/cliente');
 let Servico = require('../models/servico');
 let Logs = require('../models/logs');
 let multer = require('multer');
+let fs = require('fs');
+let PDFDocument = require('pdfkit');
+let blobStream = require('blob-stream');
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -22,6 +25,32 @@ let storage = multer.diskStorage({
   }
 });
 let upload = multer({ storage: storage });
+
+//////////////// PDF ////////////////////////
+/////////////////////////////////////////////
+router.get('/pdf/:vendaId', (req, res, next) => {
+	
+	Venda.findOne({_id: req.params.vendaId}, function(err, venda){
+		
+		if(err) res.send(err);
+		
+		let pdf = new PDFDocument({
+		  size: 'LEGAL',
+		  info: {
+		    Title: 'Emissão de saída',
+		    Author: 'ExtinFire - Extintore',
+		  }
+		});
+		
+		pdf.pipe(res);
+		
+		// Write stuff into PDF
+		pdf.text('Venda para ' + venda.nome);
+		
+		// Close PDF and write file.
+		pdf.end();
+	});
+});
 
 //////////////// AUTHENTICATE ////////////////////////
 /////////////////////////////////////////////////////
