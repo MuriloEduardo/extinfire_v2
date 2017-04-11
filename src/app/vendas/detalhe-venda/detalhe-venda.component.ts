@@ -6,12 +6,16 @@ import { MaterializeAction } from 'angular2-materialize';
 
 import { VendasService } from './../../_services/vendas.service';
 
+import { AppSettings } from './../../app.config';
+
 @Component({
   selector: 'app-detalhe-venda',
   templateUrl: './detalhe-venda.component.html',
   styleUrls: ['./detalhe-venda.component.css']
 })
 export class DetalheVendaComponent implements OnInit {
+	
+	urlPdf: string;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
     inscricao: Subscription;
@@ -27,6 +31,8 @@ export class DetalheVendaComponent implements OnInit {
 		this.inscricao = this.route.data.subscribe(
 			(data: {venda: any}) => {
 				this.venda = data.venda;
+				
+				this.urlPdf = AppSettings.API_ENDPOINT + 'pdf/' + this.venda._id;
 
 				for (var i = 0; i < this.venda.itens.length; ++i) {
 

@@ -9,7 +9,7 @@
 <!-- Botoes de ação -->
 <div class="row">
 	<div class="col s12 right-align">
-		<a class="modal-action modal-close waves-effect waves-light btn blue darken-4">Emitir PDF</a>
+		<a target="_blank" href="{{ urlPdf }}" class="modal-action modal-close waves-effect waves-light btn blue darken-4">Emitir PDF</a>
 		<a class="waves-effect waves-light btn red darken-1" [routerLink]="['/vendas', venda._id, 'editar']">Editar</a>
 		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteVenda(venda)">Excluir</a>
 		<a class="waves-effect waves-light btn grey" routerLink="/vendas">Cancelar</a>

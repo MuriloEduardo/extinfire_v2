@@ -5,9 +5,9 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { FileUploader } from 'ng2-file-upload';
 
-import { ServicosService } from '../../_services/servicos.service';
+import { ServicosService } from './../../_services/servicos.service';
 
-import { AppSettings } from '../../app.config';
+import { AppSettings } from './../../app.config';
 
 import { MaterializeAction } from 'angular2-materialize';
 

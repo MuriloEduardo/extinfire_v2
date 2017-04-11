@@ -33,6 +33,11 @@ export class SearchComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		this.load();
+	}
+	
+	load() {
+		console.log('load search')
 		this.vendasService.getVendas().subscribe((vendas) => {
 			this.vendas = vendas;
 		});
