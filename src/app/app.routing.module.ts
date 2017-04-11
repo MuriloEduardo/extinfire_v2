@@ -14,6 +14,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { LogsComponent } from './logs/logs.component';
 import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
+import { Page404Component } from './page404/page404.component';
 
 const appRoutes: Routes = [
 	{
@@ -28,27 +29,32 @@ const appRoutes: Routes = [
 	{
 		path: 'clientes',
 		loadChildren: './clientes/clientes.module#ClientesModule',
-		canActivate: [AuthGuard]
+		canActivate: [AuthGuard],
+		canLoad: [AuthGuard]
 	},
 	{
 		path: 'produtos',
 		loadChildren: './produtos/produtos.module#ProdutosModule',
-		canActivate: [AuthGuard]
+		canActivate: [AuthGuard],
+		canLoad: [AuthGuard]
 	},
 	{
 		path: 'servicos',
 		loadChildren: './servicos/servicos.module#ServicosModule',
-		canActivate: [AuthGuard]
+		canActivate: [AuthGuard],
+		canLoad: [AuthGuard]
 	},
 	{
 		path: 'vendas',
 		loadChildren: './vendas/vendas.module#VendasModule',
-		canActivate: [AuthGuard]
+		canActivate: [AuthGuard],
+		canLoad: [AuthGuard]
 	},
 	{
 		path: 'usuarios',
 		loadChildren: './usuarios/usuarios.module#UsuariosModule',
-		canActivate: [AuthGuard]
+		canActivate: [AuthGuard],
+		canLoad: [AuthGuard]
 	},
 	{
 		path: 'logs',
@@ -63,6 +69,11 @@ const appRoutes: Routes = [
 	{
 		path: '',
 		component: DashboardComponent,
+		canActivate: [AuthGuard]
+	},
+	{
+		path: '**',
+		component: Page404Component,
 		canActivate: [AuthGuard]
 	}
 ];

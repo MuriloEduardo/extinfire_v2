@@ -14,3 +14,44 @@ input[type="search"]#search {
 	overflow-y: auto;
 	max-height: 300px;
 }
+.input-field input[type=search]:hover {
+	background-color: rgba(255,255,255,.3);
+}
+.focus,
+.input-field input[type=search]:focus {
+	background-color: #fff;
+	color: #444;
+}
+.input-field input[type=search].focus + label i, 
+.input-field input[type=search].focus ~ .mdi-navigation-close, 
+.input-field input[type=search].focus ~ .material-icons {
+    color: #444;
+}
+
+/* Chrome, Safari, Opera */
+.input-field input[type=search]::-webkit-input-placeholder {
+	color: rgba(255, 255, 255, .8);
+}
+.input-field input[type=search]:focus::-webkit-input-placeholder,
+.input-field input[type=search].focus::-webkit-input-placeholder {
+	color: rgba(68, 68, 68, .3);
+}
+ 
+/* Firefox 18- */
+.input-field input[type=search]:-moz-placeholder {
+	color: rgba(255, 255, 255, .8);
+}
+.input-field input[type=search]:focus::-moz-placeholder,
+.input-field input[type=search].focus::-moz-placeholder {
+	color: rgba(68, 68, 68, .3);
+}
+
+ 
+/* IE10+ */
+.input-field input[type=search]:-ms-input-placeholder {
+	color: rgba(255, 255, 255, .8);
+}
+.input-field input[type=search]:focus::-ms-input-placeholder,
+.input-field input[type=search].focus::-ms-input-placeholder {
+	color: rgba(68, 68, 68, .3);
+}

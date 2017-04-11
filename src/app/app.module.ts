@@ -34,6 +34,7 @@ import { ClientesResolver } from './_guards/clientes.resolver';
 import { ProdutosResolver } from './_guards/produtos.resolver';
 import { ServicosResolver } from './_guards/servicos.resolver';
 import { SearchComponent } from './search/search.component';
+import { Page404Component } from './page404/page404.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { SearchComponent } from './search/search.component';
     LogsComponent,
     FinanceiroComponent,
     LoginComponent,
-    SearchComponent
+    SearchComponent,
+    Page404Component
   ],
   imports: [
     BrowserModule,

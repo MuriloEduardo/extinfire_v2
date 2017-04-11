@@ -24,7 +24,7 @@ const numberMask = createNumberMask({
   templateUrl: './nova-venda.component.html',
   styleUrls: ['./nova-venda.component.css']
 })
-export class NovaVendaComponent implements OnInit {
+export class NovaVendaComponent implements OnInit, AfterViewChecked {
 
 	maskMoney = numberMask;
 
@@ -55,7 +55,9 @@ export class NovaVendaComponent implements OnInit {
     };
 
   	venda: any = {
-		cliente: {},
+		cliente: {
+			images: []
+		},
 		itens: [],
 		valor_total: 0,
 		observacao: undefined,
@@ -64,7 +66,8 @@ export class NovaVendaComponent implements OnInit {
 
 	novoItem: any = {
 		item: {
-			valor_venda: undefined
+			valor_venda: undefined,
+			images: []
 		},
 		qntde: undefined,
 		validade: undefined,
@@ -111,8 +114,9 @@ export class NovaVendaComponent implements OnInit {
 
 		// Reseta novoItem
 		this.novoItem = {
-				item: {
-				valor_venda: undefined
+			item: {
+				valor_venda: undefined,
+				images: []
 			},
 			qntde: undefined,
 			validade: undefined,
@@ -162,7 +166,7 @@ export class NovaVendaComponent implements OnInit {
 			itens[index].validade = date.toLocaleDateString('pt-BR');
 		}*/
 		
-		this.sum(index, itens);
+		//this.sum(index, itens);
 	}
 	
 	deleteRow(index: number) {
@@ -177,7 +181,7 @@ export class NovaVendaComponent implements OnInit {
 		this.novoItem.total = priceCalculed.toString().replace('.',',');
 	}
 	
-	sum(index: number, itens: any) {
+	/*sum(index: number, itens: any) {
 
 		// Quantidade máxima em estoque permitida
 		if(itens[index].qntde >= itens[index].item.qntde_atual) {
@@ -185,9 +189,9 @@ export class NovaVendaComponent implements OnInit {
 			return false;
 		}
 
-		/*// Baixa provisoria em estoque
+		// Baixa provisoria em estoque
 	    let produtoAtual = this.produtos.filter((produto) => produto._id === itens[index].item._id)[0];
-	    produtoAtual.qntde_atual --;*/
+	    produtoAtual.qntde_atual --;
 
 		let priceFloat = parseFloat(itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
 		let priceCalculed = priceFloat * itens[index].qntde;
@@ -202,7 +206,7 @@ export class NovaVendaComponent implements OnInit {
 		}
 
 		this.venda.valor_total = valorTotalNew;
-	}
+	}*/
 
 	novaVenda(event) {
 		event.preventDefault();
