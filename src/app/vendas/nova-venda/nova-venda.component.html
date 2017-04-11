@@ -36,7 +36,7 @@
 						  <option value="">Selecione o cliente</option>
 						  <option 
 						  *ngFor="let cliente of clientes" 
-						  [attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+						  [attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
 						  [ngValue]="cliente" 
 						  class="left circle"
 						  >{{cliente.nome}}</option>
@@ -98,7 +98,7 @@
 													<option 
 													*ngFor="let produto of produtos" 
 													[ngValue]="produto"
-													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
 													>{{produto.nome}}
 													</option>
@@ -107,7 +107,7 @@
 													<option 
 													*ngFor="let servico of servicos" 
 													[ngValue]="servico"
-													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
 													>{{servico.nome}}
 													</option>
