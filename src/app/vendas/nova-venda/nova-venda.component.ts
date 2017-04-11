@@ -56,15 +56,19 @@ export class NovaVendaComponent implements OnInit {
 
   	venda: any = {
 		cliente: {},
-		itens: [{
-			item: {},
-			qntde: undefined,
-			validade: undefined,
-			total: undefined,
-			tipo: undefined
-		}],
+		itens: [],
 		valor_total: 0,
 		observacao: undefined,
+		tipo: undefined
+	};
+
+	novoItem: any = {
+		item: {
+			valor_venda: undefined
+		},
+		qntde: undefined,
+		validade: undefined,
+		total: undefined,
 		tipo: undefined
 	};
   
@@ -97,21 +101,49 @@ export class NovaVendaComponent implements OnInit {
 			Materialize.updateTextFields();
 	}
 
-	setItem(index: number, last?: number, itens?: any) {
+	addItem() {
 
-		if(!itens[index].item._id) return false;
+		if(!this.novoItem.item._id) return false;
+		
+		this.venda.itens.push(this.novoItem);
 
-		if(last) {
-			itens.push({
-				item: {}
-			});
+		console.log(this.novoItem)
+
+		// Reseta novoItem
+		this.novoItem = {
+				item: {
+				valor_venda: undefined
+			},
+			qntde: undefined,
+			validade: undefined,
+			total: undefined,
+			tipo: undefined
+		};
+	}
+
+	setNovoItem() {
+		if(!this.novoItem.item._id) return false;
+
+		// Se tem valor de custo é um produto
+		// Caso não: é um serviço
+		this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
+
+		this.novoItem.qntde = 1;
+
+		// Validade do produto
+		// APENAS produto
+		if(this.novoItem.tipo) {
+			let date = new Date();
+			date.setMonth(date.getMonth() + 12);
+			this.novoItem.validade = date.toLocaleDateString('pt-BR');
 		}
 
-		//itens[index].item = itens[index].item;
+		this.sumNovo();
+	}
 
-		/*
+	setItem(index: number, itens?: any) {
 
-		//
+		/*if(!itens[index].item._id) return false;
 
 		// Se tem valor de custo é um produto
 		// Caso não: é um serviço
@@ -120,8 +152,7 @@ export class NovaVendaComponent implements OnInit {
 		if(!itens[index].item.valor_venda)
 			itens[index].item.valor_venda = 0;
 
-		if(!itens[index].qntde)
-			itens[index].qntde = 1;
+		itens[index].qntde = 1;
 		
 		// Validade do produto
 		// APENAS produto
@@ -129,24 +160,34 @@ export class NovaVendaComponent implements OnInit {
 			let date = new Date();
 			date.setMonth(date.getMonth() + 12);
 			itens[index].validade = date.toLocaleDateString('pt-BR');
-		}
+		}*/
 		
-		this.sum(index, itens);*/
-
-		console.log(itens[index])
+		this.sum(index, itens);
 	}
 	
 	deleteRow(index: number) {
 		this.venda.itens.splice(index, 1);
 	}
-	
-	itensSelecionados(itens: any) {
-		return itens.some(function(item) {
-			return item.selecionado;
-		});
+
+	sumNovo() {
+
+		let priceFloat = parseFloat(this.novoItem.item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
+		let priceCalculed = priceFloat * this.novoItem.qntde;
+
+		this.novoItem.total = priceCalculed.toString().replace('.',',');
 	}
 	
 	sum(index: number, itens: any) {
+
+		// Quantidade máxima em estoque permitida
+		if(itens[index].qntde >= itens[index].item.qntde_atual) {
+			this.triggerToast('Apenas ' + itens[index].item.qntde_atual + ' unidades existentes em estoque', 'red darken-4');
+			return false;
+		}
+
+		/*// Baixa provisoria em estoque
+	    let produtoAtual = this.produtos.filter((produto) => produto._id === itens[index].item._id)[0];
+	    produtoAtual.qntde_atual --;*/
 
 		let priceFloat = parseFloat(itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
 		let priceCalculed = priceFloat * itens[index].qntde;
@@ -166,8 +207,8 @@ export class NovaVendaComponent implements OnInit {
 	novaVenda(event) {
 		event.preventDefault();
 		
-		if(!this.venda.cliente.length&&this.venda.itens.length<=1) {
-			alert('Adicione ao menos 1 produto');
+		if(!this.venda.cliente.length&&!this.venda.itens.length) {
+			this.triggerToast('Adicione ao menos 1 produto', 'red darken-4');
 			return false;
 		};
 
@@ -180,11 +221,11 @@ export class NovaVendaComponent implements OnInit {
 		
 		this.vendasService.addVenda(this.venda).subscribe(venda => {
 	  		this.router.navigate(['vendas']);
-	  		this.triggerToast('Venda efetuada com sucesso!');
+	  		this.triggerToast('Venda efetuada com sucesso!', 'green darken-4');
 		});
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
 	}
 }

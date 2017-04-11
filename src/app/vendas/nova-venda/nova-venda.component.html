@@ -28,7 +28,7 @@
 	</div>
 	<div class="section"></div>
 	<div class="row">
-		<div class="col s6">
+		<div class="col s12">
 			<div class="row">
 				<div class="col s12">
 					<div class="input-field">
@@ -69,7 +69,6 @@
 						<table>
 							<thead>
 								<tr>
-									<th></th>
 									<th data-field="item">Produtos / Serviços</th>
 									<th data-field="qntde">Quant.</th> 
 									<th data-field="valor_venda">Valor Unitário</th>
@@ -79,8 +78,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let item of venda.itens; let i = index; let last = last;let first = first">
-									<td>{{ i }}</td>
+								<tr *ngFor="let item of venda.itens; let i = index; let first = first;">
 									<td>
 										<div class="input-field">
 
@@ -90,7 +88,7 @@
 											[materializeSelectOptions]="itens" 
 											[(ngModel)]="venda.itens[i].item" 
 											name="item{{i}}" 
-											(change)="setItem(i, last, venda.itens)"
+											(change)="setItem(i, venda.itens)"
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
 											>
 												<option value="" disabled selected>Selecione</option>
@@ -118,17 +116,17 @@
 									<td>
 										<div class="input-field">
 											<input 
-											id="qntde" 
+											id="qntde{{i}}" 
 											min="1" 
-											max="{{ venda.itens[i].item.qntde_atual }}" 
+											[max]="venda.itens[i].item.qntde_atual" 
 											type="number" 
-											(change)="sum(i)" 
+											(change)="sum(i, venda.itens)" 
 											[(ngModel)]="venda.itens[i].qntde" 
 											name="qntde{{i}}" 
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
 											[disabled]="!venda.itens[i].item.nome"
 											>
-											<label for="qntde">Quantidade</label>
+											<label for="qntde{{i}}">Quantidade</label>
 										</div>
 									</td>
 									<td>
@@ -176,9 +174,110 @@
 											>
 										</div>
 									</td>
+									<td class="center-align">
+										<a class="waves-effect waves-light btn grey darken-4" (click)="deleteRow(i)">
+											Excluir
+										</a>
+									</td>
+								</tr>
+								<!-- Novo Item -->
+								<tr>
 									<td>
-										<a class="waves-effect waves-light btn-flat secondary-content" (click)="deleteRow(i)" *ngIf="!last">
-											<i class="material-icons">&#xE92B;</i>
+										<div class="input-field">
+											<select 
+											id="novoItem" 
+											materialize="material_select" 
+											[materializeSelectOptions]="itens" 
+											[(ngModel)]="novoItem.item" 
+											name="novoItem" 
+											[attr.required]="novoItem.item.nome ? true : undefined"
+											(change)="setNovoItem()"
+											>
+												<option value="" disabled selected>Selecione</option>
+												<optgroup label="Produtos" *ngIf="produtos.length">
+													<option 
+													*ngFor="let produto of produtos" 
+													[ngValue]="produto"
+													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													class="left circle"
+													>{{produto.nome}}
+													</option>
+												</optgroup>
+												<optgroup label="Servicos" *ngIf="servicos.length">
+													<option 
+													*ngFor="let servico of servicos" 
+													[ngValue]="servico"
+													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													class="left circle"
+													>{{servico.nome}}
+													</option>
+												</optgroup>
+											</select>
+										</div>
+									</td>
+									<td>
+										<div class="input-field">
+											<input 
+											id="qntde" 
+											min="1" 
+											[max]="novoItem.item.qntde_atual" 
+											type="number" 
+											(change)="sumNovo()" 
+											[(ngModel)]="novoItem.qntde" 
+											name="qntde" 
+											[attr.required]="novoItem.item.nome ? true : undefined"
+											>
+											<label for="qntde">Quantidade</label>
+										</div>
+									</td>
+									<td>
+										<div class="input-field">
+											<input 
+											id="valor_venda" 
+											class="decimal" 
+											type="text" 
+											[(ngModel)]="novoItem.item.valor_venda" 
+											name="valor_venda{{i}}" 
+											[attr.required]="novoItem.item.nome ? true : undefined"
+											readonly="true" 
+											[textMask]="{mask: maskMoney}"
+											>
+											<label for="valor_venda">Valor unitário</label>
+										</div>
+									</td>
+									<td>
+										<div class="input-field">
+											<input 
+											id="total" 
+											class="decimal" 
+											type="text" 
+											[(ngModel)]="novoItem.total" 
+											name="total" 
+											readonly="true" 
+											[attr.required]="novoItem.item.nome ? true : undefined"
+											[textMask]="{mask: maskMoney}"
+											>
+											<label for="total">Valor total</label>
+										</div>
+									</td>
+									<td>
+										<div class="input-field" *ngIf="novoItem.tipo || !novoItem.item.nome">
+											<label for="validade">Validade deste produto</label>
+											<input 
+											id="validade" 
+											materialize="pickadate" 
+											[materializeParams]="[paramsPickdate]"
+											type="date" 
+											[(ngModel)]="novoItem.validade" 
+											name="validade" 
+											[attr.required]="novoItem.item.nome ? true : undefined"
+											[disabled]="!novoItem.item.nome"
+											>
+										</div>
+									</td>
+									<td class="center-align">
+										<a class="waves-effect waves-light btn red darken-1" (click)="addItem()">
+											Salvar
 										</a>
 									</td>
 								</tr>
@@ -205,9 +304,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="col s6">
-			<pre>{{ venda.itens | json }}</pre>
 		</div>
 	</div>
 </form>
