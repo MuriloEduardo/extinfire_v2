@@ -14,7 +14,6 @@ let Logs = require('../models/logs');
 let multer = require('multer');
 let fs = require('fs');
 let PDFDocument = require('pdfkit');
-let blobStream = require('blob-stream');
 
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -605,11 +604,10 @@ router.put('/user/:id', (req, res, next) => {
 			res.json({"error": "dados incompletos"});
 		} else {
 			
-			user.nome = dadosUser.nome;
-			user.tipo = dadosUser.tipo;
-			user.email = dadosUser.email
-			if(dadosUser.senha)
-				user.senha = user.generateHash(dadosUser.senha)
+			if(dadosUser.nome) user.nome = dadosUser.nome;
+			if(dadosUser.email) user.email = dadosUser.email
+			if(dadosUser.tipo) user.tipo = dadosUser.tipo;
+			if(dadosUser.senha) user.senha = user.generateHash(dadosUser.senha);
 
 			user.save((err, data) => {
 				if(err) res.send(err);
