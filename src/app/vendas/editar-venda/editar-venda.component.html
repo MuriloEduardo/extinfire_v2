@@ -1,9 +1,9 @@
 <nav class="header-pages white">
 	<div class="nav-wrapper">
 		<div class="col s12">
-			<a routerLink="/vendas" class="breadcrumb">Lista de Produtos</a>
-			<a [routerLink]="['/vendas', venda._id]" class="breadcrumb">Detalhe do Produto</a>
-			<span class="breadcrumb">Editar Produto</span>
+			<a routerLink="/vendas" class="breadcrumb">Lista de Vendas</a>
+			<a [routerLink]="['/vendas', venda._id]" class="breadcrumb">Detalhe da Venda</a>
+			<span class="breadcrumb">Editar Venda</span>
 		</div>
 	</div>
 </nav>
@@ -34,7 +34,7 @@
 						  <option 
 						  *ngFor="let cliente of clientes" 
 						  [value]="cliente._id"
-						  [attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+						  [attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
 						  class="left circle"
 						  >{{cliente.nome}}</option>
 						</select>
@@ -81,7 +81,7 @@
 													<option 
 													*ngFor="let produto of produtos" 
 													[value]="produto._id"
-													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
 													>{{produto.nome}}</option>
 												</optgroup>
@@ -89,7 +89,7 @@
 													<option 
 													*ngFor="let servico of servicos" 
 													[value]="servico._id"
-													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
 													>{{servico.nome}}</option>
 												</optgroup>

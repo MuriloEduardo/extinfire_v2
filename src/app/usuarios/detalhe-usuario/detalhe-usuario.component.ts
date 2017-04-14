@@ -16,6 +16,7 @@ export class DetalheUsuarioComponent implements OnInit {
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	usuario: any;
+	usuarioLocalStorage: any = JSON.parse(window.localStorage.getItem('user'));
 
 	constructor(
 		private usuariosService: UsuariosService,
@@ -30,6 +31,7 @@ export class DetalheUsuarioComponent implements OnInit {
 	}
 
 	deleteUsuario(usuario: any) {
+		if(this.usuario._id==this.usuarioLocalStorage._id) return false;
 		this.usuariosService.deleteUser(usuario).subscribe(data => {
 			if(data.n) {
 				this.router.navigate(['usuarios']);

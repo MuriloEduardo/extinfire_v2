@@ -16,13 +16,15 @@ import { UsuariosComponent } from './usuarios.component';
 import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.component';
 import { NovoUsuarioComponent } from './novo-usuario/novo-usuario.component';
 import { DetalheUsuarioComponent } from './detalhe-usuario/detalhe-usuario.component';
+import { ListaUsuariosComponent } from './lista-usuarios/lista-usuarios.component';
 
 @NgModule({
   declarations: [
     UsuariosComponent,    
     EditarUsuarioComponent,
     NovoUsuarioComponent,
-    DetalheUsuarioComponent
+    DetalheUsuarioComponent,
+    ListaUsuariosComponent
   ],
   imports: [
     CommonModule,

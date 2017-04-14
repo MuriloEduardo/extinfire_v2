@@ -1,6 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-
-import { UsuariosService } from '../_services/usuarios.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-usuarios',
@@ -9,27 +7,9 @@ import { UsuariosService } from '../_services/usuarios.service';
 })
 export class UsuariosComponent implements OnInit {
 
-	usuarios: any[] = [];
-	
-	order: string = 'updatedAt';
-  	reverse: boolean = false;
-	loadStatus: boolean = false;
+  constructor() { }
 
-	constructor(private usuariosService: UsuariosService) { }
+  ngOnInit() {
+  }
 
-	ngOnInit() {
-		
-		this.usuariosService.getUsers().subscribe((usuarios) => {
-			this.usuarios = usuarios;
-			this.loadStatus = true;
-		});
-	}
-
-	setOrder(value: string) {
-		if (this.order === value) {
-			this.reverse = !this.reverse;
-		}
-
-		this.order = value;
-	}
 }

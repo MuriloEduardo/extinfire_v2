@@ -37,7 +37,6 @@ export class SearchComponent implements OnInit {
 	}
 	
 	load() {
-		console.log('load search')
 		this.vendasService.getVendas().subscribe((vendas) => {
 			this.vendas = vendas;
 		});

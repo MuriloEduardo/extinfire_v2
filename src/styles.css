@@ -125,14 +125,23 @@ table.highlight tbody tr {
 	cursor: pointer;
 }
 .breadcrumb {
-	font-size: 24px!important;
+	font-size: 18px!important;
+}
+a.breadcrumb {
+	opacity: .6;
 }
 a.breadcrumb:hover {
-	color: #e53935!important;
+	opacity: 1;
 }
 .breadcrumb,
 .breadcrumb:before {
 	color: #212121!important;
+}
+.breadcrumb:before {
+	content: '/'!important;
+	position: relative;
+	top: -4px;
+	font-weight: bold;
 }
 .ng2-pagination .current {
 	background: #e53935!important;

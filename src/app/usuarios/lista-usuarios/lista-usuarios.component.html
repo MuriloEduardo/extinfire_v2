@@ -1,14 +1,14 @@
 <nav class="header-pages white">
 	<div class="nav-wrapper">
 		<div class="col s12">
-			<span class="breadcrumb">Lista de Serviços</span>
+			<span class="breadcrumb">Lista de Usuários</span>
 		</div>
 	</div>
 </nav>
 <!-- Botoes de ação -->
 <div class="row">
 	<div class="col s12 right-align">
-		<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Serviço</a>
+		<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Usuário</a>
 	</div>
 </div>
 <div class="section"></div>
@@ -31,18 +31,18 @@
 	</div>
 </div>
 <!-- Sem nenhum serviço -->
-<div class="row" *ngIf="!servicos.length&&loadStatus">
+<div class="row" *ngIf="!usuarios.length&&loadStatus">
 	<div class="col s12">
 		<div class="section"></div>
 		<div class="center-align">
 			<div class="grey-text text-lighten-2">
-				<h2>Sem nenhum serviço aqui <br><small>clique em Novo Serviço</small></h2>
+				<h2>Sem nenhum usuário aqui <br><small>clique em Novo Usuário</small></h2>
 				<i class="material-icons big">&#xE814;</i>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="row" *ngIf="servicos.length">
+<div class="row" *ngIf="usuarios.length">
 	<div class="col s12">
 		<table class="bordered highlight responsive-table">
 			<thead>
@@ -52,7 +52,7 @@
 					(click)="setOrder('nome')"
 					[class.active]="order === 'nome'"
 					>
-						Serviço
+						Usuário
 						<span [hidden]="reverse">
 							<i class="material-icons right">&#xE5C5;</i>
 						</span>
@@ -61,11 +61,24 @@
 						</span>
 					</th>
 					<th 
-					data-field="valorVenda" 
-					(click)="setOrder('valor_venda')"
-					[class.active]="order === 'valor_venda'"
+					data-field="tipo" 
+					(click)="setOrder('tipo')"
+					[class.active]="order === 'tipo'"
 					>
-						Valor
+						Tipo
+						<span [hidden]="reverse">
+							<i class="material-icons right">&#xE5C5;</i>
+						</span>
+						<span [hidden]="!reverse">
+							<i class="material-icons right">&#xE5C7;</i>
+						</span>
+					</th>
+					<th 
+					data-field="obs" 
+					(click)="setOrder('email')"
+					[class.active]="order === 'email'"
+					>
+						Email
 						<span [hidden]="reverse">
 							<i class="material-icons right">&#xE5C5;</i>
 						</span>
@@ -90,13 +103,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let servico of servicos | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[servico._id]">
-					<td>
-						<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!servico?.images[0] ? 'sem-foto.jpg' : servico?.images[0]) }}" class="circle img-table">
-						{{ servico?.nome }}
+				<tr *ngFor="let usuario of usuarios | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[usuario._id]">
+					<td class="valign-wrapper">
+						<div class="firs-letter-users circle red darken-1 valign">
+							{{ usuario.nome.charAt(0) }}
+						</div>
+						<div class="valign">
+							{{ usuario.nome }}
+						</div>
 					</td>
-					<td>{{ servico.valor_venda | currencyformat }}</td>
-					<td>{{ servico?.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+					<td>{{ usuario.tipo }}</td>
+					<td>{{ usuario.email }}</td>
+					<td>{{ usuario.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
 					<td><i class="material-icons">&#xE315;</i></td>
 				</tr>
 			</tbody>
@@ -105,7 +123,7 @@
 		(pageChange)="p = $event" 
 		previousLabel="Anterior"
         nextLabel="Próximo"
-        *ngIf="servicos.length>9"
+        *ngIf="usuarios.length>9"
         ></pagination-controls>
 	</div>
 </div>

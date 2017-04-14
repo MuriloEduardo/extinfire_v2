@@ -31,13 +31,13 @@
 		<div class="col s12">
 			<div class="row">
 				<div class="col s12">
-					<img [src]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0])" alt="{{venda.cliente.nome}}" class="responsive-img circle img-table" title="{{venda.cliente.nome}}">
+					<img [src]="'http://127.0.0.1:8080/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0])" alt="{{venda.cliente.nome}}" class="responsive-img circle img-table" title="{{venda.cliente.nome}}">
 					<div class="input-field">
 						<select id="cliente" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="venda.cliente" name="cliente">
-						  <option value="">Selecione o cliente</option>
+						  <option value="" disabled selected>Selecione o cliente</option>
 						  <option 
 						  *ngFor="let cliente of clientes" 
-						  [attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+						  [attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
 						  [ngValue]="cliente" 
 						  class="left circle"
 						  >{{cliente.nome}}</option>
@@ -67,7 +67,7 @@
 						</div>
 					</div>
 					<div *ngIf="venda.cliente._id&&(produtos.length||servicos.length)">
-						<table>
+						<table class="responsive-table">
 							<thead>
 								<tr>
 									<th data-field="item">Produtos / Serviços</th>
@@ -81,7 +81,7 @@
 							<tbody>
 								<tr *ngFor="let item of venda.itens; let i = index; let first = first;">
 									<td>
-										<img [src]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0])" alt="{{venda.itens[i].item.nome}}" class="responsive-img circle img-table" title="{{venda.itens[i].item.nome}}">
+										<img [src]="'http://127.0.0.1:8080/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0])" alt="{{venda.itens[i].item.nome}}" class="responsive-img circle img-table" title="{{venda.itens[i].item.nome}}">
 										<div class="input-field">
 											<select 
 											id="item{{i}}" 
@@ -89,7 +89,7 @@
 											[materializeSelectOptions]="itens" 
 											[(ngModel)]="venda.itens[i].item" 
 											name="item{{i}}" 
-											(change)="setItem(i, venda.itens)"
+											(change)="setItem(venda.itens[i])"
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
 											>
 												<option value="" disabled selected>Selecione</option>
@@ -97,8 +97,9 @@
 													<option 
 													*ngFor="let produto of produtos" 
 													[ngValue]="produto"
-													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
+													[disabled]="produto.selected"
 													>{{produto.nome}}
 													</option>
 												</optgroup>
@@ -106,7 +107,7 @@
 													<option 
 													*ngFor="let servico of servicos" 
 													[ngValue]="servico"
-													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
 													>{{servico.nome}}
 													</option>
@@ -121,7 +122,7 @@
 											min="1" 
 											[max]="venda.itens[i].item.qntde_atual" 
 											type="number" 
-											(change)="sum(i, venda.itens)" 
+											(change)="sumRow(venda.itens[i])"
 											[(ngModel)]="venda.itens[i].qntde" 
 											name="qntde{{i}}" 
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
@@ -161,7 +162,7 @@
 										</div>
 									</td>
 									<td>
-										<div class="input-field" *ngIf="venda.itens[i].tipo || !venda.itens[i].item.nome">
+										<div class="input-field" *ngIf="venda.itens[i].validade">
 											<label for="validade">Validade deste produto</label>
 											<input 
 											id="validade" 
@@ -176,15 +177,15 @@
 										</div>
 									</td>
 									<td class="center-align">
-										<a class="waves-effect waves-light btn grey darken-4" (click)="deleteRow(i)">
-											Excluir
+										<a class="waves-effect waves-light btn-flat" (click)="deleteRow(i)">
+											<i class="material-icons">&#xE92B;</i>
 										</a>
 									</td>
 								</tr>
 								<!-- Novo Item -->
 								<tr>
 									<td>
-										<img [src]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!novoItem.item.images[0] ? 'sem-foto.jpg' : novoItem.item.images[0])" alt="{{novoItem.item.nome}}" class="responsive-img circle img-table" title="{{novoItem.item.nome}}">
+										<img [src]="'http://127.0.0.1:8080/uploads/' + (!novoItem.item.images[0] ? 'sem-foto.jpg' : novoItem.item.images[0])" alt="{{novoItem.item.nome}}" class="responsive-img circle img-table" title="{{novoItem.item.nome}}">
 										<div class="input-field">
 											<select 
 											id="novoItem" 
@@ -200,8 +201,9 @@
 													<option 
 													*ngFor="let produto of produtos" 
 													[ngValue]="produto"
-													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
+													[disabled]="produto.selected"
 													>{{produto.nome}}
 													</option>
 												</optgroup>
@@ -209,7 +211,7 @@
 													<option 
 													*ngFor="let servico of servicos" 
 													[ngValue]="servico"
-													[attr.data-icon]="'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
 													>{{servico.nome}}
 													</option>
@@ -228,6 +230,8 @@
 											[(ngModel)]="novoItem.qntde" 
 											name="qntde" 
 											[attr.required]="novoItem.item.nome ? true : undefined"
+											[disabled]="!novoItem.item.nome"
+											[attr.readonly]="!novoItem.tipo ? true : undefined"
 											>
 											<label for="qntde">Quantidade</label>
 										</div>
@@ -243,6 +247,7 @@
 											[attr.required]="novoItem.item.nome ? true : undefined"
 											readonly="true" 
 											[textMask]="{mask: maskMoney}"
+											[disabled]="!novoItem.item.nome"
 											>
 											<label for="valor_venda">Valor unitário</label>
 										</div>
@@ -258,6 +263,7 @@
 											readonly="true" 
 											[attr.required]="novoItem.item.nome ? true : undefined"
 											[textMask]="{mask: maskMoney}"
+											[disabled]="!novoItem.item.nome"
 											>
 											<label for="total">Valor total</label>
 										</div>
@@ -277,11 +283,12 @@
 											>
 										</div>
 									</td>
-									<td class="center-align">
+									<td></td>
+									<!-- <td class="center-align">
 										<a class="waves-effect waves-light btn red darken-1" (click)="addItem()">
-											Salvar
+											Adicionar
 										</a>
-									</td>
+									</td> -->
 								</tr>
 							</tbody>
 						</table>
@@ -300,7 +307,7 @@
 							</div>
 							<div class="col s4 center-align">
 								<h5>Valor Total</h5>
-								<h4>{{ venda.valor_total | currencyformat }}</h4>
+								<h4>{{ valorTotal() || '0' | currencyformat }}</h4>
 							</div>
 						</div>
 					</div>

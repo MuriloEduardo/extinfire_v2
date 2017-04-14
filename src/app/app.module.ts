@@ -28,6 +28,7 @@ import { ProdutosService } from './_services/produtos.service';
 import { ServicosService } from './_services/servicos.service';
 
 import { AuthGuard } from './_guards/auth.guard';
+import { UsuariosGuard } from './_guards/usuarios.guard';
 
 import { VendasResolver } from './_guards/vendas.resolver';
 import { ClientesResolver } from './_guards/clientes.resolver';
@@ -61,6 +62,7 @@ import { Page404Component } from './page404/page404.component';
   providers: [
     
     AuthGuard,
+    UsuariosGuard,
 
     UsuariosService,
     ClientesService,

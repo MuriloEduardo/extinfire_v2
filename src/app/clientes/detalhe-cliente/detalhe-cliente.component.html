@@ -58,12 +58,12 @@
 				<div class="row">
 					<div class="col s12">
 						<label>Data</label>
-						<h5>{{ cliente.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</h5>
+						<h5>{{ cliente.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}</h5>
 					</div>
 				</div>
 			</div>
 			<div class="col s6">
-				<img src="{{ 'https://extinfire-backend-v2-muriloeduardo.c9users.io/uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of cliente.images">
+				<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of cliente.images">
 			</div>
 		</div>
 	</div>
