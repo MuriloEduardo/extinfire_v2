@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { VendasService } from './../_services/vendas.service';
 import { ClientesService } from './../_services/clientes.service';
-import { ProdutosService } from './../_services/produtos.service';
+import { ItensService } from './../_services/itens.service';
 
 @Component({
   selector: 'app-vendas',
@@ -23,7 +23,7 @@ export class VendasComponent implements OnInit {
 	constructor(
 		private vendasService: VendasService,
 		private clientesService: ClientesService,
-    	private produtosService: ProdutosService
+    	private itensService: ItensService
 	) { }
 
 	ngOnInit() {
@@ -33,7 +33,7 @@ export class VendasComponent implements OnInit {
 
 	      this.loadStatus = true;
 	      
-	      this.produtosService.getProdutos().subscribe((produtos) => {
+	      this.itensService.getItens().subscribe((produtos) => {
 	        this.produtos = produtos;
 
 	        this.clientesService.getClientes().subscribe((clientes) => {

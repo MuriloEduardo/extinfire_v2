@@ -15,7 +15,7 @@ export class VendasService {
   		private http: Http,
   		private logsService: LogsService  		
   	) {
-		console.dir('Clientes Service Inicializado...');
+		console.dir('Vendas Service Inicializado...');
   	}
 
   	getVendas() {
@@ -29,8 +29,8 @@ export class VendasService {
 	addVenda(newVenda: any) {
 
 		this.logsService.addLog({
-			nome: 'Adicionou uma venda',
-			item: newVenda.nome
+			descricao: 'Adicionou uma venda',
+			item: newVenda.cliente
 		}).subscribe(data => {});
 
 		let headers = new Headers();
@@ -41,8 +41,8 @@ export class VendasService {
 	deleteVenda(venda: any) {
 
 		this.logsService.addLog({
-			nome: 'Deletou uma venda',
-			item: venda.nome
+			descricao: 'Deletou uma venda',
+			item: venda.cliente
 		}).subscribe(data => {});
 
 		return this.http.delete(AppSettings.API_ENDPOINT + 'venda/' + venda._id).map(res => res.json());
@@ -51,8 +51,8 @@ export class VendasService {
 	updateVenda(venda: any) {
 
 		this.logsService.addLog({
-			nome: 'Editou uma venda',
-			item: venda.nome
+			descricao: 'Editou uma venda',
+			item: venda.cliente
 		}).subscribe(data => {});
 
 		let headers = new Headers();

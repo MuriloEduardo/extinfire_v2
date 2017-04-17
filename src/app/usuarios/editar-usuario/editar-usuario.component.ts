@@ -26,9 +26,12 @@ export class EditarUsuarioComponent implements OnInit, AfterViewChecked {
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
+		/*this.inscricao = this.route.data.subscribe(
 			(data: {usuario: any}) => this.usuario = data.usuario
-		);
+		);*/
+		this.usuariosService.getUser(this.route.params['id']).subscribe((usuario) => {
+			this.usuario = usuario;
+		});
 	}
 
 	ngAfterViewChecked() {

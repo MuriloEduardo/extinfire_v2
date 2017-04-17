@@ -24,18 +24,15 @@ import { ClientesService } from './_services/clientes.service';
 import { VendasService } from './_services/vendas.service';
 import { AuthService } from './_services/auth.service';
 import { LogsService } from './_services/logs.service';
-import { ProdutosService } from './_services/produtos.service';
-import { ServicosService } from './_services/servicos.service';
+import { ItensService } from './_services/itens.service';
 
 import { AuthGuard } from './_guards/auth.guard';
 import { UsuariosGuard } from './_guards/usuarios.guard';
 
-import { VendasResolver } from './_guards/vendas.resolver';
-import { ClientesResolver } from './_guards/clientes.resolver';
-import { ProdutosResolver } from './_guards/produtos.resolver';
-import { ServicosResolver } from './_guards/servicos.resolver';
 import { SearchComponent } from './search/search.component';
 import { Page404Component } from './page404/page404.component';
+
+import { CurrencyFormatFinanceiroPipe } from './_pipes/currency-format-financeiro.pipe';
 
 @NgModule({
   declarations: [
@@ -46,7 +43,8 @@ import { Page404Component } from './page404/page404.component';
     FinanceiroComponent,
     LoginComponent,
     SearchComponent,
-    Page404Component
+    Page404Component,
+    CurrencyFormatFinanceiroPipe
   ],
   imports: [
     BrowserModule,
@@ -69,14 +67,8 @@ import { Page404Component } from './page404/page404.component';
 
     VendasService,
     AuthService,
-    ProdutosService,
-    LogsService,
-    ServicosService,
-
-    VendasResolver,
-    ClientesResolver,
-    ProdutosResolver,
-    ServicosResolver
+    ItensService,
+    LogsService
   ],
   bootstrap: [AppComponent]
 })

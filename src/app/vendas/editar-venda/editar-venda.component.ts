@@ -6,6 +6,8 @@ import { MaterializeAction } from 'angular2-materialize';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { VendasService } from './../../_services/vendas.service';
+import { ClientesService } from './../../_services/clientes.service';
+import { ItensService } from './../../_services/itens.service';
 
 declare var Materialize:any;
 
@@ -51,8 +53,16 @@ export class EditarVendaComponent implements OnInit {
 		tipo: undefined
 	};
 
+	constructor(
+		private vendasService: VendasService,
+		private clientesService: ClientesService,
+    	private itensService: ItensService,
+		private route: ActivatedRoute,
+		private router: Router
+	) { }
+
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
+		/*this.inscricao = this.route.data.subscribe(
 			(data: {venda: any, produtos: any, servicos: any, clientes: any}) => {
 				this.venda = data.venda;
 				this.produtos = data.produtos;
@@ -70,7 +80,19 @@ export class EditarVendaComponent implements OnInit {
 				// Mesmo mudando de tipo, não poderá aterar o cliente
 				this.tipoVenda = this.venda.tipo;
 			}
-		);
+		);*/
+
+		this.vendasService.getVenda(this.route.params['id']).subscribe((venda) => {
+			this.venda = venda;
+		});
+
+		this.itensService.getItens().subscribe((produtos) => {
+			this.produtos = produtos;
+		});
+
+		this.clientesService.getClientes().subscribe((clientes) => {
+			this.clientes = clientes;
+		});
 	}
 
 	setCliente() {
@@ -159,12 +181,6 @@ export class EditarVendaComponent implements OnInit {
 	  		this.triggerToast('Venda editada!');
 		});
 	}
-
-	constructor(
-		private vendasService: VendasService,
-		private route: ActivatedRoute,
-		private router: Router
-	) { }
 	
 	ngAfterViewChecked() {
 		if(Materialize.updateTextFields)

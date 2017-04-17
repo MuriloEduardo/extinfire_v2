@@ -9,8 +9,6 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 
-import { VendaResolver } from './../_guards/venda.resolver';
-
 import { VendasRoutingModule  } from './vendas.routing.module';
 
 import { VendasComponent } from './vendas.component';
@@ -39,8 +37,6 @@ import { CurrencyFormatVendasPipe } from './../_pipes/currency-format-vendas.pip
     Ng2OrderModule,
     VendasRoutingModule
   ],
-  providers: [
-    VendaResolver
-  ]
+  providers: []
 })
 export class VendasModule { }

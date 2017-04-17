@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { VendasService } from '../_services/vendas.service';
 import { ClientesService } from '../_services/clientes.service';
-import { ProdutosService } from '../_services/produtos.service';
-import { ServicosService } from '../_services/servicos.service';
+import { ItensService } from './../_services/itens.service';
 import { UsuariosService } from '../_services/usuarios.service';
 import { LogsService } from '../_services/logs.service';
 
@@ -26,8 +25,7 @@ export class SearchComponent implements OnInit {
 	constructor(
 		private vendasService: VendasService,
 		private clientesService: ClientesService,
-    	private produtosService: ProdutosService,
-    	private servicosService: ServicosService,
+    	private itensService: ItensService,
     	private usuariosService: UsuariosService,
     	private logsService: LogsService
 	) { }
@@ -41,7 +39,7 @@ export class SearchComponent implements OnInit {
 			this.vendas = vendas;
 		});
 
-		this.produtosService.getProdutos().subscribe((produtos) => {
+		this.itensService.getItens().subscribe((produtos) => {
 			this.produtos = produtos;
 		});
 
@@ -49,7 +47,7 @@ export class SearchComponent implements OnInit {
 			this.clientes = clientes;
 		});
 
-		this.servicosService.getServicos().subscribe((servicos) => {
+		this.itensService.getItens().subscribe((servicos) => {
 			this.servicos = servicos;
 		});
 

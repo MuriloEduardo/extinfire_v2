@@ -62,7 +62,7 @@
 						<div class="lista-images">
 							<div class="col s3 center-align eng-del-image" *ngFor="let item of uploader.queue">
 								<img imgPreviewProduto [image]="item?._file" class="responsive-img">
-								<div class="btn-del-image z-depth-1 hoverable grey darken-4 circle white-text" (click)="item.remove()">
+								<div class="z-depth-1 hoverable grey darken-4 circle white-text" (click)="item.remove()">
 									<i class="material-icons">&#xE92B;</i>
 								</div>
 							</div>

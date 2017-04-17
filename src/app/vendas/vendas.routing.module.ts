@@ -1,11 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
-import { VendaResolver } from '../_guards/venda.resolver';
-import { ProdutosResolver } from '../_guards/produtos.resolver';
-import { ServicosResolver } from '../_guards/servicos.resolver';
-import { ClientesResolver } from '../_guards/clientes.resolver';
-
 import { VendasComponent } from './vendas.component';
 import { DetalheVendaComponent } from './detalhe-venda/detalhe-venda.component';
 import { EditarVendaComponent } from './editar-venda/editar-venda.component';
@@ -18,29 +13,21 @@ const vendasRoutes: Routes = [
 	},
 	{
 		path: 'novo',
-		component: NovaVendaComponent,
-		resolve: {
-			produtos: ProdutosResolver,
-			servicos: ServicosResolver,
-			clientes: ClientesResolver
-		}
+		component: NovaVendaComponent
 	},
 	{
 		path: ':id',
-		component: DetalheVendaComponent,
-		resolve: {
-			venda: VendaResolver
-		}
+		component: DetalheVendaComponent
 	},
 	{
 		path: ':id/editar',
-		component: EditarVendaComponent,
+		component: EditarVendaComponent/*,
 		resolve: {
 			venda: VendaResolver,
 			produtos: ProdutosResolver,
 			servicos: ServicosResolver,
 			clientes: ClientesResolver
-		}
+		}*/
 	}
 ];
 

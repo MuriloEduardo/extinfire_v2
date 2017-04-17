@@ -1,8 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
-import { ServicoResolver } from '../_guards/servico.resolver';
-
 import { ServicosComponent } from './servicos.component';
 import { DetalheServicoComponent } from './detalhe-servico/detalhe-servico.component';
 import { EditarServicoComponent } from './editar-servico/editar-servico.component';
@@ -19,17 +17,11 @@ const servicosRoutes: Routes = [
   },
   {
     path: ':id',
-    component: DetalheServicoComponent,
-    resolve: {
-      servico: ServicoResolver
-    }
+    component: DetalheServicoComponent
   },
   {
     path: ':id/editar',
-    component: EditarServicoComponent,
-    resolve: {
-      servico: ServicoResolver
-    }
+    component: EditarServicoComponent
   }
 ];
 

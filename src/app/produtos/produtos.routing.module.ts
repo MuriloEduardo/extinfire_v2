@@ -1,8 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';;
 import { Routes, RouterModule } from '@angular/router';
 
-import { ProdutoResolver } from '../_guards/produto.resolver';
-
 import { ProdutosComponent } from './produtos.component';
 import { NovoProdutoComponent } from './novo-produto/novo-produto.component';
 import { EditarProdutoComponent } from './editar-produto/editar-produto.component';
@@ -19,17 +17,11 @@ const produtosRoutes: Routes = [
 	},
 	{
 		path: ':id',
-		component: DetalheProdutoComponent,
-		resolve: {
-			produto: ProdutoResolver
-		}
+		component: DetalheProdutoComponent
 	},
 	{
 		path: ':id/editar',
-		component: EditarProdutoComponent,
-		resolve: {
-			produto: ProdutoResolver
-		}
+		component: EditarProdutoComponent
 	}
 ];
 

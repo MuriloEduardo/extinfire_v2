@@ -19,44 +19,44 @@ export class UsuariosService {
   	}
 
   	getUsers() {
-  		return this.users = this.http.get(AppSettings.API_ENDPOINT + 'users').map(res => res.json());
+  		return this.users = this.http.get(AppSettings.API_ENDPOINT + 'usuarios').map(res => res.json());
   	}
 
 	getUser(id: string) {
-		return this.http.get(AppSettings.API_ENDPOINT + 'user/' + id).map(res => res.json());
+		return this.http.get(AppSettings.API_ENDPOINT + 'usuario/' + id).map(res => res.json());
 	}
 
 	addUser(newUser: any) {
 
 		this.logsService.addLog({
-			nome: 'Adicionou um usuário',
-			item: newUser.nome
+			descricao: 'Adicionou um usuário',
+			item: newUser
 		}).subscribe(data => {});
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(AppSettings.API_ENDPOINT + 'user', JSON.stringify(newUser), {headers: headers}).map(res => res.json());
+		return this.http.post(AppSettings.API_ENDPOINT + 'usuario', JSON.stringify(newUser), {headers: headers}).map(res => res.json());
 	}
 
 	deleteUser(user: any) {
 
 		this.logsService.addLog({
-			nome: 'Deletou um usuário',
-			item: user.nome
+			descricao: 'Deletou um usuário',
+			item: user
 		}).subscribe(data => {});
 
-		return this.http.delete(AppSettings.API_ENDPOINT + 'user/' + user._id).map(res => res.json());
+		return this.http.delete(AppSettings.API_ENDPOINT + 'usuario/' + user._id).map(res => res.json());
 	}
 
 	updateUser(user: any) {
 
 		this.logsService.addLog({
-			nome: 'Editou um usuário',
-			item: user.nome
+			descricao: 'Editou um usuário',
+			item: user
 		}).subscribe(data => {});
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.put(AppSettings.API_ENDPOINT + 'user/' + user._id, JSON.stringify(user), {headers: headers}).map(res => res.json());
+		return this.http.put(AppSettings.API_ENDPOINT + 'usuario/' + user._id, JSON.stringify(user), {headers: headers}).map(res => res.json());
 	}
 }

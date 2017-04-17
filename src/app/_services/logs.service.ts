@@ -8,7 +8,6 @@ import { AppSettings } from '../app.config';
 export class LogsService {
 
 	logs: any;
-	user: {};
 
   	constructor(private http: Http) {
 		console.dir('Logs Service Inicializado...');
@@ -20,9 +19,9 @@ export class LogsService {
 
 	addLog(newLog: any) {
 		newLog = {
-			usuario: JSON.parse(window.localStorage.getItem('user')).nome,
-			nome: newLog.nome,
-			item: newLog.item
+			usuario: JSON.parse(window.localStorage.getItem('user'))._id,
+			descricao: newLog.descricao,
+			item: newLog.item._id
 		};
 
 		let headers = new Headers();

@@ -89,6 +89,10 @@ export class EditarClienteComponent implements OnInit {
 		this.cliente.images.splice(this.cliente.images.indexOf(item), 1);
 	}
 
+	fileOverBase(e:any):void {
+		this.hasBaseDropZoneOver = e;
+	}
+
 	triggerToast(stringToast) {
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
 	}

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
 
-import { ServicosService } from '../../_services/servicos.service';
+import { ItensService } from './../../_services/itens.service';
 
 @Component({
   selector: 'app-detalhe-servico',
@@ -18,23 +18,26 @@ export class DetalheServicoComponent implements OnInit {
 	servico: any;
 
 	constructor(
-		private servicosService: ServicosService,
+		private itensService: ItensService,
 		private route: ActivatedRoute,
 		private router: Router
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
+		/*this.inscricao = this.route.data.subscribe(
 			(data: {servico: any}) => {
 				this.servico = data.servico;
 
 				this.servico.valor_venda = this.servico.valor_venda.replace('.','').replace('.','').replace(',','.');
 			}
-		);
+		);*/
+		this.itensService.getItem(this.route.params['id']).subscribe((servico) => {
+			this.servico = servico;
+		});
 	}
 
 	deleteServico(servico: any) {
-		this.servicosService.deleteServico(servico).subscribe(data => {
+		this.itensService.deleteItem(servico).subscribe(data => {
 			if(data.n) {
 				this.router.navigate(['servicos']);
 				this.triggerToast('Serviço excluido!');

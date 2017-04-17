@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
 
-import { ProdutosService } from '../../_services/produtos.service';
+import { ItensService } from './../../_services/itens.service';
 
 @Component({
   selector: 'app-detalhe-produto',
@@ -18,24 +18,27 @@ export class DetalheProdutoComponent implements OnInit {
 	produto: any;
 
 	constructor(
-		private produtosService: ProdutosService,
+		private itensService: ItensService,
 		private route: ActivatedRoute,
 		private router: Router
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
+		/*this.inscricao = this.route.data.subscribe(
 			(data: {produto: any}) => {
 				this.produto = data.produto;
 
 				this.produto.valor_custo = this.produto.valor_custo.replace('.','').replace('.','').replace(',','.');
 				this.produto.valor_venda = this.produto.valor_venda.replace('.','').replace('.','').replace(',','.');
 			}
-		);
+		);*/
+		this.itensService.getItem(this.route.params['id']).subscribe((produto) => {
+			this.produto = produto;
+		});
 	}
 
 	deleteProduto(produto: any) {
-		this.produtosService.deleteProduto(produto).subscribe(data => {
+		this.itensService.deleteItem(produto).subscribe(data => {
 			if(data.n) {
 				this.router.navigate(['produtos']);
 				this.triggerToast('Produto excluido!');

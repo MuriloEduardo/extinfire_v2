@@ -6,8 +6,26 @@
 		</div>
 	</div>
 </nav>
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- Sem nenhum cliente -->
-<div class="row" *ngIf="!clientes.length">
+<div class="row" *ngIf="!clientes?.length&&loadStatus">
 	<div class="col s12">
 		<div class="section"></div>
 		<div class="center-align">
@@ -18,7 +36,7 @@
 		</div>
 	</div>
 </div>
-<form (submit)="novaVenda($event)" *ngIf="clientes.length">
+<form (submit)="novaVenda($event)" *ngIf="clientes?.length">
 	<!-- Botoes de ação -->
 	<div class="row">
 		<div class="col s12 right-align">
@@ -28,20 +46,33 @@
 	</div>
 	<div class="section"></div>
 	<div class="row">
-		<div class="col s12">
+		<div class="col s8">
 			<div class="row">
 				<div class="col s12">
-					<img [src]="'http://127.0.0.1:8080/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0])" alt="{{venda.cliente.nome}}" class="responsive-img circle img-table" title="{{venda.cliente.nome}}">
-					<div class="input-field">
-						<select id="cliente" materialize="material_select" [materializeSelectOptions]="clientes" [(ngModel)]="venda.cliente" name="cliente">
-						  <option value="" disabled selected>Selecione o cliente</option>
-						  <option 
-						  *ngFor="let cliente of clientes" 
-						  [attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
-						  [ngValue]="cliente" 
-						  class="left circle"
-						  >{{cliente.nome}}</option>
-						</select>
+					<div class="row valign-wrapper">
+						<div class="col s05">
+							<img [src]="'http://127.0.0.1:8080/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0])" alt="{{venda.cliente.nome}}" class="responsive-img circle img-table" title="{{venda.cliente.nome}}">
+						</div>
+						<div class="col s1105">
+							<div class="input-field">
+								<select 
+								id="cliente" 
+								materialize="material_select" 
+								[materializeSelectOptions]="clientes" 
+								[(ngModel)]="venda.cliente" 
+								name="cliente"
+								>
+								  <option value="" disabled selected>Selecione o cliente</option>
+								  <option 
+								  *ngFor="let cliente of clientes" 
+								  [attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+								  [value]="cliente._id" 
+								  class="left circle"
+								  >{{cliente.nome}}</option>
+								</select>
+								<label for="cliente">Selecione o cliente</label>
+							</div>
+						</div>
 					</div>
 					<div class="section"></div>
 					<!-- Switch -->
@@ -55,7 +86,7 @@
 					</div>
 					<div class="section"></div>
 					<!-- Sem nenhum serviço ou produtos -->
-					<div class="row" *ngIf="!produtos.length&&!servicos.length">
+					<div class="row" *ngIf="!produtos?.length&&!servicos?.length">
 						<div class="col s12">
 							<div class="section"></div>
 							<div class="center-align">
@@ -66,10 +97,11 @@
 							</div>
 						</div>
 					</div>
-					<div *ngIf="venda.cliente._id&&(produtos.length||servicos.length)">
+					<div *ngIf="venda.cliente._id&&(produtos?.length||servicos?.length)">
 						<table class="responsive-table">
 							<thead>
 								<tr>
+									<th data-field="foto"></th>
 									<th data-field="item">Produtos / Serviços</th>
 									<th data-field="qntde">Quant.</th> 
 									<th data-field="valor_venda">Valor Unitário</th>
@@ -82,6 +114,8 @@
 								<tr *ngFor="let item of venda.itens; let i = index; let first = first;">
 									<td>
 										<img [src]="'http://127.0.0.1:8080/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0])" alt="{{venda.itens[i].item.nome}}" class="responsive-img circle img-table" title="{{venda.itens[i].item.nome}}">
+									</td>
+									<td>
 										<div class="input-field">
 											<select 
 											id="item{{i}}" 
@@ -93,26 +127,28 @@
 											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
 											>
 												<option value="" disabled selected>Selecione</option>
-												<optgroup label="Produtos" *ngIf="produtos.length">
+												<optgroup label="Produtos" *ngIf="produtos?.length">
 													<option 
-													*ngFor="let produto of produtos" 
-													[ngValue]="produto"
+													*ngFor="let produto of getProdutos()" 
+													[value]="produto._id"
 													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
-													[disabled]="produto.selected"
+													[disabled]=""
 													>{{produto.nome}}
 													</option>
 												</optgroup>
-												<optgroup label="Servicos" *ngIf="servicos.length">
+												<optgroup label="Servicos" *ngIf="servicos?.length">
 													<option 
 													*ngFor="let servico of servicos" 
-													[ngValue]="servico"
+													[value]="servico._id"
 													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
+													[disabled]=""
 													>{{servico.nome}}
 													</option>
 												</optgroup>
 											</select>
+											<label for="item{{i}}">Selecione</label>
 										</div>
 									</td>
 									<td>
@@ -186,6 +222,8 @@
 								<tr>
 									<td>
 										<img [src]="'http://127.0.0.1:8080/uploads/' + (!novoItem.item.images[0] ? 'sem-foto.jpg' : novoItem.item.images[0])" alt="{{novoItem.item.nome}}" class="responsive-img circle img-table" title="{{novoItem.item.nome}}">
+									</td>
+									<td>
 										<div class="input-field">
 											<select 
 											id="novoItem" 
@@ -197,22 +235,23 @@
 											(change)="setNovoItem()"
 											>
 												<option value="" disabled selected>Selecione</option>
-												<optgroup label="Produtos" *ngIf="produtos.length">
+												<optgroup label="Produtos" *ngIf="produtos?.length">
 													<option 
-													*ngFor="let produto of produtos" 
-													[ngValue]="produto"
+													*ngFor="let produto of getProdutos()" 
+													[value]="produto._id"
 													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
-													[disabled]="produto.selected"
+													[disabled]=""
 													>{{produto.nome}}
 													</option>
 												</optgroup>
-												<optgroup label="Servicos" *ngIf="servicos.length">
+												<optgroup label="Servicos" *ngIf="servicos?.length">
 													<option 
 													*ngFor="let servico of servicos" 
-													[ngValue]="servico"
+													[value]="servico._id"
 													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
+													[disabled]=""
 													>{{servico.nome}}
 													</option>
 												</optgroup>
@@ -284,11 +323,6 @@
 										</div>
 									</td>
 									<td></td>
-									<!-- <td class="center-align">
-										<a class="waves-effect waves-light btn red darken-1" (click)="addItem()">
-											Adicionar
-										</a>
-									</td> -->
 								</tr>
 							</tbody>
 						</table>
@@ -313,6 +347,9 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="col s4">
+			<pre>{{ venda | json }}</pre>
 		</div>
 	</div>
 </form>

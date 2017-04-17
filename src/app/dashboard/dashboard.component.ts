@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ProdutosService } from '../_services/produtos.service';
+import { ItensService } from './../_services/itens.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,11 +13,11 @@ export class DashboardComponent implements OnInit {
 	loadStatus: boolean = false;
 
 	constructor(
-		private produtosService: ProdutosService
+		private itensService: ItensService
 	) { }
 
 	ngOnInit() {
-		this.produtosService.getProdutos().subscribe((produtos) => {
+		this.itensService.getItens().subscribe((produtos) => {
 
 			for (var i = 0; i < produtos.length; ++i) {
 				if(produtos[i].qntde_atual <= produtos[i].qntde_minima) {

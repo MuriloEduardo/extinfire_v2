@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
-import { ServicosService } from '../../_services/servicos.service';
+import { ItensService } from './../../_services/itens.service';
 
 import { FileUploader } from 'ng2-file-upload';
 
@@ -40,16 +40,21 @@ export class EditarServicoComponent implements OnInit {
 		url: AppSettings.API_ENDPOINT + 'upload'
 	});
 
+	hasBaseDropZoneOver:boolean = false;
+
 	constructor(
-		private servicosService: ServicosService,
+		private itensService: ItensService,
 		private route: ActivatedRoute,
 		private router: Router
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
+		/*this.inscricao = this.route.data.subscribe(
 			(data: {servico: any}) => this.servico = data.servico
-		);
+		);*/
+		this.itensService.getItem(this.route.params['id']).subscribe((servico) => {
+			this.servico = servico;
+		});
 	}
 
 	ngAfterViewChecked() {
@@ -68,7 +73,7 @@ export class EditarServicoComponent implements OnInit {
 		// Retira o Prefixo R$
 		this.servico.valor_venda = this.servico.valor_venda.replace('R$ ','');
 		
-		this.servicosService.updateServico(this.servico).subscribe(data => {
+		this.itensService.updateItem(this.servico).subscribe(data => {
 			if(data._id) {
 				this.uploader.uploadAll();
 				this.router.navigate(['servicos']);
@@ -79,6 +84,10 @@ export class EditarServicoComponent implements OnInit {
 
 	removeItemFotos(item: any) {
 		this.servico.images.splice(this.servico.images.indexOf(item), 1);
+	}
+
+	fileOverBase(e:any):void {
+		this.hasBaseDropZoneOver = e;
 	}
 
 	triggerToast(stringToast) {

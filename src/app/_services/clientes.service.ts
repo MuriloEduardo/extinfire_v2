@@ -29,8 +29,8 @@ export class ClientesService {
 	addCliente(newCliente: any) {
 
 		this.logsService.addLog({
-			nome: 'Adicionaou um cliente',
-			item: newCliente.nome
+			descricao: 'Adicionaou um cliente',
+			item: newCliente
 		}).subscribe(data => {});
 
 		let headers = new Headers();
@@ -41,8 +41,8 @@ export class ClientesService {
 	deleteCliente(cliente: any) {
 
 		this.logsService.addLog({
-			nome: 'Deletou um cliente',
-			item: cliente.nome
+			descricao: 'Deletou um cliente',
+			item: cliente
 		}).subscribe(data => {});
 
 		return this.http.delete(AppSettings.API_ENDPOINT + 'cliente/' + cliente._id).map(res => res.json());
@@ -51,8 +51,8 @@ export class ClientesService {
 	updateCliente(cliente: any) {
 		
 		this.logsService.addLog({
-			nome: 'Editou um cliente',
-			item: cliente.nome
+			descricao: 'Editou um cliente',
+			item: cliente
 		}).subscribe(data => {});
 
 		let headers = new Headers();

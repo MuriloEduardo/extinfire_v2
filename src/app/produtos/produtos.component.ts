@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ProdutosService } from './../_services/produtos.service';
+import { ItensService } from './../_services/itens.service';
 
 @Component({
   selector: 'app-produtos',
@@ -16,12 +16,12 @@ export class ProdutosComponent implements OnInit {
 	loadStatus: boolean = false;
 
 	constructor(
-		private produtosService: ProdutosService
+		private itensService: ItensService
 	) { }
 
 	ngOnInit() {
 
-		this.produtosService.getProdutos().subscribe((produtos) => {
+		this.itensService.getItens().subscribe((produtos) => {
 			this.produtos = produtos;
 
 			for (var i = 0; i < this.produtos.length; ++i) {

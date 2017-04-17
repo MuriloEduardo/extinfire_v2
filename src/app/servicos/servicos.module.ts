@@ -9,8 +9,6 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 
-import { ServicoResolver } from '../_guards/servico.resolver';
-
 import { ServicosRoutingModule } from './servicos.routing.module';
 
 import { ServicosComponent } from './servicos.component';
@@ -42,8 +40,6 @@ import { CurrencyFormatServicosPipe } from './../_pipes/currency-format-servicos
     Ng2OrderModule,
     ServicosRoutingModule
   ],
-  providers: [
-    ServicoResolver
-  ]
+  providers: []
 })
 export class ServicosModule { }

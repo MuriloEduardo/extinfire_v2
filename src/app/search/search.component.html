@@ -33,6 +33,14 @@
 				<span class="secondary-content red-text text-darken-4">
 					<i class="material-icons">&#xE315;</i>
 				</span>
+				<div 
+				*ngIf="(produto.qntde_atual <= 0) || (produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima)" 
+				class="chip white-text secondary-content" 
+				[ngClass]="{'red text-white': produto.qntde_atual <= 0, 'orange text-white': produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima}"
+				>
+					<h6 *ngIf="produto.qntde_atual <= 0">Acabou!</h6>
+					<h6 *ngIf="produto.qntde_atual > 0&&produto.qntde_atual < produto.qntde_minima">Está Acabando</h6>
+				</div>
 			</a>
 		</ul>
 		<!-- Clientes -->

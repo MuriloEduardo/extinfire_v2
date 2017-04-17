@@ -5,7 +5,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { FileUploader } from 'ng2-file-upload';
 
-import { ServicosService } from './../../_services/servicos.service';
+import { ItensService } from './../../_services/itens.service';
 
 import { AppSettings } from './../../app.config';
 
@@ -43,7 +43,7 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 	valor_venda: any;
 
 	constructor(
-		private servicosService: ServicosService,
+		private itensService: ItensService,
 		private router: Router
 	) { }
 
@@ -73,7 +73,7 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 		// Retira o Prefixo R$
 		newServico.valor_venda = newServico.valor_venda.replace('R$ ','');
 
-		this.servicosService.addServico(newServico).subscribe(servico => {
+		this.itensService.addItem(newServico).subscribe(servico => {
 			this.uploader.uploadAll();
 			this.router.navigate(['servicos']);
 			this.triggerToast('Serviço cadastrado com sucesso!');

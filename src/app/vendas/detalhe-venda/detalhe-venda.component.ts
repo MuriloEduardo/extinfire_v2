@@ -28,7 +28,7 @@ export class DetalheVendaComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
+		/*this.inscricao = this.route.data.subscribe(
 			(data: {venda: any}) => {
 				this.venda = data.venda;
 				
@@ -41,7 +41,10 @@ export class DetalheVendaComponent implements OnInit {
 					this.venda.itens[i].total = this.venda.itens[i].total.replace('.','').replace('.','').replace(',','.');
 				}
 			}
-		);
+		);*/
+		this.vendasService.getVenda(this.route.params['id']).subscribe((venda) => {
+			this.venda = venda;
+		});
 	}
     
     deleteVenda(venda: any) {

@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ProdutosService } from '../../_services/produtos.service';
+import { ItensService } from './../../_services/itens.service';
 
 import { FileUploader } from 'ng2-file-upload';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
@@ -39,16 +39,21 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 		url: AppSettings.API_ENDPOINT + 'upload'
 	});
 
+	hasBaseDropZoneOver:boolean = false;
+	
 	constructor(
-		private produtosService: ProdutosService,
+		private itensService: ItensService,
 		private route: ActivatedRoute,
 		private router: Router
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
+		/*this.inscricao = this.route.data.subscribe(
 			(data: {produto: any}) => this.produto = data.produto
-		);
+		);*/
+		this.itensService.getItem(this.route.params['id']).subscribe((produto) => {
+			this.produto = produto;
+		});
 	}
 
 	ngAfterViewChecked() {
@@ -67,7 +72,7 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 		this.produto.valor_venda = this.produto.valor_venda.replace('R$','');
 		this.produto.valor_custo = this.produto.valor_custo.replace('R$','');
 		
-		this.produtosService.updateProduto(this.produto).subscribe(data => {
+		this.itensService.updateItem(this.produto).subscribe(data => {
 			if(data._id) {
 				this.uploader.uploadAll();
 				this.router.navigate(['produtos']);
@@ -78,6 +83,10 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 
 	removeItemFotos(item: any) {
 		this.produto.images.splice(this.produto.images.indexOf(item), 1);
+	}
+
+	fileOverBase(e:any):void {
+		this.hasBaseDropZoneOver = e;
 	}
 
 	triggerToast(stringToast) {

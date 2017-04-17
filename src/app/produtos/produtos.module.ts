@@ -9,8 +9,6 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 
-import { ProdutoResolver } from '../_guards/produto.resolver';
-
 import { ProdutosRoutingModule } from './produtos.routing.module';
 
 import { ProdutosComponent } from './produtos.component';
@@ -42,8 +40,6 @@ import { CurrencyFormatProdutosPipe } from './../_pipes/currency-format-produtos
     Ng2OrderModule,
     ProdutosRoutingModule
   ],
-  providers: [
-    ProdutoResolver
-  ]
+  providers: []
 })
 export class ProdutosModule { }

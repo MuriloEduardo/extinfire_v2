@@ -1,12 +1,14 @@
-import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter, Output } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { VendasService } from './../../_services/vendas.service';
 import { ClientesService } from './../../_services/clientes.service';
+import { ItensService } from './../../_services/itens.service';
 
 declare var Materialize:any;
 
@@ -27,8 +29,7 @@ const numberMask = createNumberMask({
 export class NovaVendaComponent implements OnInit, AfterViewChecked {
 
 	maskMoney = numberMask;
-
-	inscricao: Subscription;
+	loadStatus: boolean = false;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
 	itens: any[];
@@ -78,43 +79,39 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
   	constructor(
 		private vendasService: VendasService,
 		private clientesService: ClientesService,
-		private route: ActivatedRoute,
+		private itensService: ItensService,
 		private router: Router
 	) { }
   
   	ngOnInit() {
-	  	
-	  	this.inscricao = this.route.data.subscribe(
-			(data: {produtos: any, clientes: any, servicos: any}) => {
-				
-				this.clientes = data.clientes;
-				this.servicos = data.servicos;
 
-				this.itens = data.produtos.concat(data.servicos);
-
-				for (var i = 0; i < data.produtos.length; ++i) {
+		this.itensService.getItens().subscribe((produtos) => {
+			
+			for (var i = 0; i < produtos.length; ++i) {
 					
-					if(data.produtos[i].qntde_atual>0) {
+				if(produtos[i].qntde_atual>0) {
 
-						this.produtos.push(data.produtos[i]);
-					}
+					this.produtos.push(produtos[i]);
 				}
 			}
-		);
+		});
+
+		this.clientesService.getClientes().subscribe((clientes) => {
+			this.clientes = clientes;
+
+			this.loadStatus = true;
+		});
+
+		this.itensService.getItens().subscribe((servicos) => {
+			this.servicos = servicos;
+		});
+
+		this.itens = this.produtos.concat(this.servicos);
   	}
   
   	ngAfterViewChecked() {
 		if(Materialize.updateTextFields)
 			Materialize.updateTextFields();
-
-		// Produto
-		for (var x = 0; x < this.venda.itens.length; ++x) {
-
-			this.produtos.filter((produto) => {
-				produto.selected = false;
-				produto.selected = produto._id === this.venda.itens[x].item._id ? true : false;
-			});
-		}
 	}
 
 	addItem() {
@@ -136,7 +133,19 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		};
 	}
 
+	currencyPipe(value: number, currencyCode: string = 'BRL', symbolDisplay: boolean = true, digits?: string): string {
+		if (!value) {
+	      return '';
+	    }
+
+		let currencyPipe: CurrencyPipe = new CurrencyPipe('pt-BR');
+    	let newValue: string = currencyPipe.transform(value, currencyCode, symbolDisplay, digits);
+
+    	return newValue.replace('R$', '');
+	}
+
 	setNovoItem() {
+		
 		if(!this.novoItem.item._id) return false;
 
 		// Se tem valor de custo é um produto
@@ -155,16 +164,49 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 
 		this.sumNovo();
 
-		this.itemSendoUsado(this.novoItem);
-
-		this.produtos.filter((produto) => {
+		/*this.produtos.filter((produto) => {
 			if(produto._id === this.novoItem.item._id) produto.selected = true;
-		});
+		});*/
 
 		this.addItem();
+
+		//this.itemSendoUsado(this.novoItem);
 	}
 
-	itemSendoUsado(item: any) {}
+	/*itemSendoUsado(item: any) {
+		
+		// Marcar produto ja sendo usado
+		this.venda.itens.filter((filterItem) => {
+			console.log(filterItem)
+			if(item._id === filterItem._id)
+				return true;
+		});
+
+		return false;
+
+		for (var x = 0; x < this.venda.itens.length; ++x) {
+			if(this.venda.itens[x].tipo) {
+				// Produto
+				this.produtos.filter((produto) => {
+					produto.selected = false;
+					produto.selected = produto._id === this.venda.itens[x].item._id ? true : false;
+				});
+			} else {
+
+				this.servicos.filter((servico) => {
+					servico.selected = false;
+					servico.selected = servico._id === this.venda.itens[x].item._id ? true : false;
+				});				
+			}
+		}
+
+		//this.servicos = this.servicos.slice();
+		//this.produtos = this.produtos.slice();
+	}*/
+
+	getProdutos() {
+		return this.produtos;
+	}
 
 	setItem(item: any) {
 
@@ -182,7 +224,7 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		
 		this.sumRow(item);
 
-		this.itemSendoUsado(item);
+		//this.itemSendoUsado(item);
 	}
 
 	formatDecimal(decimal: any) {
@@ -222,7 +264,9 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 			valorTotal += priceFloat;
 		}
 
-		return this.venda.valor_total = valorTotal;
+		this.venda.valor_total = this.currencyPipe(valorTotal);
+
+		return valorTotal;
 	}
 
 	sumRow(item: any) {
@@ -252,11 +296,8 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 			return false;
 		};
 
-		// Elimina oultimo produto que fica em vazio
 		for (var i = 0; i < this.venda.itens.length; ++i) {
-			if(!this.venda.itens[i].item.nome) {
-				this.venda.itens.splice(this.venda.itens.indexOf(this.venda.itens[i]), 1);
-			}
+			//this.venda.itens[i].total = this.currencyPipe(this.venda.itens[i].total);
 		}
 		
 		this.vendasService.addVenda(this.venda).subscribe(venda => {
@@ -267,9 +308,5 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 
 	triggerToast(stringToast: string, bgColor: string) {
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }

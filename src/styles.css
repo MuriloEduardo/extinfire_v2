@@ -165,21 +165,8 @@ a.breadcrumb:hover {
 .decimal {
 	text-align: right;
 }
-.eng-del-image {
-	position: relative;
-}
-.btn-del-image {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 22px;
-	height: 22px;
-	text-align: center;	
-	cursor: pointer;
-}
-.btn-del-image i {
-	font-size: 16px;
-	line-height: 22px;
+.disabled img.circle {
+	opacity: .3;
 }
 input[materialize="pickadate"] {
 	text-transform: capitalize;

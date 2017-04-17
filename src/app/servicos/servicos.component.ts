@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ServicosService } from './../_services/servicos.service';
+import { ItensService } from './../_services/itens.service';
 
 @Component({
   selector: 'app-servicos',
@@ -16,12 +16,12 @@ export class ServicosComponent implements OnInit {
 	loadStatus: boolean = false;
 
 	constructor(
-		private servicosService: ServicosService
+		private itensService: ItensService
 	) { }
 
 	ngOnInit() {
 
-		this.servicosService.getServicos().subscribe((servicos) => {
+		this.itensService.getItens().subscribe((servicos) => {
 			this.servicos = servicos;
 
 			for (var i = 0; i < this.servicos.length; ++i) {

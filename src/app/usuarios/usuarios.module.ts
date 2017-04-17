@@ -8,8 +8,6 @@ import { FileUploadModule } from "ng2-file-upload";
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 
-import { UsuarioResolver } from '../_guards/usuario.resolver';
-
 import { UsuariosRoutingModule } from './usuarios.routing.module';
 
 import { UsuariosComponent } from './usuarios.component';
@@ -36,8 +34,6 @@ import { ListaUsuariosComponent } from './lista-usuarios/lista-usuarios.componen
     Ng2OrderModule,
     UsuariosRoutingModule
   ],
-  providers: [
-    UsuarioResolver
-  ]
+  providers: []
 })
 export class UsuariosModule { }

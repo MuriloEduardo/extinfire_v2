@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
-import { ProdutosService } from '../../_services/produtos.service';
+import { ItensService } from './../../_services/itens.service';
 
 import { AppSettings } from '../../app.config';
 
@@ -45,7 +45,7 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 	qntde_minima: number;
 
 	constructor(
-		private produtosService: ProdutosService,
+		private itensService: ItensService,
 		private router: Router
 	) { }
 
@@ -75,7 +75,7 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 			newProduto.images.push(this.uploader.queue[i].file.name);
 		}
 		
-		this.produtosService.addProduto(newProduto).subscribe(produto => {
+		this.itensService.addItem(newProduto).subscribe(produto => {
 			this.uploader.uploadAll();
 			this.router.navigate(['produtos']);
 			this.triggerToast('Produto cadastrado com sucesso!');
