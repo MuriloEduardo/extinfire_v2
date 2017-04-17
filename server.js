@@ -7,6 +7,8 @@ let mongoose = require('mongoose');
 let configDB = require('./server/config/database');
 let multer = require('multer');
 let morgan = require('morgan');
+let favicon = require('serve-favicon');
+let path = require('path');
 
 let options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
             	replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
@@ -30,10 +32,9 @@ let allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use(morgan('dev'));
-
 app.use('/uploads', express.static('server/uploads'));
+app.use(favicon(path.join(__dirname, 'server', 'images', 'favicon.ico')))
 
 let port = process.env.PORT || 8080;
 

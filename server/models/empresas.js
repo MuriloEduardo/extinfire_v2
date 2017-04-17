@@ -2,7 +2,7 @@
 
 let mongoose = require('mongoose');
 
-let empresaSchema = mongoose.Schema({
+let empresasSchema = mongoose.Schema({
 	nome: String,
 	logotipo: String,
 	cnpj: String,
@@ -12,4 +12,4 @@ let empresaSchema = mongoose.Schema({
 	}
 });
 
-module.exports = mongoose.model('Empresa', empresaSchema);
+module.exports = mongoose.model('Empresas', empresasSchema);

@@ -3,7 +3,7 @@
 let mongoose  = require('mongoose');
 let bcrypt    = require('bcryptjs');
 
-let usuarioSchema = mongoose.Schema({
+let usuariosSchema = mongoose.Schema({
 	nome: String,
 	image: String,
 	tipo: String,
@@ -15,12 +15,12 @@ let usuarioSchema = mongoose.Schema({
     }
 });
 
-usuarioSchema.methods.generateHash = function(senha){
+usuariosSchema.methods.generateHash = function(senha){
 	return bcrypt.hashSync(senha, bcrypt.genSaltSync(9));
 }
 
-usuarioSchema.methods.validPassword = function(senha){
+usuariosSchema.methods.validPassword = function(senha){
 	return bcrypt.compareSync(senha, this.senha);
 }
 
-module.exports = mongoose.model('Usuario', usuarioSchema);
+module.exports = mongoose.model('Usuarios', usuariosSchema);

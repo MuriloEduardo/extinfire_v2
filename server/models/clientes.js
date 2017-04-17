@@ -2,11 +2,12 @@
 
 let mongoose = require('mongoose');
 
-let clienteSchema = mongoose.Schema({
+let clientesSchema = mongoose.Schema({
 	images: [],
 	nome: String,
 	representante: String,
 	cnpj: String,
+	cpf: String,
 	insc_estadual: String,
 	comprador: String,
 	foto: String,
@@ -29,4 +30,4 @@ let clienteSchema = mongoose.Schema({
         default: Date.now 
     }
 });
-module.exports = mongoose.model('Cliente', clienteSchema);
+module.exports = mongoose.model('Clientes', clientesSchema);
