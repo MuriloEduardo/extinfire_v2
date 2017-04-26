@@ -6,12 +6,12 @@ let Schema = mongoose.Schema;
 let vendasSchema = mongoose.Schema({
 	cliente: {
 		type: Schema.Types.ObjectId, 
-		ref: 'Cliente'
+		ref: 'Clientes'
 	},
 	itens: [{
 		item: {
 			type: Schema.Types.ObjectId, 
-			ref: 'Item'
+			ref: 'Itens'
 		},
 		qntde: Number,
 		total: String,

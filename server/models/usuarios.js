@@ -6,7 +6,7 @@ let bcrypt    = require('bcryptjs');
 let usuariosSchema = mongoose.Schema({
 	nome: String,
 	image: String,
-	tipo: String,
+	tipo: Boolean,
 	email: String,
 	senha: String,
 	updatedAt: {

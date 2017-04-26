@@ -7,11 +7,9 @@ let mongoose = require('mongoose');
 let configDB = require('./server/config/database');
 let multer = require('multer');
 let morgan = require('morgan');
-let favicon = require('serve-favicon');
-let path = require('path');
 
 let options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
-            	replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
+              replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
 
 mongoose.connect(configDB.url, options, (err, res) => {
   mongoose.Promise = global.Promise;
@@ -20,7 +18,6 @@ mongoose.connect(configDB.url, options, (err, res) => {
 });
 
 let allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:4200');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -32,9 +29,10 @@ let allowCrossDomain = function(req, res, next) {
 app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use(morgan('dev'));
+
 app.use('/uploads', express.static('server/uploads'));
-app.use(favicon(path.join(__dirname, 'server', 'images', 'favicon.ico')))
 
 let port = process.env.PORT || 8080;
 

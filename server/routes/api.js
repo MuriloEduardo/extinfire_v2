@@ -27,7 +27,10 @@ let upload 		= multer({ storage: storage });
 /////////////////////////////////////////////
 router.get('/pdf/:vendaId', (req, res, next) => {
 	
-	Venda.findOne({_id: req.params.vendaId}, function(err, venda){
+	Vendas.findOne({_id: req.params.vendaId})
+	.populate('cliente')
+	.populate('itens.item')
+	.exec(function(err, venda) {
 		
 		if(err) res.send(err);
 
@@ -63,7 +66,7 @@ router.get('/pdf/:vendaId', (req, res, next) => {
 		
 		// Tpo de Serviço
 		pdf.fontSize(16)
-		.text(venda.tipo, 235, 65, {
+		.text(!venda.tipo ? 'Orçamento' : 'Pedido', 235, 65, {
 			width: 160,
 			align: 'center'
 		});
@@ -276,7 +279,7 @@ router.get('/pdf/:vendaId', (req, res, next) => {
 /////////////////////////////////////////////////////
 
 router.post('/authenticate', (req, res, next) => {
-	User.findOne({
+	Usuarios.findOne({
         'email': req.body.email
     }, function(err, user){
         if (err) throw err;
@@ -354,8 +357,11 @@ router.delete('/item/:id', (req, res, next) => {
 
 // Update Item
 router.put('/item/:id', (req, res, next) => {
+	
 	let dadosItem = req.body;
+
 	Itens.findOne({_id: req.params.id}, function(err, item){
+	
 		if(err) res.send(err);
 
 		if(!dadosItem) {
@@ -371,7 +377,12 @@ router.put('/item/:id', (req, res, next) => {
 			if(dadosItem.valor_custo) item.qntde_minima = dadosItem.qntde_minima;
 
 			item.save((err, data) => {
+				
 				if(err) res.send(err);
+
+				Vendas.find({}, function(err, item) {
+
+				});
 				res.json(data);
 			});
 		}
@@ -444,7 +455,7 @@ router.delete('/cliente/:id', (req, res, next) => {
 // Update Cliente
 router.put('/cliente/:id', (req, res, next) => {
 	let dadosCliente = req.body;
-	Cliente.findOne({_id: req.params.id}, function(err, cliente){
+	Clientes.findOne({_id: req.params.id}, function(err, cliente){
 		if(err) res.send(err);
 
 		if(!dadosCliente) {
@@ -486,22 +497,22 @@ router.put('/cliente/:id', (req, res, next) => {
 // Get All Vendas
 router.get('/vendas', (req, res, next) => {
 	Vendas.find({})
-		.populate('cliente')
-		.populate('itens.item')
-		.exec(function(err, vendas) {
-			if(err) res.send(err);
-			res.json(vendas);
+	.populate('cliente')
+	.populate('itens.item')
+	.exec(function(err, vendas) {
+		if(err) res.send(err);
+		res.json(vendas);
 	});
 });
 
 // Get Venda
 router.get('/venda/:id', (req, res, next) => {
 	Vendas.findOne({_id: req.params.id})
-		.populate('cliente')
-		.populate('itens.item')
-		.exec(function(err, venda) {
-			if(err) res.send(err);
-			res.json(venda);
+	.populate('cliente')
+	.populate('itens.item')
+	.exec(function(err, venda) {
+		if(err) res.send(err);
+		res.json(venda);
 	});
 });
 
@@ -512,8 +523,8 @@ router.post('/venda', (req, res, next) => {
 		res.json({"error": "dados incompletos"});
 	} else {
 
-		let novaVenda = new Vendas();
-
+		let novaVenda 		  = new Vendas();
+		
 		novaVenda.cliente     = dadosVenda.cliente;
 		novaVenda.itens 	  = dadosVenda.itens;
 		novaVenda.tipo 		  = dadosVenda.tipo;
@@ -533,18 +544,18 @@ router.post('/venda', (req, res, next) => {
 					}
 				}
 				
-				Produto.find({_id: { $in: idItens }}, (err, produtos) => {
+				Itens.find({_id: { $in: idItens }}, (err, itens) => {
 					if(err) throw err;
 
 					for (let o = 0; o < dadosVenda.itens.length; o++) {
 
-						for (let u = 0; u < produtos.length; u++) {
+						for (let u = 0; u < itens.length; u++) {
 
-							if(dadosVenda.itens[o].item._id == produtos[u]._id) {
+							if(dadosVenda.itens[o].item._id == itens[u]._id) {
 
-								produtos[u].qntde_atual = produtos[u].qntde_atual - dadosVenda.itens[o].qntde;
+								itens[u].qntde_atual = itens[u].qntde_atual - dadosVenda.itens[o].qntde;
 
-								Produto.findOneAndUpdate({_id: produtos[u]._id}, produtos[u], {upsert: true}, (err, data) => {
+								Itens.findOneAndUpdate({_id: itens[u]._id}, itens[u], {upsert: true}, (err, data) => {
 									if(err) throw err;
 								});
 							}
@@ -780,11 +791,10 @@ router.put('/usuario/:id', (req, res, next) => {
 // Get All Logs
 router.get('/logs', (req, res, next) => {
 	Logs.find({})
-		.populate('usuario')
-		.populate('item')
-		.exec(function(err, logs) {
-			if(err) res.send(err);
-			res.json(logs);
+	.populate('usuario')
+	.exec(function(err, logs) {
+		if(err) res.send(err);
+		res.json(logs);
 	});
 });
 

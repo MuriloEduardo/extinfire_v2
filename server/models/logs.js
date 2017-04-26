@@ -7,12 +7,9 @@ let logsSchema = mongoose.Schema({
 	descricao: String,
 	usuario: {
 		type: Schema.Types.ObjectId, 
-		ref: 'Usuario'
+		ref: 'Usuarios'
 	},
-	item: {
-		type: Schema.Types.ObjectId, 
-		ref: 'Item'
-	},
+	item: String,
 	updatedAt: {
         type: Date, 
         default: Date.now 
