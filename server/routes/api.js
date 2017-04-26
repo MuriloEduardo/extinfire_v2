@@ -461,6 +461,8 @@ router.put('/cliente/:id', (req, res, next) => {
 		if(!dadosCliente) {
 			res.json({"error": "dados incompletos"});
 		} else {
+			
+			console.log(dadosCliente)
 
 			cliente.images = dadosCliente.images;
 			cliente.nome = dadosCliente.nome;
