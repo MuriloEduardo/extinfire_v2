@@ -422,20 +422,28 @@ router.post('/cliente', (req, res, next) => {
 		novoCliente.cnpj = dadosCliente.cnpj;
 		novoCliente.insc_estadual = dadosCliente.insc_estadual;
 		novoCliente.comprador = dadosCliente.comprador;
-		novoCliente.contato = {
-			fone: dadosCliente.contato.fone,
-			celular: dadosCliente.contato.celular,
-			email: dadosCliente.contato.email
-		};
-		novoCliente.endereco = {
-			logradouro: dadosCliente.endereco.logradouro,
-			numero: dadosCliente.endereco.numero,
-			complemento: dadosCliente.endereco.complemento,
-			bairro: dadosCliente.endereco.bairro,
-			cidade: dadosCliente.endereco.cidade,
-			estado: dadosCliente.endereco.estado,
-			cep: dadosCliente.endereco.cep
-		};
+
+		if(dadosCliente.contato) {
+			
+			novoCliente.contato = {
+				fone: dadosCliente.contato.fone,
+				celular: dadosCliente.contato.celular,
+				email: dadosCliente.contato.email
+			};
+		}
+		
+		if(dadosCliente.endereco) {
+			
+			novoCliente.endereco = {
+				logradouro: dadosCliente.endereco.logradouro,
+				numero: dadosCliente.endereco.numero,
+				complemento: dadosCliente.endereco.complemento,
+				bairro: dadosCliente.endereco.bairro,
+				cidade: dadosCliente.endereco.cidade,
+				estado: dadosCliente.endereco.estado,
+				cep: dadosCliente.endereco.cep
+			};
+		}
 
 		novoCliente.save((err, data) => {
 			if(err) res.send(err);
@@ -461,8 +469,6 @@ router.put('/cliente/:id', (req, res, next) => {
 		if(!dadosCliente) {
 			res.json({"error": "dados incompletos"});
 		} else {
-			
-			console.log(dadosCliente)
 
 			cliente.images = dadosCliente.images;
 			cliente.nome = dadosCliente.nome;
@@ -470,20 +476,28 @@ router.put('/cliente/:id', (req, res, next) => {
 			cliente.cnpj = dadosCliente.cnpj;
 			cliente.insc_estadual = dadosCliente.insc_estadual;
 			cliente.comprador = dadosCliente.comprador;
-			cliente.contato = {
-				fone: dadosCliente.contato.fone,
-				celular: dadosCliente.contato.celular,
-				email: dadosCliente.contato.email
-			};
-			cliente.endereco = {
-				logradouro: dadosCliente.endereco.logradouro,
-				numero: dadosCliente.endereco.numero,
-				complemento: dadosCliente.endereco.complemento,
-				bairro: dadosCliente.endereco.bairro,
-				cidade: dadosCliente.endereco.cidade,
-				estado: dadosCliente.endereco.estado,
-				cep: dadosCliente.endereco.cep
-			};
+
+			if(dadosCliente.contato) {
+				
+				cliente.contato = {
+					fone: dadosCliente.contato.fone,
+					celular: dadosCliente.contato.celular,
+					email: dadosCliente.contato.email
+				};
+			}
+
+			if(dadosCliente.endereco) {
+				
+				cliente.endereco = {
+					logradouro: dadosCliente.endereco.logradouro,
+					numero: dadosCliente.endereco.numero,
+					complemento: dadosCliente.endereco.complemento,
+					bairro: dadosCliente.endereco.bairro,
+					cidade: dadosCliente.endereco.cidade,
+					estado: dadosCliente.endereco.estado,
+					cep: dadosCliente.endereco.cep
+				};
+			}
 
 			cliente.save((err, data) => {
 				if(err) res.send(err);
@@ -703,10 +717,14 @@ router.put('/empresa', (req, res, next) => {
 			empresa.nome = dadosEmpresa.nome;
 			empresa.logotipo = dadosEmpresa.logotipo;
 			empresa.cnpj = dadosEmpresa.cnpj;
-			empresa.endereco = {
-				logradouro: dadosEmpresa.endereco.logradouro,
-				cep: dadosEmpresa.endereco.cep
-			};
+			
+			if(dadosEmpresa.endereco) {
+				
+				empresa.endereco = {
+					logradouro: dadosEmpresa.endereco.logradouro,
+					cep: dadosEmpresa.endereco.cep
+				};
+			}
 			
 			empresa.save((err, data) => {
 				if(err) res.send(err);
