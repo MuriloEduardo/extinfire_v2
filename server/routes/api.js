@@ -23,19 +23,10 @@ let storage 	= multer.diskStorage({
 });
 let upload 		= multer({ storage: storage });
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> a90c90875770416449d6528c4bbdfb13285b7a7f
 router.get('/', (req, res) => {
 	res.send('api works!');
 });
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 235b6fe7f561721f547484d57a657cbec9917fa3
->>>>>>> a90c90875770416449d6528c4bbdfb13285b7a7f
 //////////////// PDF ////////////////////////
 /////////////////////////////////////////////
 router.get('/pdf/:vendaId', (req, res, next) => {
