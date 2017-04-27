@@ -1,5 +1,6 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Rx';
 
 import { AuthService } from '../_services/auth.service';
 import { Usuario } from '../usuarios/usuario';
@@ -11,11 +12,12 @@ declare let Materialize:any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
 	private usuario: Usuario = new Usuario();
 	resposta: {};
 	loadLogin: boolean = false;
+	inscricao: Subscription;
 
 	constructor(
 		private authService: AuthService,
@@ -38,7 +40,7 @@ export class LoginComponent implements OnInit {
 
 	fazerLogin() {
 		this.loadLogin = true;
-		this.authService.fazerLogin(this.usuario).subscribe((res) => {
+		this.inscricao = this.authService.fazerLogin(this.usuario).subscribe((res) => {
 			if(res.success) {
 				this.resposta = {res: true, string: 'Sucesso!'};
 				this.router.navigate(['']);
@@ -51,5 +53,9 @@ export class LoginComponent implements OnInit {
 			;
 			this.loadLogin = false
 		});
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

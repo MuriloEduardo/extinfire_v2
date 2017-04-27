@@ -11,14 +11,13 @@ import { ItensService } from './../_services/itens.service';
 })
 export class FinanceiroComponent implements OnInit {
 
-  produtos: any[] = [];
   vendas: any[] = [];
-  clientes: any[] = [];
+  vendasLiquidas: any[] = [];
 
   loadStatus: boolean = false;
 
-  faturamentoTotal:any = '0';
-  /*lucroTotalEstoque:number = 0;*/
+  faturamentoBruto:any;
+  faturamentoLiquido:any;
 
   validadeDe: any = new Date().toLocaleDateString('pt-BR');
   validadeAte: any = new Date().toLocaleDateString('pt-BR');
@@ -38,7 +37,12 @@ export class FinanceiroComponent implements OnInit {
     format:'dd/mm/yyyy',
     closeOnSelect: true,
     selectMonths: true, 
-    selectYears: 15 
+    selectYears: 15,
+    onSet: function (ele) {
+      if(ele.select){
+        this.close();
+      }
+    }
   };
 
 	constructor(
@@ -57,15 +61,40 @@ export class FinanceiroComponent implements OnInit {
       
       this.vendas = vendas;
 
-      let valorSomadoTotal = 0;
+      let faturamentoBrutoSomado = 0;
+      let faturamentoLiquidoSomado = 0;
 
       for (var i = 0; i < this.vendas.length; ++i) {
-        console.log(parseFloat(this.formatDecimal(this.vendas[i].valor_total)))
-        
-        valorSomadoTotal += parseFloat(this.formatDecimal(this.vendas[i].valor_total));
+
+        // SOMENTE SE FOR PEDIDOS
+        // ORCAMENTOS NAO SAO CONTABILIZADOS
+        if(this.vendas[i].tipo) {
+
+          let dateFormated = new Date(this.vendas[i].updatedAt).toLocaleString('pt-BR');
+          this.lineChartLabels.push(dateFormated);
+
+          faturamentoBrutoSomado += parseFloat(this.formatDecimal(this.vendas[i].valor_total));
+          this.vendas[i].valor_total = this.formatDecimal(this.vendas[i].valor_total);
+
+          this.vendas[i].itens.filter((item) => {
+
+            // Calculo para valor liquido:
+            // Valor Total do Item no Pedido - (Valor de custo * quantidade do item no pedido)
+
+            // Se for servico, o preco de custo é 0
+
+            // Valor de Todo Liquido
+            // De todos os pedidos
+            faturamentoLiquidoSomado += this.vendas[i].valor_liquido = parseFloat(this.formatDecimal(item.total)) - (parseFloat(this.formatDecimal(item.item.valor_custo ? item.item.valor_custo : 0)) * item.qntde);
+            this.valoresLiquidos.push(this.vendas[i].valor_liquido);
+          });
+
+          this.valoresBrutos.push(this.vendas[i].valor_total);
+        }
       }
 
-      this.faturamentoTotal = valorSomadoTotal;
+      this.faturamentoBruto = faturamentoBrutoSomado;
+      this.faturamentoLiquido = faturamentoLiquidoSomado;
 
       this.loadStatus = true;
     });
@@ -106,5 +135,58 @@ export class FinanceiroComponent implements OnInit {
     if(decimal.indexOf(',')!==-1) decimal = decimal.replace(',','.');
 
     return decimal;
+  }
+
+  valoresBrutos: any[] = [];
+  valoresLiquidos: any[] = [];
+
+  // lineChart
+  public lineChartData:Array<any> = [
+    {data: this.valoresBrutos, label: 'Valor Bruto'},
+    {data: this.valoresLiquidos, label: 'Valor Liquido'}
+  ];
+  public lineChartLabels:Array<any> = [];
+  public lineChartOptions:any = {
+    responsive: true
+  };
+  public lineChartColors:Array<any> = [
+    { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,177,1)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    },
+    { // dark grey
+      backgroundColor: 'rgba(229, 57, 53,0.2)',
+      borderColor: 'rgba(229, 57, 53,1)',
+      pointBackgroundColor: 'rgba(229, 57, 53,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(229, 57, 53,1)'
+    }
+  ];
+  public lineChartLegend:boolean = true;
+  public lineChartType:string = 'line';
+ 
+  public randomize():void {
+    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
+    for (let i = 0; i < this.lineChartData.length; i++) {
+      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
+      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
+        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
+      }
+    }
+    this.lineChartData = _lineChartData;
+  }
+ 
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+ 
+  public chartHovered(e:any):void {
+    console.log(e);
   }
 }

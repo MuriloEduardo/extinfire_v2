@@ -78,7 +78,7 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 		this.itensService.addItem(newProduto).subscribe(produto => {
 			this.uploader.uploadAll();
 			this.router.navigate(['produtos']);
-			this.triggerToast('Produto cadastrado com sucesso!');
+			this.triggerToast('Produto cadastrado com sucesso!', 'green');
 		});
 	}
 
@@ -88,7 +88,7 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 		this.hasBaseDropZoneOver = e;
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
 	}
 }

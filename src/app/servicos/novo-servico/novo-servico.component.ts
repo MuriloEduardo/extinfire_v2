@@ -76,7 +76,7 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 		this.itensService.addItem(newServico).subscribe(servico => {
 			this.uploader.uploadAll();
 			this.router.navigate(['servicos']);
-			this.triggerToast('Serviço cadastrado com sucesso!');
+			this.triggerToast('Serviço cadastrado com sucesso!', 'green');
 		});
 	}
 
@@ -86,7 +86,7 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 		this.hasBaseDropZoneOver = e;
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
 	}
 }

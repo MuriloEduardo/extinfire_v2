@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
@@ -28,13 +28,14 @@ const numberMask = createNumberMask({
   templateUrl: './editar-servico.component.html',
   styleUrls: ['./editar-servico.component.css']
 })
-export class EditarServicoComponent implements OnInit {
+export class EditarServicoComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 	maskMoney = numberMask;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	servico: any = {};
+	loadStatus: boolean = false;
 
 	uploader:FileUploader = new FileUploader({
 		url: AppSettings.API_ENDPOINT + 'upload'
@@ -49,11 +50,17 @@ export class EditarServicoComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		/*this.inscricao = this.route.data.subscribe(
-			(data: {servico: any}) => this.servico = data.servico
-		);*/
-		this.itensService.getItem(this.route.params['id']).subscribe((servico) => {
-			this.servico = servico;
+
+		this.inscricao = this.route.params.subscribe((params: Params) => {
+
+			this.itensService.getItem(params['id']).subscribe(servico => {
+
+				this.servico = servico;
+
+				this.servico.valor_venda = this.servico.valor_venda.replace('.','').replace('.','').replace(',','.');
+
+				this.loadStatus = true;
+			});
 		});
 	}
 
@@ -77,7 +84,7 @@ export class EditarServicoComponent implements OnInit {
 			if(data._id) {
 				this.uploader.uploadAll();
 				this.router.navigate(['servicos']);
-				this.triggerToast('Servico editado!');
+				this.triggerToast('Servico editado com sucesso!', 'green');
 			}
 		});
 	}
@@ -90,7 +97,11 @@ export class EditarServicoComponent implements OnInit {
 		this.hasBaseDropZoneOver = e;
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

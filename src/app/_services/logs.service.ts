@@ -18,10 +18,11 @@ export class LogsService {
   	}
 
 	addLog(newLog: any) {
+
 		newLog = {
 			usuario: JSON.parse(window.localStorage.getItem('user'))._id,
 			descricao: newLog.descricao,
-			item: newLog.item._id
+			item: newLog.item.nome
 		};
 
 		let headers = new Headers();

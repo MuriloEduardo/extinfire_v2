@@ -7,7 +7,25 @@
 		</div>
 	</div>
 </nav>
-<form (submit)="updateUsuario($event)">
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<form (submit)="updateUsuario($event)" *ngIf="loadStatus">
 	<!-- Botoes de ação -->
 	<div class="row">
 		<div class="col s12 right-align">
@@ -17,19 +35,16 @@
 	</div>
 	<div class="section"></div>
 	<div class="row">
-		<div class="col s12">
+		<div class="col s12 push-m3 m6 center-align">
 			<div class="row">
-				<div class="col s6">
-					<div class="input-field">
-						<input id="nome" type="text" [(ngModel)]="usuario.nome" name="nome" required="" aria-required="true">
-						<label for="nome">Nome</label>
-					</div>
-					<div class="input-field">
-						<input id="email" type="email" [(ngModel)]="usuario.email" name="email"  required="" aria-required="true">
-						<label for="email">Email</label>
+				<div class="col s12">
+					<div class="firs-letter-big-users z-depth-2 circle red darken-1">
+						{{ usuario.nome.charAt(0) || '' }}
 					</div>
 				</div>
-				<div class="col s6">
+			</div>
+			<div class="row">
+				<div class="col s12">
 					<div class="input-field">
 						<!-- Switch -->
 						<div class="switch">
@@ -40,6 +55,19 @@
 								Admnistrador
 							</label>
 						</div>
+					</div>
+				</div>
+			</div>
+			<br><br>
+			<div class="row">
+				<div class="col s12">
+					<div class="input-field">
+						<input id="nome" type="text" [(ngModel)]="usuario.nome" name="nome" required="" aria-required="true">
+						<label for="nome">Nome</label>
+					</div>
+					<div class="input-field">
+						<input id="email" type="email" [(ngModel)]="usuario.email" name="email"  required="" aria-required="true">
+						<label for="email">Email</label>
 					</div>
 				</div>
 			</div>

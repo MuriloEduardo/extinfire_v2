@@ -42,9 +42,9 @@
 				<thead>
 					<tr class="orders">
 						<th 
-						data-field="usuario" 
-						(click)="setOrder('usuario')"
-						[class.active]="order === 'usuario'"
+						data-field="usuario.nome" 
+						(click)="setOrder('usuario.nome')"
+						[class.active]="order === 'usuario.nome'"
 						>
 							Usuário
 							<span [hidden]="reverse">
@@ -81,9 +81,9 @@
 							</span>
 						</th>
 						<th 
-						data-field="criadoEm" 
-						(click)="setOrder('criadoEm')"
-						[class.active]="order === 'criadoEm'"
+						data-field="updatedAt" 
+						(click)="setOrder('updatedAt')"
+						[class.active]="order === 'updatedAt'"
 						>
 							Data Criado
 							<span [hidden]="reverse">
@@ -97,9 +97,9 @@
 				</thead>
 				<tbody>
 					<tr *ngFor="let log of logs | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }">
-						<td>{{ log.usuario || '---' }}</td>
-						<td>{{ log.descricao || '---' }}</td>
-						<td>{{ log.item || '---' }}</td>
+						<td>{{ log.usuario.nome }}</td>
+						<td>{{ log.descricao }}</td>
+						<td>{{ log.item }}</td>
 						<td>{{ log.updatedAt  | date:'dd/MM/yyyy HH:mm:ss' }}</td>
 					</tr>
 				</tbody>

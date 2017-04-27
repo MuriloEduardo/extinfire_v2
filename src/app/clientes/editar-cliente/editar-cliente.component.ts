@@ -1,7 +1,6 @@
-import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
-
+import { Component, OnInit, AfterViewChecked, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { ClientesService } from './../../_services/clientes.service';
 
@@ -17,10 +16,11 @@ declare let Materialize:any;
   templateUrl: './editar-cliente.component.html',
   styleUrls: ['./editar-cliente.component.css']
 })
-export class EditarClienteComponent implements OnInit {
+export class EditarClienteComponent implements OnInit, OnDestroy {
 	
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
+	loadStatus: boolean = false;
 
 	uploader:FileUploader = new FileUploader({
 		url: AppSettings.API_ENDPOINT + 'upload'
@@ -28,30 +28,7 @@ export class EditarClienteComponent implements OnInit {
 	
 	hasBaseDropZoneOver:boolean = false;
 
-	cliente: any = {
-	  _id: null,
-	  comprador: null,
-	  insc_estadual: null,
-	  cnpj: null,
-	  representante: null,
-	  nome: null,
-	  updatedAt: null,
-	  endereco: {
-	    logradouro: null,
-	    numero: null,
-	    complemento: null,
-	    bairro: null,
-	    cidade: null,
-	    estado: null,
-	    cep: null
-	  },
-	  contato: {
-	    fone: null,
-	    celular: null,
-	    email: null
-	  },
-	  images: []
-	};
+	cliente: any = {};
 
 	constructor(
 		private route: ActivatedRoute,
@@ -60,9 +37,16 @@ export class EditarClienteComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.inscricao = this.route.data.subscribe(
-			(data: {cliente: any}) => this.cliente = data.cliente
-		);
+
+		this.inscricao = this.route.params.subscribe((params: Params) => {
+
+			this.clientesService.getCliente(params['id']).subscribe(cliente => {
+
+				this.cliente = cliente;
+
+				this.loadStatus = true;
+			});
+		});
 	}
 
 	ngAfterViewChecked() {
@@ -81,7 +65,7 @@ export class EditarClienteComponent implements OnInit {
 		this.clientesService.updateCliente(this.cliente).subscribe(data => {
 			this.uploader.uploadAll();
 			this.router.navigate(['clientes']);
-			this.triggerToast('Cliente editado!');
+			this.triggerToast('Cliente editado com sucesso!', 'green');
 		});
 	}
 
@@ -93,7 +77,11 @@ export class EditarClienteComponent implements OnInit {
 		this.hasBaseDropZoneOver = e;
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, EventEmitter, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { Subscription } from 'rxjs/Rx';
 import { UsuariosService } from './../../_services/usuarios.service';
 
 import { MaterializeAction } from 'angular2-materialize';
@@ -12,10 +12,10 @@ declare let Materialize:any;
   templateUrl: './novo-usuario.component.html',
   styleUrls: ['./novo-usuario.component.css']
 })
-export class NovoUsuarioComponent implements OnInit, AfterViewChecked {
+export class NovoUsuarioComponent implements OnInit, AfterViewChecked, OnDestroy {
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
-
+	inscricao: Subscription;
 	email: string;
 	nome: string;
 	senha: string;
@@ -34,10 +34,6 @@ export class NovoUsuarioComponent implements OnInit, AfterViewChecked {
 			Materialize.updateTextFields();
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
-	}
-
 	novoUsuario(event) {
 		event.preventDefault();
 		
@@ -52,7 +48,15 @@ export class NovoUsuarioComponent implements OnInit, AfterViewChecked {
 		
 		this.usuariosService.addUser(newUser).subscribe(user => {
 			this.router.navigate(['usuarios']);
-	  		this.triggerToast('Usuário cadastrado com sucesso!');
+	  		this.triggerToast('Usuário cadastrado com sucesso!', 'green');
 		});
+	}
+
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

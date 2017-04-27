@@ -61,10 +61,10 @@
 					<div class="row">
 						<div class="lista-images">
 							<div class="col s3 center-align eng-del-image" *ngFor="let item of uploader.queue">
-								<img imgPreviewProduto [image]="item?._file" class="responsive-img">
-								<div class="z-depth-1 hoverable grey darken-4 circle white-text" (click)="item.remove()">
+								<div class="waves-effect waves-light btn grey darken-4" (click)="item.remove()">
 									<i class="material-icons">&#xE92B;</i>
 								</div>
+								<img imgPreviewProduto [image]="item?._file" class="responsive-img">
 							</div>
 						</div>
 					</div>

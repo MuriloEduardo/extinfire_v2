@@ -5,11 +5,18 @@
 		</div>
 	</div>
 </nav>
+<!-- Botoes de ação -->
+<div class="row">
+	<div class="col s12 right-align">
+		<a class="waves-effect waves-light btn red darken-1" (click)="updateUser()">Editar e Salvar</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/">Cancelar e Voltar</a>
+	</div>
+</div>
+<div class="section"></div>
 <div class="row">
 	<div class="col s12 push-m3 m6">
 		<div class="input-field center-align">
-			<img src="" alt="" *ngIf="user.foto_perfil">
-			<div class="firs-letter-users z-depth-2 circle red darken-1" *ngIf="!user.foto_perfil">
+			<div class="firs-letter-big-users z-depth-2 circle red darken-1">
 				{{ user.nome.charAt(0) }}
 			</div>
 		</div>
@@ -26,12 +33,6 @@
 			<label for="senha">Sua Senha</label>
 		</div>
 		<label>Deixe em branco para não alterar</label>
-	</div>
-</div>
-<div class="row">
-	<div class="col s6 offset-s3 right-align">
-		<a class="waves-effect waves-light btn red darken-1" (click)="updateUser()">Editar e Salvar</a>
-		<a class="waves-effect waves-light btn grey" routerLink="/">Cancelar e Voltar</a>
 	</div>
 </div>
 <a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

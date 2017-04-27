@@ -6,7 +6,7 @@
 	</div>
 </nav>
 <!-- Botoes de ação -->
-<div class="row">
+<div class="row" *ngIf="loadStatus">
 	<div class="col s12 right-align">
 		<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Serviço</a>
 	</div>

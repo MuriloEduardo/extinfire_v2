@@ -18,6 +18,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
+import { ChartsModule } from 'ng2-charts';
 
 import { UsuariosService } from './_services/usuarios.service';
 import { ClientesService } from './_services/clientes.service';
@@ -55,6 +56,7 @@ import { CurrencyFormatFinanceiroPipe } from './_pipes/currency-format-financeir
     Ng2PaginationModule,
     Ng2OrderModule,
     Ng2FilterPipeModule,
+    ChartsModule,
     AppRoutingModule
   ],
   providers: [

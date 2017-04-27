@@ -66,7 +66,7 @@
 								  <option 
 								  *ngFor="let cliente of clientes" 
 								  [attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
-								  [value]="cliente._id" 
+								  [ngValue]="cliente" 
 								  class="left circle"
 								  >{{cliente.nome}}</option>
 								</select>
@@ -129,7 +129,7 @@
 												<option value="" disabled selected>Selecione</option>
 												<optgroup label="Produtos" *ngIf="produtos?.length">
 													<option 
-													*ngFor="let produto of getProdutos()" 
+													*ngFor="let produto of produtos" 
 													[value]="produto._id"
 													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
@@ -237,7 +237,7 @@
 												<option value="" disabled selected>Selecione</option>
 												<optgroup label="Produtos" *ngIf="produtos?.length">
 													<option 
-													*ngFor="let produto of getProdutos()" 
+													*ngFor="let produto of produtos" 
 													[value]="produto._id"
 													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"

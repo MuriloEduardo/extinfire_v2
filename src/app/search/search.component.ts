@@ -14,13 +14,14 @@ import { LogsService } from '../_services/logs.service';
 export class SearchComponent implements OnInit {
 
 	produtos: any[] = [];
-	vendas: any[] = [];
+	vendas: any[]   = [];
 	clientes: any[] = [];
 	servicos: any[] = [];
 	usuarios: any[] = [];
-	logs: any[] = [];
+	logs: any[]     = [];
 
 	search: any = { nome: '' };
+	searchLog: any = { descricao: '' };
 
 	constructor(
 		private vendasService: VendasService,
@@ -39,16 +40,22 @@ export class SearchComponent implements OnInit {
 			this.vendas = vendas;
 		});
 
-		this.itensService.getItens().subscribe((produtos) => {
-			this.produtos = produtos;
+		this.itensService.getItens().subscribe((itens) => {
+			this.produtos = [];
+			this.servicos = [];
+			for (var i = 0; i < itens.length; ++i) {
+				if(itens[i].qntde_minima) {
+					// Tem quantidade minima
+					// ENtão é produto
+					this.produtos.push(itens[i]);
+				} else {
+					this.servicos.push(itens[i]);
+				}
+			}
 		});
 
 		this.clientesService.getClientes().subscribe((clientes) => {
 			this.clientes = clientes;
-		});
-
-		this.itensService.getItens().subscribe((servicos) => {
-			this.servicos = servicos;
 		});
 
 		this.usuariosService.getUsers().subscribe((usuarios) => {

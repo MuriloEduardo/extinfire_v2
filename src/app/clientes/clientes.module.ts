@@ -9,8 +9,6 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 
-import { ClienteResolver } from '../_guards/cliente.resolver';
-
 import { ClientesRoutingModule } from './clientes.routing.module';
 
 import { ClientesComponent } from './clientes.component';
@@ -39,8 +37,6 @@ import { ImagePreviewCliente } from './../_directives/image-preview-cliente.dire
     TextMaskModule,
     Ng2OrderModule
   ],
-  providers: [
-    ClienteResolver
-  ]
+  providers: []
 })
 export class ClientesModule { }

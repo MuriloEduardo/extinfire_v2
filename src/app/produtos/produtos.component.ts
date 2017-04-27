@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 
 import { ItensService } from './../_services/itens.service';
 
@@ -7,7 +8,9 @@ import { ItensService } from './../_services/itens.service';
   templateUrl: './produtos.component.html',
   styleUrls: ['./produtos.component.css']
 })
-export class ProdutosComponent implements OnInit {
+export class ProdutosComponent implements OnInit, OnDestroy {
+
+	inscricao: Subscription;
 
 	produtos: any[] = [];
 	
@@ -21,12 +24,19 @@ export class ProdutosComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.itensService.getItens().subscribe((produtos) => {
-			this.produtos = produtos;
+		this.inscricao = this.itensService.getItens().subscribe((produtos) => {
 
-			for (var i = 0; i < this.produtos.length; ++i) {
-				this.produtos[i].valor_custo = this.produtos[i].valor_custo.replace('.','').replace('.','').replace(',','.');
-				this.produtos[i].valor_venda = this.produtos[i].valor_venda.replace('.','').replace('.','').replace(',','.');
+			for (var i = 0; i < produtos.length; ++i) {
+				
+				if(produtos[i].qntde_minima) {
+
+					produtos[i].valor_custo = produtos[i].valor_custo.replace('.','').replace('.','').replace(',','.');
+					produtos[i].valor_venda = produtos[i].valor_venda.replace('.','').replace('.','').replace(',','.');
+
+					// Tem quantidade minima
+					// Então é produto
+					this.produtos.push(produtos[i]);
+				}
 			}
 			
 			this.loadStatus = true;
@@ -39,5 +49,9 @@ export class ProdutosComponent implements OnInit {
 		}
 
 		this.order = value;
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

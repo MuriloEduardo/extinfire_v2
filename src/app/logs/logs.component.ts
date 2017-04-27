@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 
 import { LogsService } from '../_services/logs.service';
 
@@ -7,11 +8,12 @@ import { LogsService } from '../_services/logs.service';
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css']
 })
-export class LogsComponent implements OnInit {
+export class LogsComponent implements OnInit, OnDestroy {
 
 	logs: any[] = [];
+	inscricao: Subscription;
 	
-	order: string = 'criadoEm';
+	order: string = 'updatedAt';
   	reverse: boolean = true;
 	loadStatus: boolean = false;
 
@@ -20,8 +22,11 @@ export class LogsComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.logsService.getLogs().subscribe((logs) => {
+		
+		this.inscricao = this.logsService.getLogs().subscribe((logs) => {
+
 			this.logs = logs;
+			
 			this.loadStatus = true;
 		});
 	}
@@ -32,5 +37,9 @@ export class LogsComponent implements OnInit {
 		}
 
 		this.order = value;
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

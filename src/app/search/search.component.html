@@ -88,14 +88,14 @@
 			</a>
 		</ul>
 		<!-- Logs -->
-		<ul class="collection with-header" *ngIf="(logs | filterBy: search).length !== 0">
+		<ul class="collection with-header" *ngIf="(logs | filterBy: searchLog).length !== 0">
 			<a routerLink="logs" class="collection-header red-text text-darken-1"><h5>Logs</h5></a>
-			<a class="collection-item avatar black-text text-darken-4" *ngFor="let log of logs | filterBy: search" routerLink="logs">
+			<a class="collection-item avatar black-text text-darken-4" *ngFor="let log of logs | filterBy: searchLog" routerLink="logs">
 				<div class="firs-letter-users circle black darken-4 valign">
-					{{ log.nome.charAt(0) }}
+					{{ log.descricao.charAt(0) }}
 				</div>
 				<div class="left">
-					<span class="title">{{ log.usuario + ' ' + log.nome }}</span>
+					<span class="title">{{ log.usuario.nome + ' ' + log.descricao + ' ' + log.item }}</span>
 					<p class="second-title">{{ log.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</p>
 				</div>
 				<span class="secondary-content red-text text-darken-4">

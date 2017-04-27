@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { ItensService } from './../../_services/itens.service';
 
@@ -27,13 +27,14 @@ const numberMask = createNumberMask({
   templateUrl: './editar-produto.component.html',
   styleUrls: ['./editar-produto.component.css']
 })
-export class EditarProdutoComponent implements OnInit, AfterViewChecked {
+export class EditarProdutoComponent implements OnInit, AfterViewChecked, OnDestroy {
 
 	maskMoney = numberMask;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	produto: any = {};
+	loadStatus: boolean = false;
 
 	uploader:FileUploader = new FileUploader({
 		url: AppSettings.API_ENDPOINT + 'upload'
@@ -48,11 +49,18 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 	) { }
 
 	ngOnInit() {
-		/*this.inscricao = this.route.data.subscribe(
-			(data: {produto: any}) => this.produto = data.produto
-		);*/
-		this.itensService.getItem(this.route.params['id']).subscribe((produto) => {
-			this.produto = produto;
+
+		this.inscricao = this.route.params.subscribe((params: Params) => {
+
+			this.itensService.getItem(params['id']).subscribe(produto => {
+
+				this.produto = produto;
+
+				this.produto.valor_custo = this.produto.valor_custo.replace('.','').replace('.','').replace(',','.');
+				this.produto.valor_venda = this.produto.valor_venda.replace('.','').replace('.','').replace(',','.');
+
+				this.loadStatus = true;
+			});
 		});
 	}
 
@@ -76,7 +84,7 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 			if(data._id) {
 				this.uploader.uploadAll();
 				this.router.navigate(['produtos']);
-				this.triggerToast('Produto editado!');
+				this.triggerToast('Produto editado com sucesso!', 'green');
 			}
 		});
 	}
@@ -89,7 +97,11 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 		this.hasBaseDropZoneOver = e;
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 
 import { ClientesService } from './../_services/clientes.service';
 
@@ -7,10 +8,10 @@ import { ClientesService } from './../_services/clientes.service';
   templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.component.css']
 })
-export class ClientesComponent implements OnInit {
+export class ClientesComponent implements OnInit, OnDestroy {
 
 	clientes: any[] = [];
-	
+	inscricao: Subscription;
 	loadStatus: boolean = false;
 	order: string = 'criadoEm';
   	reverse: boolean = true;
@@ -20,7 +21,7 @@ export class ClientesComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.clientesService.getClientes().subscribe(clientes => {
+		this.inscricao = this.clientesService.getClientes().subscribe(clientes => {
 			this.clientes = clientes;
 			this.loadStatus = true;
 		});
@@ -32,5 +33,9 @@ export class ClientesComponent implements OnInit {
 		}
 
 		this.order = value;
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

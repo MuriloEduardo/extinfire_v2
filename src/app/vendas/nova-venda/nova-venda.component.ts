@@ -32,10 +32,12 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 	loadStatus: boolean = false;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
-	itens: any[];
-	clientes: any[];
+	itens: any[] = [];
+	clientes: any[] = [];
+	
 	produtos: any[] = [];
-	servicos: any[];
+
+	servicos: any[] = [];
 	
 	paramsPickdate: any = {
 	    monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
@@ -85,28 +87,27 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
   
   	ngOnInit() {
 
-		this.itensService.getItens().subscribe((produtos) => {
-			
-			for (var i = 0; i < produtos.length; ++i) {
-					
-				if(produtos[i].qntde_atual>0) {
+		this.itensService.getItens().subscribe((itens) => {
 
-					this.produtos.push(produtos[i]);
+			for (var i = 0; i < itens.length; ++i) {
+				if(itens[i].qntde_minima&&itens[i].qntde_atual>0) {
+					// Tem quantidade minima
+					// ENtão é produto
+					this.produtos.push(itens[i]);
+				} else {
+					this.servicos.push(itens[i]);
 				}
+
+				this.itens.push(itens[i]);
 			}
 		});
 
 		this.clientesService.getClientes().subscribe((clientes) => {
+			
 			this.clientes = clientes;
 
 			this.loadStatus = true;
 		});
-
-		this.itensService.getItens().subscribe((servicos) => {
-			this.servicos = servicos;
-		});
-
-		this.itens = this.produtos.concat(this.servicos);
   	}
   
   	ngAfterViewChecked() {

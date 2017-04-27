@@ -239,12 +239,12 @@ export class NovoClienteComponent implements OnInit {
 		this.clientesService.addCliente(newCliente).subscribe(cliente => {
 			this.uploader.uploadAll();
 			this.router.navigate(['clientes']);
-	  		this.triggerToast('Cliente cadastrado com sucesso!');
+	  		this.triggerToast('Cliente cadastrado com sucesso!', 'green');
 		});
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
 	}
 
 	////////////////////////// Upload ///////////////////////////
