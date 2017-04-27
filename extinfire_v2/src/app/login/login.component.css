@@ -1,0 +1,10 @@
+.body-login {
+	padding: 32px 32px 0px 32px;
+	border: 1px solid #EEE;
+}
+#loadLogin {
+	margin: 8px 0;
+}
+.spinner-white-only {
+	border-color: #fff;
+}

@@ -1,0 +1,34 @@
+{{ vendaChild | json }}
+<div class="input-field">
+	<select 
+	id="item{{indexItem}}" 
+	name="item{{indexItem}}" 
+	
+	materialize="material_select" 
+	[materializeSelectOptions]="itensChild" 
+	[ngModel]="vendaChild.itens[indexItem].item"
+	>
+		<option value="" disabled selected>Selecione</option>
+		<optgroup label="Produtos" *ngIf="produtosChild?.length">
+			<option 
+			*ngFor="let produto of produtosChild | async" 
+			[ngValue]="produto"
+			[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+			class="left circle"
+			[disabled]="produto.selected"
+			>{{produto.nome}}
+			</option>
+		</optgroup>
+		<optgroup label="Servicos" *ngIf="servicosChild?.length">
+			<option 
+			*ngFor="let servico of servicosChild | async" 
+			[ngValue]="servico"
+			[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+			class="left circle"
+			[disabled]=""
+			>{{servico.nome}}
+			</option>
+		</optgroup>
+	</select>
+	<label for="item{{indexItem}}">Selecione</label>
+</div>
