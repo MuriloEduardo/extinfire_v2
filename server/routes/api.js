@@ -380,9 +380,9 @@ router.put('/item/:id', (req, res, next) => {
 				
 				if(err) res.send(err);
 
-				Vendas.find({}, function(err, item) {
+				/*Vendas.find({}, function(err, item) {
 
-				});
+				});*/
 				res.json(data);
 			});
 		}
