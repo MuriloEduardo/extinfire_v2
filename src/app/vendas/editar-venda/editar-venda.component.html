@@ -1,0 +1,185 @@
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<a routerLink="/vendas" class="breadcrumb">Lista de Vendas</a>
+			<a [routerLink]="['/vendas', venda._id]" class="breadcrumb">Detalhe da Venda</a>
+			<span class="breadcrumb">Editar Venda</span>
+		</div>
+	</div>
+</nav>
+<form (submit)="updateVenda($event)">
+	<!-- Botoes de ação -->
+	<div class="row">
+		<div class="col s12 right-align">
+			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
+			<a class="modal-action modal-close waves-effect waves-light btn grey" [routerLink]="['/vendas', venda._id]">Cancelar e VOltar</a>
+		</div>
+	</div>
+	<div class="section"></div>
+	<div class="row">
+	    <div class="col s12">
+	    	<div class="row">
+				<div class="col s12">
+					<div class="input-field">
+						<select 
+						id="cliente" 
+						materialize="material_select" 
+						[materializeSelectOptions]="clientes" 
+						[(ngModel)]="venda.cliente._id" 
+						name="cliente"
+						(change)="setCliente()"
+						[disabled]="tipoVenda=='Pedido'"
+						>
+						  <option value="" disabled selected>Selecione o cliente</option>
+						  <option 
+						  *ngFor="let cliente of clientes" 
+						  [value]="cliente._id"
+						  [attr.data-icon]="'/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+						  class="left circle"
+						  >{{cliente.nome}}</option>
+						</select>
+					</div>
+					<div class="section"></div>
+					<!-- Switch -->
+					<div class="switch">
+						<label>
+							Orçamento
+							<input type="checkbox" [(ngModel)]="venda.tipo" name="tipo">
+							<span class="lever"></span>
+							Pedido (Baixa no estoque)
+						</label>
+					</div>
+					<div class="section"></div>
+					<div *ngIf="(venda.cliente | json) != '{}'">
+						<table>
+							<thead>
+								<tr>
+									<th data-field="item">Produtos / Serviços</th>
+									<th data-field="qntde">Quant.</th> 
+									<th data-field="valor_venda">Valor Unitário</th>
+									<th data-field="total">Total</th>
+									<th data-field="validade">Validade</th>
+									<th data-field="acoes" class="center-align">Ações</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr *ngFor="let item of venda.itens; let i = index; let last = last;let first = first">
+									<td>
+										<div class="input-field">
+											<select 
+											id="item{{i}}" 
+											materialize="material_select" 
+											[materializeSelectOptions]="itens" 
+											[(ngModel)]="venda.itens[i].item._id" 
+											name="item{{i}}" 
+											(change)="setItem(i, last, venda.itens[i].item._id)"
+											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
+											>
+												<option value="" disabled selected>Selecione</option>
+												<optgroup label="Produtos">
+													<option 
+													*ngFor="let produto of produtos" 
+													[value]="produto._id"
+													[attr.data-icon]="'/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													class="left circle"
+													>{{produto.nome}}</option>
+												</optgroup>
+												<optgroup label="Servicos">
+													<option 
+													*ngFor="let servico of servicos" 
+													[value]="servico._id"
+													[attr.data-icon]="'/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													class="left circle"
+													>{{servico.nome}}</option>
+												</optgroup>
+											</select>
+										</div>
+									</td>
+									<td>
+										<div class="input-field">
+											<input 
+											id="qntde" 
+											min="1" 
+											[max]="venda.itens[i].item.qntde_atual"
+											type="number" 
+											(change)="sum(i)" 
+											[(ngModel)]="venda.itens[i].qntde" 
+											name="qntde{{i}}"
+											>
+											<label for="qntde">Quantidade</label>
+										</div>
+									</td>
+									<td>
+										<div class="input-field">
+											<input 
+											id="valor_venda" 
+											type="text" 
+											[(ngModel)]="venda.itens[i]?.item.valor_venda" 
+											name="valor_venda{{i}}" 
+											[attr.required]="venda.itens[i].item?.nome&&!first ? true : undefined"
+											[textMask]="{mask: maskMoney}"
+											readonly="" 
+											>
+											<label for="valor_venda">Valor unitário</label>
+										</div>
+									</td>
+									<td>
+										<div class="input-field">
+											<input 
+											id="total" 
+											type="text" 
+											[(ngModel)]="venda.itens[i].total" 
+											name="total{{i}}" 
+											readonly="" 
+											[textMask]="{mask: maskMoney}"
+											>
+											<label for="total">Valor total</label>
+										</div>
+									</td>
+									<td>
+										<div class="input-field">
+											<label for="validade">Validade deste serviço</label>
+											<input 
+											id="validade" 
+											materialize="pickadate" 
+											[materializeParams]="[{ selectMonths: true }]"
+											type="text" 
+											[(ngModel)]="venda.itens[i].validade" 
+											name="validade{{i}}" 
+											>
+										</div>
+									</td>
+									<td>
+										<a class="waves-effect waves-light btn-flat secondary-content" (click)="deleteRow(i)" *ngIf="!last">
+											<i class="material-icons">&#xE92B;</i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="row valign-wrapper">
+							<div class="col s8">
+								<div class="input-field">
+									<textarea 
+									id="observacoes" 
+									class="materialize-textarea" 
+									data-length="120" 
+									[(ngModel)]="venda.observacao" 
+									name="observacao"
+									></textarea>
+									<label for="observacoes">Observações</label>
+								</div>
+							</div>
+							<div class="col s4 center-align">
+								<h5>Valor Total</h5>
+								<h4>{{ venda.valor_total | currencyformat }}</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	    </div>
+	</div>
+</form>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

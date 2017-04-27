@@ -1,0 +1,194 @@
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<a routerLink="/clientes" class="breadcrumb">Lista de Clientes</a>
+			<span class="breadcrumb">Novo Cliente</span>
+		</div>
+	</div>
+</nav>
+<form (submit)="novoCliente($event)">
+	<!-- Botoes de ação -->
+	<div class="row">
+		<div class="col s12 right-align">
+			<button type="submit" class="waves-effect waves-light btn red darken-1" name="action">Salvar e Cadastrar</button>
+			<a class="waves-effect waves-light btn grey" routerLink="/clientes">Cancelar e Voltar</a>
+		</div>
+	</div>
+	<div class="section"></div>
+	<div class="row">
+		<div class="col s12">
+			<div class="row">
+				<div class="col s7">
+					<div class="row">
+						<div class="col s12">
+							<div class="input-field">
+								<input id="nome" type="text" [(ngModel)]="nome" name="nome" required="true" aria-required="true">
+								<label for="nome">Nome do cliente</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<div class="input-field">
+								<input id="representante" type="text" [(ngModel)]="representante" name="representante">
+								<label for="representante">Representante</label>
+							</div>
+						</div>
+						<div class="col s6">
+							<div class="input-field">
+								<input id="comprador" type="text" [(ngModel)]="comprador" name="comprador">
+								<label for="comprador">Comprador</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4">
+							<div class="input-field">
+								<input id="cnpj" type="text" [(ngModel)]="cnpj" name="cnpj" [textMask]="{mask: maskCnpj, placeholderChar: '\u2000', keepCharPositions: true}">
+								<label for="cnpj">CNPJ</label>
+							</div>
+						</div>
+						<div class="col s4">
+							<div class="input-field">
+								<input id="cpf" type="text" [(ngModel)]="cpf" name="cpf" [textMask]="{mask: maskCpf, placeholderChar: '\u2000', keepCharPositions: true}">
+								<label for="cpf">CPF</label>
+							</div>
+						</div>
+						<div class="col s4">
+							<div class="input-field">
+								<input id="insc_estadual" type="text" [(ngModel)]="insc_estadual" name="insc_estadual" >
+								<label for="insc_estadual">Inscrição Estadual</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4">
+							<div class="input-field">
+								<input id="fone" type="text" [(ngModel)]="fone" name="fone" [textMask]="{mask: maskFone, placeholderChar: '\u2000', keepCharPositions: true}" required="true">
+								<label for="fone">Fone</label>
+							</div>
+						</div>
+						<div class="col s4">
+							<div class="input-field">
+								<input id="celular" type="tel" [(ngModel)]="celular" name="celular" [textMask]="{mask: maskCel, placeholderChar: '\u2000', keepCharPositions: true}" required="true">
+								<label for="celular">Celular</label>
+							</div>
+						</div>
+						<div class="col s4">
+							<div class="input-field">
+								<input id="email" type="email" [(ngModel)]="email" name="email" required="true">
+								<label for="email">Email</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<div class="input-field">
+								<div id="loadCep" class="preloader-wrapper small active right" *ngIf="loadCep">
+									<div class="spinner-layer spinner-red-only">
+										<div class="circle-clipper left">
+											<div class="circle"></div>
+										</div>
+										<div class="gap-patch">
+											<div class="circle"></div>
+										</div>
+										<div class="circle-clipper right">
+											<div class="circle"></div>
+										</div>
+									</div>
+								</div>
+								<input id="cep" type="text" [(ngModel)]="cep" name="cep" (blur)="buscaCep()" [textMask]="{mask: maskCep, placeholderChar: '\u2000', keepCharPositions: true}">
+								<label for="cep">CEP</label>
+							</div>
+						</div>
+						<div class="col s6">
+							<div class="input-field">
+								<input id="cidade" type="text" [(ngModel)]="cidade" name="cidade" >
+								<label for="cidade">Cidade</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s6">
+							<div class="input-field">
+								<input id="logradouro" type="text" [(ngModel)]="logradouro" name="logradouro" >
+								<label for="logradouro">Logradouro</label>
+							</div>
+						</div>
+						<div class="col s6">
+							<div class="input-field">
+								<input id="bairro" type="text" [(ngModel)]="bairro" name="bairro" >
+								<label for="bairro">Bairro</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4">
+							<div class="input-field">
+								<input id="numero" type="number" [(ngModel)]="numero" name="numero" >
+								<label for="numero">Número</label>
+							</div>
+						</div>
+						<div class="col s4">
+							<div class="input-field">
+								<input id="complemento" type="text" [(ngModel)]="complemento" name="complemento" >
+								<label for="complemento">Complemento</label>
+							</div>
+						</div>
+						<div class="col s4">
+							<div class="input-field">
+								<select id="estado" [(ngModel)]="estado" name="estado" materialize="material_select" [materializeSelectOptions]="selectEstadoOptions">
+								  <option value="" disabled selected>Estado</option>
+								  <option *ngFor="let option of selectEstadoOptions" [value]="option.uf">{{option.nome}}</option>
+								</select>
+								<label for="estado"></label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col s5">
+					<div class="section"></div>
+					<div class="row">
+						<div class="lista-images">
+							<div class="col s3 center-align" *ngFor="let imgCliente of cliente?.images">
+								<a class="waves-effect waves-light btn grey darken-4" (click)="removeItemFotos(imgCliente)">
+									<i class="material-icons">&#xE92B;</i>
+								</a>
+								<img src="{{ '/uploads/' + imgCliente }}" class="responsive-img">
+							</div>
+							<div class="col s3 center-align" *ngFor="let item of uploader.queue">
+								<a class="waves-effect waves-light btn grey darken-4" (click)="item.remove()">
+									<i class="material-icons">&#xE92B;</i>
+								</a>
+								<img imgPreviewCliente [image]="item?._file" class="responsive-img">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<div ng2FileDrop
+				                 [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+				                 (fileOver)="fileOverBase($event)"
+				                 [uploader]="uploader"
+				                 class="drop-zone">
+				                <i class="material-icons">&#xE439;</i>
+				                <h4>Arraste e solte aqui</h4>
+				                <h5>ou</h5>
+				                <div class="file-field input-field">
+									<div class="btn red darken-1">
+										<span>Imagens</span>
+										<input type="file" ng2FileSelect [uploader]="uploader" multiple>
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text" placeholder="Upload de uma ou mais imagens">
+									</div>
+								</div>
+				            </div>
+			            </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

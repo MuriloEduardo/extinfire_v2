@@ -1,0 +1,114 @@
+<div class="page-flexbox-wrapper">
+	<header *ngIf="user">
+		<div class="navbar-fixed">
+			<nav class="red darken-1">
+				<div class="nav-wrapper container">
+	                <ul>
+	                	<li>
+	                		<a materialize="sideNav" href="#" data-activates="slide-out" class="button-collapse">
+			                	<i class="material-icons">&#xE5D2;</i>
+			                </a>
+	                	</li>
+	                	<li class="hide-on-small-only">
+	                		<app-search></app-search>
+	                	</li>
+	                </ul>
+					<ul id="slide-out" class="side-nav fixed grey darken-4">
+						<li class="red darken-1 logotipo" routerLink="">
+							<h5>ExtinFire</h5>
+						</li>
+						<li><a routerLink=""><i class="material-icons">&#xE88A;</i>Painel</a></li>
+						<li>
+							<ul materialize="collapsible" class="collapsible collapsible-accordion">
+								<li>
+									<a class="collapsible-header"><i class="material-icons">&#xE41D;</i>Catálogo<i class="material-icons right">&#xE5C5;</i></a>
+									<div class="collapsible-body grey darken-4">
+										<ul>
+											<li><a routerLink="produtos"><i class="material-icons">&#xE1BD;</i>Produtos</a></li>
+											<li><a routerLink="servicos"><i class="material-icons">&#xEB49;</i>Serviços</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li><a routerLink="clientes"><i class="material-icons">&#xE63D;</i>Clientes</a></li>
+						<li><a routerLink="vendas"><i class="material-icons">&#xE227;</i>Vendas</a></li>
+						<li *ngIf="user.tipo"><a routerLink="financeiro"><i class="material-icons">&#xE926;</i>Financeiro</a></li>
+						<li *ngIf="user.tipo"><a routerLink="usuarios"><i class="material-icons">&#xE8D3;</i>Usuarios</a></li>
+						<li><a routerLink="logs"><i class="material-icons">&#xE164;</i>Logs</a></li>
+					</ul>
+					<ul class="right">
+						<li>
+							<!-- Dropdown Perfil Trigger -->
+							<a materialize="dropdown" class='dropdown-button truncate name-label' href='#' data-activates='dropdownPerfil' [attr.data-first-letter]="user.nome.charAt(0)">
+								{{ user.nome }}
+							</a>
+						</li>
+						<li>
+							<!-- Dropdown Mais Trigger -->
+							<a materialize="dropdown" class='dropdown-button' href='#' data-activates='dropdownMais'></a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<!-- Dropdown Mais -->
+			<ul id='dropdownMais' class='dropdown-content'>
+				<li>
+					<a routerLink="/produtos/novo">
+						<i class="material-icons left">&#xE1BD;</i>
+						Novo Produto
+					</a>
+				</li>
+				<li>
+					<a routerLink="/servicos/novo">
+						<i class="material-icons left">&#xEB49;</i>
+						Novo Serviço
+					</a>
+				</li>
+				<li>
+					<a routerLink="/clientes/novo">
+						<i class="material-icons left">&#xE63D;</i>
+						Novo Cliente
+					</a>
+				</li>
+				<li *ngIf="user.tipo">
+					<a routerLink="/usuarios/novo">
+						<i class="material-icons left">&#xE8D3;</i>
+						Novo Usuário
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li>
+					<a routerLink="/vendas/novo">
+						<i class="material-icons left">&#xE227;</i>
+						Nova Venda
+					</a>
+				</li>
+			</ul>
+			<!-- Dropdown Perfil -->
+			<ul class="dropdown-content" id="dropdownPerfil">
+				<li>
+					<a routerLink="perfil" disable>
+						{{ user?.nome }}
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li>
+					<a routerLink="perfil">
+						<i class="material-icons left">&#xE7FD;</i>
+						Editar Perfil
+					</a>
+				</li>
+				<li>
+					<a routerLink="login" (click)="logout()">
+						<i class="material-icons left">&#xE879;</i>
+						Sair
+					</a>
+				</li>
+			</ul>
+		</div>
+	</header>
+	<main [class.wrapper]="user">
+		<router-outlet></router-outlet>
+	</main>
+</div>
