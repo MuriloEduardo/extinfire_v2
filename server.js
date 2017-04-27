@@ -34,7 +34,7 @@ app.use(morgan('dev'));
 
 app.use('/uploads', express.static('server/uploads'));
 
-let port = process.env.PORT || 8080;
+let port = process.env.PORT || 3000;
 
 let api = require('./server/routes/api');
 app.use('/api', api);
