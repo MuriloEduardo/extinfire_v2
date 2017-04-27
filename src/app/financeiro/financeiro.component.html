@@ -106,7 +106,7 @@
 							<tbody>
 								<tr class="bordered highlight responsive-table" *ngFor="let venda of vendas" [class.hide]="!venda.tipo">
 									<td>
-										<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
+										<img src="{{ '/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
 										{{ 'Venda para ' + venda.cliente.nome }}
 									</td>
 									<td> {{ venda.valor_total }} </td>

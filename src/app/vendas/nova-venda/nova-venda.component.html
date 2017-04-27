@@ -51,7 +51,7 @@
 				<div class="col s12">
 					<div class="row valign-wrapper">
 						<div class="col s05">
-							<img [src]="'http://127.0.0.1:8080/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0])" alt="{{venda.cliente.nome}}" class="responsive-img circle img-table" title="{{venda.cliente.nome}}">
+							<img [src]="'/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0])" alt="{{venda.cliente.nome}}" class="responsive-img circle img-table" title="{{venda.cliente.nome}}">
 						</div>
 						<div class="col s1105">
 							<div class="input-field">
@@ -65,7 +65,7 @@
 								  <option value="" disabled selected>Selecione o cliente</option>
 								  <option 
 								  *ngFor="let cliente of clientes" 
-								  [attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+								  [attr.data-icon]="'/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
 								  [ngValue]="cliente" 
 								  class="left circle"
 								  >{{cliente.nome}}</option>
@@ -113,7 +113,7 @@
 							<tbody>
 								<tr *ngFor="let item of venda.itens; let i = index; let first = first;">
 									<td>
-										<img [src]="'http://127.0.0.1:8080/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0])" alt="{{venda.itens[i].item.nome}}" class="responsive-img circle img-table" title="{{venda.itens[i].item.nome}}">
+										<img [src]="'/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0])" alt="{{venda.itens[i].item.nome}}" class="responsive-img circle img-table" title="{{venda.itens[i].item.nome}}">
 									</td>
 									<td>
 										<div class="input-field">
@@ -131,7 +131,7 @@
 													<option 
 													*ngFor="let produto of produtos" 
 													[value]="produto._id"
-													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													[attr.data-icon]="'/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
 													[disabled]=""
 													>{{produto.nome}}
@@ -141,7 +141,7 @@
 													<option 
 													*ngFor="let servico of servicos" 
 													[value]="servico._id"
-													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													[attr.data-icon]="'/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
 													[disabled]=""
 													>{{servico.nome}}
@@ -221,7 +221,7 @@
 								<!-- Novo Item -->
 								<tr>
 									<td>
-										<img [src]="'http://127.0.0.1:8080/uploads/' + (!novoItem.item.images[0] ? 'sem-foto.jpg' : novoItem.item.images[0])" alt="{{novoItem.item.nome}}" class="responsive-img circle img-table" title="{{novoItem.item.nome}}">
+										<img [src]="'/uploads/' + (!novoItem.item.images[0] ? 'sem-foto.jpg' : novoItem.item.images[0])" alt="{{novoItem.item.nome}}" class="responsive-img circle img-table" title="{{novoItem.item.nome}}">
 									</td>
 									<td>
 										<div class="input-field">
@@ -239,7 +239,7 @@
 													<option 
 													*ngFor="let produto of produtos" 
 													[value]="produto._id"
-													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													[attr.data-icon]="'/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
 													[disabled]=""
 													>{{produto.nome}}
@@ -249,7 +249,7 @@
 													<option 
 													*ngFor="let servico of servicos" 
 													[value]="servico._id"
-													[attr.data-icon]="'http://127.0.0.1:8080/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													[attr.data-icon]="'/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
 													[disabled]=""
 													>{{servico.nome}}

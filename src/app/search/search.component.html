@@ -11,7 +11,7 @@
 	    <ul class="collection with-header" *ngIf="(servicos | filterBy: search).length !== 0">
 			<a routerLink="servicos" class="collection-header red-text text-darken-1"><h5>Serviços</h5></a>
 			<a class="collection-item avatar black-text text-darken-4" *ngFor="let servico of servicos | filterBy: search" [routerLink]="['servicos', servico._id]">
-				<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!servico?.images[0] ? 'sem-foto.jpg' : servico?.images[0]) }}" alt="" class="circle">
+				<img src="{{ '/uploads/' + (!servico?.images[0] ? 'sem-foto.jpg' : servico?.images[0]) }}" alt="" class="circle">
 				<div class="left">
 					<span class="title">{{ servico.nome }}</span>
 					<p class="second-title">{{ servico.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</p>
@@ -25,7 +25,7 @@
 		<ul class="collection with-header" *ngIf="(produtos | filterBy: search).length !== 0">
 			<a routerLink="produtos" class="collection-header red-text text-darken-1"><h5>Produtos</h5></a>
 			<a class="collection-item avatar black-text text-darken-4" *ngFor="let produto of produtos | filterBy: search" [routerLink]="['produtos', produto._id]">
-				<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!produto?.images[0] ? 'sem-foto.jpg' : produto?.images[0]) }}" alt="" class="circle">
+				<img src="{{ '/uploads/' + (!produto?.images[0] ? 'sem-foto.jpg' : produto?.images[0]) }}" alt="" class="circle">
 				<div class="left">
 					<span class="title">{{ produto.nome }}</span>
 					<p class="second-title">{{ produto.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</p>
@@ -47,7 +47,7 @@
 		<ul class="collection with-header" *ngIf="(clientes | filterBy: search).length !== 0">
 			<a routerLink="clientes" class="collection-header red-text text-darken-1"><h5>Clientes</h5></a>
 			<a class="collection-item avatar black-text text-darken-4" *ngFor="let cliente of clientes | filterBy: search" [routerLink]="['clientes', cliente._id]">
-				<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!cliente?.images[0] ? 'sem-foto.jpg' : cliente?.images[0]) }}" alt="" class="circle">
+				<img src="{{ '/uploads/' + (!cliente?.images[0] ? 'sem-foto.jpg' : cliente?.images[0]) }}" alt="" class="circle">
 				<div class="left">
 					<span class="title">{{ cliente.nome }}</span>
 					<p class="second-title">{{ cliente.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</p>
@@ -61,7 +61,7 @@
 		<ul class="collection with-header" *ngIf="(vendas | filterBy: search).length !== 0">
 			<a routerLink="vendas" class="collection-header red-text text-darken-1"><h5>Vendas</h5></a>
 			<a class="collection-item avatar black-text text-darken-4" *ngFor="let venda of vendas | filterBy: search" [routerLink]="['vendas', venda._id]">
-				<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" alt="" class="circle">
+				<img src="{{ '/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" alt="" class="circle">
 				<div class="left">
 					<span class="title">Venda para {{ venda.nome }}</span>
 					<p class="second-title">{{ venda.updatedAt | date:'dd/MM/yyyy hh:mm:ss' }}</p>

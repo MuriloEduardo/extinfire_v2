@@ -58,7 +58,7 @@
 		</div>
 	</div>
 	<div class="col s6">
-		<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of servico.images">
+		<img src="{{ '/uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of servico.images">
 	</div>
 </div>
 <a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>
