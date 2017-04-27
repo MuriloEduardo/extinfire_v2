@@ -1,0 +1,115 @@
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<span class="breadcrumb">Lista de Logs</span>
+		</div>
+	</div>
+</nav>
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Sem nenhum log -->
+<div class="row" *ngIf="!logs.length&&loadStatus">
+	<div class="col s12">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum log aqui</h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" *ngIf="logs.length">
+	<div class="col s12">
+		<form action="#">
+			<table class="bordered responsive-table">
+				<thead>
+					<tr class="orders">
+						<th 
+						data-field="usuario.nome" 
+						(click)="setOrder('usuario.nome')"
+						[class.active]="order === 'usuario.nome'"
+						>
+							Usuário
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="descricao" 
+						(click)="setOrder('descricao')"
+						[class.active]="order === 'descricao'"
+						>
+							Descrição
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="item" 
+						(click)="setOrder('item')"
+						[class.active]="order === 'item'"
+						>
+							Item
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+						<th 
+						data-field="updatedAt" 
+						(click)="setOrder('updatedAt')"
+						[class.active]="order === 'updatedAt'"
+						>
+							Data Criado
+							<span [hidden]="reverse">
+								<i class="material-icons right">&#xE5C5;</i>
+							</span>
+							<span [hidden]="!reverse">
+								<i class="material-icons right">&#xE5C7;</i>
+							</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let log of logs | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }">
+						<td>{{ log.usuario.nome }}</td>
+						<td>{{ log.descricao }}</td>
+						<td>{{ log.item }}</td>
+						<td>{{ log.updatedAt  | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<pagination-controls 
+			(pageChange)="p = $event" 
+			previousLabel="Anterior"
+            nextLabel="Próximo"
+            *ngIf="logs.length>9"
+            ></pagination-controls>
+		</form>
+	</div>
+</div>

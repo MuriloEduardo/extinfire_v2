@@ -1,0 +1,72 @@
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<a routerLink="/usuarios" class="breadcrumb">Lista de Usuários</a>
+			<span class="breadcrumb">Detalhe do Usuário</span>
+		</div>
+	</div>
+</nav>
+<!-- Botoes de ação -->
+<div class="row" *ngIf="loadStatus">
+	<div class="col s12 right-align">
+		<a *ngIf="usuario._id!=usuarioLocalStorage._id" class="waves-effect waves-light btn red darken-1" [routerLink]="['/usuarios', usuario._id, 'editar']">Editar</a>
+		<a *ngIf="usuario._id!=usuarioLocalStorage._id" class="waves-effect waves-light btn grey darken-4" (click)="deleteUsuario(usuario)">Excluir</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/usuarios">Cancelar</a>
+	</div>
+</div>
+<div class="section"></div>
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Sem nenhum serviço -->
+<div class="row" *ngIf="usuario&&loadStatus">
+	<div class="col s12 push-m3 m6 center-align">
+		<div class="row">
+			<div class="col s12">
+				<div class="firs-letter-big-users z-depth-2 circle red darken-1">
+					{{ usuario.nome.charAt(0) }}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- Nome do usuario -->
+			<div class="col s6">
+				<label>Nome</label>
+				<h5>{{ usuario.nome }}</h5>
+			</div>
+		
+			<!-- Tipo do usuario -->
+			<div class="col s6">
+				<label>Tipo</label>
+				<h5>{{ !usuario.tipo ? 'Comun' : 'Administrador' }}</h5>
+			</div>
+		</div>
+		<!-- Email do usuario -->
+		<div class="row">
+			<div class="col s6">
+				<label>Email</label>
+				<h5>{{ usuario.email }}</h5>
+			</div>
+			<div class="col s6">
+				<label>Criado Em</label>
+				<h5>{{ usuario.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}</h5>
+			</div>
+		</div>
+	</div>
+</div>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>
