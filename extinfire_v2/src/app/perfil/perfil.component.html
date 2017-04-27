@@ -1,0 +1,38 @@
+<nav class="header-pages white">
+	<div class="nav-wrapper">
+		<div class="col s12">
+			<span class="breadcrumb">Seu Perfil</span>
+		</div>
+	</div>
+</nav>
+<!-- Botoes de ação -->
+<div class="row">
+	<div class="col s12 right-align">
+		<a class="waves-effect waves-light btn red darken-1" (click)="updateUser()">Editar e Salvar</a>
+		<a class="waves-effect waves-light btn grey" routerLink="/">Cancelar e Voltar</a>
+	</div>
+</div>
+<div class="section"></div>
+<div class="row">
+	<div class="col s12 push-m3 m6">
+		<div class="input-field center-align">
+			<div class="firs-letter-big-users z-depth-2 circle red darken-1">
+				{{ user.nome.charAt(0) }}
+			</div>
+		</div>
+		<div class="input-field">
+			<input id="nome" type="text" [(ngModel)]="user.nome" name="nome" required="" aria-required="true">
+			<label for="nome">Seu Nome</label>
+		</div>
+		<div class="input-field">
+			<input id="email" type="email" [(ngModel)]="user.email" name="email" required="" aria-required="true">
+			<label for="email">Seu Email</label>
+		</div>
+		<div class="input-field">
+			<input id="senha" type="password" [(ngModel)]="senha" name="senha" required="" aria-required="true">
+			<label for="senha">Sua Senha</label>
+		</div>
+		<label>Deixe em branco para não alterar</label>
+	</div>
+</div>
+<a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

@@ -1,0 +1,51 @@
+<div class="center-align" *ngIf="!resposta?.res">
+  <div class="section"></div>
+  <div class="container">
+    <h3 class="red-text">Bem vindo</h3>
+    <h5 class="red-text">Faça login para entrar</h5>
+    <div class="section"></div>
+    <div class="row">
+      <div class="body-login z-depth-1 white col s12 push-m4 m4">
+        <div *ngIf="resposta" class="card" [ngClass]="{green: resposta?.res, red: !resposta?.res}">
+          <div class="card-content white-text">
+            <span>{{ resposta?.string }}</span>
+          </div>
+        </div>
+        <form (submit)="fazerLogin()">
+          <div class="row">
+            <div class="input-field col s12">
+              <input [(ngModel)]="usuario.email" type="email" name="email" id="email" />
+              <label for="email">Entre com seu email</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input [(ngModel)]="usuario.senha" type="password" name="password" id="password" />
+              <label for="password">Entre com sua senha</label>
+            </div>
+          </div>
+          <div>
+            <div class="row">
+              <button type="submit" name="btn_login" class="col s12 btn btn-large waves-effect red darken-1">
+                Login
+                <div id="loadLogin" class="preloader-wrapper small active right" *ngIf="loadLogin">
+                  <div class="spinner-layer spinner-white-only">
+                    <div class="circle-clipper left">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
