@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "extinfire-backend_v2",
   "version": "1.0.0",
   "description": "",
@@ -21,17 +20,10 @@
   "devDependencies": {
     "nodemon": "^1.11.0"
   },
-=======
-  "name": "teste-node-umbler",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
->>>>>>> 9d630a91432e683257742e6133797301f5a30aad
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-<<<<<<< HEAD
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MuriloEduardo/extinfire-backend_v2.git"
@@ -43,12 +35,4 @@
     "url": "https://github.com/MuriloEduardo/extinfire-backend_v2/issues"
   },
   "homepage": "https://github.com/MuriloEduardo/extinfire-backend_v2#readme"
-=======
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.15.2"
-  }
->>>>>>> 9d630a91432e683257742e6133797301f5a30aad
 }

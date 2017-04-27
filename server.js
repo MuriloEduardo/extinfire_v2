@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use strict"
 
 let express = require('express');
@@ -35,19 +34,10 @@ app.use(morgan('dev'));
 
 app.use('/uploads', express.static('server/uploads'));
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 8080;
 
 let api = require('./server/routes/api');
 app.use('/api', api);
 
 app.listen(port);
 console.log('Magic happens on port ' + port);
-=======
-var express = require('express');
-var app = express();
-                                
-var port = process.env.PORT || 3000;
-app.listen(port, function () {
-    console.log('Umbler rodando na porta %s', port);
-});
->>>>>>> 9d630a91432e683257742e6133797301f5a30aad
