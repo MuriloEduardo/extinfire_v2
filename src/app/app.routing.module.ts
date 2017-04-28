@@ -10,6 +10,8 @@ import { FinanceiroComponent } from './financeiro/financeiro.component';
 import { LoginComponent } from './login/login.component';
 import { Page404Component } from './page404/page404.component';
 
+import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
+
 const appRoutes: Routes = [
 	{
 		path: 'login',
@@ -73,7 +75,10 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(appRoutes)],
+	imports: [
+		RouterModule.forRoot(appRoutes),
+		Angulartics2Module.forRoot([ Angulartics2GoogleTagManager ])
+	],
 	exports: [RouterModule]
 })
 export class AppRoutingModule {}
