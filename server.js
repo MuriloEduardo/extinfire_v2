@@ -11,14 +11,25 @@ let path       = require("path");
 let favicon    = require('serve-favicon');
 let port       = process.env.PORT || 3000;
 let api        = require('./server/routes/api');
-let options    = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
-              replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
-
-mongoose.connect(configDB.url, options, (err, res) => {
+let options    = {
+	server: {
+		socketOptions: { 
+			keepAlive: 300000, 
+			connectTimeoutMS: 30000 
+		} 
+	},
+	replset: { 
+		socketOptions: { 
+			keepAlive: 300000, 
+			connectTimeoutMS : 30000 
+		} 
+	} 
+};
+mongoose.connect((process.env.MONGO_URL || configDB.url), options, (err, res) => {
 	mongoose.Promise = global.Promise;
 	if(err) throw err;
 
-	console.info('MongoDB Conectado url: ' + configDB.url);
+	console.info('MongoDB Conectado');
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
