@@ -768,17 +768,18 @@ var _a, _b, _c;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ng2_filter_pipe___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_ng2_filter_pipe__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_ng2_charts__ = __webpack_require__(376);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_ng2_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16_ng2_charts__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_usuarios_service__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__services_clientes_service__ = __webpack_require__(69);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__services_vendas_service__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__services_auth_service__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__services_logs_service__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__services_itens_service__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__guards_auth_guard__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__guards_usuarios_guard__ = __webpack_require__(191);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__search_search_component__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__page404_page404_component__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pipes_currency_format_financeiro_pipe__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_angulartics2__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__services_usuarios_service__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__services_clientes_service__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__services_vendas_service__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__services_auth_service__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__services_logs_service__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__services_itens_service__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__guards_auth_guard__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__guards_usuarios_guard__ = __webpack_require__(191);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__search_search_component__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__page404_page404_component__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pipes_currency_format_financeiro_pipe__ = __webpack_require__(194);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -786,6 +787,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -828,9 +830,9 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_8__logs_logs_component__["a" /* LogsComponent */],
             __WEBPACK_IMPORTED_MODULE_9__financeiro_financeiro_component__["a" /* FinanceiroComponent */],
             __WEBPACK_IMPORTED_MODULE_10__login_login_component__["a" /* LoginComponent */],
-            __WEBPACK_IMPORTED_MODULE_25__search_search_component__["a" /* SearchComponent */],
-            __WEBPACK_IMPORTED_MODULE_26__page404_page404_component__["a" /* Page404Component */],
-            __WEBPACK_IMPORTED_MODULE_27__pipes_currency_format_financeiro_pipe__["a" /* CurrencyFormatFinanceiroPipe */]
+            __WEBPACK_IMPORTED_MODULE_26__search_search_component__["a" /* SearchComponent */],
+            __WEBPACK_IMPORTED_MODULE_27__page404_page404_component__["a" /* Page404Component */],
+            __WEBPACK_IMPORTED_MODULE_28__pipes_currency_format_financeiro_pipe__["a" /* CurrencyFormatFinanceiroPipe */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -842,17 +844,18 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_14_ng2_order_pipe__["Ng2OrderModule"],
             __WEBPACK_IMPORTED_MODULE_15_ng2_filter_pipe__["Ng2FilterPipeModule"],
             __WEBPACK_IMPORTED_MODULE_16_ng2_charts__["ChartsModule"],
-            __WEBPACK_IMPORTED_MODULE_4__app_routing_module__["a" /* AppRoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_4__app_routing_module__["a" /* AppRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_17_angulartics2__["a" /* Angulartics2Module */].forRoot([__WEBPACK_IMPORTED_MODULE_17_angulartics2__["b" /* Angulartics2GoogleTagManager */]])
         ],
         providers: [
-            __WEBPACK_IMPORTED_MODULE_23__guards_auth_guard__["a" /* AuthGuard */],
-            __WEBPACK_IMPORTED_MODULE_24__guards_usuarios_guard__["a" /* UsuariosGuard */],
-            __WEBPACK_IMPORTED_MODULE_17__services_usuarios_service__["a" /* UsuariosService */],
-            __WEBPACK_IMPORTED_MODULE_18__services_clientes_service__["a" /* ClientesService */],
-            __WEBPACK_IMPORTED_MODULE_19__services_vendas_service__["a" /* VendasService */],
-            __WEBPACK_IMPORTED_MODULE_20__services_auth_service__["a" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_22__services_itens_service__["a" /* ItensService */],
-            __WEBPACK_IMPORTED_MODULE_21__services_logs_service__["a" /* LogsService */]
+            __WEBPACK_IMPORTED_MODULE_24__guards_auth_guard__["a" /* AuthGuard */],
+            __WEBPACK_IMPORTED_MODULE_25__guards_usuarios_guard__["a" /* UsuariosGuard */],
+            __WEBPACK_IMPORTED_MODULE_18__services_usuarios_service__["a" /* UsuariosService */],
+            __WEBPACK_IMPORTED_MODULE_19__services_clientes_service__["a" /* ClientesService */],
+            __WEBPACK_IMPORTED_MODULE_20__services_vendas_service__["a" /* VendasService */],
+            __WEBPACK_IMPORTED_MODULE_21__services_auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_23__services_itens_service__["a" /* ItensService */],
+            __WEBPACK_IMPORTED_MODULE_22__services_logs_service__["a" /* LogsService */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]]
     })
@@ -875,7 +878,6 @@ AppModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__financeiro_financeiro_component__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__login_login_component__ = __webpack_require__(109);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__page404_page404_component__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angulartics2__ = __webpack_require__(115);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -885,7 +887,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 
 ;
-
 
 
 
@@ -963,8 +964,7 @@ var AppRoutingModule = (function () {
 AppRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(appRoutes),
-            __WEBPACK_IMPORTED_MODULE_9_angulartics2__["a" /* Angulartics2Module */].forRoot([__WEBPACK_IMPORTED_MODULE_9_angulartics2__["b" /* Angulartics2GoogleTagManager */]])
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(appRoutes)
         ],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
