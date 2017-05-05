@@ -6,8 +6,26 @@
 		</div>
 	</div>
 </nav>
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- Botoes de ação -->
-<div class="row">
+<div class="row" *ngIf="servico&&loadStatus">
 	<div class="col s12 right-align">
 		<a class="waves-effect waves-light btn red darken-1" [routerLink]="['/servicos', servico._id, 'editar']">Editar</a>
 		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteServico(servico)">Excluir</a>
@@ -15,7 +33,7 @@
 	</div>
 </div>
 <div class="section"></div>
-<div class="row">
+<div class="row" *ngIf="servico&&loadStatus">
 	<div class="col s6">
 		<!-- Nome -->
 		<div class="row">
@@ -40,7 +58,7 @@
 		</div>
 	</div>
 	<div class="col s6">
-		<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of servico.images">
+		<img src="{{ baseUrl + 'uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of servico.images">
 	</div>
 </div>
 <a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

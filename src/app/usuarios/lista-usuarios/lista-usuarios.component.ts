@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-
+import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 import { UsuariosService } from './../../_services/usuarios.service';
 
 @Component({
@@ -7,10 +7,11 @@ import { UsuariosService } from './../../_services/usuarios.service';
   templateUrl: './lista-usuarios.component.html',
   styleUrls: ['./lista-usuarios.component.css']
 })
-export class ListaUsuariosComponent implements OnInit {
+export class ListaUsuariosComponent implements OnInit, OnDestroy {
+
+	inscricao: Subscription;
 
 	usuarios: any[] = [];
-	
 	order: string = 'updatedAt';
   	reverse: boolean = false;
 	loadStatus: boolean = false;
@@ -19,7 +20,7 @@ export class ListaUsuariosComponent implements OnInit {
 
 	ngOnInit() {
 		
-		this.usuariosService.getUsers().subscribe((usuarios) => {
+		this.inscricao = this.usuariosService.getUsers().subscribe((usuarios) => {
 			this.usuarios = usuarios;
 			this.loadStatus = true;
 		});
@@ -31,5 +32,9 @@ export class ListaUsuariosComponent implements OnInit {
 		}
 
 		this.order = value;
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

@@ -19,13 +19,14 @@ declare let Materialize:any;
 })
 export class NovoClienteComponent implements OnInit {
 
+	loadCep: boolean = false;
+	baseUrl: string = AppSettings.API_ENDPOINT;
+
 	inscricao: Subscription;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	uploader:FileUploader = new FileUploader({
-		url: AppSettings.API_ENDPOINT + 'upload'
+		url: this.baseUrl + 'upload'
 	});
-
-	loadCep: boolean = false;
 
 	maskCel = ['(', /\d/, /\d/, ')', ' ', /\d/, ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 	maskFone = ['(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
@@ -239,12 +240,12 @@ export class NovoClienteComponent implements OnInit {
 		this.clientesService.addCliente(newCliente).subscribe(cliente => {
 			this.uploader.uploadAll();
 			this.router.navigate(['clientes']);
-	  		this.triggerToast('Cliente cadastrado com sucesso!');
+	  		this.triggerToast('Cliente cadastrado com sucesso!', 'green');
 		});
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
 	}
 
 	////////////////////////// Upload ///////////////////////////

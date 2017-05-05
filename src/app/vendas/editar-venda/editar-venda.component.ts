@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
@@ -8,6 +8,8 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { VendasService } from './../../_services/vendas.service';
 import { ClientesService } from './../../_services/clientes.service';
 import { ItensService } from './../../_services/itens.service';
+
+import { AppSettings } from './../../app.config';
 
 declare var Materialize:any;
 
@@ -25,17 +27,18 @@ const numberMask = createNumberMask({
   templateUrl: './editar-venda.component.html',
   styleUrls: ['./editar-venda.component.css']
 })
-export class EditarVendaComponent implements OnInit {
+export class EditarVendaComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 	maskMoney = numberMask;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	
-	itens: any[];
-	clientes: any[];
-	servicos: any[];
-	produtos: any[];
+	itens: any[] = [];
+	clientes: any[] = [];
+	servicos: any[] = [];
+	produtos: any[] = [];
+	baseUrl: string = AppSettings.API_ENDPOINT;
 
 	private tipoVenda: boolean;
 
@@ -77,22 +80,52 @@ export class EditarVendaComponent implements OnInit {
 
 				//this.venda.valor_total = this.venda.valor_total.replace('.','').replace('.','').replace(',','.');
 
-				// Mesmo mudando de tipo, não poderá aterar o cliente
-				this.tipoVenda = this.venda.tipo;
+				
 			}
 		);*/
 
-		this.vendasService.getVenda(this.route.params['id']).subscribe((venda) => {
-			this.venda = venda;
+		this.inscricao = this.route.params.subscribe((params: Params) => {
+
+			this.vendasService.getVenda(params['id']).subscribe(venda => {
+
+				this.venda = venda;
+
+				// Mesmo mudando de tipo, não poderá aterar o cliente
+				this.tipoVenda = this.venda.tipo;
+
+				this.venda.valor_total = this.formatDecimal(this.venda.valor_total);
+			});
 		});
 
-		this.itensService.getItens().subscribe((produtos) => {
-			this.produtos = produtos;
+		this.itensService.getItens().subscribe((itens) => {
+
+			for (var i = 0; i < itens.length; ++i) {
+				if(itens[i].qntde_minima&&itens[i].qntde_atual>0) {
+					// Tem quantidade minima
+					// ENtão é produto
+					this.produtos.push(itens[i]);
+				} else {
+					this.servicos.push(itens[i]);
+				}
+
+				this.itens.push(itens[i]);
+			}
 		});
 
 		this.clientesService.getClientes().subscribe((clientes) => {
 			this.clientes = clientes;
 		});
+	}
+
+	formatDecimal(decimal: any) {
+
+		if(typeof decimal === "number") decimal = decimal.toString();
+		
+		if(decimal.indexOf('R$')!==-1) decimal = decimal.replace('R$','');
+		if(decimal.indexOf('.')!==-1) decimal = decimal.split('.').join('');
+		if(decimal.indexOf(',')!==-1) decimal = decimal.replace(',','.');
+
+		return decimal;
 	}
 
 	setCliente() {
@@ -103,8 +136,12 @@ export class EditarVendaComponent implements OnInit {
 		}
 	}
 
-	deleteRow(index: number) {
-		this.venda.itens.splice(index, 1);
+	deleteRow(item: any) {
+
+		this.venda.itens = this.venda.itens.filter((filterItem) => {
+		
+			if(filterItem.item._id !== item._id) return filterItem;
+		});
 	}
 	
 	setItem(index: number, last?: boolean, id?: string) {
@@ -178,7 +215,7 @@ export class EditarVendaComponent implements OnInit {
 		
 		this.vendasService.updateVenda(this.venda).subscribe(venda => {
 	  		this.router.navigate(['vendas']);
-	  		this.triggerToast('Venda editada!');
+	  		this.triggerToast('Venda editada com sucesso!', 'green');
 		});
 	}
 	
@@ -187,7 +224,11 @@ export class EditarVendaComponent implements OnInit {
 			Materialize.updateTextFields();
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

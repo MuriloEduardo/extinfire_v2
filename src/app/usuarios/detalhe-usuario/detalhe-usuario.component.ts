@@ -1,6 +1,6 @@
-import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, EventEmitter, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { UsuariosService } from './../../_services/usuarios.service';
 
@@ -11,12 +11,13 @@ import { MaterializeAction } from 'angular2-materialize';
   templateUrl: './detalhe-usuario.component.html',
   styleUrls: ['./detalhe-usuario.component.css']
 })
-export class DetalheUsuarioComponent implements OnInit {
+export class DetalheUsuarioComponent implements OnInit, OnDestroy {
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
-	usuario: any;
+	usuario: any = {};
 	usuarioLocalStorage: any = JSON.parse(window.localStorage.getItem('user'));
+	loadStatus: boolean = false;
 
 	constructor(
 		private usuariosService: UsuariosService,
@@ -25,11 +26,15 @@ export class DetalheUsuarioComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		/*this.inscricao = this.route.data.subscribe(
-			(data: {usuario: any}) => this.usuario = data.usuario
-		);*/
-		this.usuariosService.getUser(this.route.params['id']).subscribe((usuario) => {
-			this.usuario = usuario;
+
+		this.inscricao = this.route.params.subscribe((params: Params) => {
+		
+			this.usuariosService.getUser(params['id']).subscribe((usuario) => {
+
+				this.usuario = usuario;
+
+				this.loadStatus = true;
+			});
 		});
 	}
 
@@ -38,12 +43,16 @@ export class DetalheUsuarioComponent implements OnInit {
 		this.usuariosService.deleteUser(usuario).subscribe(data => {
 			if(data.n) {
 				this.router.navigate(['usuarios']);
-				this.triggerToast('Usuário excluido!');
+				this.triggerToast('Usuário excluido com sucesso!', 'green');
 			}
 		});
 	}
 
-	triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+	triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

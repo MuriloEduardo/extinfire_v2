@@ -27,7 +27,6 @@ footer {
 .modal .modal-footer .btn-flat{
 	margin-left: 6px!important;
 }
-
 input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
 	border-bottom: 1px solid #e53935!important;
 	box-shadow: 0 1px 0 0 #e53935!important;
@@ -190,4 +189,15 @@ input[materialize="pickadate"] {
 	height: 42px;
 	width: 42px;
 	margin-right: 5px;
+}
+.firs-letter-big-users {
+	width: 82px;
+	height: 82px;
+	color: #fff;
+	font-size: 36px;
+	line-height: 82px;
+	margin: 0 auto 35px auto;
+}
+.picker__day.picker__day--today:not(.picker__day--selected) {
+    color: #e53935!important;
 }

@@ -14,7 +14,6 @@ export class ImagePreviewProduto {
     }
 
     ngOnInit() {
-        console.log(this.image)
     }
 
     ngOnChanges(changes: SimpleChanges) {

@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Observable";
 
 import { Usuario } from '../usuarios/usuario';;
 
-import { AppSettings } from '../app.config';
+import { AppSettings } from './../app.config';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +22,7 @@ export class AuthService {
 		let creds = 'email=' + usuario.email + '&senha=' + usuario.senha;
 
 		headers.append('Content-Type', 'application/X-www-form-urlencoded');
-		return this.http.post(AppSettings.API_ENDPOINT + 'authenticate', creds, {headers: headers}).map(res => res.json());
+		return this.http.post(AppSettings.API_ENDPOINT + 'api/authenticate', creds, {headers: headers}).map(res => res.json());
 	}
 
 	setUsuarioAutenticado(user: any) {

@@ -21,13 +21,7 @@ const vendasRoutes: Routes = [
 	},
 	{
 		path: ':id/editar',
-		component: EditarVendaComponent/*,
-		resolve: {
-			venda: VendaResolver,
-			produtos: ProdutosResolver,
-			servicos: ServicosResolver,
-			clientes: ClientesResolver
-		}*/
+		component: EditarVendaComponent
 	}
 ];
 

@@ -6,7 +6,7 @@
 	</div>
 </nav>
 <!-- Botoes de ação -->
-<div class="row">
+<div class="row" *ngIf="loadStatus">
 	<div class="col s12 right-align">
 		<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Usuário</a>
 	</div>
@@ -30,7 +30,7 @@
 		</div>
 	</div>
 </div>
-<!-- Sem nenhum serviço -->
+<!-- Sem nenhum usuario -->
 <div class="row" *ngIf="!usuarios.length&&loadStatus">
 	<div class="col s12">
 		<div class="section"></div>
@@ -112,7 +112,7 @@
 							{{ usuario.nome }}
 						</div>
 					</td>
-					<td>{{ usuario.tipo }}</td>
+					<td>{{ usuario.tipo ? 'Administrador' : 'Comun' }}</td>
 					<td>{{ usuario.email }}</td>
 					<td>{{ usuario.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
 					<td><i class="material-icons">&#xE315;</i></td>

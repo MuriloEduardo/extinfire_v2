@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 
 import { ItensService } from './../_services/itens.service';
+
+import { AppSettings } from './../app.config';
 
 @Component({
   selector: 'app-produtos',
@@ -9,11 +12,14 @@ import { ItensService } from './../_services/itens.service';
 })
 export class ProdutosComponent implements OnInit {
 
+	inscricao: Subscription;
+
 	produtos: any[] = [];
 	
 	order: string = 'updatedAt';
   	reverse: boolean = false;
 	loadStatus: boolean = false;
+	baseUrl: string = AppSettings.API_ENDPOINT;
 
 	constructor(
 		private itensService: ItensService
@@ -21,12 +27,19 @@ export class ProdutosComponent implements OnInit {
 
 	ngOnInit() {
 
-		this.itensService.getItens().subscribe((produtos) => {
-			this.produtos = produtos;
+		this.inscricao = this.itensService.getItens().subscribe((produtos) => {
 
-			for (var i = 0; i < this.produtos.length; ++i) {
-				this.produtos[i].valor_custo = this.produtos[i].valor_custo.replace('.','').replace('.','').replace(',','.');
-				this.produtos[i].valor_venda = this.produtos[i].valor_venda.replace('.','').replace('.','').replace(',','.');
+			for (var i = 0; i < produtos.length; ++i) {
+				
+				if(produtos[i].qntde_minima) {
+
+					produtos[i].valor_custo = produtos[i].valor_custo.replace('.','').replace('.','').replace(',','.');
+					produtos[i].valor_venda = produtos[i].valor_venda.replace('.','').replace('.','').replace(',','.');
+
+					// Tem quantidade minima
+					// Então é produto
+					this.produtos.push(produtos[i]);
+				}
 			}
 			
 			this.loadStatus = true;

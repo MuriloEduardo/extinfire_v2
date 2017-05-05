@@ -6,8 +6,26 @@
 		</div>
 	</div>
 </nav>
+<!-- Carregando -->
+<div class="row" *ngIf="!loadStatus">
+	<div class="col s12">
+		<div id="loader" class="preloader-wrapper big active">
+			<div class="spinner-layer spinner-red-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div>
+				<div class="gap-patch">
+					<div class="circle"></div>
+				</div>
+				<div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- Botoes de ação -->
-<div class="row">
+<div class="row" *ngIf="cliente&&loadStatus">
 	<div class="col s12 right-align">
 		<a class="waves-effect waves-light btn red darken-1" [routerLink]="['/clientes', cliente._id, 'editar']">Editar</a>
 		<a class="waves-effect waves-light btn grey darken-4" (click)="deleteCliente(cliente)">Excluir</a>
@@ -15,10 +33,15 @@
 	</div>
 </div>
 <div class="section"></div>
-<div class="row">
-	<div class="col s12">
+<div class="row" *ngIf="cliente&&loadStatus">
+	<div class="col s12 push-m3 m6 center-align">
 		<div class="row">
 			<div class="col s6">
+				<img src="{{ baseUrl + 'uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of cliente.images">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
 				<div class="section">
 					<h4>Geral</h4>
 					<div class="divider"></div>
@@ -62,35 +85,32 @@
 					</div>
 				</div>
 			</div>
-			<div class="col s6">
-				<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of cliente.images">
-			</div>
 		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col s12">
 		<div class="row">
 			<div class="col s12">
-				<div class="section">
-					<h4>Contato</h4>
-					<div class="divider"></div>
-				</div>
 				<div class="row">
-					<!-- Fone -->
-					<div class="col s4">
-						<label>Fone</label>
-						<h5>{{ cliente.contato?.fone }}</h5>
-					</div>
-					<!-- Celular -->
-					<div class="col s4">
-						<label>Celular</label>
-						<h5>{{ cliente.contato?.celular }}</h5>
-					</div>
-					<!-- Email -->
-					<div class="col s4">
-						<label>Email</label>
-						<h5>{{ cliente.contato?.email }}</h5>
+					<div class="col s12">
+						<div class="section">
+							<h4>Contato</h4>
+							<div class="divider"></div>
+						</div>
+						<div class="row">
+							<!-- Fone -->
+							<div class="col s4">
+								<label>Fone</label>
+								<h5>{{ cliente.contato?.fone }}</h5>
+							</div>
+							<!-- Celular -->
+							<div class="col s4">
+								<label>Celular</label>
+								<h5>{{ cliente.contato?.celular }}</h5>
+							</div>
+							<!-- Email -->
+							<div class="col s4">
+								<label>Email</label>
+								<h5>{{ cliente.contato?.email }}</h5>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

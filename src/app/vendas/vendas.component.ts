@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { VendasService } from './../_services/vendas.service';
-import { ClientesService } from './../_services/clientes.service';
-import { ItensService } from './../_services/itens.service';
+
+import { AppSettings } from './../app.config';
 
 @Component({
   selector: 'app-vendas',
@@ -19,27 +19,19 @@ export class VendasComponent implements OnInit {
 	order: string = 'updatedAt';
   	reverse: boolean = true;
 	loadStatus: boolean = false;
+	baseUrl: string = AppSettings.API_ENDPOINT;
 
 	constructor(
-		private vendasService: VendasService,
-		private clientesService: ClientesService,
-    	private itensService: ItensService
+		private vendasService: VendasService
 	) { }
 
 	ngOnInit() {
 
 		this.vendasService.getVendas().subscribe((vendas) => {
+	      
 	      this.vendas = vendas;
 
 	      this.loadStatus = true;
-	      
-	      this.itensService.getItens().subscribe((produtos) => {
-	        this.produtos = produtos;
-
-	        this.clientesService.getClientes().subscribe((clientes) => {
-	          this.clientes = clientes;
-	        });
-	      });
 	    });
 	}
 

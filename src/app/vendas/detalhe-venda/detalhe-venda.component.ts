@@ -1,6 +1,6 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -13,13 +13,15 @@ import { AppSettings } from './../../app.config';
   templateUrl: './detalhe-venda.component.html',
   styleUrls: ['./detalhe-venda.component.css']
 })
-export class DetalheVendaComponent implements OnInit {
+export class DetalheVendaComponent implements OnInit, OnDestroy {
 	
 	urlPdf: string;
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
     inscricao: Subscription;
-	venda: any;
+	venda: any = {};
+	loadStatus: boolean = false;
+	baseUrl: string = AppSettings.API_ENDPOINT;
 
 	constructor(
 		private vendasService: VendasService,
@@ -28,11 +30,16 @@ export class DetalheVendaComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		/*this.inscricao = this.route.data.subscribe(
-			(data: {venda: any}) => {
-				this.venda = data.venda;
-				
-				this.urlPdf = AppSettings.API_ENDPOINT + 'pdf/' + this.venda._id;
+
+		this.inscricao = this.route.params.subscribe((params: Params) => {
+
+			this.vendasService.getVenda(params['id']).subscribe(venda => {
+
+				console.log(venda)
+
+				this.venda = venda;
+
+				this.urlPdf = this.baseUrl + 'api/pdf/' + this.venda._id;
 
 				for (var i = 0; i < this.venda.itens.length; ++i) {
 
@@ -40,21 +47,24 @@ export class DetalheVendaComponent implements OnInit {
 					
 					this.venda.itens[i].total = this.venda.itens[i].total.replace('.','').replace('.','').replace(',','.');
 				}
-			}
-		);*/
-		this.vendasService.getVenda(this.route.params['id']).subscribe((venda) => {
-			this.venda = venda;
+
+				this.loadStatus = true;
+			});
 		});
 	}
     
     deleteVenda(venda: any) {
         this.vendasService.deleteVenda(venda).subscribe(data => {
             this.router.navigate(['vendas']);
-			this.triggerToast('Venda excluida!');
+			this.triggerToast('Venda excluida com sucesso!', 'green');
         });
     }
 
-    triggerToast(stringToast) {
-		this.globalActions.emit({action: 'toast', params: [stringToast, 4000]});
+    triggerToast(stringToast: string, bgColor: string) {
+		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
 	}
 }

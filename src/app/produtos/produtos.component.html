@@ -6,7 +6,7 @@
 	</div>
 </nav>
 <!-- Botoes de ação -->
-<div class="row">
+<div class="row" *ngIf="loadStatus">
 	<div class="col s12 right-align">
 		<a routerLink="novo" class="waves-effect waves-light btn red darken-1">Novo Produto</a>
 	</div>
@@ -132,7 +132,7 @@
 			<tbody>
 				<tr *ngFor="let produto of produtos | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[produto._id]">
 					<td>
-						<img src="{{ 'http://127.0.0.1:8080/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0]) }}" class="circle img-table">
+						<img src="{{ baseUrl + 'uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0]) }}" class="circle img-table">
 						{{ produto.nome }}
 					</td>
 					<td>{{ produto.qntde_minima }}</td>

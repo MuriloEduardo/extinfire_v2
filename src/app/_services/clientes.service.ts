@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 
 import { LogsService } from './logs.service';
 
-import { AppSettings } from '../app.config';
+import { AppSettings } from './../app.config';
 
 @Injectable()
 export class ClientesService {
@@ -19,11 +19,11 @@ export class ClientesService {
   	}
 
   	getClientes() {
-  		return this.clientes = this.http.get(AppSettings.API_ENDPOINT + 'clientes').map(res => res.json());
+  		return this.clientes = this.http.get(AppSettings.API_ENDPOINT + 'api/clientes').map(res => res.json());
   	}
 
 	getCliente(id: string) {
-		return this.http.get(AppSettings.API_ENDPOINT + 'cliente/' + id).map(res => res.json());
+		return this.http.get(AppSettings.API_ENDPOINT + 'api/cliente/' + id).map(res => res.json());
 	}
 
 	addCliente(newCliente: any) {
@@ -35,7 +35,7 @@ export class ClientesService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(AppSettings.API_ENDPOINT + 'cliente', JSON.stringify(newCliente), {headers: headers}).map(res => res.json());
+		return this.http.post(AppSettings.API_ENDPOINT + 'api/cliente', JSON.stringify(newCliente), {headers: headers}).map(res => res.json());
 	}
 
 	deleteCliente(cliente: any) {
@@ -45,7 +45,7 @@ export class ClientesService {
 			item: cliente
 		}).subscribe(data => {});
 
-		return this.http.delete(AppSettings.API_ENDPOINT + 'cliente/' + cliente._id).map(res => res.json());
+		return this.http.delete(AppSettings.API_ENDPOINT + 'api/cliente/' + cliente._id).map(res => res.json());
 	}
 
 	updateCliente(cliente: any) {
@@ -57,7 +57,7 @@ export class ClientesService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.put(AppSettings.API_ENDPOINT + 'cliente/' + cliente._id, JSON.stringify(cliente), {headers: headers}).map(res => res.json());
+		return this.http.put(AppSettings.API_ENDPOINT + 'api/cliente/' + cliente._id, JSON.stringify(cliente), {headers: headers}).map(res => res.json());
 	}
 
 	getCep(cep: string) {
