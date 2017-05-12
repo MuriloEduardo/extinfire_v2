@@ -7,7 +7,7 @@ import { ClientesService } from './../../_services/clientes.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
 
-import { AppSettings } from '../../app.config';
+import { AppSettings } from './../../app.config';
 
 declare let Materialize:any;
 
@@ -24,7 +24,7 @@ export class EditarClienteComponent implements OnInit {
 	baseUrl: string = AppSettings.API_ENDPOINT;
 
 	uploader:FileUploader = new FileUploader({
-		url: this.baseUrl + 'upload'
+		url: this.baseUrl + 'api/upload'
 	});
 	
 	hasBaseDropZoneOver:boolean = false;
@@ -48,6 +48,8 @@ export class EditarClienteComponent implements OnInit {
 				this.loadStatus = true;
 			});
 		});
+
+		console.log(this.baseUrl + 'api/upload')
 	}
 
 	ngAfterViewChecked() {

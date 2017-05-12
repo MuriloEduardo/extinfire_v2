@@ -8,7 +8,7 @@ import { ClientesService } from './../../_services/clientes.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
 
-import { AppSettings } from '../../app.config';
+import { AppSettings } from './../../app.config';
 
 declare let Materialize:any;
 
@@ -25,7 +25,7 @@ export class NovoClienteComponent implements OnInit {
 	inscricao: Subscription;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	uploader:FileUploader = new FileUploader({
-		url: this.baseUrl + 'upload'
+		url: this.baseUrl + 'api/upload'
 	});
 
 	maskCel = ['(', /\d/, /\d/, ')', ' ', /\d/, ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];

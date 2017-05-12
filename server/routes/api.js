@@ -27,258 +27,6 @@ router.get('/', (req, res) => {
 	res.send('api works!');
 });
 
-//////////////// PDF ////////////////////////
-/////////////////////////////////////////////
-router.get('/pdf/:vendaId', (req, res, next) => {
-	
-	Vendas.findOne({_id: req.params.vendaId})
-	.populate('cliente')
-	.populate('itens.item')
-	.exec(function(err, venda) {
-		
-		if(err) res.send(err);
-
-		let today = new Date(),
-		dd = today.getDate(),
-		mm = today.getMonth()+1,
-		yyyy = today.getFullYear();
-
-		if(dd<10) dd='0'+dd;
-		if(mm<10) mm='0'+mm;
-		
-		today = dd+'/'+mm+'/'+yyyy;
-		
-		let pdf = new PDFDocument({
-		  size: 'LEGAL',
-		  info: {
-		    Title: 'Ordem de serviço para ' + venda.cliente.nome,
-		    Author: 'Extin Fire / Extintores',
-		  }
-		});
-
-		/////////// CABEÇALHO //////////////////
-		///////////////////////////////////////
-
-		// Logotipo
-		pdf.image('./server/images/logo_extinfire.jpg', 30, 30, {
-			width: 185
-		});
-
-		// Titulo
-		pdf.fontSize(18)
-		.text('ORDEM DE SERVIÇO', 235, 40);
-		
-		// Tpo de Serviço
-		pdf.fontSize(16)
-		.text(!venda.tipo ? 'Orçamento' : 'Pedido', 235, 65, {
-			width: 160,
-			align: 'center'
-		});
-
-		// Retangulo
-		pdf.rect(15, 15, 580, 85).stroke();
-
-		pdf.fontSize(12)
-		.text('Data', 460, 40, {
-			width: 125,
-			align: 'center'
-		});
-
-		pdf.fontSize(14)
-		.text(today, 460, 60, {
-			width: 125,
-			align: 'center'
-		});
-
-		pdf.rect(450, 15, 145, 85).stroke();
-
-		//////// DADOS DO CLIENTE ///////////
-		////////////////////////////////////
-
-		// LINHA 1
-		/////////////////////////////////
-
-		// Cliente
-		pdf.fontSize(10)
-		.text('Cliente', 30, 125);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.nome, 30, 140);
-
-		pdf.rect(15, 115, 380, 45).stroke();
-
-
-		// CPF OU CNPJ
-		pdf.fontSize(10)
-		.text('CNPJ ou CPF', 405, 125);
-
-		pdf.fontSize(12)
-		.text((venda.cliente.cnpj || venda.cliente.cpf), 405, 140);
-
-		pdf.rect(395, 115, 200, 45).stroke();
-
-		// LINHA 2
-		/////////////////////////////////
-
-		pdf.rect(15, 160, 580, 45).stroke();
-
-		// 1 Left
-		// 2 top
-		// 3 largura
-		// 4 altura
-
-		// Endereço
-		pdf.fontSize(10)
-		.text('Endereço', 30, 170);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.endereco.logradouro, 30, 185);
-
-		// LINHA 3
-		/////////////////////////////////
-
-		pdf.rect(15, 205, 193, 45).stroke();
-
-		// Bairro
-		pdf.fontSize(10)
-		.text('Bairro', 30, 215);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.endereco.bairro, 30, 230);
-
-		pdf.rect(15, 115, 380, 45).stroke();
-
-
-		// Cidade
-		pdf.fontSize(10)
-		.text('Cidade', 218, 215);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.endereco.cidade, 218, 230);
-
-		pdf.rect(208, 205, 193, 45).stroke();
-
-		// Fone
-		pdf.fontSize(10)
-		.text('Fone', 411, 215);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.contato.fone || venda.cliente.contato.celular, 411, 230);
-
-		pdf.rect(401, 205, 194, 45).stroke();
-
-		///////////// ITENS DO PEDIDO ////////////////////
-		/////////////////////////////////////////////////
-
-		// Cabeçalho da tabela
-		////////////////////////////////
-
-		// Produto / Serviço
-		pdf.rect(15, 275, 205, 30).stroke()
-		.fontSize(12)
-		.text('Produtos / Serviços', 20, 285);
-
-		// Quantidade
-		pdf.rect(220, 275, 75, 30).stroke()
-		.fontSize(12)
-		.text('Qntde.', 225, 285);
-
-		// Valor Unitario
-		pdf.rect(295, 275, 100, 30).stroke()
-		.fontSize(12)
-		.text('Valor Unit.', 305, 285);
-
-		pdf.rect(395, 275, 100, 30).stroke()
-		.fontSize(12)
-		.text('Valor Total', 405, 285);
-
-		pdf.rect(495, 275, 100, 30).stroke()
-		.fontSize(12)
-		.text('Validade', 505, 285, {
-			width: 100
-		});
-
-		// Linhas da tabela
-		////////////////////////////////
-
-		let posYItem = 275;
-		for (var i = 0; i < venda.itens.length; i++) {
-
-			posYItem += 30;
-
-			// Produto / Serviço
-			pdf.rect(15, posYItem, 205, 30).stroke()
-			.fontSize(10)
-			.text(venda.itens[i].item.nome, 20, posYItem+10);
-
-			// Quantidade
-			pdf.rect(220, posYItem, 75, 30).stroke()
-			.fontSize(10)
-			.text(venda.itens[i].qntde, 225, posYItem+10);
-
-			// Valor Unitario
-			pdf.rect(295, posYItem, 100, 30).stroke()
-			.fontSize(10)
-			.text('R$' + venda.itens[i].item.valor_venda, 305, posYItem+10);
-
-			pdf.rect(395, posYItem, 100, 30).stroke()
-			.fontSize(10)
-			.text('R$' + venda.itens[i].total, 405, posYItem+10);
-
-			pdf.rect(495, posYItem, 100, 30).stroke()
-			.fontSize(10)
-			.text(venda.itens[i].validade, 505, posYItem+10, {
-				width: 100
-			});
-		}
-
-		/////////////////// OBSERVAÇÃO / VALOR TOTAL //////////////////////
-		//////////////////////////////////////////////////////////////////
-
-		// Observação
-		pdf.rect(15, posYItem + 60, 350, 100).stroke()
-		.fontSize(10)
-		.text('Observação', 20, posYItem+70);
-
-		pdf.fontSize(12)
-		.text(venda.observacao || '', 20, posYItem+85);
-
-		// Valor Total
-		pdf.fontSize(16)
-		.text('Valor Total', 400, posYItem+70, {
-			width: 200,
-			align: 'center'
-		});
-
-		pdf.fontSize(12)
-		.text('R$' + venda.valor_total, 400, posYItem+100, {
-			width: 200,
-			align: 'center'
-		});
-
-		/////////////////// ASSINATURAS /////////////////////
-		////////////////////////////////////////////////////
-
-		pdf.rect(15, posYItem + 250, 275, 0).stroke()
-		.fontSize(12)
-		.text('Ass. Contratado', 15, posYItem+260, {
-			width: 275,
-			align: 'center'
-		});
-
-		pdf.rect(318, posYItem + 250, 275, 0).stroke()
-		.fontSize(12)
-		.text('Ass. Cliente', 318, posYItem+260, {
-			width: 275,
-			align: 'center'
-		});
-		
-		// Close PDF and write file.
-		pdf.end();
-		pdf.pipe(res);
-	});
-});
-
 //////////////// AUTHENTICATE ////////////////////////
 /////////////////////////////////////////////////////
 
@@ -306,6 +54,8 @@ router.post('/authenticate', (req, res, next) => {
 //////////////////////////////////////////////////////
 
 router.post('/upload', upload.any(), (req, res, next) => {
+	console.log(req.files)
+	console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 	res.send(req.files);
 });
 
@@ -833,6 +583,258 @@ router.post('/log', (req, res, next) => {
 	log.save((err, data) => {
 		if(err) res.send(err);
 		res.json(data);
+	});
+});
+
+//////////////// PDF ////////////////////////
+/////////////////////////////////////////////
+router.get('/pdf/:vendaId', (req, res, next) => {
+	
+	Vendas.findOne({_id: req.params.vendaId})
+	.populate('cliente')
+	.populate('itens.item')
+	.exec(function(err, venda) {
+		
+		if(err) res.send(err);
+
+		let today = new Date(),
+		dd = today.getDate(),
+		mm = today.getMonth()+1,
+		yyyy = today.getFullYear();
+
+		if(dd<10) dd='0'+dd;
+		if(mm<10) mm='0'+mm;
+		
+		today = dd+'/'+mm+'/'+yyyy;
+		
+		let pdf = new PDFDocument({
+		  size: 'LEGAL',
+		  info: {
+		    Title: 'Ordem de serviço para ' + venda.cliente.nome,
+		    Author: 'Extin Fire / Extintores',
+		  }
+		});
+
+		/////////// CABEÇALHO //////////////////
+		///////////////////////////////////////
+
+		// Logotipo
+		pdf.image('./server/images/logo_extinfire.jpg', 30, 30, {
+			width: 185
+		});
+
+		// Titulo
+		pdf.fontSize(18)
+		.text('ORDEM DE SERVIÇO', 235, 40);
+		
+		// Tpo de Serviço
+		pdf.fontSize(16)
+		.text(!venda.tipo ? 'Orçamento' : 'Pedido', 235, 65, {
+			width: 160,
+			align: 'center'
+		});
+
+		// Retangulo
+		pdf.rect(15, 15, 580, 85).stroke();
+
+		pdf.fontSize(12)
+		.text('Data', 460, 40, {
+			width: 125,
+			align: 'center'
+		});
+
+		pdf.fontSize(14)
+		.text(today, 460, 60, {
+			width: 125,
+			align: 'center'
+		});
+
+		pdf.rect(450, 15, 145, 85).stroke();
+
+		//////// DADOS DO CLIENTE ///////////
+		////////////////////////////////////
+
+		// LINHA 1
+		/////////////////////////////////
+
+		// Cliente
+		pdf.fontSize(10)
+		.text('Cliente', 30, 125);
+
+		pdf.fontSize(12)
+		.text(venda.cliente.nome, 30, 140);
+
+		pdf.rect(15, 115, 380, 45).stroke();
+
+
+		// CPF OU CNPJ
+		pdf.fontSize(10)
+		.text('CNPJ ou CPF', 405, 125);
+
+		pdf.fontSize(12)
+		.text((venda.cliente.cnpj || venda.cliente.cpf), 405, 140);
+
+		pdf.rect(395, 115, 200, 45).stroke();
+
+		// LINHA 2
+		/////////////////////////////////
+
+		pdf.rect(15, 160, 580, 45).stroke();
+
+		// 1 Left
+		// 2 top
+		// 3 largura
+		// 4 altura
+
+		// Endereço
+		pdf.fontSize(10)
+		.text('Endereço', 30, 170);
+
+		pdf.fontSize(12)
+		.text(venda.cliente.endereco.logradouro, 30, 185);
+
+		// LINHA 3
+		/////////////////////////////////
+
+		pdf.rect(15, 205, 193, 45).stroke();
+
+		// Bairro
+		pdf.fontSize(10)
+		.text('Bairro', 30, 215);
+
+		pdf.fontSize(12)
+		.text(venda.cliente.endereco.bairro, 30, 230);
+
+		pdf.rect(15, 115, 380, 45).stroke();
+
+
+		// Cidade
+		pdf.fontSize(10)
+		.text('Cidade', 218, 215);
+
+		pdf.fontSize(12)
+		.text(venda.cliente.endereco.cidade, 218, 230);
+
+		pdf.rect(208, 205, 193, 45).stroke();
+
+		// Fone
+		pdf.fontSize(10)
+		.text('Fone', 411, 215);
+
+		pdf.fontSize(12)
+		.text(venda.cliente.contato.fone || venda.cliente.contato.celular, 411, 230);
+
+		pdf.rect(401, 205, 194, 45).stroke();
+
+		///////////// ITENS DO PEDIDO ////////////////////
+		/////////////////////////////////////////////////
+
+		// Cabeçalho da tabela
+		////////////////////////////////
+
+		// Produto / Serviço
+		pdf.rect(15, 275, 205, 30).stroke()
+		.fontSize(12)
+		.text('Produtos / Serviços', 20, 285);
+
+		// Quantidade
+		pdf.rect(220, 275, 75, 30).stroke()
+		.fontSize(12)
+		.text('Qntde.', 225, 285);
+
+		// Valor Unitario
+		pdf.rect(295, 275, 100, 30).stroke()
+		.fontSize(12)
+		.text('Valor Unit.', 305, 285);
+
+		pdf.rect(395, 275, 100, 30).stroke()
+		.fontSize(12)
+		.text('Valor Total', 405, 285);
+
+		pdf.rect(495, 275, 100, 30).stroke()
+		.fontSize(12)
+		.text('Validade', 505, 285, {
+			width: 100
+		});
+
+		// Linhas da tabela
+		////////////////////////////////
+
+		let posYItem = 275;
+		for (var i = 0; i < venda.itens.length; i++) {
+
+			posYItem += 30;
+
+			// Produto / Serviço
+			pdf.rect(15, posYItem, 205, 30).stroke()
+			.fontSize(10)
+			.text(venda.itens[i].item.nome, 20, posYItem+10);
+
+			// Quantidade
+			pdf.rect(220, posYItem, 75, 30).stroke()
+			.fontSize(10)
+			.text(venda.itens[i].qntde, 225, posYItem+10);
+
+			// Valor Unitario
+			pdf.rect(295, posYItem, 100, 30).stroke()
+			.fontSize(10)
+			.text('R$' + venda.itens[i].item.valor_venda, 305, posYItem+10);
+
+			pdf.rect(395, posYItem, 100, 30).stroke()
+			.fontSize(10)
+			.text('R$' + venda.itens[i].total, 405, posYItem+10);
+
+			pdf.rect(495, posYItem, 100, 30).stroke()
+			.fontSize(10)
+			.text(venda.itens[i].validade, 505, posYItem+10, {
+				width: 100
+			});
+		}
+
+		/////////////////// OBSERVAÇÃO / VALOR TOTAL //////////////////////
+		//////////////////////////////////////////////////////////////////
+
+		// Observação
+		pdf.rect(15, posYItem + 60, 350, 100).stroke()
+		.fontSize(10)
+		.text('Observação', 20, posYItem+70);
+
+		pdf.fontSize(12)
+		.text(venda.observacao || '', 20, posYItem+85);
+
+		// Valor Total
+		pdf.fontSize(16)
+		.text('Valor Total', 400, posYItem+70, {
+			width: 200,
+			align: 'center'
+		});
+
+		pdf.fontSize(12)
+		.text('R$' + venda.valor_total, 400, posYItem+100, {
+			width: 200,
+			align: 'center'
+		});
+
+		/////////////////// ASSINATURAS /////////////////////
+		////////////////////////////////////////////////////
+
+		pdf.rect(15, posYItem + 250, 275, 0).stroke()
+		.fontSize(12)
+		.text('Ass. Contratado', 15, posYItem+260, {
+			width: 275,
+			align: 'center'
+		});
+
+		pdf.rect(318, posYItem + 250, 275, 0).stroke()
+		.fontSize(12)
+		.text('Ass. Cliente', 318, posYItem+260, {
+			width: 275,
+			align: 'center'
+		});
+		
+		// Close PDF and write file.
+		pdf.end();
+		pdf.pipe(res);
 	});
 });
 

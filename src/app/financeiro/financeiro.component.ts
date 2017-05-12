@@ -4,6 +4,8 @@ import { VendasService } from '../_services/vendas.service';
 import { ClientesService } from '../_services/clientes.service';
 import { ItensService } from './../_services/itens.service';
 
+import { AppSettings } from './../app.config';
+
 @Component({
   selector: 'app-financeiro',
   templateUrl: './financeiro.component.html',
@@ -15,7 +17,7 @@ export class FinanceiroComponent implements OnInit {
   vendasLiquidas: any[] = [];
 
   loadStatus: boolean = false;
-
+  baseUrl: string = AppSettings.API_ENDPOINT;
   faturamentoBruto:any;
   faturamentoLiquido:any;
 

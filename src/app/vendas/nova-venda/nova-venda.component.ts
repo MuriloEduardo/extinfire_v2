@@ -33,7 +33,6 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 	maskMoney = numberMask;
 	loadStatus: boolean = false;
 	globalActions = new EventEmitter<string|MaterializeAction>();
-	updateItens = new EventEmitter<any>();
 	baseUrl: string = AppSettings.API_ENDPOINT;
 
 	itens: any[] = [];
@@ -118,7 +117,7 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 			this.loadStatus = true;
 		});
   	}
-  
+  	
   	ngAfterViewChecked() {
 		if(Materialize.updateTextFields)
 			Materialize.updateTextFields();
@@ -130,8 +129,6 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		
 		this.venda.itens.push(this.novoItem);
 
-		this.itemSendoUsado(this.novoItem);
-
 		// Reseta novoItem
 		this.novoItem = {
 			item: {
@@ -142,6 +139,8 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 			total: undefined,
 			tipo: undefined
 		};
+
+		this.itemSendoUsado();
 	}
 
 	currencyPipe(value: number, currencyCode: string = 'BRL', symbolDisplay: boolean = true, digits?: string): string {
@@ -171,39 +170,58 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 			let date = new Date();
 			date.setMonth(date.getMonth() + 12);
 			this.novoItem.validade = date.toLocaleDateString('pt-BR');
+		} else {
+			this.novoItem.validade = undefined;
 		}
 
 		this.sumNovo();
-
-		this.addItem();
 	}
 
-	itemSendoUsado(item: any) {
+	itemSendoUsado(_item?:any, del?: boolean) {
 
-		for (var x = 0; x < this.venda.itens.length; ++x) {
+		if(del) {
 			
-			if(this.venda.itens[x].tipo) {
-				
-				// Produto
-				this.produtos.filter((produto) => {
+			this.produtos = this.produtos.filter((produto) => {
 
-					//produto.selected = false;
-					
-					produto.selected = produto._id === this.venda.itens[x].item._id ? true : false;
-				});
+				if(produto._id === _item._id) {
+					produto.selected = undefined;
+					console.log(produto)
+				}
+			});
+		} else {
 
-				this.updateItens.emit(this.produtos);
-			} else {
+			this.venda.itens.filter((item) => {
 
-				/*this.servicos.filter((servico) => {
-					servico.selected = false;
-					servico.selected = servico._id === this.venda.itens[x].item._id ? true : false;
-				})*/
-			}
+				if(item.tipo) {
+
+					// Produto
+					this.produtos.filter((produto) => {
+						
+						if(produto._id === item.item._id) {
+							produto.selected = true;
+						}
+					});
+				}
+			});
 		}
+
+		/**/
+
+			/*this.servicos.filter((servico) => {
+				servico.selected = false;
+				servico.selected = servico._id === this.venda.itens[x].item._id ? true : false;
+			})*/
+		//}
+
+		/*for (var x = 0; x < this.venda.itens.length; ++x) {
+			
+			console.log(this.venda.itens[x].tipo)
+			
+			
+		}*/
 	}
 
-	setItem(item: any) {
+	/*setItem(item: any) {
 
 		if(!item.item._id) return false;
 
@@ -220,7 +238,7 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		this.sumRow(item);
 
 		this.itemSendoUsado(item);
-	}
+	}*/
 
 	formatDecimal(decimal: any) {
 
@@ -239,6 +257,17 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		
 			if(filterItem.item._id !== item._id) return filterItem;
 		});
+
+		this.itemSendoUsado(item, true);
+	}
+
+	editarRow(item: any) {
+
+		this.deleteRow(item);
+
+		this.novoItem.item = item;
+
+		this.setNovoItem();
 	}
 
 	sumNovo() {
