@@ -123,11 +123,7 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 			Materialize.updateTextFields();
 	}
 
-	addItem() {
-
-		if(!this.novoItem.item._id) return false;
-		
-		this.venda.itens.push(this.novoItem);
+	resetNovoItem() {
 
 		// Reseta novoItem
 		this.novoItem = {
@@ -139,8 +135,15 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 			total: undefined,
 			tipo: undefined
 		};
+	}
 
-		this.itemSendoUsado();
+	addItem() {
+
+		if(!this.novoItem.item._id) return false;
+
+		this.venda.itens.push(this.novoItem);
+
+		this.resetNovoItem();
 	}
 
 	currencyPipe(value: number, currencyCode: string = 'BRL', symbolDisplay: boolean = true, digits?: string): string {
@@ -158,87 +161,43 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		
 		if(!this.novoItem.item._id) return false;
 
-		// Se tem valor de custo é um produto
-		// Caso não: é um serviço
-		this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
 
-		this.novoItem.qntde = 1;
-
-		// Validade do produto
-		// APENAS produto
-		if(this.novoItem.tipo) {
-			let date = new Date();
-			date.setMonth(date.getMonth() + 12);
-			this.novoItem.validade = date.toLocaleDateString('pt-BR');
-		} else {
-			this.novoItem.validade = undefined;
-		}
-
-		this.sumNovo();
-	}
-
-	itemSendoUsado(_item?:any, del?: boolean) {
-
-		if(del) {
+		this.itens.filter(item => {
 			
-			this.produtos = this.produtos.filter((produto) => {
+			if(item._id === this.novoItem.item._id) {
+				
+				if(!item.selected) {
 
-				if(produto._id === _item._id) {
-					produto.selected = undefined;
-					console.log(produto)
-				}
-			});
-		} else {
+					item.selected = true;
 
-			this.venda.itens.filter((item) => {
+					// Se tem valor de custo é um produto
+					// Caso não: é um serviço
+					this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
 
-				if(item.tipo) {
+					this.novoItem.qntde = 1;
 
-					// Produto
-					this.produtos.filter((produto) => {
+					// Validade do produto
+					// APENAS produto
+					if(this.novoItem.tipo) {
 						
-						if(produto._id === item.item._id) {
-							produto.selected = true;
-						}
-					});
+						let date = new Date();
+						date.setMonth(date.getMonth() + 12);
+						this.novoItem.validade = date.toLocaleDateString('pt-BR');
+					} else {
+						
+						this.novoItem.validade = undefined;
+					}
+
+					this.sumNovo();
+				} else {
+
+					this.resetNovoItem();
+
+					this.triggerToast('Produto já está sendo usado!', 'blue');
 				}
-			});
-		}
-
-		/**/
-
-			/*this.servicos.filter((servico) => {
-				servico.selected = false;
-				servico.selected = servico._id === this.venda.itens[x].item._id ? true : false;
-			})*/
-		//}
-
-		/*for (var x = 0; x < this.venda.itens.length; ++x) {
-			
-			console.log(this.venda.itens[x].tipo)
-			
-			
-		}*/
+			}
+		});
 	}
-
-	/*setItem(item: any) {
-
-		if(!item.item._id) return false;
-
-		// Se tem valor de custo é um produto
-		// Caso não: é um serviço
-		item.tipo = !item.item.valor_custo ? false : true;
-		
-		// Validade do produto
-		// APENAS produto
-		let date = new Date();
-		date.setMonth(date.getMonth() + 12);
-		item.validade = item.tipo ? date.toLocaleDateString('pt-BR') : undefined;
-		
-		this.sumRow(item);
-
-		this.itemSendoUsado(item);
-	}*/
 
 	formatDecimal(decimal: any) {
 
@@ -251,14 +210,18 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		return decimal;
 	}
 	
-	deleteRow(item: any) {
+	deleteRow(_item: any) {
 
 		this.venda.itens = this.venda.itens.filter((filterItem) => {
 		
-			if(filterItem.item._id !== item._id) return filterItem;
+			if(filterItem.item._id !== _item._id) return filterItem;
 		});
 
-		this.itemSendoUsado(item, true);
+		this.itens.filter(item => {
+			if(item._id === _item._id) {
+				item.selected = false;
+			}
+		});
 	}
 
 	editarRow(item: any) {
