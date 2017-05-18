@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewChecked, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
@@ -27,7 +28,7 @@ const numberMask = createNumberMask({
   templateUrl: './editar-venda.component.html',
   styleUrls: ['./editar-venda.component.css']
 })
-export class EditarVendaComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class EditarVendaComponent implements OnInit, AfterViewChecked {
 
 	maskMoney = numberMask;
 
@@ -43,16 +44,23 @@ export class EditarVendaComponent implements OnInit, OnDestroy, AfterViewChecked
 	private tipoVenda: boolean;
 
 	venda: any = {
-		cliente: {},
-		itens: [{
-			item: {},
-			qntde: undefined,
-			validade: undefined,
-			total: undefined,
-			tipo: undefined
-		}],
-		valor_total: undefined,
+		cliente: {
+			images: []
+		},
+		itens: [],
+		valor_total: 0,
 		observacao: undefined,
+		tipo: undefined
+	};
+
+	novoItem: any = {
+		item: {
+			valor_venda: undefined,
+			images: []
+		},
+		qntde: undefined,
+		validade: undefined,
+		total: undefined,
 		tipo: undefined
 	};
 
@@ -135,14 +143,6 @@ export class EditarVendaComponent implements OnInit, OnDestroy, AfterViewChecked
 			}
 		}
 	}
-
-	deleteRow(item: any) {
-
-		this.venda.itens = this.venda.itens.filter((filterItem) => {
-		
-			if(filterItem.item._id !== item._id) return filterItem;
-		});
-	}
 	
 	setItem(index: number, last?: boolean, id?: string) {
 
@@ -181,6 +181,39 @@ export class EditarVendaComponent implements OnInit, OnDestroy, AfterViewChecked
 		}
 	}
 
+	addItem() {
+
+		if(!this.novoItem.item._id) return false;
+
+		this.venda.itens.push(this.novoItem);
+
+		this.resetNovoItem();
+	}
+
+	resetNovoItem() {
+
+		// Reseta novoItem
+		this.novoItem = {
+			item: {
+				images: []
+			},
+			qntde: undefined,
+			validade: undefined,
+			total: undefined,
+			tipo: undefined
+		};
+	}
+
+	verificaQntdeMax(item: any) {
+		
+		// Quantidade máxima em estoque permitida
+		if(item.qntde >= item.item.qntde_atual) {
+			this.triggerToast('Apenas ' + item.item.qntde_atual + ' unidades existentes em estoque', 'blue');
+			item.qntde = item.item.qntde_atual;
+			return false;
+		}
+	}
+
 	sum(index: number) {
 
 		let priceFloat = parseFloat(this.venda.itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
@@ -202,7 +235,7 @@ export class EditarVendaComponent implements OnInit, OnDestroy, AfterViewChecked
 		event.preventDefault();
 		
 		if(!this.venda.cliente.length&&this.venda.itens.length<=1) {
-			alert('Adicione ao menos 1 produto');
+			this.triggerToast('Adicione ao menos 1 produto', 'red');
 			return false;
 		};
 
@@ -228,7 +261,103 @@ export class EditarVendaComponent implements OnInit, OnDestroy, AfterViewChecked
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
 	}
 
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
+	currencyPipe(value: number, currencyCode: string = 'BRL', symbolDisplay: boolean = true, digits?: string): string {
+		if (!value) {
+	      return '';
+	    }
+
+		let currencyPipe: CurrencyPipe = new CurrencyPipe('pt-BR');
+    	let newValue: string = currencyPipe.transform(value, currencyCode, symbolDisplay, digits);
+
+    	return newValue.replace('R$', '');
+	}
+
+	setNovoItem() {
+		
+		if(!this.novoItem.item._id) return false;
+
+
+		this.itens.filter(item => {
+			
+			if(item._id === this.novoItem.item._id) {
+				
+				if(!item.selected) {
+
+					item.selected = true;
+
+					// Se tem valor de custo é um produto
+					// Caso não: é um serviço
+					this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
+
+					this.novoItem.qntde = 1;
+
+					// Validade do produto
+					// APENAS produto
+					if(this.novoItem.tipo) {
+						
+						let date = new Date();
+						date.setMonth(date.getMonth() + 12);
+						this.novoItem.validade = date.toLocaleDateString('pt-BR');
+					} else {
+						
+						this.novoItem.validade = undefined;
+					}
+
+					this.sumNovo();
+				} else {
+
+					this.resetNovoItem();
+
+					this.triggerToast('Produto já está sendo usado!', 'blue');
+				}
+			}
+		});
+	}
+	
+	deleteRow(_item: any) {
+
+		this.venda.itens = this.venda.itens.filter((filterItem) => {
+		
+			if(filterItem.item._id !== _item._id) return filterItem;
+		});
+
+		this.itens.filter(item => {
+			if(item._id === _item._id) {
+				item.selected = false;
+			}
+		});
+	}
+
+	editarRow(item: any) {
+
+		this.deleteRow(item);
+
+		this.novoItem.item = item;
+
+		this.setNovoItem();
+	}
+
+	sumNovo() {
+
+		let priceFloat = parseFloat(this.formatDecimal(this.novoItem.item.valor_venda));
+		let priceCalculed = priceFloat * this.novoItem.qntde;
+
+		this.novoItem.total = priceCalculed.toFixed(2).toString().replace('.',',');
+
+		this.verificaQntdeMax(this.novoItem);
+	}
+
+	valorTotal() {
+		
+		let valorTotal = 0;
+		
+		for (var i = 0; i < this.venda.itens.length; ++i) {
+			let priceFloat = parseFloat(this.formatDecimal(this.venda.itens[i].total));
+			valorTotal += priceFloat;
+		}
+
+		this.venda.valor_total = this.currencyPipe(valorTotal);
+
+		return valorTotal;
 	}
 }
