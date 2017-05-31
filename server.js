@@ -10,6 +10,7 @@ let morgan     = require('morgan');
 let path       = require("path");
 let favicon    = require('serve-favicon');
 let port       = process.env.PORT || 3000;
+let urlDB      = process.env.MONGO_URL || configDB.url;
 let api        = require('./server/routes/api');
 let cors 	   = require('cors');
 let options    = {
@@ -27,11 +28,11 @@ let options    = {
 	} 
 };
 
-mongoose.connect((process.env.MONGO_URL || configDB.url), options, (err, res) => {
+mongoose.connect(urlDB, options, (err, res) => {
 	mongoose.Promise = global.Promise;
 	if(err) throw err;
 
-	console.info('MongoDB Conectado');
+	console.info('MongoDB Conectado em %s', urlDB);
 });
 
 app.use(cors({ origin: true, credentials: true }));
