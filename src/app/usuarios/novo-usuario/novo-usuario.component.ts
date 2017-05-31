@@ -46,7 +46,7 @@ export class NovoUsuarioComponent implements OnInit, AfterViewChecked, OnDestroy
 			senha: this.senha
 		};
 		
-		this.usuariosService.addUser(newUser).subscribe(user => {
+		this.inscricao = this.usuariosService.addUser(newUser).subscribe(user => {
 			this.router.navigate(['usuarios']);
 	  		this.triggerToast('Usuário cadastrado com sucesso!', 'green');
 		});
