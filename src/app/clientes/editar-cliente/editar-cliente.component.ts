@@ -48,8 +48,6 @@ export class EditarClienteComponent implements OnInit {
 				this.loadStatus = true;
 			});
 		});
-
-		console.log(this.baseUrl + 'api/upload')
 	}
 
 	ngAfterViewChecked() {

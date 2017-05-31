@@ -283,10 +283,6 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 			this.triggerToast('Adicione ao menos 1 produto', 'red');
 			return false;
 		};
-
-		/*for (var i = 0; i < this.venda.itens.length; ++i) {
-			this.venda.itens[i].total = this.currencyPipe(this.venda.itens[i].total);
-		}*/
 		
 		this.vendasService.addVenda(this.venda).subscribe(venda => {
 	  		this.router.navigate(['vendas']);

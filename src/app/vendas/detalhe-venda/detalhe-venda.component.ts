@@ -35,8 +35,6 @@ export class DetalheVendaComponent implements OnInit, OnDestroy {
 
 			this.vendasService.getVenda(params['id']).subscribe(venda => {
 
-				console.log(venda)
-
 				this.venda = venda;
 
 				this.urlPdf = this.baseUrl + 'api/pdf/' + this.venda._id;

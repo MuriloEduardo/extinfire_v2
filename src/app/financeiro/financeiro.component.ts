@@ -18,7 +18,6 @@ export class FinanceiroComponent implements OnInit {
 
   loadStatus: boolean = false;
   baseUrl: string = AppSettings.API_ENDPOINT;
-  faturamentoBruto:any;
   faturamentoLiquido:any;
 
   validadeDe: any = new Date().toLocaleDateString('pt-BR');
@@ -63,7 +62,6 @@ export class FinanceiroComponent implements OnInit {
       
       this.vendas = vendas;
 
-      let faturamentoBrutoSomado = 0;
       let faturamentoLiquidoSomado = 0;
 
       for (var i = 0; i < this.vendas.length; ++i) {
@@ -73,9 +71,7 @@ export class FinanceiroComponent implements OnInit {
         if(this.vendas[i].tipo) {
 
           let dateFormated = new Date(this.vendas[i].updatedAt).toLocaleString('pt-BR');
-          this.lineChartLabels.push(dateFormated);
 
-          faturamentoBrutoSomado += parseFloat(this.formatDecimal(this.vendas[i].valor_total));
           this.vendas[i].valor_total = this.formatDecimal(this.vendas[i].valor_total);
 
           this.vendas[i].itens.filter((item) => {
@@ -88,45 +84,31 @@ export class FinanceiroComponent implements OnInit {
             // Valor de Todo Liquido
             // De todos os pedidos
             faturamentoLiquidoSomado += this.vendas[i].valor_liquido = parseFloat(this.formatDecimal(item.total)) - (parseFloat(this.formatDecimal(item.item.valor_custo ? item.item.valor_custo : 0)) * item.qntde);
-            this.valoresLiquidos.push(this.vendas[i].valor_liquido);
           });
-
-          this.valoresBrutos.push(this.vendas[i].valor_total);
         }
       }
 
-      this.faturamentoBruto = faturamentoBrutoSomado;
       this.faturamentoLiquido = faturamentoLiquidoSomado;
 
       this.loadStatus = true;
     });
-
-    /*this.itensService.getItens().subscribe((produtos) => {
-    
-      this.produtos = produtos;
-
-      for (var i = 0; i < this.produtos.length; ++i) {
-        if(this.produtos[i].qntde_atual) {
-
-          let priceVendaFloat = parseFloat(this.formatDecimal(this.produtos[i].valor_venda));
-          let priceCustoFloat = parseFloat(this.formatDecimal(this.produtos[i].valor_custo));
-          let priceCalculed = priceVendaFloat - priceCustoFloat;
-
-          console.log(priceCalculed)
-          //console.log(priceCustoFloat)
-
-          this.lucroTotalEstoque += priceCalculed;
-        }
-      }    
-    });*/
-
-    /*this.clientesService.getClientes().subscribe((clientes) => {
-    
-      this.clientes = clientes;
-
-      
-    });*/
 	}
+
+  serachByDate() {
+    let splitDe = this.validadeDe.split('/');
+    let novadataDe = new Date(splitDe[2], splitDe[1], splitDe[0]);
+    
+
+    let splitAte = this.validadeDe.split('/');
+    let novadataAte = new Date(splitAte[2], splitAte[1], splitAte[0]);
+
+    console.log(novadataDe)
+    console.log(novadataAte)
+
+    this.vendasService.getVendasByDate({'validadeDe': novadataDe, 'validadeAte': novadataAte}).subscribe(res => {
+      console.log(res)
+    });
+  }
 
   formatDecimal(decimal: any) {
 
@@ -137,58 +119,5 @@ export class FinanceiroComponent implements OnInit {
     if(decimal.indexOf(',')!==-1) decimal = decimal.replace(',','.');
 
     return decimal;
-  }
-
-  valoresBrutos: any[] = [];
-  valoresLiquidos: any[] = [];
-
-  // lineChart
-  public lineChartData:Array<any> = [
-    {data: this.valoresBrutos, label: 'Valor Bruto'},
-    {data: this.valoresLiquidos, label: 'Valor Liquido'}
-  ];
-  public lineChartLabels:Array<any> = [];
-  public lineChartOptions:any = {
-    responsive: true
-  };
-  public lineChartColors:Array<any> = [
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    },
-    { // dark grey
-      backgroundColor: 'rgba(229, 57, 53,0.2)',
-      borderColor: 'rgba(229, 57, 53,1)',
-      pointBackgroundColor: 'rgba(229, 57, 53,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(229, 57, 53,1)'
-    }
-  ];
-  public lineChartLegend:boolean = true;
-  public lineChartType:string = 'line';
- 
-  public randomize():void {
-    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
-    for (let i = 0; i < this.lineChartData.length; i++) {
-      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
-      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
-      }
-    }
-    this.lineChartData = _lineChartData;
-  }
- 
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
- 
-  public chartHovered(e:any):void {
-    console.log(e);
   }
 }

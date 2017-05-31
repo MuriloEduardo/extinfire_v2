@@ -34,7 +34,7 @@ mongoose.connect((process.env.MONGO_URL || configDB.url), options, (err, res) =>
 	console.info('MongoDB Conectado');
 });
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

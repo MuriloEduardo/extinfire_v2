@@ -39,7 +39,7 @@ export class EditarServicoComponent implements OnInit, OnDestroy, AfterViewCheck
 	baseUrl: string = AppSettings.API_ENDPOINT;
 
 	uploader:FileUploader = new FileUploader({
-		url: this.baseUrl + 'upload'
+		url: this.baseUrl + 'api/upload'
 	});
 
 	hasBaseDropZoneOver:boolean = false;

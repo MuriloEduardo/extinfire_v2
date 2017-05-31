@@ -1,7 +1,7 @@
 <nav class="header-pages white">
 	<div class="nav-wrapper">
 		<div class="col s12 m12">
-			<span class="breadcrumb">Faturamento</span>
+			<span class="breadcrumb">Financeiro</span>
 		</div>
 	</div>
 </nav>
@@ -36,103 +36,68 @@
 	</div>
 </div>
 <!-- Botoes de ação -->
-<div class="row" *ngIf="vendas.length&&loadStatus">
-	<div class="col s12">
-		<div class="row">
-			<div class="col s12 m2 right">
-				<label for="validadeDe">Até:</label>
-				<input 
-				id="validadeAte" 
-				materialize="pickadate" 
-				[materializeParams]="[paramsPickdate]"
-				type="date" 
-				[(ngModel)]="validadeAte" 
-				name="validadeAte"
-				>
-			</div>
-			<div class="col s12 m2 right">
-				<label for="validadeDe">De:</label>
-				<input 
-				id="validadeDe" 
-				materialize="pickadate" 
-				[materializeParams]="[paramsPickdate]"
-				type="date" 
-				[(ngModel)]="validadeDe" 
-				name="validadeDe"
-				>
-			</div>
+<div *ngIf="vendas.length&&loadStatus">
+	<div class="row">
+		<div class="col s12 m2 right">
+			<label for="validadeDe">Até:</label>
+			<input 
+			id="validadeAte" 
+			materialize="pickadate" 
+			[materializeParams]="[paramsPickdate]"
+			type="date" 
+			[ngModel]="validadeAte" 
+			(ngModelChange)="serachByDate()"
+			name="validadeAte"
+			>
 		</div>
-		<div class="section"></div>
-		<div class="row">
-			<div class="col s12">
-				<div>
-					<canvas baseChart
-					[datasets]="lineChartData"
-					[labels]="lineChartLabels"
-					[options]="lineChartOptions"
-					[colors]="lineChartColors"
-					[legend]="lineChartLegend"
-					[chartType]="lineChartType"
-					(chartHover)="chartHovered($event)"
-					(chartClick)="chartClicked($event)"
-					></canvas>
-				</div>
-			</div>
-			<div class="col s12" style="margin-bottom: 10px">
-				<table class="table table-responsive table-condensed">
-					<tr>
-						<th *ngFor="let label of lineChartLabels">{{label}}</th>
-					</tr>
-					<tr *ngFor="let d of lineChartData">
-						<td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
-					</tr>
-				</table>
-				<button (click)="randomize()">CLICK</button>
-			</div>
+		<div class="col s12 m2 right">
+			<label for="validadeDe">De:</label>
+			<input 
+			id="validadeDe" 
+			materialize="pickadate" 
+			[materializeParams]="[paramsPickdate]"
+			type="date" 
+			[ngModel]="validadeDe" 
+			(ngModelChange)="serachByDate()"
+			name="validadeDe"
+			>
 		</div>
-		<br><br>
-		<div class="row">
-			<div class="col s12">
-				<div class="row">
-					<div class="col s12">
-						<table class="striped bordered responsive-table">
-							<thead>
-								<th data-field="nome">Venda</th>
-								<th data-field="valor_total">Valor Bruto Total</th>
-								<th data-field="valor_liquido">Valor Liquido Total</th>
-								<th data-field="tipo">Tipo</th>
-								<th data-field="data">Data</th>
-							</thead>
-							<tbody>
-								<tr class="bordered highlight responsive-table" *ngFor="let venda of vendas" [class.hide]="!venda.tipo">
-									<td>
-										<img src="{{ '/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
-										{{ 'Venda para ' + venda.cliente.nome }}
-									</td>
-									<td> {{ venda.valor_total }} </td>
-									<td> {{ venda.valor_liquido }} </td>
-									<td> {{ venda.tipo ? 'Pedido' : 'Orçamento' }} </td>
-									<td> {{ venda.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }} </td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+	</div>
+	<div class="section"></div>
+	<div class="row">
+		<div class="col s12">
+			<div class="row">
+				<div class="col s12">
+					<table class="highlight bordered responsive-table">
+						<thead>
+							<th data-field="nome">Venda efetuada para</th>
+							<th data-field="valor_liquido">Valor Liquido Total</th>
+							<th data-field="Qntde.Itens">Qntde. Itens</th>
+							<th data-field="data">Data</th>
+						</thead>
+						<tbody>
+							<tr *ngFor="let venda of vendas" [class.hide]="!venda.tipo" [routerLink]="['/vendas', venda._id]">
+								<td>
+									<img src="{{ baseUrl + 'uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
+									{{ 'Venda para ' + venda.cliente.nome }}
+								</td>
+								<td> {{ venda.valor_liquido }} </td>
+								<td> {{ venda.itens.length }} </td>
+								<td> {{ venda.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }} </td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-				<div class="section"></div>
-				<div class="row right-align">
-					<div class="col s12 m4 right">
-						<h6>Faturamento Liquido Total</h6>
-						<div class="divider"></div>
-						<h5>{{ faturamentoLiquido }}</h5>
-					</div>
-					<div class="col s12 m4 right">
-						<h6>Faturamento Bruto Total</h6>
-						<div class="divider"></div>
-						<h5>{{ faturamentoBruto }}</h5>
-					</div>
-				</div>
-				<div class="section"></div>
 			</div>
+			<div class="section"></div>
+			<div class="row right-align">
+				<div class="col s12 m4 right">
+					<h6>Faturamento Liquido Total</h6>
+					<div class="divider"></div>
+					<h5>{{ faturamentoLiquido }}</h5>
+				</div>
+			</div>
+			<div class="section"></div>
 		</div>
 	</div>
 </div>

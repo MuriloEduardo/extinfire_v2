@@ -6,7 +6,7 @@
 		</div>
 	</div>
 </nav>
-<form (submit)="novoProduto($event)">
+<form (submit)="novoProduto($event)" ngNativeValidate>
 	<!-- Botoes de ação -->
 	<div class="row">
 		<div class="col s12 right-align">
@@ -22,7 +22,7 @@
 					<div class="row">
 						<div class="col s12">
 							<div class="input-field">
-								<input id="nomeNovoProduto" type="text" [(ngModel)]="nome" name="nomeNovoProduto" required="" aria-required="true">
+								<input id="nomeNovoProduto" type="text" [(ngModel)]="nome" name="nomeNovoProduto" required="true" aria-required="true">
 								<label for="nomeNovoProduto">Nome do produto</label>
 							</div>
 						</div>
@@ -30,13 +30,13 @@
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<input id="valorVendaProduto" type="text" [(ngModel)]="valor_venda" name="valorVendaProduto" required="" aria-required="true" class="decimal" [textMask]="{mask: maskMoney}">
+								<input id="valorVendaProduto" type="text" [(ngModel)]="valor_venda" name="valorVendaProduto" required="true" aria-required="true" class="decimal" [textMask]="{mask: maskMoney}">
 								<label for="valorVendaProduto">Valor de venda do produto</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<input id="valorCustoProduto" type="text" [(ngModel)]="valor_custo" name="valorCustoProduto" required="" aria-required="true" class="decimal" [textMask]="{mask: maskMoney}">
+								<input id="valorCustoProduto" type="text" [(ngModel)]="valor_custo" name="valorCustoProduto" required="true" aria-required="true" class="decimal" [textMask]="{mask: maskMoney}">
 								<label for="valorCustoProduto">Valor de custo do produto</label>
 							</div>
 						</div>
@@ -44,13 +44,13 @@
 					<div class="row">
 						<div class="col s6">
 							<div class="input-field">
-								<input id="qntdeMinProduto" type="number" [(ngModel)]="qntde_minima" name="qntdeMinProduto" required="" aria-required="true" min="1">
+								<input id="qntdeMinProduto" type="number" [(ngModel)]="qntde_minima" name="qntdeMinProduto" required="true" aria-required="true" min="1">
 								<label for="qntdeMinProduto">Quantidade mínima</label>
 							</div>
 						</div>
 						<div class="col s6">
 							<div class="input-field">
-								<input id="qntdeAtualProduto" type="number" [(ngModel)]="qntde_atual" name="qntdeAtualProduto" required="" aria-required="true" min="1">
+								<input id="qntdeAtualProduto" type="number" [(ngModel)]="qntde_atual" name="qntdeAtualProduto" required="true" aria-required="true" min="1">
 								<label for="qntdeAtualProduto">Quantidade atual deste produto</label>
 							</div>
 						</div>

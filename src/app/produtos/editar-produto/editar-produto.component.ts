@@ -38,7 +38,7 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked, OnDestr
 	baseUrl: string = AppSettings.API_ENDPOINT;
 
 	uploader:FileUploader = new FileUploader({
-		url: this.baseUrl + 'upload'
+		url: this.baseUrl + 'api/upload'
 	});
 
 	hasBaseDropZoneOver:boolean = false;

@@ -22,6 +22,12 @@ export class VendasService {
   		return this.vendas = this.http.get(AppSettings.API_ENDPOINT + 'api/vendas').map(res => res.json());
   	}
 
+  	getVendasByDate(datas: any) {
+  		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+		return this.http.post(AppSettings.API_ENDPOINT + 'api/vendas', JSON.stringify(datas), {headers: headers}).map(res => res.json());
+  	}
+
 	getVenda(id: string) {
 		return this.http.get(AppSettings.API_ENDPOINT + 'api/venda/' + id).map(res => res.json());
 	}

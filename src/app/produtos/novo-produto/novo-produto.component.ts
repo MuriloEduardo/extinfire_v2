@@ -29,11 +29,11 @@ const numberMask = createNumberMask({
 export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 
 	maskMoney = numberMask;
-	
+	baseUrl: string = AppSettings.API_ENDPOINT;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
 	uploader:FileUploader = new FileUploader({
-		url: AppSettings.API_ENDPOINT + 'upload'
+		url: this.baseUrl + 'api/upload'
 	});
 	
 	hasBaseDropZoneOver:boolean = false;
@@ -58,9 +58,8 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 	}
 
 	novoProduto(event) {
-		event.preventDefault();
 		
-		if(!this.nome) return false;
+		event.preventDefault();
 
 		let newProduto = {
 			images: [],
@@ -77,6 +76,7 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 		
 		this.itensService.addItem(newProduto).subscribe(produto => {
 			this.uploader.uploadAll();
+
 			this.router.navigate(['produtos']);
 			this.triggerToast('Produto cadastrado com sucesso!', 'green');
 		});

@@ -73,24 +73,6 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 	) { }
 
 	ngOnInit() {
-		/*this.inscricao = this.route.data.subscribe(
-			(data: {venda: any, produtos: any, servicos: any, clientes: any}) => {
-				this.venda = data.venda;
-				this.produtos = data.produtos;
-				this.servicos = data.servicos;
-				this.clientes = data.clientes;
-
-				this.itens = data.produtos.concat(data.servicos);
-
-				// Adiciona uma linha de itens ao carregar
-				let lastItem = this.venda.itens.length-1;
-				this.setItem(lastItem, true, this.venda.itens[lastItem]._id);
-
-				//this.venda.valor_total = this.venda.valor_total.replace('.','').replace('.','').replace(',','.');
-
-				
-			}
-		);*/
 
 		this.inscricao = this.route.params.subscribe((params: Params) => {
 
@@ -108,7 +90,7 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 		this.itensService.getItens().subscribe((itens) => {
 
 			for (var i = 0; i < itens.length; ++i) {
-				if(itens[i].qntde_minima&&itens[i].qntde_atual>0) {
+				if(itens[i].valor_custo) {
 					// Tem quantidade minima
 					// ENtão é produto
 					this.produtos.push(itens[i]);
@@ -117,6 +99,13 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 				}
 
 				this.itens.push(itens[i]);
+
+				// Marcar itens que estao sendo usados
+				this.venda.itens.filter(item => {
+					if(item.item._id === itens[i]._id) {
+						itens[i].selected = true;
+					}
+				});
 			}
 		});
 
@@ -143,43 +132,6 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 			}
 		}
 	}
-	
-	setItem(index: number, last?: boolean, id?: string) {
-
-		if(!id) return false;
-
-		// Se tem valor de custo é um produto
-		// Caso não: é um serviço
-		this.venda.itens[index].tipo = !this.venda.itens[index].item.valor_custo ? false : true;
-
-		for (var i = 0; i < this.produtos.length; ++i) {
-			if(id === this.produtos[i]._id) {
-				this.venda.itens[index].item.images = this.produtos[i].images;
-				this.venda.itens[index].item.nome = this.produtos[i].nome;
-				this.venda.itens[index].item.qntde_atual = this.produtos[i].qntde_atual;
-				this.venda.itens[index].item.qntde_minima = this.produtos[i].qntde_minima;
-				this.venda.itens[index].item.updatedAt = this.produtos[i].updatedAt;
-				this.venda.itens[index].item.valor_custo = this.produtos[i].valor_custo;
-				this.venda.itens[index].item.valor_venda = this.produtos[i].valor_venda;
-			}
-		}
-		
-		if(!this.venda.itens[index].item.valor_venda)
-			this.venda.itens[index].item.valor_venda = 0;
-
-		if(!this.venda.itens[index].qntde)
-			this.venda.itens[index].qntde = 1;
-			
-		this.venda.itens[index].validade = new Date();
-		
-		this.sum(index);
-		
-		if(last) {
-			this.venda.itens.push({
-				item: {}
-			});
-		}
-	}
 
 	addItem() {
 
@@ -195,7 +147,9 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 		// Reseta novoItem
 		this.novoItem = {
 			item: {
-				images: []
+				images: [],
+				_id: '',
+				nome: ''
 			},
 			qntde: undefined,
 			validade: undefined,
@@ -232,19 +186,11 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 	}
 
 	updateVenda(event) {
-		event.preventDefault();
 		
 		if(!this.venda.cliente.length&&this.venda.itens.length<=1) {
 			this.triggerToast('Adicione ao menos 1 produto', 'red');
 			return false;
 		};
-
-		// Elimina oultimo produto que fica em vazio
-		for (var i = 0; i < this.venda.itens.length; ++i) {
-			if(!this.venda.itens[i].item.nome) {
-				this.venda.itens.splice(this.venda.itens.indexOf(this.venda.itens[i]), 1);
-			}
-		}
 		
 		this.vendasService.updateVenda(this.venda).subscribe(venda => {
 	  		this.router.navigate(['vendas']);
@@ -272,7 +218,7 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
     	return newValue.replace('R$', '');
 	}
 
-	setNovoItem() {
+	setNovoItem(_item: any) {
 		
 		if(!this.novoItem.item._id) return false;
 
@@ -284,12 +230,13 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 				if(!item.selected) {
 
 					item.selected = true;
+					this.novoItem.item = item;
 
 					// Se tem valor de custo é um produto
 					// Caso não: é um serviço
 					this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
 
-					this.novoItem.qntde = 1;
+					this.novoItem.qntde = !_item ? 1 : _item.qntde;
 
 					// Validade do produto
 					// APENAS produto
@@ -297,18 +244,18 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 						
 						let date = new Date();
 						date.setMonth(date.getMonth() + 12);
-						this.novoItem.validade = date.toLocaleDateString('pt-BR');
+						this.novoItem.validade = !_item ? date.toLocaleDateString('pt-BR') : _item.validade;
 					} else {
 						
 						this.novoItem.validade = undefined;
 					}
 
-					this.sumNovo();
+					this.sumNovo(true);
 				} else {
 
 					this.resetNovoItem();
 
-					this.triggerToast('Produto já está sendo usado!', 'blue');
+					this.triggerToast('Item sendo usado!', '');
 				}
 			}
 		});
@@ -330,21 +277,22 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 
 	editarRow(item: any) {
 
-		this.deleteRow(item);
+		this.novoItem.item = item.item;
 
-		this.novoItem.item = item;
+		this.deleteRow(item.item);
 
-		this.setNovoItem();
+		this.setNovoItem(item);
 	}
 
-	sumNovo() {
+	sumNovo(_editando: boolean) {
 
 		let priceFloat = parseFloat(this.formatDecimal(this.novoItem.item.valor_venda));
 		let priceCalculed = priceFloat * this.novoItem.qntde;
 
 		this.novoItem.total = priceCalculed.toFixed(2).toString().replace('.',',');
 
-		this.verificaQntdeMax(this.novoItem);
+		if(!_editando)
+			this.verificaQntdeMax(this.novoItem);
 	}
 
 	valorTotal() {
