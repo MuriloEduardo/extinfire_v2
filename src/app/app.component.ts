@@ -26,12 +26,8 @@ export class AppComponent {
   	this.authService.getUsuarioAutenticado.subscribe(
   		user => {
         this.user = user;
-<<<<<<< HEAD
         // Criar dataLayer do TagManager
         // console.log(window)
-=======
-        console.log(window)
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
       }
   	);
   }

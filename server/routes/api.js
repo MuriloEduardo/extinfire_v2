@@ -21,271 +21,12 @@ let storage 	= multer.diskStorage({
       cb(null, file.originalname);        
   }
 });
-<<<<<<< HEAD
 let upload = multer({ storage: storage });
-=======
-let upload 		= multer({ storage: storage });
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 
 router.get('/', (req, res) => {
 	res.send('api works!');
 });
 
-<<<<<<< HEAD
-=======
-//////////////// PDF ////////////////////////
-/////////////////////////////////////////////
-router.get('/pdf/:vendaId', (req, res, next) => {
-	
-	Vendas.findOne({_id: req.params.vendaId})
-	.populate('cliente')
-	.populate('itens.item')
-	.exec(function(err, venda) {
-		
-		if(err) res.send(err);
-
-		let today = new Date(),
-		dd = today.getDate(),
-		mm = today.getMonth()+1,
-		yyyy = today.getFullYear();
-
-		if(dd<10) dd='0'+dd;
-		if(mm<10) mm='0'+mm;
-		
-		today = dd+'/'+mm+'/'+yyyy;
-		
-		let pdf = new PDFDocument({
-		  size: 'LEGAL',
-		  info: {
-		    Title: 'Ordem de serviço para ' + venda.cliente.nome,
-		    Author: 'Extin Fire / Extintores',
-		  }
-		});
-
-		/////////// CABEÇALHO //////////////////
-		///////////////////////////////////////
-
-		// Logotipo
-		pdf.image('./server/images/logo_extinfire.jpg', 30, 30, {
-			width: 185
-		});
-
-		// Titulo
-		pdf.fontSize(18)
-		.text('ORDEM DE SERVIÇO', 235, 40);
-		
-		// Tpo de Serviço
-		pdf.fontSize(16)
-		.text(!venda.tipo ? 'Orçamento' : 'Pedido', 235, 65, {
-			width: 160,
-			align: 'center'
-		});
-
-		// Retangulo
-		pdf.rect(15, 15, 580, 85).stroke();
-
-		pdf.fontSize(12)
-		.text('Data', 460, 40, {
-			width: 125,
-			align: 'center'
-		});
-
-		pdf.fontSize(14)
-		.text(today, 460, 60, {
-			width: 125,
-			align: 'center'
-		});
-
-		pdf.rect(450, 15, 145, 85).stroke();
-
-		//////// DADOS DO CLIENTE ///////////
-		////////////////////////////////////
-
-		// LINHA 1
-		/////////////////////////////////
-
-		// Cliente
-		pdf.fontSize(10)
-		.text('Cliente', 30, 125);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.nome, 30, 140);
-
-		pdf.rect(15, 115, 380, 45).stroke();
-
-
-		// CPF OU CNPJ
-		pdf.fontSize(10)
-		.text('CNPJ ou CPF', 405, 125);
-
-		pdf.fontSize(12)
-		.text((venda.cliente.cnpj || venda.cliente.cpf), 405, 140);
-
-		pdf.rect(395, 115, 200, 45).stroke();
-
-		// LINHA 2
-		/////////////////////////////////
-
-		pdf.rect(15, 160, 580, 45).stroke();
-
-		// 1 Left
-		// 2 top
-		// 3 largura
-		// 4 altura
-
-		// Endereço
-		pdf.fontSize(10)
-		.text('Endereço', 30, 170);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.endereco.logradouro, 30, 185);
-
-		// LINHA 3
-		/////////////////////////////////
-
-		pdf.rect(15, 205, 193, 45).stroke();
-
-		// Bairro
-		pdf.fontSize(10)
-		.text('Bairro', 30, 215);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.endereco.bairro, 30, 230);
-
-		pdf.rect(15, 115, 380, 45).stroke();
-
-
-		// Cidade
-		pdf.fontSize(10)
-		.text('Cidade', 218, 215);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.endereco.cidade, 218, 230);
-
-		pdf.rect(208, 205, 193, 45).stroke();
-
-		// Fone
-		pdf.fontSize(10)
-		.text('Fone', 411, 215);
-
-		pdf.fontSize(12)
-		.text(venda.cliente.contato.fone || venda.cliente.contato.celular, 411, 230);
-
-		pdf.rect(401, 205, 194, 45).stroke();
-
-		///////////// ITENS DO PEDIDO ////////////////////
-		/////////////////////////////////////////////////
-
-		// Cabeçalho da tabela
-		////////////////////////////////
-
-		// Produto / Serviço
-		pdf.rect(15, 275, 205, 30).stroke()
-		.fontSize(12)
-		.text('Produtos / Serviços', 20, 285);
-
-		// Quantidade
-		pdf.rect(220, 275, 75, 30).stroke()
-		.fontSize(12)
-		.text('Qntde.', 225, 285);
-
-		// Valor Unitario
-		pdf.rect(295, 275, 100, 30).stroke()
-		.fontSize(12)
-		.text('Valor Unit.', 305, 285);
-
-		pdf.rect(395, 275, 100, 30).stroke()
-		.fontSize(12)
-		.text('Valor Total', 405, 285);
-
-		pdf.rect(495, 275, 100, 30).stroke()
-		.fontSize(12)
-		.text('Validade', 505, 285, {
-			width: 100
-		});
-
-		// Linhas da tabela
-		////////////////////////////////
-
-		let posYItem = 275;
-		for (var i = 0; i < venda.itens.length; i++) {
-
-			posYItem += 30;
-
-			// Produto / Serviço
-			pdf.rect(15, posYItem, 205, 30).stroke()
-			.fontSize(10)
-			.text(venda.itens[i].item.nome, 20, posYItem+10);
-
-			// Quantidade
-			pdf.rect(220, posYItem, 75, 30).stroke()
-			.fontSize(10)
-			.text(venda.itens[i].qntde, 225, posYItem+10);
-
-			// Valor Unitario
-			pdf.rect(295, posYItem, 100, 30).stroke()
-			.fontSize(10)
-			.text('R$' + venda.itens[i].item.valor_venda, 305, posYItem+10);
-
-			pdf.rect(395, posYItem, 100, 30).stroke()
-			.fontSize(10)
-			.text('R$' + venda.itens[i].total, 405, posYItem+10);
-
-			pdf.rect(495, posYItem, 100, 30).stroke()
-			.fontSize(10)
-			.text(venda.itens[i].validade, 505, posYItem+10, {
-				width: 100
-			});
-		}
-
-		/////////////////// OBSERVAÇÃO / VALOR TOTAL //////////////////////
-		//////////////////////////////////////////////////////////////////
-
-		// Observação
-		pdf.rect(15, posYItem + 60, 350, 100).stroke()
-		.fontSize(10)
-		.text('Observação', 20, posYItem+70);
-
-		pdf.fontSize(12)
-		.text(venda.observacao || '', 20, posYItem+85);
-
-		// Valor Total
-		pdf.fontSize(16)
-		.text('Valor Total', 400, posYItem+70, {
-			width: 200,
-			align: 'center'
-		});
-
-		pdf.fontSize(12)
-		.text('R$' + venda.valor_total, 400, posYItem+100, {
-			width: 200,
-			align: 'center'
-		});
-
-		/////////////////// ASSINATURAS /////////////////////
-		////////////////////////////////////////////////////
-
-		pdf.rect(15, posYItem + 250, 275, 0).stroke()
-		.fontSize(12)
-		.text('Ass. Contratado', 15, posYItem+260, {
-			width: 275,
-			align: 'center'
-		});
-
-		pdf.rect(318, posYItem + 250, 275, 0).stroke()
-		.fontSize(12)
-		.text('Ass. Cliente', 318, posYItem+260, {
-			width: 275,
-			align: 'center'
-		});
-		
-		// Close PDF and write file.
-		pdf.end();
-		pdf.pipe(res);
-	});
-});
-
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 //////////////// AUTHENTICATE ////////////////////////
 /////////////////////////////////////////////////////
 
@@ -532,7 +273,6 @@ router.get('/vendas', (req, res, next) => {
 	});
 });
 
-<<<<<<< HEAD
 // Get All Vendas By Dates
 router.post('/vendas', (req, res, next) => {
 	let dadosVenda = req.body;
@@ -551,8 +291,6 @@ router.post('/vendas', (req, res, next) => {
 	});
 });
 
-=======
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 // Get Venda
 router.get('/venda/:id', (req, res, next) => {
 	Vendas.findOne({_id: req.params.id})
@@ -582,7 +320,6 @@ router.post('/venda', (req, res, next) => {
 		novaVenda.save((err, data) => {
 			if(err) throw err;
 
-<<<<<<< HEAD
 			let idItens = [];
 			for (let i = 0; i < dadosVenda.itens.length; i++) {
 				
@@ -611,37 +348,6 @@ router.post('/venda', (req, res, next) => {
 					}
 				}
 			});
-=======
-			// Dar baixa no estoque
-			// @param boolean
-			if(dadosVenda.tipo) {
-				let idItens = [];
-				for (let i = 0; i < dadosVenda.itens.length; i++) {
-					if(dadosVenda.itens[i].tipo) {
-						idItens.push(dadosVenda.itens[i].item._id);
-					}
-				}
-				
-				Itens.find({_id: { $in: idItens }}, (err, itens) => {
-					if(err) throw err;
-
-					for (let o = 0; o < dadosVenda.itens.length; o++) {
-
-						for (let u = 0; u < itens.length; u++) {
-
-							if(dadosVenda.itens[o].item._id == itens[u]._id) {
-
-								itens[u].qntde_atual = itens[u].qntde_atual - dadosVenda.itens[o].qntde;
-
-								Itens.findOneAndUpdate({_id: itens[u]._id}, itens[u], {upsert: true}, (err, data) => {
-									if(err) throw err;
-								});
-							}
-						}
-					}
-				});
-			}
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 			res.json(data);
 		});
 	}
@@ -655,7 +361,6 @@ router.delete('/venda/:id', (req, res, next) => {
 		// Ao deletar uma venda e ela for do tipo Pedido
 		// Cada Produto deverá ter sua quantidade atual reposta
 		// Dar baixa no estoque
-<<<<<<< HEAD
 
 		let idItens = [];
 		for (let i = 0; i < venda.itens.length; i++) {
@@ -682,36 +387,6 @@ router.delete('/venda/:id', (req, res, next) => {
 				}
 			}
 		});
-=======
-		// @param string
-		if(venda.tipo) {
-			let idItens = [];
-			for (let i = 0; i < venda.itens.length; i++) {
-				if(venda.itens[i].tipo) {
-					idItens.push(venda.itens[i].item._id);
-				}
-			}
-			
-			Itens.find({_id: { $in: idItens }}, (err, itens) => {
-				if(err) throw err;
-
-				for (let o = 0; o < venda.itens.length; o++) {
-
-					for (let u = 0; u < itens.length; u++) {
-
-						if(venda.itens[o].item._id == itens[u]._id) {
-
-							itens[u].qntde_atual = itens[u].qntde_atual + venda.itens[o].qntde;
-
-							Produto.findOneAndUpdate({_id: itens[u]._id}, itens[u], {upsert: true}, (err, data) => {
-								if(err) throw err;
-							});
-						}
-					}
-				}
-			});
-		}
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 
 		venda.remove();
 		
@@ -729,7 +404,6 @@ router.put('/venda/:id', (req, res, next) => {
 			res.json({"error": "dados incompletos"});
 		} else {
 
-<<<<<<< HEAD
 			let idItens = [];
 			for (let i = 0; i < venda.itens.length; i++) {
 				if(venda.itens[i].tipo) {
@@ -761,48 +435,10 @@ router.put('/venda/:id', (req, res, next) => {
 									Itens.findOneAndUpdate({_id: itens[u]._id}, itens[u], {upsert: true}, (err, data) => {
 										if(err) throw err;
 									});
-=======
-			// Dar baixa no estoque
-			// @param string
-			if(venda.tipo) {
-				let idItens = [];
-				for (let i = 0; i < venda.itens.length; i++) {
-					if(venda.itens[i].tipo) {
-						idItens.push(venda.itens[i].item._id);
-					}
-				}
-				
-				Itens.find({_id: { $in: idItens }}, (err, itens) => {
-					if(err) throw err;
-
-					for (var i = 0; i < dadosVenda.itens.length; i++) {
-
-						for (var x = 0; x < venda.itens.length; x++) {
-
-							for (let u = 0; u < itens.length; u++) {
-
-								if(venda.itens[x].item._id == itens[u]._id) {
-									
-									// Se as quantidades forem iguais, não faz nada
-									if(dadosVenda.itens[i].qntde != venda.itens[x].qntde) {
-										if(dadosVenda.itens[i].qntde < venda.itens[x].qntde) {
-											// Precisa decrementar a quantidade
-											itens[u].qntde_atual = itens[u].qntde_atual - (dadosVenda.itens[i].qntde - venda.itens[x].qntde);
-										} else {
-											// Precisa acrescentar a quantidade
-											itens[u].qntde_atual = itens[u].qntde_atual + (venda.itens[x].qntde - dadosVenda.itens[i].qntde);
-										}
-
-										Itens.findOneAndUpdate({_id: itens[u]._id}, itens[u], {upsert: true}, (err, data) => {
-											if(err) throw err;
-										});
-									}
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 								}
 							}
 						}
 					}
-<<<<<<< HEAD
 				}
 
 				venda.nome   	  = dadosVenda.cliente.nome;
@@ -817,22 +453,6 @@ router.put('/venda/:id', (req, res, next) => {
 					res.json(data);
 				});
 			});
-=======
-
-					venda.nome   	  = dadosVenda.cliente.nome;
-					venda.cliente 	  = dadosVenda.cliente;
-					venda.itens 	  = dadosVenda.itens;
-					venda.tipo 		  = dadosVenda.tipo;
-					venda.observacao  = dadosVenda.observacao;
-					venda.valor_total = dadosVenda.valor_total;
-
-					venda.save((err, data) => {
-						if(err) res.send(err);
-						res.json(data);
-					});
-				});
-			}
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 		}
 	});
 });
@@ -975,7 +595,6 @@ router.post('/log', (req, res, next) => {
 	});
 });
 
-<<<<<<< HEAD
 //////////////// PDF ////////////////////////
 /////////////////////////////////////////////
 router.get('/pdf/:vendaId', (req, res, next) => {
@@ -1228,6 +847,4 @@ router.get('/pdf/:vendaId', (req, res, next) => {
 	});
 });
 
-=======
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 module.exports = router;

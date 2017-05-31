@@ -75,27 +75,12 @@
 	</div>
 </div>
 <div class="row">
-<<<<<<< HEAD
 	<div class="col s12">
 		<div class="row">
 			<div class="col s12">
 				<div class="section">
 					<h4>Cliente</h4>
 					<div class="divider"></div>
-=======
-	<div class="row">
-		<div class="col s12">
-			<div class="section">
-				<h4>Cliente</h4>
-				<div class="divider"></div>
-			</div>
-			<!-- Fotos -->
-			<div class="row">
-				<div class="col s12">
-					<label>Imagens</label>
-					<br>
-					<img src="{{ '/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 				</div>
 				<!-- Fotos -->
 				<div class="row">
@@ -128,7 +113,6 @@
 				</div>
 			</div>
 		</div>
-<<<<<<< HEAD
 		<div class="row">
 		<div class="row">
 			<div class="col s12">
@@ -162,42 +146,6 @@
 							</tbody>
 						</table>
 					</div>
-=======
-	</div>
-</div>
-<div class="row">
-	<div class="row">
-		<div class="col s12">
-			<div class="section">
-				<h4>Itens</h4>
-				<div class="divider"></div>
-			</div>
-			<div class="row">
-				<div class="col s12">
-					<table class="bordered responsive-table">
-						<thead>
-							<tr>
-								<th data-field="nome">Produtos / Serviços</th>
-								<th data-field="unit">Valor Unitário</th>
-								<th data-field="qntde">Quantidade</th>
-								<th data-field="total">Total da Venda</th>
-								<th data-field="valida">Validade desta Venda</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let item of venda.itens; let i = index; let last = last;let first = first;">
-								<td>
-									<img src="{{ '/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0]) }}" class="circle img-table">
-									{{ venda.itens[i].item.nome }}
-								</td>
-								<td>{{ venda.itens[i].item.valor_venda }}</td>
-								<td>{{ venda.itens[i].qntde }}</td>
-								<td>{{ venda.itens[i].total }}</td>
-								<td>{{ venda.itens[i].validade }}</td>
-							</tr>
-						</tbody>
-					</table>
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 				</div>
 			</div>
 		</div>

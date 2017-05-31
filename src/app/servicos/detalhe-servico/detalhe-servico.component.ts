@@ -19,10 +19,7 @@ export class DetalheServicoComponent implements OnInit, OnDestroy {
 	inscricao: Subscription;
 	servico: any = {};
 	loadStatus: boolean = false;
-<<<<<<< HEAD
 	baseUrl: string = AppSettings.API_ENDPOINT;
-=======
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 
 	constructor(
 		private itensService: ItensService,

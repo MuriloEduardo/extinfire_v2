@@ -118,13 +118,8 @@
 			<tbody>
 				<tr *ngFor="let venda of vendas | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[venda._id]">
 					<td>
-<<<<<<< HEAD
 						<img src="{{ baseUrl + 'uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
 						{{ venda.cliente.nome }}
-=======
-						<img src="{{ '/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
-						{{ venda.nome }}
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 					</td>
 					<td>{{ 'R$' + venda.valor_total }}</td>
 					<td>{{ !venda.tipo ? 'Orçamento' : 'Pedido' }}</td>

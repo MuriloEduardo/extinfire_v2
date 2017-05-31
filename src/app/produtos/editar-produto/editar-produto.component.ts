@@ -35,10 +35,7 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked, OnDestr
 	inscricao: Subscription;
 	produto: any = {};
 	loadStatus: boolean = false;
-<<<<<<< HEAD
 	baseUrl: string = AppSettings.API_ENDPOINT;
-=======
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 
 	uploader:FileUploader = new FileUploader({
 		url: this.baseUrl + 'api/upload'

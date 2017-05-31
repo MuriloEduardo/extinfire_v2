@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
@@ -13,16 +13,13 @@ import { AppSettings } from './../../app.config';
   templateUrl: './detalhe-cliente.component.html',
   styleUrls: ['./detalhe-cliente.component.css']
 })
-export class DetalheClienteComponent implements OnInit, OnDestroy {
+export class DetalheClienteComponent implements OnInit {
 	
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	cliente: any = {};
 	loadStatus: boolean = false;
-<<<<<<< HEAD
 	baseUrl: string = AppSettings.API_ENDPOINT;
-=======
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 
 	constructor(
 		private clientesService: ClientesService,
@@ -54,12 +51,5 @@ export class DetalheClienteComponent implements OnInit, OnDestroy {
 
 	triggerToast(stringToast: string, bgColor: string) {
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
-<<<<<<< HEAD
-=======
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 	}
 }

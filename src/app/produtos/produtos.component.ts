@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
-=======
-import { Component, OnInit, OnDestroy } from '@angular/core';
->>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 import { Subscription } from 'rxjs/Rx';
 
 import { ItensService } from './../_services/itens.service';
@@ -14,9 +10,7 @@ import { AppSettings } from './../app.config';
   templateUrl: './produtos.component.html',
   styleUrls: ['./produtos.component.css']
 })
-export class ProdutosComponent implements OnInit, OnDestroy {
-
-	inscricao: Subscription;
+export class ProdutosComponent implements OnInit {
 
 	inscricao: Subscription;
 
@@ -58,9 +52,5 @@ export class ProdutosComponent implements OnInit, OnDestroy {
 		}
 
 		this.order = value;
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }
