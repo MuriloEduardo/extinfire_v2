@@ -43,6 +43,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 app.use('/uploads', express.static('server/uploads'));
+app.use('/', express.static('dist'));
 
 app.use('/api', api);
 

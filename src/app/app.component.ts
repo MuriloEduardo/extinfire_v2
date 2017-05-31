@@ -5,8 +5,6 @@ import { AuthService } from './_services/auth.service';
 
 import { SearchComponent } from './search/search.component';
 
-import { Angulartics2GoogleTagManager } from 'angulartics2';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,7 +15,6 @@ export class AppComponent {
   user: any;
 
   constructor(
-    angulartics2GoogleTagManager: Angulartics2GoogleTagManager,
     private authService: AuthService,
     private router:Router
   ) {}
@@ -26,8 +23,6 @@ export class AppComponent {
   	this.authService.getUsuarioAutenticado.subscribe(
   		user => {
         this.user = user;
-        // Criar dataLayer do TagManager
-        // console.log(window)
       }
   	);
   }

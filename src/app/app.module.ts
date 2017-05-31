@@ -19,8 +19,6 @@ import { Ng2PaginationModule } from 'ng2-pagination';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { Ng2FilterPipeModule } from 'ng2-filter-pipe';
 
-import { Angulartics2Module, Angulartics2GoogleTagManager } from 'angulartics2';
-
 import { UsuariosService } from './_services/usuarios.service';
 import { ClientesService } from './_services/clientes.service';
 import { VendasService } from './_services/vendas.service';
@@ -57,8 +55,7 @@ import { CurrencyFormatFinanceiroPipe } from './_pipes/currency-format-financeir
     Ng2PaginationModule,
     Ng2OrderModule,
     Ng2FilterPipeModule,
-    AppRoutingModule,
-    Angulartics2Module.forRoot([ Angulartics2GoogleTagManager ])
+    AppRoutingModule
   ],
   providers: [
     AuthGuard,
