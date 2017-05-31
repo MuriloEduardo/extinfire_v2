@@ -18,6 +18,7 @@
 				</div>
 				<div class="circle-clipper right">
 					<div class="circle"></div>
+<<<<<<< HEAD
 				</div>
 			</div>
 		</div>
@@ -98,6 +99,123 @@
 				</div>
 			</div>
 			<div class="section"></div>
+=======
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Sem nenhuma finança -->
+<div class="row" *ngIf="!vendas.length&&loadStatus">
+	<div class="col s12">
+		<div class="section"></div>
+		<div class="center-align">
+			<div class="grey-text text-lighten-2">
+				<h2>Sem nenhum faturamento <br><small>clique em Novo Venda</small></h2>
+				<i class="material-icons big">&#xE814;</i>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Botoes de ação -->
+<div class="row" *ngIf="vendas.length&&loadStatus">
+	<div class="col s12">
+		<div class="row">
+			<div class="col s12 m2 right">
+				<label for="validadeDe">Até:</label>
+				<input 
+				id="validadeAte" 
+				materialize="pickadate" 
+				[materializeParams]="[paramsPickdate]"
+				type="date" 
+				[(ngModel)]="validadeAte" 
+				name="validadeAte"
+				>
+			</div>
+			<div class="col s12 m2 right">
+				<label for="validadeDe">De:</label>
+				<input 
+				id="validadeDe" 
+				materialize="pickadate" 
+				[materializeParams]="[paramsPickdate]"
+				type="date" 
+				[(ngModel)]="validadeDe" 
+				name="validadeDe"
+				>
+			</div>
+		</div>
+		<div class="section"></div>
+		<div class="row">
+			<div class="col s12">
+				<div>
+					<canvas baseChart
+					[datasets]="lineChartData"
+					[labels]="lineChartLabels"
+					[options]="lineChartOptions"
+					[colors]="lineChartColors"
+					[legend]="lineChartLegend"
+					[chartType]="lineChartType"
+					(chartHover)="chartHovered($event)"
+					(chartClick)="chartClicked($event)"
+					></canvas>
+				</div>
+			</div>
+			<div class="col s12" style="margin-bottom: 10px">
+				<table class="table table-responsive table-condensed">
+					<tr>
+						<th *ngFor="let label of lineChartLabels">{{label}}</th>
+					</tr>
+					<tr *ngFor="let d of lineChartData">
+						<td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
+					</tr>
+				</table>
+				<button (click)="randomize()">CLICK</button>
+			</div>
+		</div>
+		<br><br>
+		<div class="row">
+			<div class="col s12">
+				<div class="row">
+					<div class="col s12">
+						<table class="striped bordered responsive-table">
+							<thead>
+								<th data-field="nome">Venda</th>
+								<th data-field="valor_total">Valor Bruto Total</th>
+								<th data-field="valor_liquido">Valor Liquido Total</th>
+								<th data-field="tipo">Tipo</th>
+								<th data-field="data">Data</th>
+							</thead>
+							<tbody>
+								<tr class="bordered highlight responsive-table" *ngFor="let venda of vendas" [class.hide]="!venda.tipo">
+									<td>
+										<img src="{{ '/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0]) }}" class="circle img-table">
+										{{ 'Venda para ' + venda.cliente.nome }}
+									</td>
+									<td> {{ venda.valor_total }} </td>
+									<td> {{ venda.valor_liquido }} </td>
+									<td> {{ venda.tipo ? 'Pedido' : 'Orçamento' }} </td>
+									<td> {{ venda.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }} </td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="section"></div>
+				<div class="row right-align">
+					<div class="col s12 m4 right">
+						<h6>Faturamento Liquido Total</h6>
+						<div class="divider"></div>
+						<h5>{{ faturamentoLiquido }}</h5>
+					</div>
+					<div class="col s12 m4 right">
+						<h6>Faturamento Bruto Total</h6>
+						<div class="divider"></div>
+						<h5>{{ faturamentoBruto }}</h5>
+					</div>
+				</div>
+				<div class="section"></div>
+			</div>
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 		</div>
 	</div>
 </div>

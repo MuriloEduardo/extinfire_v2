@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
+=======
+import { Component, OnInit, AfterViewChecked, EventEmitter, OnDestroy } from '@angular/core';
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
@@ -16,12 +20,15 @@ declare let Materialize:any;
   templateUrl: './editar-cliente.component.html',
   styleUrls: ['./editar-cliente.component.css']
 })
-export class EditarClienteComponent implements OnInit {
+export class EditarClienteComponent implements OnInit, OnDestroy {
 	
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	loadStatus: boolean = false;
+<<<<<<< HEAD
 	baseUrl: string = AppSettings.API_ENDPOINT;
+=======
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 
 	uploader:FileUploader = new FileUploader({
 		url: this.baseUrl + 'api/upload'
@@ -80,5 +87,12 @@ export class EditarClienteComponent implements OnInit {
 
 	triggerToast(stringToast: string, bgColor: string) {
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
+<<<<<<< HEAD
+=======
+	}
+
+	ngOnDestroy() {
+		this.inscricao.unsubscribe();
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 	}
 }

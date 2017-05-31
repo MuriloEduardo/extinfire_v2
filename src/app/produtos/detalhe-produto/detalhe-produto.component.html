@@ -69,7 +69,11 @@
 		</div>
 	</div>
 	<div class="col s6">
+<<<<<<< HEAD
 		<img src="{{ baseUrl + 'uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of produto.images">
+=======
+		<img src="{{ '/uploads/' + (!image ? 'sem-foto.jpg' : image) }}" class="circle img-table" *ngFor="let image of produto.images">
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 	</div>
 </div>
 <a (click)="triggerToast()" materialize [materializeActions]="globalActions"></a>

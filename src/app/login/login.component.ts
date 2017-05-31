@@ -40,8 +40,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	fazerLogin() {
 		this.loadLogin = true;
+<<<<<<< HEAD
 		this.inscricao = this.authService.fazerLogin(this.usuario).subscribe((response) => {
 			if(response.success) {
+=======
+		this.inscricao = this.authService.fazerLogin(this.usuario).subscribe((res) => {
+			if(res.success) {
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 				this.resposta = {res: true, string: 'Sucesso!'};
 				this.router.navigate(['']);
 

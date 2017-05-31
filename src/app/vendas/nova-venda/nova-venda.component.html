@@ -50,6 +50,7 @@
 			<div class="row">
 				<div class="col s12">
 					<div class="row valign-wrapper">
+<<<<<<< HEAD
 						<div class="col s8">
 							<div class="row">
 								<div class="col s1">
@@ -86,6 +87,29 @@
 									<span class="lever"></span>
 									Pedido (Baixa no estoque)
 								</label>
+=======
+						<div class="col s05">
+							<img [src]="'/uploads/' + (!venda.cliente.images[0] ? 'sem-foto.jpg' : venda.cliente.images[0])" alt="{{venda.cliente.nome}}" class="responsive-img circle img-table" title="{{venda.cliente.nome}}">
+						</div>
+						<div class="col s1105">
+							<div class="input-field">
+								<select 
+								id="cliente" 
+								materialize="material_select" 
+								[materializeSelectOptions]="clientes" 
+								[(ngModel)]="venda.cliente" 
+								name="cliente"
+								>
+								  <option value="" disabled selected>Selecione o cliente</option>
+								  <option 
+								  *ngFor="let cliente of clientes" 
+								  [attr.data-icon]="'/uploads/' + (!cliente.images[0] ? 'sem-foto.jpg' : cliente.images[0])" 
+								  [ngValue]="cliente" 
+								  class="left circle"
+								  >{{cliente.nome}}</option>
+								</select>
+								<label for="cliente">Selecione o cliente</label>
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 							</div>
 							<div class="section"></div>
 						</div>
@@ -118,10 +142,50 @@
 							<tbody>
 								<tr *ngFor="let item of venda.itens; let i = index">
 									<td>
+<<<<<<< HEAD
 										<img [src]="baseUrl + 'uploads/' + (!venda.itens[i].item?.images[0] ? 'sem-foto.jpg' : venda.itens[i].item?.images[0])" alt="{{venda.itens[i].item.nome}}" class="responsive-img circle img-table" title="{{venda.itens[i].item.nome}}">
 									</td>
 									<td>
 										{{ venda.itens[i].item.nome }}
+=======
+										<img [src]="'/uploads/' + (!venda.itens[i].item.images[0] ? 'sem-foto.jpg' : venda.itens[i].item.images[0])" alt="{{venda.itens[i].item.nome}}" class="responsive-img circle img-table" title="{{venda.itens[i].item.nome}}">
+									</td>
+									<td>
+										<div class="input-field">
+											<select 
+											id="item{{i}}" 
+											materialize="material_select" 
+											[materializeSelectOptions]="itens" 
+											[(ngModel)]="venda.itens[i].item" 
+											name="item{{i}}" 
+											(change)="setItem(venda.itens[i])"
+											[attr.required]="venda.itens[i].item.nome&&!first ? true : undefined"
+											>
+												<option value="" disabled selected>Selecione</option>
+												<optgroup label="Produtos" *ngIf="produtos?.length">
+													<option 
+													*ngFor="let produto of produtos" 
+													[value]="produto._id"
+													[attr.data-icon]="'/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+													class="left circle"
+													[disabled]=""
+													>{{produto.nome}}
+													</option>
+												</optgroup>
+												<optgroup label="Servicos" *ngIf="servicos?.length">
+													<option 
+													*ngFor="let servico of servicos" 
+													[value]="servico._id"
+													[attr.data-icon]="'/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+													class="left circle"
+													[disabled]=""
+													>{{servico.nome}}
+													</option>
+												</optgroup>
+											</select>
+											<label for="item{{i}}">Selecione</label>
+										</div>
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 									</td>
 									<td>
 										{{ venda.itens[i].item.valor_venda }}
@@ -149,7 +213,11 @@
 							<tbody>
 								<tr>
 									<td>
+<<<<<<< HEAD
 										<img [src]="baseUrl + 'uploads/' + (!novoItem.item?.images[0] ? 'sem-foto.jpg' : novoItem.item?.images[0])" alt="{{novoItem.item.nome}}" class="responsive-img circle img-table" title="{{novoItem.item.nome}}">
+=======
+										<img [src]="'/uploads/' + (!novoItem.item.images[0] ? 'sem-foto.jpg' : novoItem.item.images[0])" alt="{{novoItem.item.nome}}" class="responsive-img circle img-table" title="{{novoItem.item.nome}}">
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 									</td>
 									<td>
 										<div class="input-field">
@@ -166,8 +234,13 @@
 												<optgroup label="Produtos" *ngIf="produtos?.length">
 													<option 
 													*ngFor="let produto of produtos" 
+<<<<<<< HEAD
 													[ngValue]="produto"
 													[attr.data-icon]="baseUrl + 'uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+=======
+													[value]="produto._id"
+													[attr.data-icon]="'/uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 													class="left circle"
 													>{{produto.nome}}
 													</option>
@@ -175,8 +248,13 @@
 												<optgroup label="Servicos" *ngIf="servicos?.length">
 													<option 
 													*ngFor="let servico of servicos" 
+<<<<<<< HEAD
 													[ngValue]="servico"
 													[attr.data-icon]="baseUrl + 'uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+=======
+													[value]="servico._id"
+													[attr.data-icon]="'/uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 													class="left circle"
 													>{{servico.nome}}
 													</option>

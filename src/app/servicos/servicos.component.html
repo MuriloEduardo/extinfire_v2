@@ -92,7 +92,11 @@
 			<tbody>
 				<tr *ngFor="let servico of servicos | orderBy: order:reverse | paginate: { itemsPerPage: 10, currentPage: p }" [routerLink]="[servico._id]">
 					<td>
+<<<<<<< HEAD
 						<img src="{{ baseUrl + 'uploads/' + (!servico?.images[0] ? 'sem-foto.jpg' : servico?.images[0]) }}" class="circle img-table">
+=======
+						<img src="{{ '/uploads/' + (!servico?.images[0] ? 'sem-foto.jpg' : servico?.images[0]) }}" class="circle img-table">
+>>>>>>> fa1459ca6e8e07a963e29214fbfe77216d34a636
 						{{ servico?.nome }}
 					</td>
 					<td>{{ servico.valor_venda | currencyformat }}</td>
