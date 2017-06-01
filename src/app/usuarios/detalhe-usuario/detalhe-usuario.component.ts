@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { MaterializeAction } from 'angular2-materialize';
   templateUrl: './detalhe-usuario.component.html',
   styleUrls: ['./detalhe-usuario.component.css']
 })
-export class DetalheUsuarioComponent implements OnInit, OnDestroy {
+export class DetalheUsuarioComponent implements OnInit {
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
@@ -50,9 +50,5 @@ export class DetalheUsuarioComponent implements OnInit, OnDestroy {
 
 	triggerToast(stringToast: string, bgColor: string) {
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }

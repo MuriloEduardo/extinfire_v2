@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
@@ -13,7 +13,7 @@ import { AppSettings } from './../../app.config';
   templateUrl: './detalhe-venda.component.html',
   styleUrls: ['./detalhe-venda.component.css']
 })
-export class DetalheVendaComponent implements OnInit, OnDestroy {
+export class DetalheVendaComponent implements OnInit {
 	
 	urlPdf: string;
 
@@ -60,9 +60,5 @@ export class DetalheVendaComponent implements OnInit, OnDestroy {
 
     triggerToast(stringToast: string, bgColor: string) {
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }

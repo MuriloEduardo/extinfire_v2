@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 
 import { ItensService } from './../_services/itens.service';
@@ -10,7 +10,7 @@ import { AppSettings } from './../app.config';
   templateUrl: './servicos.component.html',
   styleUrls: ['./servicos.component.css']
 })
-export class ServicosComponent implements OnInit, OnDestroy {
+export class ServicosComponent implements OnInit {
 
 	inscricao: Subscription;
 	
@@ -51,9 +51,5 @@ export class ServicosComponent implements OnInit, OnDestroy {
 		}
 
 		this.order = value;
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
@@ -12,7 +12,7 @@ declare let Materialize:any;
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
 	private usuario: Usuario = new Usuario();
 	resposta: {};
@@ -53,9 +53,5 @@ export class LoginComponent implements OnInit, OnDestroy {
 			;
 			this.loadLogin = false
 		});
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }

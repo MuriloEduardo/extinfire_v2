@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter, AfterViewChecked } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
@@ -13,7 +13,7 @@ declare let Materialize:any;
   templateUrl: './editar-usuario.component.html',
   styleUrls: ['./editar-usuario.component.css']
 })
-export class EditarUsuarioComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class EditarUsuarioComponent implements OnInit, AfterViewChecked {
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
@@ -59,9 +59,5 @@ export class EditarUsuarioComponent implements OnInit, AfterViewChecked, OnDestr
 
 	triggerToast(stringToast: string, bgColor: string) {
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }

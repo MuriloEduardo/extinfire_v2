@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 
@@ -27,7 +27,7 @@ const numberMask = createNumberMask({
   templateUrl: './editar-produto.component.html',
   styleUrls: ['./editar-produto.component.css']
 })
-export class EditarProdutoComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 
 	maskMoney = numberMask;
 
@@ -100,9 +100,5 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked, OnDestr
 
 	triggerToast(stringToast: string, bgColor: string) {
 		this.globalActions.emit({action: 'toast', params: [stringToast, 4000, bgColor]});
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }

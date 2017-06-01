@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 
 import { LogsService } from '../_services/logs.service';
@@ -8,7 +8,7 @@ import { LogsService } from '../_services/logs.service';
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css']
 })
-export class LogsComponent implements OnInit, OnDestroy {
+export class LogsComponent implements OnInit {
 
 	logs: any[] = [];
 	inscricao: Subscription;
@@ -37,9 +37,5 @@ export class LogsComponent implements OnInit, OnDestroy {
 		}
 
 		this.order = value;
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }

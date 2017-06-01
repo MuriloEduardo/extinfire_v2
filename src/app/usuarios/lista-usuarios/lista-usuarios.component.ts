@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { UsuariosService } from './../../_services/usuarios.service';
 
@@ -7,7 +7,7 @@ import { UsuariosService } from './../../_services/usuarios.service';
   templateUrl: './lista-usuarios.component.html',
   styleUrls: ['./lista-usuarios.component.css']
 })
-export class ListaUsuariosComponent implements OnInit, OnDestroy {
+export class ListaUsuariosComponent implements OnInit {
 
 	inscricao: Subscription;
 
@@ -32,9 +32,5 @@ export class ListaUsuariosComponent implements OnInit, OnDestroy {
 		}
 
 		this.order = value;
-	}
-
-	ngOnDestroy() {
-		this.inscricao.unsubscribe();
 	}
 }
