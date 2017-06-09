@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { AppSettings } from './../app.config';
+import { environment } from './../../environments/environment';
 
 @Injectable()
 export class LogsService {
@@ -14,7 +14,7 @@ export class LogsService {
   	}
 
   	getLogs() {
-  		return this.logs = this.http.get(AppSettings.API_ENDPOINT + 'api/logs').map(res => res.json());
+  		return this.logs = this.http.get(environment.API_ENDPOINT + 'api/logs').map(res => res.json());
   	}
 
 	addLog(newLog: any) {
@@ -27,6 +27,6 @@ export class LogsService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(AppSettings.API_ENDPOINT + 'api/log', JSON.stringify(newLog), {headers: headers}).map(res => res.json());
+		return this.http.post(environment.API_ENDPOINT + 'api/log', JSON.stringify(newLog), {headers: headers}).map(res => res.json());
 	}
 }

@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Rx';
 
 import { ItensService } from './../_services/itens.service';
 
-import { AppSettings } from './../app.config';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-servicos',
@@ -19,7 +19,7 @@ export class ServicosComponent implements OnInit {
 	order: string = 'updatedAt';
   	reverse: boolean = false;
 	loadStatus: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	constructor(
 		private itensService: ItensService

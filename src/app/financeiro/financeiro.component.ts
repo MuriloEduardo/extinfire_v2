@@ -4,7 +4,7 @@ import { VendasService } from '../_services/vendas.service';
 import { ClientesService } from '../_services/clientes.service';
 import { ItensService } from './../_services/itens.service';
 
-import { AppSettings } from './../app.config';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-financeiro',
@@ -17,7 +17,7 @@ export class FinanceiroComponent implements OnInit {
   vendasLiquidas: any[] = [];
 
   loadStatus: boolean = false;
-  baseUrl: string = AppSettings.API_ENDPOINT;
+  baseUrl: string = environment.API_ENDPOINT;
   faturamentoLiquido:any;
 
   validadeDe: any = new Date().toLocaleDateString('pt-BR');

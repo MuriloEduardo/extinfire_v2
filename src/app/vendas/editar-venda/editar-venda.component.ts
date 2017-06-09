@@ -10,7 +10,7 @@ import { VendasService } from './../../_services/vendas.service';
 import { ClientesService } from './../../_services/clientes.service';
 import { ItensService } from './../../_services/itens.service';
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 declare var Materialize:any;
 
@@ -34,12 +34,11 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
-	
-	itens: any[] = [];
+
 	clientes: any[] = [];
 	servicos: any[] = [];
 	produtos: any[] = [];
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	private tipoVenda: boolean;
 
@@ -90,22 +89,14 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 		this.itensService.getItens().subscribe((itens) => {
 
 			for (var i = 0; i < itens.length; ++i) {
-				if(itens[i].valor_custo) {
+
+				if(itens[i].qntde_minima) {
 					// Tem quantidade minima
-					// ENtão é produto
+					// Então é produto
 					this.produtos.push(itens[i]);
 				} else {
 					this.servicos.push(itens[i]);
 				}
-
-				this.itens.push(itens[i]);
-
-				// Marcar itens que estao sendo usados
-				this.venda.itens.filter(item => {
-					if(item.item._id === itens[i]._id) {
-						itens[i].selected = true;
-					}
-				});
 			}
 		});
 
@@ -148,8 +139,8 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 		this.novoItem = {
 			item: {
 				images: [],
-				_id: '',
-				nome: ''
+				_id: undefined,
+				nome: undefined
 			},
 			qntde: undefined,
 			validade: undefined,
@@ -159,30 +150,14 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 	}
 
 	verificaQntdeMax(item: any) {
+
+		console.log('verificaQntdeMax', item)
 		
 		// Quantidade máxima em estoque permitida
-		if(item.qntde >= item.item.qntde_atual) {
-			this.triggerToast('Apenas ' + item.item.qntde_atual + ' unidades existentes em estoque', 'blue');
-			item.qntde = item.item.qntde_atual;
+		/*if(item.qntde >= item.item.qntde_atual) {
+			//this.triggerToast('Apenas ' + item.item.qntde_atual + ' unidades existentes em estoque', '');
 			return false;
-		}
-	}
-
-	sum(index: number) {
-
-		let priceFloat = parseFloat(this.venda.itens[index].item.valor_venda.replace('R$','').replace('.','').replace('.','').replace(',','.'));
-		let priceCalculed = priceFloat * this.venda.itens[index].qntde;
-
-		this.venda.itens[index].total = priceCalculed.toString().replace('.',',');
-		
-		let valorTotalNew = 0;
-		for (let j=0;j<this.venda.itens.length;++j) {
-			if(this.venda.itens[j].total) {
-				valorTotalNew += parseFloat(this.venda.itens[j].total.replace('.','').replace('.','').replace(',','.'));
-			}
-		}
-
-		this.venda.valor_total = valorTotalNew;
+		}*/
 	}
 
 	updateVenda(event) {
@@ -218,70 +193,91 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
     	return newValue.replace('R$', '');
 	}
 
-	setNovoItem(_item: any) {
-		
-		if(!this.novoItem.item._id) return false;
+	setNovoItem(_item: any, edit?: boolean, row?: any) {
 
+		this.novoItem.item = _item;
 
-		this.itens.filter(item => {
+		// Se tem valor de custo é um produto
+		// Caso não: é um serviço
+		this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
+
+		this.novoItem.qntde = edit ? row.qntde : 1;
+
+		// Validade do produto
+		// APENAS produto
+		if(this.novoItem.tipo) {
 			
-			if(item._id === this.novoItem.item._id) {
+			let date = new Date();
+			date.setMonth(date.getMonth() + 12);
+			this.novoItem.validade = date.toLocaleDateString('pt-BR');
+		} else {
+			
+			this.novoItem.validade = undefined;
+		}
+
+		if(edit) {
+			this.novoItem.item.qntde_atual = this.novoItem.item.qntde_atual + this.novoItem.qntde;
+		}
+
+		this.sumNovo(true);
+
+		this.venda.itens.filter((filterItem) => {
+			if(_item._id === filterItem.item._id) {
 				
-				if(!item.selected) {
-
-					item.selected = true;
-					this.novoItem.item = item;
-
-					// Se tem valor de custo é um produto
-					// Caso não: é um serviço
-					this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
-
-					this.novoItem.qntde = !_item ? 1 : _item.qntde;
-
-					// Validade do produto
-					// APENAS produto
-					if(this.novoItem.tipo) {
-						
-						let date = new Date();
-						date.setMonth(date.getMonth() + 12);
-						this.novoItem.validade = !_item ? date.toLocaleDateString('pt-BR') : _item.validade;
-					} else {
-						
-						this.novoItem.validade = undefined;
-					}
-
-					this.sumNovo(true);
-				} else {
-
-					this.resetNovoItem();
-
-					this.triggerToast('Item sendo usado!', '');
-				}
+				this.resetNovoItem();
+				this.triggerToast('Item já está sendo usado!', '');
+				return false;
 			}
 		});
+
+		if(this.novoItem.tipo) {
+			
+			this.produtos.filter((produto) => {
+
+				if(this.novoItem.item._id === produto._id) {
+					
+					if(produto.qntde_atual<=0) {
+
+						this.resetNovoItem();
+						this.triggerToast('Produto esgotado! Adicione mais quantidades em estoque.', '');
+						return false;
+					}
+				}
+			});
+		}
 	}
 	
-	deleteRow(_item: any) {
+	deleteRow(row: any, estoque?: boolean) {
 
 		this.venda.itens = this.venda.itens.filter((filterItem) => {
 		
-			if(filterItem.item._id !== _item._id) return filterItem;
+			if(filterItem.item._id !== row.item._id) return filterItem;
 		});
 
-		this.itens.filter(item => {
-			if(item._id === _item._id) {
-				item.selected = false;
-			}
-		});
+		if(row.item.qntde_minima&&!estoque) {
+			
+			this.produtos.filter((produto) => {
+				
+				if(row.item._id === produto._id) {
+					// Quando um produto for excluido, seu estoque atual devera ser corrigido
+					produto.qntde_atual = produto.qntde_atual + row.qntde;
+				}
+			});
+		}
 	}
 
 	editarRow(item: any) {
 
+		if(this.novoItem.item._id) {
+			this.triggerToast('Salve o item atual, para editar outros!', 'blue');
+			return false;
+		}
+
+		this.deleteRow(item, true);
+
 		this.novoItem.item = item.item;
 
-		this.deleteRow(item.item);
-
-		this.setNovoItem(item);
+		this.setNovoItem(item.item, true, item);
 	}
 
 	sumNovo(_editando: boolean) {
@@ -291,8 +287,8 @@ export class EditarVendaComponent implements OnInit, AfterViewChecked {
 
 		this.novoItem.total = priceCalculed.toFixed(2).toString().replace('.',',');
 
-		if(!_editando)
-			this.verificaQntdeMax(this.novoItem);
+		//if(!_editando)
+			//this.verificaQntdeMax(this.novoItem);
 	}
 
 	valorTotal() {

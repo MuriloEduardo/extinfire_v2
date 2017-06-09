@@ -8,7 +8,7 @@ import { ClientesService } from './../../_services/clientes.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 declare let Materialize:any;
 
@@ -20,7 +20,7 @@ declare let Materialize:any;
 export class NovoClienteComponent implements OnInit {
 
 	loadCep: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	inscricao: Subscription;
 	globalActions = new EventEmitter<string|MaterializeAction>();
@@ -238,7 +238,7 @@ export class NovoClienteComponent implements OnInit {
 		}
 
 		this.clientesService.addCliente(newCliente).subscribe(cliente => {
-			this.uploader.uploadAll();
+
 			this.router.navigate(['clientes']);
 	  		this.triggerToast('Cliente cadastrado com sucesso!', 'green');
 		});

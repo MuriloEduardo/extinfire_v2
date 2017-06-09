@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { VendasService } from './../_services/vendas.service';
 
-import { AppSettings } from './../app.config';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-vendas',
@@ -19,7 +19,7 @@ export class VendasComponent implements OnInit {
 	order: string = 'updatedAt';
   	reverse: boolean = true;
 	loadStatus: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	constructor(
 		private vendasService: VendasService

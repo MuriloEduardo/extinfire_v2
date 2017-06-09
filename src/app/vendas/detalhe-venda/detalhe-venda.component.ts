@@ -6,7 +6,7 @@ import { MaterializeAction } from 'angular2-materialize';
 
 import { VendasService } from './../../_services/vendas.service';
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'app-detalhe-venda',
@@ -21,7 +21,7 @@ export class DetalheVendaComponent implements OnInit {
     inscricao: Subscription;
 	venda: any = {};
 	loadStatus: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	constructor(
 		private vendasService: VendasService,

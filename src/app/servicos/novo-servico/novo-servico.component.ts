@@ -7,7 +7,7 @@ import { FileUploader } from 'ng2-file-upload';
 
 import { ItensService } from './../../_services/itens.service';
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -30,7 +30,7 @@ const numberMask = createNumberMask({
 export class NovoServicoComponent implements OnInit, AfterViewChecked {
 
 	maskMoney = numberMask;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
 	uploader:FileUploader = new FileUploader({
@@ -74,7 +74,7 @@ export class NovoServicoComponent implements OnInit, AfterViewChecked {
 		newServico.valor_venda = newServico.valor_venda.replace('R$ ','');
 
 		this.itensService.addItem(newServico).subscribe(servico => {
-			this.uploader.uploadAll();
+			
 			this.router.navigate(['servicos']);
 			this.triggerToast('Serviço cadastrado com sucesso!', 'green');
 		});

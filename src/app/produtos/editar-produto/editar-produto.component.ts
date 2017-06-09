@@ -11,7 +11,7 @@ import { MaterializeAction } from 'angular2-materialize';
 
 declare let Materialize:any;
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 const numberMask = createNumberMask({
 	prefix: 'R$',
@@ -35,7 +35,7 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 	inscricao: Subscription;
 	produto: any = {};
 	loadStatus: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	uploader:FileUploader = new FileUploader({
 		url: this.baseUrl + 'api/upload'
@@ -57,9 +57,6 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 
 				this.produto = produto;
 
-				this.produto.valor_custo = this.produto.valor_custo.replace('.','').replace('.','').replace(',','.');
-				this.produto.valor_venda = this.produto.valor_venda.replace('.','').replace('.','').replace(',','.');
-
 				this.loadStatus = true;
 			});
 		});
@@ -75,14 +72,13 @@ export class EditarProdutoComponent implements OnInit, AfterViewChecked {
 		for (let j = 0; j < this.uploader.queue.length; ++j) {
 			this.produto.images.push(this.uploader.queue[j].file.name);
 		}
-		
-		this.uploader.clearQueue();
 
 		this.produto.valor_venda = this.produto.valor_venda.replace('R$','');
 		this.produto.valor_custo = this.produto.valor_custo.replace('R$','');
 		
 		this.itensService.updateItem(this.produto).subscribe(data => {
 			if(data._id) {
+
 				this.uploader.uploadAll();
 				this.router.navigate(['produtos']);
 				this.triggerToast('Produto editado com sucesso!', 'green');

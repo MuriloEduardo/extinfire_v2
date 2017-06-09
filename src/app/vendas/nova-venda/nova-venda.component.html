@@ -124,19 +124,19 @@
 										{{ venda.itens[i].item.nome }}
 									</td>
 									<td>
-										{{ venda.itens[i].item.valor_venda }}
+										{{ 'R$' + venda.itens[i].item.valor_venda }}
 									</td>
 									<td>
 										{{ venda.itens[i].qntde }}
 									</td>
 									<td>
-										{{ venda.itens[i].total }}
+										{{ 'R$' + venda.itens[i].total }}
 									</td>
 									<td>
 										{{ venda.itens[i].validade }}
 									</td>
 									<td class="center-align">
-										<a class="waves-effect waves-light btn red darken-1" (click)="editarRow(venda.itens[i].item)">Editar</a>
+										<a class="waves-effect waves-light btn red darken-1" (click)="editarRow(venda.itens[i])">Editar</a>
 										<a class="waves-effect waves-light btn grey darken-4" (click)="deleteRow(venda.itens[i].item)">Excluir</a>
 									</td>
 								</tr>
@@ -156,10 +156,9 @@
 											<select 
 											id="novoItem" 
 											materialize="material_select" 
-											[materializeSelectOptions]="itens" 
-											[(ngModel)]="novoItem.item" 
+											[ngModel]="novoItem.item" 
 											name="novoItem"
-											(change)="setNovoItem()" 
+											(ngModelChange)="setNovoItem($event)"
 											[attr.required]="novoItem.item.nome ? true : undefined"
 											>
 												<option value="" disabled selected>Selecione</option>

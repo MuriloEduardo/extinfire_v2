@@ -108,7 +108,7 @@
 									</td>
 									<td class="center-align">
 										<a class="waves-effect waves-light btn red darken-1" (click)="editarRow(venda.itens[i])">Editar</a>
-										<a class="waves-effect waves-light btn grey darken-4" (click)="deleteRow(venda.itens[i].item)">Excluir</a>
+										<a class="waves-effect waves-light btn grey darken-4" (click)="deleteRow(venda.itens[i])">Excluir</a>
 									</td>
 								</tr>
 							</tbody>
@@ -127,26 +127,25 @@
 											<select 
 											id="novoItem" 
 											materialize="material_select" 
-											[materializeSelectOptions]="itens" 
-											[(ngModel)]="novoItem.item._id" 
+											[ngModel]="novoItem.item" 
 											name="novoItem"
-											(change)="setNovoItem()" 
+											(ngModelChange)="setNovoItem($event)"
 											[attr.required]="novoItem.item.nome ? true : undefined"
 											>
 												<option value="" disabled selected>Selecione</option>
 												<optgroup label="Produtos" *ngIf="produtos?.length">
 													<option 
 													*ngFor="let produto of produtos" 
-													[value]="produto._id"
+													[ngValue]="produto"
 													[attr.data-icon]="baseUrl + 'uploads/' + (!produto.images[0] ? 'sem-foto.jpg' : produto.images[0])" 
 													class="left circle"
-													>{{produto.nome}}
+													>{{produto.nome + ' - ' + novoItem.item.qntde_atual}}
 													</option>
 												</optgroup>
 												<optgroup label="Servicos" *ngIf="servicos?.length">
 													<option 
 													*ngFor="let servico of servicos" 
-													[value]="servico._id"
+													[ngValue]="servico"
 													[attr.data-icon]="baseUrl + 'uploads/' + (!servico.images[0] ? 'sem-foto.jpg' : servico.images[0])" 
 													class="left circle"
 													>{{servico.nome}}
@@ -183,6 +182,7 @@
 											name="qntde" 
 											[attr.required]="novoItem.item.nome ? true : undefined"
 											[disabled]="!novoItem.item.nome"
+											[attr.readonly]="!novoItem.tipo ? true : undefined"
 											>
 											<label for="qntde">Quantidade</label>
 										</div>

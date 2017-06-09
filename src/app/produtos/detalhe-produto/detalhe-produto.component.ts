@@ -6,7 +6,7 @@ import { MaterializeAction } from 'angular2-materialize';
 
 import { ItensService } from './../../_services/itens.service';
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'app-detalhe-produto',
@@ -19,7 +19,7 @@ export class DetalheProdutoComponent implements OnInit {
 	inscricao: Subscription;
 	produto: any = {};
 	loadStatus: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	constructor(
 		private itensService: ItensService,

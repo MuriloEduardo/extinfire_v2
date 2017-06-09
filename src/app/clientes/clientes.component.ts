@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Rx';
 
 import { ClientesService } from './../_services/clientes.service';
 
-import { AppSettings } from './../app.config';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-clientes',
@@ -17,7 +17,7 @@ export class ClientesComponent implements OnInit {
 	loadStatus: boolean = false;
 	order: string = 'criadoEm';
   	reverse: boolean = true;
-  	baseUrl: string = AppSettings.API_ENDPOINT;
+  	baseUrl: string = environment.API_ENDPOINT;
 
 	constructor(
 		private clientesService: ClientesService

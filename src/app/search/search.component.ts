@@ -6,7 +6,7 @@ import { ItensService } from './../_services/itens.service';
 import { UsuariosService } from '../_services/usuarios.service';
 import { LogsService } from '../_services/logs.service';
 
-import { AppSettings } from './../app.config';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-search',
@@ -15,7 +15,7 @@ import { AppSettings } from './../app.config';
 })
 export class SearchComponent implements OnInit {
 
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 	produtos: any[] = [];
 	vendas: any[]   = [];
 	clientes: any[] = [];

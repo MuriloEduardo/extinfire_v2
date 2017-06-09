@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 
 import { LogsService } from './logs.service';
 
-import { AppSettings } from './../app.config';
+import { environment } from './../../environments/environment';
 
 @Injectable()
 export class UsuariosService {
@@ -19,11 +19,11 @@ export class UsuariosService {
   	}
 
   	getUsers() {
-  		return this.users = this.http.get(AppSettings.API_ENDPOINT + 'api/usuarios').map(res => res.json());
+  		return this.users = this.http.get(environment.API_ENDPOINT + 'api/usuarios').map(res => res.json());
   	}
 
 	getUser(id: string) {
-		return this.http.get(AppSettings.API_ENDPOINT + 'api/usuario/' + id).map(res => res.json());
+		return this.http.get(environment.API_ENDPOINT + 'api/usuario/' + id).map(res => res.json());
 	}
 
 	addUser(newUser: any) {
@@ -35,7 +35,7 @@ export class UsuariosService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.post(AppSettings.API_ENDPOINT + 'api/usuario', JSON.stringify(newUser), {headers: headers}).map(res => res.json());
+		return this.http.post(environment.API_ENDPOINT + 'api/usuario', JSON.stringify(newUser), {headers: headers}).map(res => res.json());
 	}
 
 	deleteUser(user: any) {
@@ -45,7 +45,7 @@ export class UsuariosService {
 			item: user
 		}).subscribe(data => {});
 
-		return this.http.delete(AppSettings.API_ENDPOINT + 'api/usuario/' + user._id).map(res => res.json());
+		return this.http.delete(environment.API_ENDPOINT + 'api/usuario/' + user._id).map(res => res.json());
 	}
 
 	updateUser(user: any) {
@@ -57,6 +57,6 @@ export class UsuariosService {
 
 		let headers = new Headers();
 		headers.append('Content-Type', 'application/json');
-		return this.http.put(AppSettings.API_ENDPOINT + 'api/usuario/' + user._id, JSON.stringify(user), {headers: headers}).map(res => res.json());
+		return this.http.put(environment.API_ENDPOINT + 'api/usuario/' + user._id, JSON.stringify(user), {headers: headers}).map(res => res.json());
 	}
 }

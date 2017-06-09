@@ -12,7 +12,7 @@ import { MaterializeAction } from 'angular2-materialize';
 
 declare let Materialize:any;
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 const numberMask = createNumberMask({
 	prefix: 'R$ ',
@@ -36,7 +36,7 @@ export class EditarServicoComponent implements OnInit, AfterViewChecked {
 	inscricao: Subscription;
 	servico: any = {};
 	loadStatus: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	uploader:FileUploader = new FileUploader({
 		url: this.baseUrl + 'api/upload'
@@ -58,8 +58,6 @@ export class EditarServicoComponent implements OnInit, AfterViewChecked {
 
 				this.servico = servico;
 
-				this.servico.valor_venda = this.servico.valor_venda.replace('.','').replace('.','').replace(',','.');
-
 				this.loadStatus = true;
 			});
 		});
@@ -75,14 +73,13 @@ export class EditarServicoComponent implements OnInit, AfterViewChecked {
 		for (let j = 0; j < this.uploader.queue.length; ++j) {
 			this.servico.images.push(this.uploader.queue[j].file.name);
 		}
-		
-		this.uploader.clearQueue();
 
 		// Retira o Prefixo R$
 		this.servico.valor_venda = this.servico.valor_venda.replace('R$ ','');
 		
 		this.itensService.updateItem(this.servico).subscribe(data => {
 			if(data._id) {
+
 				this.uploader.uploadAll();
 				this.router.navigate(['servicos']);
 				this.triggerToast('Servico editado com sucesso!', 'green');

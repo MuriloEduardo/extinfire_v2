@@ -6,7 +6,7 @@ import { MaterializeAction } from 'angular2-materialize';
 
 import { ClientesService } from './../../_services/clientes.service';
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 @Component({
   selector: 'app-detalhe-cliente',
@@ -19,7 +19,7 @@ export class DetalheClienteComponent implements OnInit {
 	inscricao: Subscription;
 	cliente: any = {};
 	loadStatus: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	constructor(
 		private clientesService: ClientesService,

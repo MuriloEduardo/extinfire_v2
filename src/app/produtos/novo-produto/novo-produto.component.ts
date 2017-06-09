@@ -6,7 +6,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 
 import { ItensService } from './../../_services/itens.service';
 
-import { AppSettings } from '../../app.config';
+import { environment } from './../../../environments/environment';
 
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -29,7 +29,7 @@ const numberMask = createNumberMask({
 export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 
 	maskMoney = numberMask;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 	globalActions = new EventEmitter<string|MaterializeAction>();
 
 	uploader:FileUploader = new FileUploader({
@@ -75,7 +75,6 @@ export class NovoProdutoComponent implements OnInit, AfterViewChecked {
 		}
 		
 		this.itensService.addItem(newProduto).subscribe(produto => {
-			this.uploader.uploadAll();
 
 			this.router.navigate(['produtos']);
 			this.triggerToast('Produto cadastrado com sucesso!', 'green');

@@ -7,7 +7,7 @@ import { ClientesService } from './../../_services/clientes.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { FileUploader } from 'ng2-file-upload';
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 declare let Materialize:any;
 
@@ -21,7 +21,7 @@ export class EditarClienteComponent implements OnInit {
 	globalActions = new EventEmitter<string|MaterializeAction>();
 	inscricao: Subscription;
 	loadStatus: boolean = false;
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
 	uploader:FileUploader = new FileUploader({
 		url: this.baseUrl + 'api/upload'
@@ -61,9 +61,8 @@ export class EditarClienteComponent implements OnInit {
 			this.cliente.images.push(this.uploader.queue[j].file.name);
 		}
 		
-		this.uploader.clearQueue();
-		
 		this.clientesService.updateCliente(this.cliente).subscribe(data => {
+
 			this.uploader.uploadAll();
 			this.router.navigate(['clientes']);
 			this.triggerToast('Cliente editado com sucesso!', 'green');

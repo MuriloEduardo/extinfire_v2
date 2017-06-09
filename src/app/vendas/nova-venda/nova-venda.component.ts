@@ -10,7 +10,7 @@ import { VendasService } from './../../_services/vendas.service';
 import { ClientesService } from './../../_services/clientes.service';
 import { ItensService } from './../../_services/itens.service';
 
-import { AppSettings } from './../../app.config';
+import { environment } from './../../../environments/environment';
 
 declare var Materialize:any;
 
@@ -33,9 +33,8 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 	maskMoney = numberMask;
 	loadStatus: boolean = false;
 	globalActions = new EventEmitter<string|MaterializeAction>();
-	baseUrl: string = AppSettings.API_ENDPOINT;
+	baseUrl: string = environment.API_ENDPOINT;
 
-	itens: any[] = [];
 	clientes: any[] = [];
 	
 	produtos: any[] = [];
@@ -98,15 +97,13 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		this.itensService.getItens().subscribe((itens) => {
 
 			for (var i = 0; i < itens.length; ++i) {
-				if(itens[i].qntde_minima&&itens[i].qntde_atual>0) {
+				if(itens[i].qntde_minima) {
 					// Tem quantidade minima
-					// ENtão é produto
-					this.produtos.push(itens[i]);
+					// Então é produto
+					if(itens[i].qntde_atual>0) this.produtos.push(itens[i]);
 				} else {
 					this.servicos.push(itens[i]);
 				}
-
-				this.itens.push(itens[i]);
 			}
 		});
 
@@ -157,44 +154,35 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
     	return newValue.replace('R$', '');
 	}
 
-	setNovoItem() {
-		
-		if(!this.novoItem.item._id) return false;
+	setNovoItem(item: any, edit?: boolean, row?: any) {
 
+		this.novoItem.item = item;
 
-		this.itens.filter(item => {
+		// Se tem valor de custo é um produto
+		// Caso não: é um serviço
+		this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
+
+		this.novoItem.qntde = edit ? row.qntde : 1;
+
+		// Validade do produto
+		// APENAS produto
+		if(this.novoItem.tipo) {
 			
-			if(item._id === this.novoItem.item._id) {
+			let date = new Date();
+			date.setMonth(date.getMonth() + 12);
+			this.novoItem.validade = date.toLocaleDateString('pt-BR');
+		} else {
+			
+			this.novoItem.validade = undefined;
+		}
+
+		this.sumNovo();
+
+		this.venda.itens.filter((filterItem) => {
+			if(item._id === filterItem.item._id) {
 				
-				if(!item.selected) {
-
-					item.selected = true;
-
-					// Se tem valor de custo é um produto
-					// Caso não: é um serviço
-					this.novoItem.tipo = !this.novoItem.item.valor_custo ? false : true;
-
-					this.novoItem.qntde = 1;
-
-					// Validade do produto
-					// APENAS produto
-					if(this.novoItem.tipo) {
-						
-						let date = new Date();
-						date.setMonth(date.getMonth() + 12);
-						this.novoItem.validade = date.toLocaleDateString('pt-BR');
-					} else {
-						
-						this.novoItem.validade = undefined;
-					}
-
-					this.sumNovo();
-				} else {
-
-					this.resetNovoItem();
-
-					this.triggerToast('Produto já está sendo usado!', 'blue');
-				}
+				this.resetNovoItem();
+				this.triggerToast('Item já está sendo usado!', '');
 			}
 		});
 	}
@@ -212,25 +200,25 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 	
 	deleteRow(_item: any) {
 
-		this.venda.itens = this.venda.itens.filter((filterItem) => {
-		
-			if(filterItem.item._id !== _item._id) return filterItem;
-		});
+		_item.selected = false;
 
-		this.itens.filter(item => {
-			if(item._id === _item._id) {
-				item.selected = false;
-			}
+		this.venda.itens = this.venda.itens.filter((filterItem) => {
+			if(filterItem.item._id !== _item._id) return filterItem;
 		});
 	}
 
 	editarRow(item: any) {
 
-		this.deleteRow(item);
+		if(this.novoItem.item._id) {
+			this.triggerToast('Salve o atual item, para editar outros!', '');
+			return false;
+		}
 
-		this.novoItem.item = item;
+		this.deleteRow(item.item);
 
-		this.setNovoItem();
+		this.novoItem.item = item.item;
+
+		this.setNovoItem(item.item, true, item);
 	}
 
 	sumNovo() {
@@ -238,7 +226,7 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		let priceFloat = parseFloat(this.formatDecimal(this.novoItem.item.valor_venda));
 		let priceCalculed = priceFloat * this.novoItem.qntde;
 
-		this.novoItem.total = priceCalculed.toFixed(2).toString().replace('.',',');
+		this.novoItem.total = this.currencyPipe(priceCalculed);
 
 		this.verificaQntdeMax(this.novoItem);
 	}
@@ -257,20 +245,11 @@ export class NovaVendaComponent implements OnInit, AfterViewChecked {
 		return valorTotal;
 	}
 
-	sumRow(item: any) {
-		let priceFloat = parseFloat(this.formatDecimal(item.item.valor_venda));
-		let priceCalculed = priceFloat * item.qntde;
-
-		item.total = priceCalculed.toFixed(2).toString().replace('.',',');
-
-		this.verificaQntdeMax(item);
-	}
-
 	verificaQntdeMax(item: any) {
 		
 		// Quantidade máxima em estoque permitida
 		if(item.qntde >= item.item.qntde_atual) {
-			this.triggerToast('Apenas ' + item.item.qntde_atual + ' unidades existentes em estoque', 'blue');
+			this.triggerToast('Apenas ' + item.item.qntde_atual + ' unidades existentes em estoque', '');
 			item.qntde = item.item.qntde_atual;
 			return false;
 		}

@@ -275,8 +275,9 @@ router.get('/vendas', (req, res, next) => {
 
 // Get All Vendas By Dates
 router.post('/vendas', (req, res, next) => {
+
 	let dadosVenda = req.body;
-	console.log(dadosVenda)
+
 	Vendas.find({
 		updatedAt: {
 			$gte: dadosVenda.validadeDe, 
@@ -412,6 +413,9 @@ router.put('/venda/:id', (req, res, next) => {
 			}
 			
 			Itens.find({_id: { $in: idItens }}, (err, itens) => {
+
+				console.log(itens)
+
 				if(err) throw err;
 
 				for (var i = 0; i < dadosVenda.itens.length; i++) {
@@ -846,5 +850,7 @@ router.get('/pdf/:vendaId', (req, res, next) => {
 		pdf.pipe(res);
 	});
 });
+
+function lowStock() {}
 
 module.exports = router;
